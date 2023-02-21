@@ -1,0 +1,57 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  color: #383838
+}
+
+img {
+  width: 100%;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.not-allowed {
+  cursor: not-allowed;
+}
+
+.default {
+  cursor: default;
+}
+
+.none {
+  display: none;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.invert {
+  filter: invert(100%) brightness(200%);
+}
+
+.removeStyle {
+  background: none;
+  color: inherit;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+.flexCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flexColumn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
