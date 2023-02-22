@@ -15,12 +15,12 @@ export default function App() {
   return (
     <div>
       <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <Router base="/ideas_panel">
+        <Router base="/ideas_panel">
+          <AuthProvider>
             <Route exact path="/" component={Home} />
             <Route exact path="/login" component={Login} />
-          </Router>
-        </AuthProvider>
+          </AuthProvider>
+        </Router>
       </QueryClientProvider>
     </div>
   );
