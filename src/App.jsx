@@ -13,18 +13,14 @@ const queryClient = new QueryClient();
 
 export default function App() {
   return (
-    <div>
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <Router base="/ideas_panel">
-            <Route path="/">{() => <PrivateRoute component={Home} />}</Route>
-            <Route path="/login">
-              {() => <PublicRoute component={Login} />}
-            </Route>
-            <Route path="/*"> {() => <Redirect to="/" />}</Route>
-          </Router>
-        </AuthProvider>
-      </QueryClientProvider>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <Router base="/ideas_panel">
+          <Route path="/">{() => <PrivateRoute component={Home} />}</Route>
+          <Route path="/login">{() => <PublicRoute component={Login} />}</Route>
+          <Route path="/*"> {() => <Redirect to="/" />}</Route>
+        </Router>
+      </AuthProvider>
+    </QueryClientProvider>
   );
 }
