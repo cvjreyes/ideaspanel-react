@@ -54,7 +54,8 @@ export const AuthProvider = ({ children }) => {
     Cookies.remove("access_token");
   };
 
-  if (isLoggedIn === null) return <Redirect to={"/login"} />;
+  if (isLoggedIn === null) return <Loading />;
+
   return (
     <AuthContext.Provider value={{ user, isLoggedIn, login, logout }}>
       {children}
