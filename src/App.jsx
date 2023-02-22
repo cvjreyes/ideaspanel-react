@@ -29,7 +29,6 @@ export default function App() {
   });
 
   return (
-    <div>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
             <NotificationsSystem
@@ -49,6 +48,5 @@ export default function App() {
             </Router>
         </AuthProvider>
       </QueryClientProvider>
-    </div>
   );
 }

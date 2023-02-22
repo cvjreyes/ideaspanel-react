@@ -1,4 +1,7 @@
 TODOS:
+- login
+- signup
 - redirect when route not found
+- create readme
 
 DONE:
