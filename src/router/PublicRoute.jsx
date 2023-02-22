@@ -1,14 +1,12 @@
-// import React, { useContext } from "react";
-// import { useLocation } from "wouter";
+import React, { useContext } from "react";
+import { Redirect } from "wouter";
 
-// import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../context/AuthContext";
 
-// const PublicRoute = ({ component: Component }) => {
-//   const [location, navigate] = useLocation();
+const PublicRoute = ({ component: Component }) => {
+  const { isLoggedIn } = useContext(AuthContext);
 
-//   const { isLoggedIn } = useContext(AuthContext);
+  return !isLoggedIn ? <Component /> : <Redirect to="/home" />;
+};
 
-//   return !isLoggedIn ? <Component /> : () => navigate("/");
-// };
-
-// export default PublicRoute;
+export default PublicRoute;

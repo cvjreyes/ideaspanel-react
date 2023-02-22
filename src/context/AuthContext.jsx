@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 
 import Loading from "../components/general/Loading";
 import { api } from "../helpers/api";
+import { Redirect } from "wouter";
 
 export const AuthContext = createContext(null);
 
@@ -54,6 +55,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   if (isLoggedIn === null) return <Loading />;
+
   return (
     <AuthContext.Provider value={{ user, isLoggedIn, login, logout }}>
       {children}
