@@ -16,6 +16,8 @@
     "react-dom": "^18.2.0",
     "react-loading": "^2.0.3",
     "react-query": "^3.39.3",
+    "react-redux": "^8.0.5",
+    "reapop": "^4.2.1",
     "wouter": "^2.10.0"
   },
   "devDependencies": {
