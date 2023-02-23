@@ -73,7 +73,7 @@ const styleLogin = {
   ".technipLogo": {
     position: "absolute",
     top: "80px",
-    right: "100px",
+    left: "100px",
     zIndex: "-100",
     width: "180px",
   },

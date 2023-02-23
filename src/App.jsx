@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Router } from "wouter";
+import { Redirect, Route, Router, Switch } from "wouter";
 import { QueryClient, QueryClientProvider } from "react-query";
 import NotificationsSystem, {
   atalhoTheme,
@@ -14,6 +14,10 @@ import PrivateRoute from "./router/PrivateRoute";
 import Home from "./components/home/Home";
 import Login from "./components/authentication/login/Login";
 import CheckLogin from "./components/authentication/login/CheckLogin";
+import Profile from "./components/profile/Profile";
+import Navbar from "./components/nav/Navbar";
+import NewPost from "./components/posts/NewPost";
+import Footer from "./components/nav/Footer";
 
 const queryClient = new QueryClient();
 
@@ -40,15 +44,26 @@ export default function App() {
           // 4. Pass a builtIn theme or a custom theme.
           theme={atalhoTheme}
         />
+        <PrivateRoute component={Navbar} />
         <Router base="/ideas_panel">
-          <Route path="/">{() => <PrivateRoute component={Home} />}</Route>
-          <Route path="/login">{() => <PublicRoute component={Login} />}</Route>
-          <Route path="/log_in/:user_id/:token">
-            {() => <PublicRoute component={CheckLogin} />}
-          </Route>
-          {/* NOT WORKING */}
-          <Route path="/*"> {() => <Redirect to="/" />}</Route>
+          <Switch>
+            <Route path="/">{() => <PrivateRoute component={Home} />}</Route>
+            <Route path="/login">
+              {() => <PublicRoute component={Login} />}
+            </Route>
+            <Route path="/log_in/:user_id/:token">
+              {() => <PublicRoute component={CheckLogin} />}
+            </Route>
+            <Route path="/profile">
+              {() => <PrivateRoute component={Profile} />}
+            </Route>
+            <Route path="/new_post">
+              {() => <PrivateRoute component={NewPost} />}
+            </Route>
+            <Route>{() => <Redirect to="/" />}</Route>
+          </Switch>
         </Router>
+        <PrivateRoute component={Footer} />
       </AuthProvider>
     </QueryClientProvider>
   );

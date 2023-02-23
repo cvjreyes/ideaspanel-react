@@ -1,6 +1,8 @@
 TODOS:
-- login/SIGNUP
-- redirect when route not found
+- when match on route => navbar link in diff color
 - create readme
+- black on notify cards
 
 DONE:
+- redirect when route not found
+- login/signup
