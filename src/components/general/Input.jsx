@@ -11,6 +11,7 @@ export default function Input({
   className,
   placeholder,
   margin,
+  width,
 }) {
   const InputStyle = {
     height: "40px",
@@ -18,6 +19,7 @@ export default function Input({
     borderRadius: "6px",
     padding: "5px",
     margin,
+    width,
   };
   return (
     <input

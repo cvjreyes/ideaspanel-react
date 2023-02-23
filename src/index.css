@@ -4,6 +4,11 @@
   box-sizing: border-box;
   font-family: 'Montserrat', sans-serif;
   font-size: 16px;
+  color: #383838;
+}
+
+body {
+  background-color: rgb(253, 254, 242);
 }
 
 a {
@@ -59,6 +64,11 @@ img {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+}
+
+/* MODALS */
+.reapop__container * {
+  color: inherit
 }
 
 .test {
