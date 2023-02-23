@@ -6,17 +6,23 @@ import { useEffect, useState } from "react";
 import Card from "./card/Card";
 import DataJson from "./data.json";
 import TechnipLogo from "../../assets/images/technip.png";
+import { useNotifications } from "reapop";
 
 export default function Home() {
   const [data, setData] = useState([]);
+  const { notify } = useNotifications();
 
   useEffect(() => {
     // fetch("https://pokeapi.co/api/v2/pokemon?limit=10&offset=0")
     //   .then((res) => res.json())
     //   .then((data) => console.log(data));
-    console.log(DataJson.results);
     setData(DataJson.results);
-    console.log(data);
+    if (data) {
+      notify(`Login successfully`, "success");
+    } else {
+      notify("No data found", "warning");
+    }
+
   }, []);
 
   return (

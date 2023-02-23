@@ -2,7 +2,7 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
 import { useState } from "react";
-import { Link } from "wouter";
+import { useNotifications } from "reapop";
 
 import { api } from "../../../helpers/api";
 import Button from "../../general/Button";
@@ -10,6 +10,7 @@ import Input from "../../general/Input";
 import TechnipLogo from "../../../assets/images/technip.png";
 
 export default function Login() {
+  const { notify } = useNotifications();
   const [form, setForm] = useState({
     email: "",
   });
@@ -23,6 +24,13 @@ export default function Login() {
     await api("post", "/users/login", {
       email: form.email,
     });
+    // notification email
+    console.log("Email: ", email.value);
+    if (email.value) {
+      notify(`Email send it to ${email.value}`, "success");
+    } else {
+      notify("Problems with the email", "warning");
+    }
   };
 
   return (
@@ -31,9 +39,7 @@ export default function Login() {
       <form onSubmit={handleSubmit} className="boxLog">
         <h1 className="ideaspanel-title flexCenter">Ideas Panel</h1>
         <div className="divBox">
-          <label>Enter your email to log in</label>
-        </div>
-        <div className="divBox">
+          <label>Enter your email:</label>
           <Input
             placeholder={"Email..."}
             id="email"
@@ -50,18 +56,9 @@ export default function Login() {
           text={"Login"}
           color={"white"}
           width="30%"
+          border={"1px solid black"}
         />
       </form>
-      <Link href="/create_password">
-        <Button
-          bgColor={"#0070ED"}
-          bgHover={"#99C6F8"}
-          text={"Create password"}
-          color={"white"}
-          width="10%"
-          margin="50px 0 0 0"
-        />
-      </Link>
     </div>
   );
 }
@@ -83,17 +80,20 @@ const styleLogin = {
   ".boxLog": {
     borderRadius: "10px",
     border: "1px solid black",
-    padding: "40px",
-    background: "linear-gradient(225deg, #e6e6e6, #ffffff)",
-    boxShadow: "-8px 8px 16px #dedede, 8px -8px 16px #ffffff",
+    padding: "30px",
+    height: "calc(40vh - 10px)",
+    background: "linear-gradient(300deg, #e6e6e6, #ffffff)",
+    boxShadow: "15px 15px 16px #dedede, 8px -8px 16px #ffffff",
     ".ideaspanel-title": {
       fontSize: "30px",
       margin: "0 0 20px 0",
     },
     ".divBox": {
-      textAlign: "left",
       display: "flex",
       flexDirection: "column",
+      justifyContent: "center",
+      textAlign: "left",
+      height: "calc(40vh - 150px)",
       padding: "5px",
       fontWeight: "600",
     },
