@@ -70,3 +70,7 @@ img {
 .reapop__container * {
   color: inherit
 }
+
+.test {
+  color: rgba(225, 234, 248, 0.71)
+}
