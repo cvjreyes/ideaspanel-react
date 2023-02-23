@@ -1,0 +1,77 @@
+{
+    "count": 10,
+    "next": "https://pokeapi.co/api/v2/pokemon?offset=10&limit=10",
+    "previous": null,
+    "results": [
+      {
+        "name": "bulbasaur",
+        "description": "Desc test Muy larga para testear que tal funciona la pagina cuando hay descripciones muy largas",
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png",
+        "dateofpublishing": "25/05/2023",
+        "anonymous": "false"
+      },
+      {
+        "name": "ivysaur",
+        "description": "Desc test 2",
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png",
+        "dateofpublishing": "30/06/2023",
+        "anonymous": "false"
+      },
+      {
+        "name": "venusaur",
+        "description": "Desc test 2",
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png",
+        "dateofpublishing": "30/06/2023",
+        "anonymous": "false"
+      },
+      {
+        "name": "charmander",
+        "description": "Desc test 2",
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png",
+        "dateofpublishing": "30/06/2023",
+        "anonymous": "false"
+      },
+      {
+        "name": "charmeleon",
+        "description": "Desc test 2",
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png",
+        "dateofpublishing": "25/05/2023",
+        "anonymous": "true"
+      },
+      {
+        "name": "charizard",
+        "description": "Desc test 2",
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png",
+        "dateofpublishing": "25/05/2023",
+        "anonymous": "true"
+      },
+      {
+        "name": "squirtle",
+        "description": "Desc test 3",
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png",
+        "dateofpublishing": "25/05/2023",
+        "anonymous": "true"
+      },
+      {
+        "name": "wartortle",
+        "description": "Desc test 3",
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/8.png",
+        "dateofpublishing": "25/05/2023",
+        "anonymous": "true"
+      },
+      {
+        "name": "blastoise",
+        "description": "Desc test 3",
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png",
+        "dateofpublishing": "25/05/2023",
+        "anonymous": "true"
+      },
+      {
+        "name": "caterpie",
+        "description": "Desc test 3",
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10.png",
+        "dateofpublishing": "25/05/2023",
+        "anonymous": "false"
+      }
+    ]
+  }
