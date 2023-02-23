@@ -11,7 +11,7 @@ import { AuthProvider } from "./context/AuthContext";
 import PublicRoute from "./router/PublicRoute";
 import PrivateRoute from "./router/PrivateRoute";
 
-import Home from "./components/home";
+import Home from "./components/home/Home";
 import Login from "./components/authentication/login/Login";
 import CheckLogin from "./components/authentication/login/CheckLogin";
 
