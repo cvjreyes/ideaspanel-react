@@ -5,8 +5,7 @@ import { AuthContext } from "../context/AuthContext";
 
 const PublicRoute = ({ component: Component }) => {
   const { isLoggedIn } = useContext(AuthContext);
-
-  return !isLoggedIn ? <Component /> : <Redirect to="/home" />;
+  return !isLoggedIn ? <Component /> : <Redirect to="/" />;
 };
 
 export default PublicRoute;
