@@ -9,6 +9,7 @@ import Loading from "../general/Loading";
 
 export default function Home() {
   const [data, setData] = useState([]);
+  const { notify } = useNotifications();
 
   useEffect(() => {
     // fetch("https://pokeapi.co/api/v2/pokemon?limit=10&offset=0")

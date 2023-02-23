@@ -3,8 +3,8 @@ import { Redirect, Route, Router, Switch } from "wouter";
 import { QueryClient, QueryClientProvider } from "react-query";
 import NotificationsSystem, {
   atalhoTheme,
-  useNotifications,
   setUpNotifications,
+  useNotifications
 } from "reapop";
 
 import { AuthProvider } from "./context/AuthContext";
