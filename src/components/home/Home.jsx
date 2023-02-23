@@ -27,7 +27,7 @@ export default function Home() {
       <div className="map">
         {data.length > 0 ? (
           data.map((item) => {
-            return <Card item={item} key={item.id} />;
+            // return <Card item={item} key={item.id} />;
           })
         ) : (
           <Loading />
@@ -39,6 +39,7 @@ export default function Home() {
 
 const homeStyle = {
   marginTop: "50px",
+  minHeight: "calc(100vh - 50px)",
   ".boxTitle": {
     display: "grid",
     gridTemplateColumns: "repeat(3, 1fr)",
@@ -46,7 +47,7 @@ const homeStyle = {
     padding: "0 10%",
     height: "15vh",
     h1: {
-      fontSize: "30px",
+      fontSize: "24px",
       letterSpacing: "1px",
       whiteSpace: "nowrap",
       textAlign: "center",
