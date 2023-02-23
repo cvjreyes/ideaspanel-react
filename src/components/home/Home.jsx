@@ -45,7 +45,7 @@ const homeStyle = {
     gridTemplateColumns: "repeat(3, 1fr)",
     alignItems: "center",
     padding: "0 10%",
-    height: "15vh",
+    marginTop: "100px",
     h1: {
       fontSize: "24px",
       letterSpacing: "1px",
