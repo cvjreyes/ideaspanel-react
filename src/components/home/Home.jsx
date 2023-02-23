@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 import Card from "./card/Card";
 import DataJson from "./data.json";
-import TechnipLogo from "../../assets/images/technip.png";
+import Loading from "../general/Loading";
 
 export default function Home() {
   const [data, setData] = useState([]);
@@ -14,55 +14,46 @@ export default function Home() {
     // fetch("https://pokeapi.co/api/v2/pokemon?limit=10&offset=0")
     //   .then((res) => res.json())
     //   .then((data) => console.log(data));
-    console.log(DataJson.results);
     setData(DataJson.results);
-    console.log(data);
   }, []);
 
   return (
     <div css={homeStyle}>
       <div className="boxTitle">
-        <div className="eight">
-          <h1>Home Cards</h1>
-        </div>
-        <img src={TechnipLogo} alt="technip" className="technipLogo" />
+        <div />
+        <h1>Ideas Panel</h1>
+        <div />
       </div>
-      <Card data={data} />
+      <div className="map">
+        {data.length > 0 ? (
+          data.map((item) => {
+            return <Card item={item} key={item.id} />;
+          })
+        ) : (
+          <Loading />
+        )}
+      </div>
     </div>
   );
 }
 
 const homeStyle = {
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "center",
-  alignItems: "center",
-  ".technipLogo": {
-    position: "absolute",
-    top: "20px",
-    right: "100px",
-    width: "180px",
-  },
+  marginTop: "50px",
   ".boxTitle": {
-    display: "flex",
-    height: "15vh",
+    display: "grid",
+    gridTemplateColumns: "repeat(3, 1fr)",
     alignItems: "center",
-    ".eight": {
-      h1: {
-        width: "50vw",
-        fontSize: "30px",
-        letterSpacing: "1px",
-        display: "grid",
-        gridTemplateColumns: "2fr auto 2fr",
-        gridTemplateRows: "16px 0",
-        gridGap: "22px",
-        ":after, :before": {
-          content: '" "',
-          display: "block",
-          borderBottom: "2px solid #ccc",
-          backgroundColor: "#f8f8f8",
-        },
-      },
+    padding: "0 10%",
+    height: "15vh",
+    h1: {
+      fontSize: "30px",
+      letterSpacing: "1px",
+      whiteSpace: "nowrap",
+      textAlign: "center",
     },
+  },
+  ".map": {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
   },
 };
