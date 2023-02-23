@@ -1,7 +1,7 @@
 TODOS:
 - when match on route => navbar link in diff color
 - create readme
-- black on notify cards
+- tabIndex on navbar imgs
 
 DONE:
 - redirect when route not found
