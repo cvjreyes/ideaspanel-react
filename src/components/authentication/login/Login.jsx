@@ -85,9 +85,7 @@ const styleLogin = {
     border: "1px solid black",
     padding: "40px",
     background: "linear-gradient(225deg, #e6e6e6, #ffffff)",
-    ":hover": {
-      boxShadow: "-8px 8px 16px #dedede, 8px -8px 16px #ffffff",
-    },
+    boxShadow: "-8px 8px 16px #dedede, 8px -8px 16px #ffffff",
     ".ideaspanel-title": {
       fontSize: "30px",
       margin: "0 0 20px 0",
