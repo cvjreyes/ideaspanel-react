@@ -12,7 +12,7 @@ import PublicRoute from "./router/PublicRoute";
 import PrivateRoute from "./router/PrivateRoute";
 
 import Home from "./components/home";
-import Login from "./components/login";
+import Login from "./components/authentication/login/Login";
 
 const queryClient = new QueryClient();
 

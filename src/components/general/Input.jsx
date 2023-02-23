@@ -10,7 +10,15 @@ export default function Input({
   onChange,
   className,
   placeholder,
+  margin,
 }) {
+  const InputStyle = {
+    height: "40px",
+    border: "1px solid #D2D2D2",
+    borderRadius: "6px",
+    padding: "5px",
+    margin,
+  };
   return (
     <input
       css={InputStyle}
@@ -24,10 +32,3 @@ export default function Input({
     />
   );
 }
-
-const InputStyle = {
-  height: "40px",
-  border: "1px solid #D2D2D2",
-  borderRadius: "6px",
-  padding: "5px",
-};
