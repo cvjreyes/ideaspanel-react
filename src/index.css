@@ -60,3 +60,7 @@ img {
   justify-content: center;
   flex-direction: column;
 }
+
+.test {
+  color: rgba(225, 234, 248, 0.71)
+}

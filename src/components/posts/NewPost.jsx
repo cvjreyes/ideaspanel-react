@@ -2,9 +2,7 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
 import { useDropzone } from "react-dropzone";
-import React, { useCallback } from "react";
-
-import Eye from "../../assets/images/eye.png";
+import { useCallback } from "react";
 
 export default function NewPost() {
   const onDrop = useCallback((acceptedFiles) => {
@@ -15,13 +13,12 @@ export default function NewPost() {
       reader.onerror = () => console.log("file reading has failed");
       reader.onload = () => {
         // Do whatever you want with the file contents
-        const binaryStr = reader.result;
-        console.log(binaryStr);
+        // const binaryStr = reader.result;
       };
       reader.readAsArrayBuffer(file);
     });
   }, []);
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
   return (
     <div css={newpostStyle}>
@@ -39,19 +36,15 @@ export default function NewPost() {
             rows="20"
             cols="50"
           ></textarea>
-          <div>Toogle</div>
+          <div className="toggleWrapper">Toogle</div>
         </div>
         <div className="rightBox">
-          <div className="dndBox" {...getRootProps()}>
+          <div className="dndBox pointer" {...getRootProps()}>
             <input {...getInputProps()} />
-            {isDragActive ? (
-              <p>Drop the files here ...</p>
-            ) : (
-              <div>
-                <p>Drop the files here ...</p>
-                <img src={Eye} />
-              </div>
-            )}
+            <img
+              alt="drop"
+              src="https://img.icons8.com/ios/50/null/downloading-updates.png"
+            />
           </div>
         </div>
       </div>
@@ -68,49 +61,48 @@ const newpostStyle = {
     marginTop: "100px",
   },
   ".boxPost": {
-    display: "flex",
-    flexDirection: "row",
-    height: "70vh",
-    justifyContent: "center",
-    margin: "10px",
+    display: "grid",
+    gridTemplateColumns: "repeat(2, 1fr)",
+    padding: "50px 10vw 0",
+    minHeight: "calc(100vh - 130px)",
+    margin: "50px 0 0",
     ".leftBox": {
       display: "flex",
-      justifyContent: "center",
-      alignItems: "flex-start",
-      width: "70vh",
       flexDirection: "column",
       ".titleInput": {
-        margin: "50px",
         border: "1px solid black",
         borderRadius: "8px",
         padding: "10px",
       },
       ".textArea": {
-        margin: "0 50px 50px 50px",
-        borderRadius: "10px",
+        margin: "50px 0 0",
+        borderRadius: "8px",
         padding: "10px",
+      },
+      ".toggleWrapper": {
+        margin: "50px 0 0",
       },
     },
     ".rightBox": {
       display: "flex",
       justifyContent: "center",
-      alignItems: " center",
-      width: "70vh",
-      margin: "10px",
       ".dndBox": {
+        margin: "100px 0 0",
         display: "flex",
         height: "40vh",
         width: "40vh",
         justifyContent: "center",
         alignItems: "center",
         padding: "10px",
-        border: "10px solid black",
+        border: "1px solid black",
         borderRadius: "8px",
-        img:{
-          height:"20px",
-          width:"30px",
-          marginTop:"5%"
-        }
+        transition: "all 200ms linear",
+        ":hover": {
+          backgroundColor: "rgba(225, 234, 248, 0.71)",
+        },
+        img: {
+          width: "50px",
+        },
       },
     },
   },
