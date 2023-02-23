@@ -1,8 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
-import { useEffect, useState } from "react";
-import { useNotifications } from "reapop";
+import { useState } from "react";
 import { Link } from "wouter";
 
 import { api } from "../../../helpers/api";
@@ -14,7 +13,6 @@ export default function Login() {
   const [form, setForm] = useState({
     email: "",
   });
-  const { notify } = useNotifications();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -22,16 +20,10 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { body } = await api("post", "/users/login", {
+    await api("post", "/users/login", {
       email: form.email,
     });
-    console.log("submit: ", form.email);
   };
-
-  useEffect(() => {
-    // 2. Create a notification.
-    notify("Welcome to the documentation", "info");
-  }, []);
 
   return (
     <div css={styleLogin}>
@@ -60,7 +52,7 @@ export default function Login() {
           width="30%"
         />
       </form>
-      <Link href="/create_password" >
+      <Link href="/create_password">
         <Button
           bgColor={"#0070ED"}
           bgHover={"#99C6F8"}

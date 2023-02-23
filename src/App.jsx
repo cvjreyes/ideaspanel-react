@@ -25,7 +25,7 @@ export default function App() {
     defaultProps: {
       position: "top-right",
       dismissible: true,
-      dismissAfter: 2000,
+      dismissAfter: 3000,
     },
   });
 
@@ -46,12 +46,8 @@ export default function App() {
           <Route path="/log_in/:user_id/:token">
             {() => <PublicRoute component={CheckLogin} />}
           </Route>
-          <Route path="/*">
-            {() => {
-              console.log("test");
-              return <div>Test</div>;
-            }}
-          </Route>
+          {/* NOT WORKING */}
+          <Route path="/*"> {() => <Redirect to="/" />}</Route>
         </Router>
       </AuthProvider>
     </QueryClientProvider>

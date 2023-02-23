@@ -1,5 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
+
+import { AuthContext } from "../../context/AuthContext";
+import Button from "../general/Button";
 
 export default function Home() {
-  return <div>Home</div>;
+  const { logout } = useContext(AuthContext);
+
+  return (
+    <div>
+      <h1>Home</h1>
+      <Button text="Log out" onClick={logout} />
+    </div>
+  );
 }
