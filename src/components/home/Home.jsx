@@ -22,7 +22,7 @@ export default function Home() {
   return (
     <div css={homeStyle}>
       <div className="boxTitle">
-        <div class="eight">
+        <div className="eight">
           <h1>Home Cards</h1>
         </div>
         <img src={TechnipLogo} alt="technip" className="technipLogo" />
@@ -47,22 +47,22 @@ const homeStyle = {
     display: "flex",
     height: "15vh",
     alignItems: "center",
-    ".eight":{
+    ".eight": {
       h1: {
-        width:"50vw",
+        width: "50vw",
         fontSize: "30px",
         letterSpacing: "1px",
-        display:"grid",
-        gridTemplateColumns:"2fr auto 2fr",
+        display: "grid",
+        gridTemplateColumns: "2fr auto 2fr",
         gridTemplateRows: "16px 0",
-        gridGap:"22px",
-        ":after, :before":{
+        gridGap: "22px",
+        ":after, :before": {
           content: '" "',
-          display:"block",
+          display: "block",
           borderBottom: "2px solid #ccc",
-          backgroundColor: "#f8f8f8"
+          backgroundColor: "#f8f8f8",
         },
       },
-    }
+    },
   },
 };
