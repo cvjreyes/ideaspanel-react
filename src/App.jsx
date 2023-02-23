@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import NotificationsSystem, {
   atalhoTheme,
   setUpNotifications,
-  useNotifications
+  useNotifications,
 } from "reapop";
 
 import { AuthProvider } from "./context/AuthContext";

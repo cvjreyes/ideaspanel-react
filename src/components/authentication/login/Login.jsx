@@ -11,51 +11,43 @@ import TechnipLogo from "../../../assets/images/technip.png";
 
 export default function Login() {
   const { notify } = useNotifications();
-  const [form, setForm] = useState({
-    email: "",
-  });
-
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  const [email, setEmail] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await api("post", "/users/login", {
-      email: form.email,
-    });
-    // notification email
-    console.log("Email: ", email.value);
-    if (email.value) {
-      notify(`Email send it to ${email.value}`, "success");
-    } else {
-      notify("Problems with the email", "warning");
-    }
+    if (!email) return notify("Where do we send the link?", "warning");
+    const { ok, body } = await api("post", "/users/login", { email });
+    console.log(ok, body);
+    if (!ok) return notify("Problems with the email", "warning");
+    notify(`Email sent it to ${email}`, "success");
+    setEmail("");
   };
 
   return (
     <div css={styleLogin}>
       <img src={TechnipLogo} alt="technip" className="technipLogo" />
-      <form onSubmit={handleSubmit} className="boxLog">
-        <h1 className="ideaspanel-title flexCenter">Ideas Panel</h1>
-        <div className="divBox">
-          <label>Enter your email:</label>
+      <form onSubmit={handleSubmit} className="form">
+        <h1 className="title flexCenter">Ideas Panel</h1>
+        <div className="inputWrapper">
+          <p>Enter your email:</p>
           <Input
             placeholder={"Email..."}
             id="email"
             name="email"
-            value={form.email}
+            value={email}
             type="email"
-            margin="20px auto"
-            onChange={handleChange}
+            margin="20px auto 0"
+            onChange={(e) => setEmail(e.target.value)}
+            width="100%"
           />
         </div>
         <Button
-          bgColor={"#0070ED"}
-          bgHover={"#99C6F8"}
+          bgColor="linear-gradient(322deg, rgba(0,105,223,1) 0%, rgba(0,112,237,1) 21%, rgba(22,128,247,1) 100%)"
+          bgHover="linear-gradient(180deg, #338DF1 -2.23%, #338DF1 -2.22%, #85BFFF 148.66%)"
           text={"Login"}
           color={"white"}
-          width="30%"
+          width="120px"
+          margin="100px 0 0"
           border={"1px solid black"}
         />
       </form>
@@ -64,8 +56,8 @@ export default function Login() {
 }
 
 const styleLogin = {
-  display: "flex",
   height: "100vh",
+  display: "flex",
   flexDirection: "column",
   justifyContent: "center",
   alignItems: "center",
@@ -74,32 +66,23 @@ const styleLogin = {
     position: "absolute",
     top: "80px",
     left: "100px",
-    zIndex: "-100",
-    width: "180px",
+    width: "140px",
   },
-  ".boxLog": {
+  ".form": {
     borderRadius: "10px",
     border: "1px solid black",
-    padding: "30px",
-    height: "calc(40vh - 10px)",
+    padding: "100px",
     background: "linear-gradient(300deg, #e6e6e6, #ffffff)",
-    boxShadow: "15px 15px 16px #dedede, 8px -8px 16px #ffffff",
-    ".ideaspanel-title": {
+    width: "700px",
+    height: "60vh",
+    ".title": {
       fontSize: "30px",
       margin: "0 0 20px 0",
     },
-    ".divBox": {
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
+    ".inputWrapper": {
       textAlign: "left",
-      height: "calc(40vh - 150px)",
-      padding: "5px",
-      fontWeight: "600",
-    },
-    input: {
-      alignItems: "left",
-      width: "50vh",
+      margin: "100px auto 0",
+      width: "80%",
     },
   },
 };
