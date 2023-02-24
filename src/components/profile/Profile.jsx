@@ -33,9 +33,7 @@ export default function Profile() {
 
   return (
     <div css={profileStyle}>
-      <div className="titleWrapper">
-        <h1>Profile</h1>
-      </div>
+      <h1 className="page_title">Profile</h1>
       <div className="profileWrapper">
         <div className="pictureWrapper">
           <Button className="saveButton" text={"Save"} width="100px" />
@@ -43,7 +41,7 @@ export default function Profile() {
           <Button text={"Change profile picture"} width="250px" />
         </div>
         <div className="informationWrapper">
-          <h1 className="flexCenter">Profile Information</h1>
+          <h2 className="flexCenter">Profile Information</h2>
           <img
             alt="edit"
             src="https://img.icons8.com/external-others-amoghdesign/24/null/external-write-multimedia-solid-24px-others-amoghdesign.png"
@@ -97,16 +95,6 @@ export default function Profile() {
 }
 
 const profileStyle = {
-  marginTop: "50px",
-  // minHeight: "calc(100vh - 50px)",
-  ".titleWrapper": {
-    display: "flex",
-    marginTop: "65px",
-    justifyContent: "center",
-    h1: {
-      fontSize: "40px",
-    },
-  },
   ".profileWrapper": {
     display: "flex",
     minHeight: "70vh",
