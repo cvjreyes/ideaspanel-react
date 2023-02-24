@@ -11,9 +11,6 @@ export default function Home() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    // fetch("https://pokeapi.co/api/v2/pokemon?limit=10&offset=0")
-    //   .then((res) => res.json())
-    //   .then((data) => console.log(data));
     setData(DataJson.results);
   }, []);
 
