@@ -36,3 +36,7 @@
 - Red: #FF3358
 - Green 2: #7BD36D
 - Yellow: #FFCA42
+
+### Borders color
+
+- rgb(133, 133, 133)

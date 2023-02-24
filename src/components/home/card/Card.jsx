@@ -7,11 +7,7 @@ export default function Card({ item }) {
     <div css={cardStyle}>
       <div className="boxCard" key={item.name}>
         <div className="image">
-          {item.anonymous === "false" ? (
-            <img src={item.image} alt={item.name} />
-          ) : (
-            <div style={{ marginTop: "30px" }}></div>
-          )}
+          <img src={item.image} alt="idea" />
         </div>
         <div className="line">
           <p className="bold">Name: </p>

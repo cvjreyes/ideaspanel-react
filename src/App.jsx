@@ -54,7 +54,7 @@ export default function App() {
             <Route path="/log_in/:user_id/:token">
               {() => <PublicRoute component={CheckLogin} />}
             </Route>
-            <Route path="/profile">
+            <Route path="/profile/:user_id">
               {() => <PrivateRoute component={Profile} />}
             </Route>
             <Route path="/new_post">

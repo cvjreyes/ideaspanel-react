@@ -16,11 +16,7 @@ export default function Home() {
 
   return (
     <div css={homeStyle}>
-      <div className="boxTitle">
-        <div />
-        <h1>Ideas Panel</h1>
-        <div />
-      </div>
+      <h1 className="page_title">Ideas Panel</h1>
       <div className="map">
         {data.length > 0 ? (
           data.map((item) => {
@@ -35,21 +31,7 @@ export default function Home() {
 }
 
 const homeStyle = {
-  marginTop: "50px",
   minHeight: "calc(100vh - 50px)",
-  ".boxTitle": {
-    display: "grid",
-    gridTemplateColumns: "repeat(3, 1fr)",
-    alignItems: "center",
-    padding: "0 10%",
-    marginTop: "100px",
-    h1: {
-      fontSize: "24px",
-      letterSpacing: "1px",
-      whiteSpace: "nowrap",
-      textAlign: "center",
-    },
-  },
   ".map": {
     display: "grid",
     gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
