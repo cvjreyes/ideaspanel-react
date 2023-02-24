@@ -7,7 +7,6 @@ export const api = async (action, url, body) => {
     return res.data;
   } catch (err) {
     console.error(err);
-    return { ok: false };
   }
 };
 

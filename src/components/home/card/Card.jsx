@@ -14,15 +14,15 @@ export default function Card({ item }) {
           )}
         </div>
         <div className="line">
-          <label className="bold">Name: </label>
+          <p className="bold">Name: </p>
           <span>{!item.anonymous ? item.name : "Anonymous"}</span>
         </div>
         <div className="line">
-          <label className="bold">Description: </label>
+          <p className="bold">Description: </p>
           <span>{item.description}</span>
         </div>
         <div className="line">
-          <label className="bold">Date of publishing: </label>
+          <p className="bold">Date of publishing: </p>
           <span>{item.dateofpublishing}</span>
         </div>
       </div>

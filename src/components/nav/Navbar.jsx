@@ -37,7 +37,7 @@ export default function Navbar() {
 const navbarStyle = {
   height: "50px",
   width: "100vw",
-  backgroundColor: "#003066",
+  backgroundColor: "#0054B3",
   color: "white",
   display: "flex",
   alignItems: "center",
