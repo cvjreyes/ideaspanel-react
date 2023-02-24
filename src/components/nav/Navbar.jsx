@@ -1,9 +1,14 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
+import { useContext, useEffect } from "react";
 import { Link } from "wouter";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function Navbar() {
+
+  const {user } = useContext(AuthContext)
+  
   return (
     <div css={navbarStyle}>
       <div className="left">
@@ -17,7 +22,7 @@ export default function Navbar() {
         </Link>
       </div>
       <div className="right">
-        <Link to="/ideas_panel/profile">
+        <Link to={`/ideas_panel/profile/${user.id}`} >
           <img
             className="pointer invert"
             alt="user"
