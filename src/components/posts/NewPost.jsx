@@ -2,9 +2,12 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
 import { useDropzone } from "react-dropzone";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
+import Switch from "react-switch";
 
 export default function NewPost() {
+  const [anonymous, setAnonymous] = useState(true);
+
   const onDrop = useCallback((acceptedFiles) => {
     acceptedFiles.forEach((file) => {
       const reader = new FileReader();
@@ -18,7 +21,12 @@ export default function NewPost() {
       reader.readAsArrayBuffer(file);
     });
   }, []);
+
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
+
+  function handleChange(anonymous) {
+    return setAnonymous(!anonymous);
+  }
 
   return (
     <div css={newpostStyle}>
@@ -36,7 +44,11 @@ export default function NewPost() {
             rows="20"
             cols="50"
           ></textarea>
-          <div className="toggleWrapper">Toogle</div>
+
+          <div className="toggleWrapper">
+            <label>Anonymous</label>
+            <Switch onChange={handleChange} checked={!anonymous} />
+          </div>
         </div>
         <div className="rightBox">
           <div className="dndBox pointer" {...getRootProps()}>
