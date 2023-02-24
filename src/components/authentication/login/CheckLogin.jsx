@@ -17,7 +17,6 @@ export default function CheckLogin() {
         user_id,
         token,
       });
-      console.log("Body: ", body);
       if (!ok) {
         notify(body, "info");
         setTimeout(() => {

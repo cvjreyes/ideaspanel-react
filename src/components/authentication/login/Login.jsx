@@ -17,9 +17,8 @@ export default function Login() {
     e.preventDefault();
     if (!email) return notify("Where do we send the link?", "warning");
     const { ok, body } = await api("post", "/users/login", { email });
-    console.log(ok, body);
-    if (!ok) return notify("Problems with the email", "warning");
-    notify(`Email sent it to ${email}`, "success");
+    if (!ok) return notify(body, "warning");
+    notify(body, "success");
     setEmail("");
   };
 
