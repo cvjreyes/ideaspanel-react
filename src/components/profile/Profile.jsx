@@ -8,71 +8,59 @@ import Input from "../general/Input";
 import ProfileImage from "../../assets/images/profile.jpg";
 import { api } from "../../helpers/api";
 import { AuthContext } from "../../context/AuthContext";
+import { useRoute } from "wouter";
+import Loading from "../general/Loading";
 
 export default function Profile() {
-  const [editButton, setEditButton] = useState(false);
+  const [_, params] = useRoute("/profile/:user_id");
   const { user } = useContext(AuthContext);
-  const [profileData, setProfileData] = useState([user]);
-
-  function handleClick() {
-    return setEditButton(!editButton);
-  }
+  const [profile, setProfile] = useState(null);
+  const [posts, setPosts] = useState([]);
+  const [isEditable, setIsEditable] = useState(false);
 
   useEffect(() => {
     const getProfileData = async () => {
-      if (profileData[0].id === user.id) {
-        const { body: profile } = await api("get", `/users/profile/${user.id}`);
-        const profileInf = profile.map((data) => ({
-          ...data,
-        }));
-        setProfileData(profileInf);
-      }
+      if (user.id !== Number(params.user_id)) {
+        const { body } = await api("get", `/users/profile/${params.user_id}`);
+        setProfile(body);
+      } else setProfile(user);
     };
     getProfileData();
   }, []);
 
+  useEffect(() => {
+    const getUserPosts = async () => {
+      setPosts([{ title: "test title", description: "test description" }]);
+    };
+    if (profile) {
+      getUserPosts();
+    }
+  }, [profile]);
+
+  const handleChange = (e) => {};
+
+  if (!profile) return <Loading />;
   return (
     <div css={profileStyle}>
       <h1 className="page_title">Profile</h1>
       <div className="profileWrapper">
         <div className="pictureWrapper">
-          <Button className="saveButton" text={"Save"} width="100px" />
-          <img src={ProfileImage} />
-          <Button text={"Change profile picture"} width="250px" />
+          <Button className="saveButton" text="Save" width="100px" />
+          {/* <img src={ProfileImage} /> */}
+          <Button text="Change profile picture" width="250px" />
         </div>
-        <div className="informationWrapper">
-          <h2 className="flexCenter">Profile Information</h2>
-          <img
-            alt="edit"
-            src="https://img.icons8.com/external-others-amoghdesign/24/null/external-write-multimedia-solid-24px-others-amoghdesign.png"
-            className="edit pointer"
-            onClick={handleClick}
-          />
-          <div className="lineInfo">
-            <label className="separate bold">Full name: </label>
-            {editButton ? (
+        {isEditable ? (
+          <div className="editableInfoWrapper">
+            <div className="lineInfo">
+              <p className="bold">Full name: </p>
               <Input
-                width={"80%"}
-                placeholder="Write the full name" /*value={profileData[0].name}*/
+                width="80%"
+                placeholder="Write the full name"
+                value={profile.name}
               />
-            ) : (
-              <label>{profileData[0].name}</label>
-            )}
-          </div>
-          <div className="lineInfo">
-            <label className="separate bold">Email: </label>
-            {editButton ? (
-              <Input
-                width={"80%"}
-                placeholder="Write the email" /*value={profileData[0].email}*/
-              />
-            ) : (
-              <label>{profileData[0].email}</label>
-            )}
-          </div>
-          <div className="lineInfo">
-            <label className="separate bold">Description: </label>
-            {editButton ? (
+            </div>
+            <div className="lineInfo">
+              <p className="bold">Bio: </p>
               <textarea
                 className="textArea"
                 placeholder="Write the description"
@@ -80,15 +68,37 @@ export default function Profile() {
                 name="textarea"
                 rows="5"
               ></textarea>
-            ) : (
-              <label>Soy desarrollador en Technipenergies</label>
-            )}
+            </div>
           </div>
-          <div className="lineInfo">
-            <label className="separate bold">Number of post published: </label>
-            <label>25</label>
+        ) : (
+          <div className="informationWrapper">
+            <div className="titleWrapper">
+              <img
+                alt="edit"
+                src="https://img.icons8.com/external-others-amoghdesign/24/null/external-write-multimedia-solid-24px-others-amoghdesign.png"
+                className="pointer"
+                onClick={() => setIsEditable(true)}
+              />
+              <h2 className="flexCenter">Profile Information</h2>
+            </div>
+            <div className="lineInfo">
+              <p className="bold">Full name: </p>
+              <p>{profile.name}</p>
+            </div>
+            <div className="lineInfo">
+              <p className="bold">Email: </p>
+              <p>{profile.email}</p>
+            </div>
+            <div className="lineInfo">
+              <p className="bold">Description: </p>
+              <p>{profile.bio}</p>
+            </div>
+            <div className="lineInfo">
+              <label className="bold">Num of posts: </label>
+              <label>{posts.length}</label>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
@@ -96,10 +106,8 @@ export default function Profile() {
 
 const profileStyle = {
   ".profileWrapper": {
-    display: "flex",
-    minHeight: "70vh",
-    justifyContent: "center",
-    alignItems: "center",
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
     ".pictureWrapper": {
       display: "flex",
       justifyContent: "center",
@@ -118,27 +126,29 @@ const profileStyle = {
         width: "400px",
       },
     },
+    ".lineInfo": {
+      display: "grid",
+      gridTemplateColumns: "2fr 5fr",
+      marginTop: "50px",
+      alignItems: "center",
+    },
     ".informationWrapper": {
+      marginTop: "100px",
       display: "flex",
       flexDirection: "column",
-      height: "55vh",
+      minHeight: "55vh",
       width: "45vw",
-      margin: "100px 50px 50px 50px",
       padding: "30px",
-      border: "1px solid black",
+      border: "1px solid rgb(133, 133, 133)",
       borderRadius: "8px",
       background: "linear-gradient(300deg, #e6e6e6, #ffffff)",
-      h1: {
-        fontSize: "23px",
-      },
-      ".separate": {
-        marginRight: "20px",
-      },
-      ".lineInfo": {
+      ".titleWrapper": {
         display: "grid",
-        gridTemplateColumns: "2fr 5fr",
-        marginTop: "50px",
+        gridTemplateColumns: "repeat(3, 1fr)",
         alignItems: "center",
+      },
+      h2: {
+        fontSize: "18px",
       },
       img: {
         width: "30px",
