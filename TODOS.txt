@@ -1,7 +1,9 @@
 TODOS:
+- default img on DB when user is created
 - when match on route => navbar link in diff color
 - create readme
 - tabIndex on navbar imgs
+- create single idea view
 
 DONE:
 - redirect when route not found

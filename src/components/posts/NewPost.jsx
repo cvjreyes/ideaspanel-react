@@ -67,9 +67,7 @@ export default function NewPost() {
 
   return (
     <div css={newpostStyle}>
-      <div className="boxTitle">
-        <h1>New Post</h1>
-      </div>
+      <h1 className="page_title">New Post</h1>
       <form onSubmit={submit}>
         <div className="left">
           <input
@@ -160,13 +158,7 @@ export default function NewPost() {
 }
 
 const newpostStyle = {
-  marginTop: "50px",
   minHeight: "calc(100vh - 50px)",
-  textAlign: "center",
-  h1: {
-    fontSize: "24px",
-    marginTop: "100px",
-  },
   form: {
     display: "grid",
     gridTemplateColumns: "repeat(2, 1fr)",
