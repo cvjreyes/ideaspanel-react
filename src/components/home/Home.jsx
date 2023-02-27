@@ -44,6 +44,7 @@ const homeStyle = {
   minHeight: "calc(100vh - 50px)",
   ".map": {
     display: "grid",
+    justifyContent: "center",
     gridTemplateColumns: "repeat(auto-fit, minmax(300px, 500px))",
   },
 };
