@@ -5,18 +5,17 @@ import { useContext, useEffect, useState } from "react";
 
 import Button from "../general/Button";
 import Input from "../general/Input";
-import ProfileImage from "../../assets/images/profile.jpg";
 import { api } from "../../helpers/api";
 import { AuthContext } from "../../context/AuthContext";
-import { useRoute } from "wouter";
+import { Link, useRoute } from "wouter";
 import Loading from "../general/Loading";
 
 export default function Profile() {
   const [_, params] = useRoute("/profile/:user_id");
-  const { user } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
   const [profile, setProfile] = useState(null);
-  const [posts, setPosts] = useState([]);
-  const [isEditable, setIsEditable] = useState(false);
+  const [ideas, setIdeas] = useState([]);
+  const [drafts, setDrafts] = useState(null);
 
   useEffect(() => {
     const getProfileData = async () => {
@@ -29,130 +28,60 @@ export default function Profile() {
   }, []);
 
   useEffect(() => {
-    const getUserPosts = async () => {
-      setPosts([{ title: "test title", description: "test description" }]);
+    const getUserIdeas = async () => {
+      const { body } = await api("get", "/ideas/get_drafts");
+      setDrafts(body);
     };
     if (profile) {
-      getUserPosts();
+      getUserIdeas();
     }
   }, [profile]);
-
-  const handleChange = (e) => {};
 
   if (!profile) return <Loading />;
   return (
     <div css={profileStyle}>
-      <h1 className="page_title">Profile</h1>
-      <div className="profileWrapper">
-        <div className="pictureWrapper">
-          <Button className="saveButton" text="Save" width="100px" />
-          {/* <img src={ProfileImage} /> */}
-          <Button text="Change profile picture" width="250px" />
+      <h1 className="page_title">{user.name}</h1>
+      <p>{user.email}</p>
+      <div className="profPicWrapper">
+        <img alt="profile" src={user.profile_pic} />
+      </div>
+      <div className="draftsWrapper">
+        <h3>Drafts ({drafts?.length})</h3>
+        <div className="draftsMapWrapper">
+          {drafts?.map((item) => {
+            return (
+              <Link to={`/profile/edit_idea/${item.id}`} key={item.id}>
+                <p>{item.title}</p>
+                <p>{item.description}</p>
+              </Link>
+            );
+          })}
         </div>
-        {isEditable ? (
-          <div className="editableInfoWrapper">
-            <div className="lineInfo">
-              <p className="bold">Full name: </p>
-              <Input
-                width="80%"
-                placeholder="Write the full name"
-                value={profile.name}
-              />
-            </div>
-            <div className="lineInfo">
-              <p className="bold">Bio: </p>
-              <textarea
-                className="textArea"
-                placeholder="Write the description"
-                id="textarea"
-                name="textarea"
-                rows="5"
-              ></textarea>
-            </div>
-          </div>
-        ) : (
-          <div className="informationWrapper">
-            <div className="titleWrapper">
-              <img
-                alt="edit"
-                src="https://img.icons8.com/external-others-amoghdesign/24/null/external-write-multimedia-solid-24px-others-amoghdesign.png"
-                className="pointer"
-                onClick={() => setIsEditable(true)}
-              />
-              <h2 className="flexCenter">Profile Information</h2>
-            </div>
-            <div className="lineInfo">
-              <p className="bold">Full name: </p>
-              <p>{profile.name}</p>
-            </div>
-            <div className="lineInfo">
-              <p className="bold">Email: </p>
-              <p>{profile.email}</p>
-            </div>
-            <div className="lineInfo">
-              <p className="bold">Description: </p>
-              <p>{profile.bio}</p>
-            </div>
-            <div className="lineInfo">
-              <label className="bold">Num of posts: </label>
-              <label>{posts.length}</label>
-            </div>
-          </div>
-        )}
+      </div>
+      <div>
+        <Button text="Logout" onClick={logout} width="150px" />
       </div>
     </div>
   );
 }
 
 const profileStyle = {
-  ".profileWrapper": {
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr",
-    ".pictureWrapper": {
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      flexDirection: "column",
-      height: "50vh",
-      width: "45vw",
-      ".saveButton": {
-        display: "flex",
-        justifyContent: "start",
-        width: "10vw",
-      },
-      img: {
-        padding: "50px",
-        height: "400px",
-        width: "400px",
-      },
-    },
-    ".lineInfo": {
+  display: "flex",
+  flexDirection: "column",
+  textAlign: "center",
+  padding: "0 10vw",
+  ".profPicWrapper": {
+    width: "50px",
+    backgroundColor: "#99C6F8",
+    borderRadius: "100px",
+    margin: "0 auto",
+  },
+  ".draftsWrapper": {
+    textAlign: "left",
+    ".draftsMapWrapper": {
       display: "grid",
-      gridTemplateColumns: "2fr 5fr",
-      marginTop: "50px",
-      alignItems: "center",
-    },
-    ".informationWrapper": {
-      marginTop: "100px",
-      display: "flex",
-      flexDirection: "column",
-      minHeight: "55vh",
-      width: "45vw",
-      padding: "30px",
-      border: "1px solid rgb(133, 133, 133)",
-      borderRadius: "8px",
-      background: "linear-gradient(300deg, #e6e6e6, #ffffff)",
-      ".titleWrapper": {
-        display: "grid",
-        gridTemplateColumns: "repeat(3, 1fr)",
-        alignItems: "center",
-      },
-      h2: {
-        fontSize: "18px",
-      },
-      img: {
-        width: "30px",
-      },
+      gridTemplateColumns: "repeat(auto-fit, minmax(200px, 300px))",
+      width: "50vw",
     },
   },
 };

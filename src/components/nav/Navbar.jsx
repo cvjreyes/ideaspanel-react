@@ -6,14 +6,15 @@ import { Link } from "wouter";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function Navbar() {
+  const { user } = useContext(AuthContext);
 
-  const {user } = useContext(AuthContext)
-  
   return (
     <div css={navbarStyle}>
       <div className="left">
         <Link to="/ideas_panel/">Home</Link>
-        <Link to="/ideas_panel/new_post">
+        <Link to="/ideas_panel/comittee">Comittee</Link>
+        <Link to="/ideas_panel/new_idea" className="flexCenter">
+          New Idea
           <img
             alt="new"
             src="https://img.icons8.com/external-others-amoghdesign/24/null/external-write-multimedia-solid-24px-others-amoghdesign.png"
@@ -22,7 +23,7 @@ export default function Navbar() {
         </Link>
       </div>
       <div className="right">
-        <Link to={`/ideas_panel/profile/${user.id}`} >
+        <Link to={`/ideas_panel/profile/${user.id}`}>
           <img
             className="pointer invert"
             alt="user"
@@ -55,15 +56,18 @@ const navbarStyle = {
   img: {
     transition: "filter 0.2s ease-in-out",
     width: "30px",
-    margin: "0 1rem",
-    ":hover": {
-      filter: "invert(70%)",
-      webkitFilter: "invert(70%)",
-    },
+    margin: "0 0 0 .5rem",
+    // ":hover": {
+    //   filter: "invert(70%)",
+    //   webkitFilter: "invert(70%)",
+    // },
   },
   ".left": {
     display: "flex",
     alignItems: "center",
+    a: {
+      margin: "0 2rem 0 0",
+    },
   },
   ".right": {
     display: "flex",

@@ -35,11 +35,7 @@ export default function Card({ item, user }) {
     <div css={cardStyle}>
       <div onClick={() => clickCard()}>
         <div className="image">
-          {item.image ? (
-            <img crossOrigin="anonymous" src={item.image} alt="idea" />
-          ) : (
-            ""
-          )}
+          {item.image && <img src={item.image} alt="idea" />}
         </div>
         <div className="boxCard" key={item.id}>
           <div className="line">
@@ -54,12 +50,7 @@ export default function Card({ item, user }) {
         <div className="profileBox" onClick={() => clickProfile()}>
           {item.image ? (
             <div>
-              <img
-                crossOrigin="anonymous"
-                src={item.image}
-                alt="profile"
-                className="profileImage"
-              />
+              <img src={item.image} alt="profile" className="profileImage" />
             </div>
           ) : (
             <div className="noImageProfile">

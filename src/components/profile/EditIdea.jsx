@@ -2,29 +2,39 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
 import { useDropzone } from "react-dropzone";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Switch from "react-switch";
-import { useLocation } from "wouter";
+import { useLocation, useRoute } from "wouter";
 import { useNotifications } from "reapop";
 
 import ButtonWithImage from "../general/ButtonWithImage";
 import saveImg from "../../assets/images/save.svg";
 import { api } from "../../helpers/api";
+import { colors } from "../../helpers/colors";
 
-export default function NewPost() {
-  const [location, navigate] = useLocation();
+export default function EditIdea() {
+  const [_, params] = useRoute("/profile/edit_idea/:idea_id");
+  const [__, navigate] = useLocation();
 
   const { notify } = useNotifications();
 
-  const [form, setForm] = useState({
+  const [idea, setIdea] = useState({
     title: "",
     description: "",
     anonymous: false,
   });
   const [image, setImage] = useState(null);
 
+  useEffect(() => {
+    const getIdeaInfo = async () => {
+      const { body } = await api("get", `/ideas/get_info/${params.idea_id}`);
+      setIdea(body[0]);
+    };
+    getIdeaInfo();
+  }, []);
+
   const handleChange = (key, value) => {
-    setForm({ ...form, [key]: value });
+    setIdea({ ...idea, [key]: value });
   };
 
   const onDrop = useCallback((files) => {
@@ -43,10 +53,30 @@ export default function NewPost() {
 
   const submit = async (e) => {
     e && e.preventDefault();
-    if (!form.title || !form.description)
+    if (!idea.title || !idea.description)
       return notify("Please, fill all fields", "error");
     const { ok: ok1, body: insertId } = await api("post", "/ideas/upload", {
-      form,
+      form: idea,
+    });
+    if (!ok1) return notify("Something went wrong", "error");
+    if (image?.name) {
+      const formData = new FormData();
+      formData.append("file", image);
+      const { ok: ok2 } = await api(
+        "post",
+        `/ideas/upload_image/${insertId}`,
+        formData
+      );
+      if (!ok2) return notify("Something went wrong", "error");
+    }
+    return notify("Idea updated successfully!", "success");
+  };
+
+  const saveAndPublish = async () => {
+    if (!idea.title || !idea.description)
+      return notify("Please, fill all fields", "error");
+    const { ok: ok1, body: insertId } = await api("post", "/ideas/upload", {
+      form: idea,
     });
     if (!ok1) return notify("Something went wrong", "error");
     if (image?.name) {
@@ -66,19 +96,19 @@ export default function NewPost() {
   };
 
   return (
-    <div css={newpostStyle}>
-      <h1 className="page_title">New Post</h1>
+    <div css={newIdeaStyle}>
+      <h1 className="page_title">Edit Idea</h1>
       <form onSubmit={submit}>
         <div className="left">
           <input
             placeholder="Title"
-            value={form.title}
+            value={idea.title}
             name="title"
             onChange={({ target }) => handleChange(target.name, target.value)}
           />
           <textarea
             placeholder="Describe your idea"
-            value={form.description}
+            value={idea.description}
             name="description"
             onChange={({ target }) => handleChange(target.name, target.value)}
           ></textarea>
@@ -87,12 +117,16 @@ export default function NewPost() {
             <p>Show User</p>
             <Switch
               onChange={(e) => handleChange("anonymous", !e)}
-              checked={!form.anonymous}
+              checked={!idea.anonymous}
             />
           </div>
         </div>
         <div className="right">
-          {image ? (
+          {idea.image ? (
+            <div className="imageWrapper">
+              <img alt="idea" src={idea.image} />
+            </div>
+          ) : image ? (
             <div className="dropzoneWrapper imgUploaded">
               <img
                 alt="pic icon"
@@ -145,8 +179,26 @@ export default function NewPost() {
             fontWeight="600"
             fontSize="16px"
             textMargin="0 0 0 5px"
-            bgColor="linear-gradient(322deg, rgba(0,105,223,1) 0%, rgba(0,112,237,1) 21%, rgba(22,128,247,1) 100%)"
-            bgHover="linear-gradient(180deg, #338DF1 -2.23%, #338DF1 -2.22%, #85BFFF 148.66%)"
+            bgColor={colors["blue"].background}
+            bgHover={colors["blue"].backgroundHover}
+            // img
+            alt="add"
+            src={saveImg}
+          />
+          <ButtonWithImage
+            type="button"
+            onClick={saveAndPublish}
+            text="Save and Publish"
+            padding="15px"
+            margin="0 0 0 1rem"
+            width="200px"
+            border="none"
+            color="white"
+            fontWeight="600"
+            fontSize="16px"
+            textMargin="0 0 0 5px"
+            bgColor={colors["green"].background}
+            bgHover={colors["green"].backgroundHover}
             // img
             alt="add"
             src={saveImg}
@@ -157,7 +209,7 @@ export default function NewPost() {
   );
 }
 
-const newpostStyle = {
+const newIdeaStyle = {
   minHeight: "calc(100vh - 50px)",
   form: {
     display: "grid",
@@ -195,6 +247,11 @@ const newpostStyle = {
     ".right": {
       display: "flex",
       justifyContent: "center",
+      ".imageWrapper": {
+        border: "1px dashed rgb(133, 133, 133)",
+        height: "300px",
+        width: "300px",
+      },
       ".dropzoneWrapper": {
         margin: "75px 0 0",
         display: "flex",
