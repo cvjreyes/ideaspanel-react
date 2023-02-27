@@ -6,13 +6,14 @@ export default function Card({ item }) {
   console.log(item);
   return (
     <div css={cardStyle}>
-      <div className="boxCard" key={item.name}>
+      <div className="boxCard" key={item.id}>
         <div className="image">
           <img crossOrigin="anonymous" src={item.image} alt="idea" />
         </div>
         <div className="line">
-          <p className="bold">Name: </p>
-          <span>{!item.anonymous ? item.name : "Anonymous"}</span>
+          <p className="bold">Title: </p>
+          {/* <span>{!item.anonymous ? item.name : "Anonymous"}</span> */}
+          <span>{item.title}</span>
         </div>
         <div className="line">
           <p className="bold">Description: </p>
@@ -20,7 +21,7 @@ export default function Card({ item }) {
         </div>
         <div className="line">
           <p className="bold">Date of publishing: </p>
-          <span>{item.dateofpublishing}</span>
+          <span>{item.created_at}</span>
         </div>
       </div>
     </div>

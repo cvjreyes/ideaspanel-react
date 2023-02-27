@@ -7,9 +7,14 @@ import { api } from "../../helpers/api";
 
 import Card from "./card/Card";
 import Loading from "../general/Loading";
+import { api } from "../../helpers/api";
 
 export default function Home() {
   const [data, setData] = useState([]);
+
+  // useEffect(() => {
+  //   setData(DataJson.results);
+  // }, []);
 
   useEffect(() => {
     const getData = async () => {
