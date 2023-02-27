@@ -12,10 +12,6 @@ import NoResults from "./NoResults";
 export default function Home() {
   const [data, setData] = useState(null);
 
-  // useEffect(() => {
-  //   setData(DataJson.results);
-  // }, []);
-
   useEffect(() => {
     const getData = async () => {
       const { ok, body } = await api("get", "/ideas/get_some/0");
@@ -48,6 +44,7 @@ const homeStyle = {
   minHeight: "calc(100vh - 50px)",
   ".map": {
     display: "grid",
+    justifyContent: "center",
     gridTemplateColumns: "repeat(auto-fit, minmax(300px, 500px))",
   },
 };
