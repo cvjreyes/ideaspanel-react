@@ -7,14 +7,9 @@ import { api } from "../../helpers/api";
 
 import Card from "./card/Card";
 import Loading from "../general/Loading";
-import { api } from "../../helpers/api";
 
 export default function Home() {
   const [data, setData] = useState([]);
-
-  // useEffect(() => {
-  //   setData(DataJson.results);
-  // }, []);
 
   useEffect(() => {
     const getData = async () => {
@@ -30,7 +25,7 @@ export default function Home() {
       <div className="map">
         {data.length > 0 ? (
           data.map((item) => {
-            return <Card item={item} key={item.id} />;
+            return <Card item={item} user={item.user_id} key={item.id} />;
           })
         ) : (
           <Loading />
@@ -44,6 +39,7 @@ const homeStyle = {
   minHeight: "calc(100vh - 50px)",
   ".map": {
     display: "grid",
+    justifyContent: "center",
     gridTemplateColumns: "repeat(auto-fit, minmax(300px, 500px))",
   },
 };

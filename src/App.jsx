@@ -18,6 +18,7 @@ import Profile from "./components/profile/Profile";
 import Navbar from "./components/nav/Navbar";
 import NewPost from "./components/posts/NewPost";
 import Footer from "./components/nav/Footer";
+import Idea from "./components/idea/Idea";
 
 const queryClient = new QueryClient();
 
@@ -48,6 +49,9 @@ export default function App() {
         <Router base="/ideas_panel">
           <Switch>
             <Route path="/">{() => <PrivateRoute component={Home} />}</Route>
+            <Route path="/idea/:id">
+              {() => <PrivateRoute component={Idea} />}
+            </Route>
             <Route path="/login">
               {() => <PublicRoute component={Login} />}
             </Route>

@@ -1,59 +1,138 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
+import { format } from "date-fns";
+import { useEffect, useState } from "react";
+import { useLocation } from "wouter";
 
-export default function Card({ item }) {
-  console.log(item);
+import { api } from "../../../helpers/api";
+
+export default function Card({ item, user }) {
+  const [profile, setProfile] = useState(null);
+  const [location, navigate] = useLocation();
+
+  useEffect(() => {
+    const getProfileData = async () => {
+      const { body } = await api("get", `/users/profile/${user}`);
+      setProfile(body);
+    };
+    getProfileData();
+  }, [user]);
+
+  function clickCard() {
+    setTimeout(() => {
+      navigate(`/idea/${item.id}`);
+    }, 1);
+  }
+
+  function clickProfile() {
+    setTimeout(() => {
+      navigate(`/profile/${item.user_id}`);
+    }, 1);
+  }
+
   return (
-    <div css={cardStyle}>
-      <div className="boxCard" key={item.id}>
+    <div css={cardStyle} >
+      <div onClick={() => clickCard()}>
         <div className="image">
-          <img crossOrigin="anonymous" src={item.image} alt="idea" />
+          {item.image ? (
+            <img crossOrigin="anonymous" src={item.image} alt="idea" />
+          ) : (
+            ""
+          )}
         </div>
-        <div className="line">
-          <p className="bold">Title: </p>
-          {/* <span>{!item.anonymous ? item.name : "Anonymous"}</span> */}
-          <span>{item.title}</span>
-        </div>
-        <div className="line">
-          <p className="bold">Description: </p>
-          <span>{item.description}</span>
-        </div>
-        <div className="line">
-          <p className="bold">Date of publishing: </p>
-          <span>{item.created_at}</span>
+        <div className="boxCard" key={item.id}>
+          <div className="line">
+            <span className="bold">{item.title}</span>
+          </div>
+          <div className="line">
+            <span className="">{item.description}</span>
+          </div>
         </div>
       </div>
+      {!item.anonymous ? (
+        <div className="profileBox" onClick={() => clickProfile()}>
+          {item.image ? (
+            <div>
+              <img
+                crossOrigin="anonymous"
+                src={item.image}
+                alt="profile"
+                className="profileImage"
+              />
+            </div>
+          ) : (
+            <div className="noImageProfile">
+              <div></div>
+            </div>
+          )}
+          <div className="infoProfile">
+            <span className="bold">{profile?.name}</span>
+            <br />
+            <span className="date">
+              {format(new Date(item.created_at), "dd-MM-yyyy / hh:mm")}
+            </span>
+          </div>
+        </div>
+      ) : (
+        <div className="profileBox">
+          <span className="noImageProfile">
+            {format(new Date(item.created_at), "dd-MM-yyyy / hh:mm")}
+          </span>
+        </div>
+      )}
     </div>
   );
 }
 
 const cardStyle = {
-  borderRadius: "10px",
-  border: "1px solid black",
-  padding: "0 30px 30px 30px",
-  background:
-    "linear-gradient(90deg, rgba(162,208,219,1) 0%, rgba(161,204,219,1) 59%, rgba(176,208,222,1) 100%)",
-  margin: "30px",
-  height: "35vh",
-  overflowY: "auto",
-  /* Hide scrollbar for IE, Edge and Firefox */
-  msOverflowStyle: "none" /* IE and Edge */,
-  scrollbarWidth: "none" /* Firefox */,
-  /* Hide scrollbar for Chrome, Safari and Opera */
-  "::-webkit-scrollbar": {
-    display: "none",
-  },
+  borderRadius: "40px",
+  border: "0 solid black",
+  background: "white",
+  margin: "50px",
+  height: "55vh",
+  cursor: "pointer",
   boxShadow: "0 10px 10px -1px lightblue",
-  img: {
-    height: "150px",
-    width: "150px",
-  },
   ".image": {
     display: "flex",
-    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column",
+    img: {
+      // borderRadius: "50%",
+      objectFit: "cover",
+      width: "95%",
+      height: "200px",
+    },
   },
-  ".line": {
-    padding: "3px",
+  ".boxCard": {
+    margin: "30px 0",
+    padding: "0 30px 30px 30px",
+  },
+  ".profileBox": {
+    padding: "10px",
+    height: "10vh",
+    width: "90%",
+    display: "flex",
+    alignItems: "center",
+    margin: "10px",
+    fontStyle: "italic",
+    ".profileImage": {
+      borderRadius: "50%",
+      width: "5vw",
+      marginRight: "10px",
+    },
+    ".noImageProfile": {
+      marginLeft: "10px",
+    },
+    ":hover": {
+      borderRadius: "10px",
+      background: "linear-gradient(300deg, #e6e6e6, #ffffff)",
+    },
+    ".line": {
+      padding: "10px",
+      ".date": {
+        marginLeft: "10px",
+      },
+    },
   },
 };
