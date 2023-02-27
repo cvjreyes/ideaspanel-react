@@ -7,7 +7,7 @@ export default function Card({ item }) {
     <div css={cardStyle}>
       <div className="boxCard" key={item.name}>
         <div className="image">
-          <img crossOrigin="anonymous" src={item.image} alt="idea" />
+          <img src={item.image} alt="idea" />
         </div>
         <div className="line">
           <p className="bold">Name: </p>

@@ -7,9 +7,10 @@ import { api } from "../../helpers/api";
 
 import Card from "./card/Card";
 import Loading from "../general/Loading";
+import NoResults from "./NoResults";
 
 export default function Home() {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(null);
 
   useEffect(() => {
     const getData = async () => {
@@ -22,15 +23,19 @@ export default function Home() {
   return (
     <div css={homeStyle}>
       <h1 className="page_title">Ideas Panel</h1>
-      <div className="map">
-        {data.length > 0 ? (
-          data.map((item) => {
-            return <Card item={item} key={item.id} />;
-          })
+      {data ? (
+        data.length > 0 ? (
+          <div className="map">
+            {data.map((item) => {
+              return <Card item={item} key={item.id} />;
+            })}
+          </div>
         ) : (
-          <Loading />
-        )}
-      </div>
+          <NoResults />
+        )
+      ) : (
+        <Loading />
+      )}
     </div>
   );
 }

@@ -5,6 +5,10 @@ TODOS:
 - tabIndex on navbar imgs
 - create single idea view
 - ability to change uploaded picture on new post
+- edit profile will be another page
+- edit max text size in new idea and edit idea textarea + show some kind of alert
+- join query in /ideas/get_some to populate user
+- cambiar tinytext en users.description por text
 
 DONE:
 - redirect when route not found
