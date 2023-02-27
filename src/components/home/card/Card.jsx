@@ -1,7 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
-// import { format } from "date-fns";
+import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 
@@ -61,14 +61,14 @@ export default function Card({ item, user }) {
             <span className="bold">{profile?.name}</span>
             <br />
             <span className="date">
-              {/* {format(new Date(item.created_at), "dd-MM-yyyy / hh:mm")} */}
+              {format(new Date(item.created_at), "dd-MM-yyyy / hh:mm")}
             </span>
           </div>
         </div>
       ) : (
         <div className="profileBox">
           <span className="noImageProfile">
-            {/* {format(new Date(item.created_at), "dd-MM-yyyy / hh:mm")} */}
+            {format(new Date(item.created_at), "dd-MM-yyyy / hh:mm")}
           </span>
         </div>
       )}

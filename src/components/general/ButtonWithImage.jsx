@@ -22,16 +22,16 @@ export default function ButtonWithImage({
   textMargin,
   hoverShadow,
   src,
-  alt,
+  blend,
   imgFilter,
   imgWidth,
 }) {
   const buttonStyle = {
-    width: width || "100%",
+    width: width || "150px",
     height,
-    padding: padding || "10px 20px",
+    padding: padding || "15px",
     background: bgColor,
-    border,
+    border: border || "none",
     borderRadius: borderRadius || "6px",
     margin,
     fontWeight,
@@ -40,9 +40,14 @@ export default function ButtonWithImage({
       boxShadow: hoverShadow,
     },
     span: { whiteSpace: "nowrap", color, fontSize, margin: textMargin },
-    img: {
+    div: {
       width: imgWidth || "20px",
+      height: imgWidth || "20px",
       filter: imgFilter,
+      backgroundImage: `url(${src})`,
+      backgroundSize: "100%",
+      mixBlendMode: blend && "screen",
+      filter: blend && "invert(100%)",
     },
   };
 
@@ -54,7 +59,7 @@ export default function ButtonWithImage({
       onClick={onClick}
       name={name}
     >
-      <img src={src} alt={alt} />
+      <div />
       <span>{text}</span>
     </button>
   );

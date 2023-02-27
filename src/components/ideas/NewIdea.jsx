@@ -138,9 +138,7 @@ export default function NewPost() {
           <ButtonWithImage
             type="submit"
             text="Save"
-            padding="15px"
             width="150px"
-            border="none"
             color="white"
             fontWeight="600"
             fontSize="16px"
