@@ -3,15 +3,25 @@
 import { jsx } from "@emotion/react";
 import { useEffect, useState } from "react";
 
+import { api } from "../../helpers/api";
+
 import Card from "./card/Card";
-import DataJson from "./data.json";
 import Loading from "../general/Loading";
+import { api } from "../../helpers/api";
 
 export default function Home() {
   const [data, setData] = useState([]);
 
+  // useEffect(() => {
+  //   setData(DataJson.results);
+  // }, []);
+
   useEffect(() => {
-    setData(DataJson.results);
+    const getData = async () => {
+      const { ok, body } = await api("get", "/ideas/get_some/0");
+      setData(body);
+    };
+    getData();
   }, []);
 
   return (
@@ -20,7 +30,7 @@ export default function Home() {
       <div className="map">
         {data.length > 0 ? (
           data.map((item) => {
-            // return <Card item={item} key={item.id} />;
+            return <Card item={item} key={item.id} />;
           })
         ) : (
           <Loading />
@@ -34,6 +44,6 @@ const homeStyle = {
   minHeight: "calc(100vh - 50px)",
   ".map": {
     display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+    gridTemplateColumns: "repeat(auto-fit, minmax(300px, 500px))",
   },
 };
