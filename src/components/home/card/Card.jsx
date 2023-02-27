@@ -3,12 +3,11 @@
 import { jsx } from "@emotion/react";
 
 export default function Card({ item }) {
-  console.log(item);
   return (
     <div css={cardStyle}>
       <div className="boxCard" key={item.id}>
         <div className="image">
-          <img crossOrigin="anonymous" src={item.image} alt="idea" />
+          <img src={item.image} alt="idea" />
         </div>
         <div className="line">
           <p className="bold">Title: </p>

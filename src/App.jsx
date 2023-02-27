@@ -16,8 +16,10 @@ import Login from "./components/authentication/login/Login";
 import CheckLogin from "./components/authentication/login/CheckLogin";
 import Profile from "./components/profile/Profile";
 import Navbar from "./components/nav/Navbar";
-import NewPost from "./components/posts/NewPost";
+import NewIdea from "./components/ideas/NewIdea";
 import Footer from "./components/nav/Footer";
+import Comittee from "./components/ideas/Comittee";
+import EditIdea from "./components/profile/EditIdea";
 
 const queryClient = new QueryClient();
 
@@ -57,8 +59,14 @@ export default function App() {
             <Route path="/profile/:user_id">
               {() => <PrivateRoute component={Profile} />}
             </Route>
-            <Route path="/new_post">
-              {() => <PrivateRoute component={NewPost} />}
+            <Route path="/profile/edit_idea/:idea_id">
+              {() => <PrivateRoute component={EditIdea} />}
+            </Route>
+            <Route path="/new_idea">
+              {() => <PrivateRoute component={NewIdea} />}
+            </Route>
+            <Route path="/comittee">
+              {() => <PrivateRoute component={Comittee} />}
             </Route>
             <Route>{() => <Redirect to="/" />}</Route>
           </Switch>
