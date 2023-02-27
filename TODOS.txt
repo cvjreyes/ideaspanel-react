@@ -4,6 +4,7 @@ TODOS:
 - create readme
 - tabIndex on navbar imgs
 - create single idea view
+- ability to change uploaded picture on new post
 
 DONE:
 - redirect when route not found

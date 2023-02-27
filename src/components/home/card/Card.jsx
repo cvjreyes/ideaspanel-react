@@ -3,7 +3,6 @@
 import { jsx } from "@emotion/react";
 
 export default function Card({ item }) {
-  console.log(item);
   return (
     <div css={cardStyle}>
       <div className="boxCard" key={item.name}>
