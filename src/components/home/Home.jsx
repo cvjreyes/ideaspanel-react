@@ -27,7 +27,7 @@ export default function Home() {
         data.length > 0 ? (
           <div className="map">
             {data.map((item) => {
-              return <Card item={item} key={item.id} />;
+              return <Card item={item} user={item.user_id} key={item.id} />;
             })}
           </div>
         ) : (
