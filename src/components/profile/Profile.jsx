@@ -41,10 +41,10 @@ export default function Profile() {
   return (
     <div css={profileStyle}>
       <h1 className="page_title">{user.name}</h1>
-      <p>{user.email}</p>
       <div className="profPicWrapper">
         <img alt="profile" src={user.profile_pic} />
       </div>
+      <p>{user.email}</p>
       <div className="draftsWrapper">
         <h3>Drafts ({drafts?.length})</h3>
         <div className="draftsMapWrapper">
