@@ -12,6 +12,14 @@ export default function Card({ item, user }) {
   const [location, navigate] = useLocation();
 
   const createdDate = new Date(item.created_at);
+  const actualDate = new Date();
+  const daysPassed = (
+    (actualDate - createdDate) /
+    1000 /
+    60 /
+    60 /
+    24
+  ).toFixed();
 
   useEffect(() => {
     const getProfileData = async () => {
@@ -19,6 +27,7 @@ export default function Card({ item, user }) {
       setProfile(body);
     };
     getProfileData();
+    // ellipsis_box(".description" , 140);
   }, [user]);
 
   function clickCard() {
@@ -33,18 +42,30 @@ export default function Card({ item, user }) {
     }, 1);
   }
 
+  // function ellipsis_box(elemento, max_chars) {
+  //   limite_text = (elemento).text();
+  //   if (limite_text.length > max_chars) {
+  //     limite = limite_text.substr(0, max_chars) + " ...";
+  //     (elemento).text(limite);
+  //   }
+  // }
+
   return (
     <div css={cardStyle}>
       <div onClick={() => clickCard()}>
         <div className="image">
-          {item.image && <img src={item.image} alt="idea" />}
+          {item.image ? (
+            <img src={item.image} alt="idea" />
+          ) : (
+            <div className="noImageIdea"></div>
+          )}
         </div>
         <div className="boxCard" key={item.id}>
           <div className="line">
             <span className="bold">{item.title}</span>
           </div>
           <div className="line">
-            <span className="">{item.description}</span>
+            <span>{item.description}</span>
           </div>
         </div>
       </div>
@@ -55,7 +76,7 @@ export default function Card({ item, user }) {
               <img src={item.image} alt="profile" className="profileImage" />
             </div>
           ) : (
-            <div className="noImageProfile">
+            <div /*className="noImageProfile"*/>
               <div></div>
             </div>
           )}
@@ -66,6 +87,11 @@ export default function Card({ item, user }) {
                 createdDate.getMonth() + 1
               }/${createdDate.getFullYear()}`}
             </span>
+            {daysPassed != 0 ? (
+              <span className="bold">{daysPassed} day/s</span>
+            ) : (
+              <span className="bold">Today</span>
+            )}
           </div>
         </div>
       ) : (
@@ -79,11 +105,16 @@ export default function Card({ item, user }) {
           </div>
           <div className="infoProfile">
             <span className="bold">Anonymous</span>
-            <span >
+            <span>
               {`${createdDate.getDate()}/${
                 createdDate.getMonth() + 1
               }/${createdDate.getFullYear()}`}
             </span>
+            {daysPassed != 0 ? (
+              <span className="bold">{daysPassed} day/s</span>
+            ) : (
+              <span className="bold">Today</span>
+            )}
           </div>
         </div>
       )}
@@ -97,8 +128,9 @@ const cardStyle = {
   background: "white",
   margin: "50px",
   minHeight: "500px",
+  minWidth: "350px",
   cursor: "pointer",
-  boxShadow: "0 10px 10px -1px lightblue",
+  boxShadow: "0 10px 10px -1px rgb(133, 133, 133)",
   ".image": {
     display: "flex",
     alignItems: "center",
@@ -109,15 +141,28 @@ const cardStyle = {
       width: "100%",
       height: "200px",
     },
+    ".noImageIdea": {
+      marginTop: "200px",
+    },
   },
   ".boxCard": {
     margin: "30px 0",
     padding: "0 30px 30px 30px",
+    height: "170px",
+    width: "350px",
+    // whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
+    overflow: "hidden",
+    // "::after": {
+    //   content: '"..."',
+    //   position: "absolute",
+    //   right: "0",
+    // },
   },
   ".profileBox": {
     padding: "10px",
     minHeight: "10vh",
-    width: "380px",
+    width: "330px",
     display: "flex",
     alignItems: "center",
     margin: "10px",
@@ -129,11 +174,15 @@ const cardStyle = {
     },
     ".profileImage": {
       borderRadius: "50%",
-      width: "120px",
+      width: "60px",
       marginRight: "10px",
+      height: "60px",
+      // objectFit: "cover",
     },
     ".profileAnonymous": {
-      height: "80px",
+      height: "60px",
+      background: "linear-gradient(300deg, #e6e6e6, #ffffff)",
+      borderRadius: "50%",
     },
     ":hover": {
       borderRadius: "10px",
@@ -145,5 +194,8 @@ const cardStyle = {
       flexDirection: "column",
       padding: "10px",
     },
+    // ".noImageProfile": {
+    //   marginLeft: "120px"
+    // }
   },
 };
