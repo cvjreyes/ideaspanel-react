@@ -88,7 +88,7 @@ export default function Card({ item, user }) {
               }/${createdDate.getFullYear()}`}
             </span>
             {daysPassed != 0 ? (
-              <span className="bold">{daysPassed} day/s</span>
+              <span className="bold">{daysPassed} day/s ago</span>
             ) : (
               <span className="bold">Today</span>
             )}
@@ -111,7 +111,7 @@ export default function Card({ item, user }) {
               }/${createdDate.getFullYear()}`}
             </span>
             {daysPassed != 0 ? (
-              <span className="bold">{daysPassed} day/s</span>
+              <span className="bold">{daysPassed} day/s ago</span>
             ) : (
               <span className="bold">Today</span>
             )}
@@ -149,15 +149,15 @@ const cardStyle = {
     margin: "30px 0",
     padding: "0 30px 30px 30px",
     height: "170px",
-    width: "350px",
+    width: "340px",
     // whiteSpace: "nowrap",
     textOverflow: "ellipsis",
     overflow: "hidden",
-    // "::after": {
-    //   content: '"..."',
-    //   position: "absolute",
-    //   right: "0",
-    // },
+    "::after": {
+      content: '"..."',
+      position: "absolute",
+      right: "0",
+    },
   },
   ".profileBox": {
     padding: "10px",
