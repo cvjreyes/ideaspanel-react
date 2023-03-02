@@ -22,7 +22,6 @@ export default function Home() {
       ]).then((values) => {
         setData(values[0].body);
         setProfiles(values[1].body);
-        // setProfiles(values[1].body.map((profile) => [{id: profile.id, name: profile.name}]));
       });
     };
     getThings();
@@ -41,12 +40,12 @@ export default function Home() {
     // getProfile();
   // }, []);
 
-  useEffect(() => {
-    console.log(data?.[0].user_id);
-    console.log(profiles);
-    const profileFilter = profiles?.filter((profile) => profile.id === data?.[0].user_id)
-    console.log(profileFilter);
-  }, [data, profiles])
+  // useEffect(() => {
+  //   console.log(data[0].user_id);
+  //   console.log(profiles);
+  //   const profileFilter = profiles.filter((profile) => profile.id == data[0].user_id)
+  //   console.log(profileFilter);
+  // }, [data, profiles])
   
   return (
     <div css={homeStyle}>
@@ -58,7 +57,7 @@ export default function Home() {
               return (
                 <Card
                   item={item}
-                  user={profiles}
+                  user={profiles.filter((profile) => profile.id == item.user_id)}
                   key={item.id}
                 />
               );

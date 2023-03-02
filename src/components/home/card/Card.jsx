@@ -4,7 +4,7 @@ import { jsx } from "@emotion/react";
 import { useLocation } from "wouter";
 
 export default function Card({ item, user }) {
-  const [location, navigate] = useLocation();
+  const [__, navigate] = useLocation();
 
   const createdDate = new Date(item.created_at);
   const actualDate = new Date();
@@ -28,6 +28,7 @@ export default function Card({ item, user }) {
     }, 1);
   }
 
+  console.log(user[0].name);
   return (
     <div css={cardStyle}>
       <div onClick={() => clickCard()}>
@@ -60,7 +61,7 @@ export default function Card({ item, user }) {
           )}
           <div className="infoProfile">
             <span className="bold">
-              {" "}
+              {user[0].name}
             </span>
             <span className="date">
               {`${createdDate.getDate()}/${
