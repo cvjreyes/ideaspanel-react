@@ -17,34 +17,24 @@ export default function Card({ item }) {
   ).toFixed();
 
   function clickCard() {
-    setTimeout(() => {
-      navigate(`/idea/${item.id}`);
-    }, 1);
+    navigate(`/idea/${item.id}`);
   }
 
   function clickProfile() {
-    setTimeout(() => {
-      navigate(`/profile/${item.user_id}`);
-    }, 1);
+    navigate(`/profile/${item.user_id}`);
   }
 
   return (
-    <div css={cardStyle} >
+    <div css={cardStyle}>
       <div onClick={() => clickCard()}>
-        <div className="image">
-          {item.image ? (
-            <img src={item.image} alt="idea" />
-          ) : (
-            <div className="noImageIdea"></div>
-          )}
-        </div>
+        {item.image ? (
+          <img src={item.image} alt="idea" />
+        ) : (
+          <div className="noImageIdea"></div>
+        )}
         <div className="boxCard">
-          <div className="line">
-            <span className="bold">{item.title}</span>
-          </div>
-          <div className="line">
-            <span>{item.description}</span>
-          </div>
+          <p className="bold">{item.title}</p>
+          <p>{item.description}</p>
         </div>
       </div>
       {!item.anonymous ? (
@@ -59,9 +49,7 @@ export default function Card({ item }) {
             </div>
           )}
           <div className="infoProfile">
-            <span className="bold">
-              {item.name}
-            </span>
+            <span className="bold">{item.name}</span>
             <span className="date">
               {`${createdDate.getDate()}/${
                 createdDate.getMonth() + 1
@@ -111,25 +99,18 @@ const cardStyle = {
   minWidth: "350px",
   cursor: "pointer",
   boxShadow: "0 10px 10px -1px rgb(133, 133, 133)",
-  ".image": {
-    display: "flex",
-    alignItems: "center",
-    flexDirection: "column",
-    img: {
-      borderRadius: "10% 10% 0 0",
-      objectFit: "cover",
-      width: "100%",
-      height: "200px",
-    },
-    ".noImageIdea": {
-      marginTop: "200px",
-    },
+  img: {
+    borderRadius: "10% 10% 0 0",
+    objectFit: "cover",
+    width: "100%",
+    height: "200px",
+  },
+  ".noImageIdea": {
+    height: "200px",
   },
   ".boxCard": {
-    margin: "30px 0",
-    padding: "0 30px 30px 30px",
+    padding: "30px",
     height: "170px",
-    width: "340px",
     // whiteSpace: "nowrap",
     textOverflow: "ellipsis",
     overflow: "hidden",
