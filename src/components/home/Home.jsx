@@ -19,10 +19,6 @@ export default function Home() {
     };
     getData();
   }, []);
-
-  // useEffect(() => {
-  //   console.log(data);
-  // }, [data])
   
   return (
     <div css={homeStyle}>
@@ -34,7 +30,7 @@ export default function Home() {
               return (
                 <Card
                   item={item}
-                  key={item.id + 10}
+                  key={i}
                 />
               );
             })}
