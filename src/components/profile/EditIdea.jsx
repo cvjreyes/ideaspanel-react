@@ -115,6 +115,7 @@ export default function EditIdea() {
             bgHover={colors["green"].backgroundHover}
             // img
             blend={true}
+            imgFilter="invert(100%)"
             src={publishImg}
           />
         </div>
