@@ -48,6 +48,9 @@ export default function Profile() {
         <div>
           <p>{user.email}</p>
         </div>
+        <div>
+          <Button text="Logout" onClick={logout} width="150px" margin="0 20px" />
+        </div>
       </div>
       <div className="draftsWrapper">
         <h3>Drafts ({drafts?.length})</h3>
@@ -56,9 +59,6 @@ export default function Profile() {
             return <SmallCard item={item} key={i} />;
           })}
         </div>
-      </div>
-      <div>
-        <Button text="Logout" onClick={logout} width="150px" />
       </div>
     </div>
   );
@@ -71,9 +71,9 @@ const profileStyle = {
   padding: "0 10vw",
   ".profileInfo": {
     display: "flex",
-    flexDirection:"row",
+    flexDirection: "row",
     alignItems: "center",
-    height:"70px",
+    height: "70px",
     fontStyle: "italic",
     ".profPicWrapper": {
       display: "flex",
