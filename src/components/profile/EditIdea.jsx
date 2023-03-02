@@ -58,7 +58,7 @@ export default function EditIdea() {
       if (!ok2) return notify("Something went wrong", "error");
     }
     setTimeout(() => {
-      publish && navigate("/ideas_panel/");
+      publish && navigate("/");
     }, 2000);
     return notify("Idea updated successfully!", "success");
   };
