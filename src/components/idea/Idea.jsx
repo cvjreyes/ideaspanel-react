@@ -8,6 +8,7 @@ export default function Idea() {
   return (
     <div css={ideaStyle}>
       <h1 className="page_title">Idea</h1>
+      
     </div>
   );
 }
