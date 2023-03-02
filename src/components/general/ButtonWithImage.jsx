@@ -46,6 +46,7 @@ export default function ButtonWithImage({
       backgroundImage: `url(${src})`,
       backgroundSize: "100%",
       mixBlendMode: blend && "screen",
+      filter: imgFilter,
     },
   };
 
@@ -57,7 +58,7 @@ export default function ButtonWithImage({
       onClick={onClick}
       name={name}
     >
-      <div />
+      {src && <div />}
       <span>{text}</span>
     </button>
   );

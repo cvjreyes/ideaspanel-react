@@ -45,6 +45,8 @@ export default function NewPost() {
     e && e.preventDefault();
     if (!form.title || !form.description)
       return notify("Please, fill all fields", "error");
+    if (form.description.length > 500)
+      return notify("Description is too long. Max 500 characters", "error");
     const { ok: ok1, body: insertId } = await api("post", "/ideas/upload", {
       form,
     });
@@ -82,7 +84,11 @@ export default function NewPost() {
             name="description"
             onChange={({ target }) => handleChange(target.name, target.value)}
           ></textarea>
-
+          {form.description.length > 700 && (
+            <p className="red" style={{ marginTop: ".75rem" }}>
+              Description is too long. Max 500 characters.
+            </p>
+          )}
           <div className="toggleWrapper">
             <p>Show User</p>
             <Switch

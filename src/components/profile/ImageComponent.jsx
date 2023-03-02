@@ -1,10 +1,13 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
+import Modal from "../modals/Modal";
 
 export default function ImageComponent({ idea, image }) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const onDrop = useCallback((files) => {
     setImage(files[0]);
   }, []);
@@ -20,16 +23,16 @@ export default function ImageComponent({ idea, image }) {
   });
 
   const handleDeleteImage = () => {
-    console.log("test");
-    // open modal here
+    setIsModalOpen(true);
   };
 
   if (idea.image)
-    return (
+    return [
       <div
         css={imageWrapperStyle}
         onClick={handleDeleteImage}
         className="pointer"
+        key="1"
       >
         <img
           className="close"
@@ -37,8 +40,13 @@ export default function ImageComponent({ idea, image }) {
           src="https://img.icons8.com/color/48/null/close-window.png"
         />
         <img alt="idea" src={idea.image} />
-      </div>
-    );
+      </div>,
+      <Modal
+        key="2"
+        isOpen={isModalOpen}
+        closeModal={() => setIsModalOpen(false)}
+      />,
+    ];
 
   if (image)
     return (

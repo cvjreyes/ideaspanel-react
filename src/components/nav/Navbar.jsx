@@ -1,8 +1,9 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { Link } from "wouter";
+
 import { AuthContext } from "../../context/AuthContext";
 
 export default function Navbar() {
@@ -25,6 +26,7 @@ export default function Navbar() {
       <div className="right">
         <Link to={`/ideas_panel/profile/${user.id}`}>
           <img
+            tabIndex={0}
             className="pointer invert"
             alt="user"
             src="https://img.icons8.com/ios-glyphs/30/null/user--v1.png"
