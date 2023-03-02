@@ -28,7 +28,6 @@ export default function Card({ item }) {
     }, 1);
   }
 
-  // console.log("Card: ", item.id);
   return (
     <div css={cardStyle} >
       <div onClick={() => clickCard()}>
