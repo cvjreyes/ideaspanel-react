@@ -45,6 +45,10 @@ img {
   font-weight: bold;
 }
 
+.red {
+  color: red
+}
+
 .invert {
   filter: invert(100%) brightness(200%);
   -webkit-filter: invert(100%) brightness(200%);
