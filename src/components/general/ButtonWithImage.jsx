@@ -47,7 +47,6 @@ export default function ButtonWithImage({
       backgroundImage: `url(${src})`,
       backgroundSize: "100%",
       mixBlendMode: blend && "screen",
-      filter: blend && "invert(100%)",
     },
   };
 
