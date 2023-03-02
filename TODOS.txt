@@ -7,6 +7,7 @@ TODOS:
 - edit profile will be another page
 - edit max text size in new idea and edit idea textarea + show some kind of alert
 - blend en publish
+- details in card design
 
 DONE:
 - sombra card home
