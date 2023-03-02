@@ -1,14 +1,9 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
-import { format } from "date-fns";
-import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 
-import { api } from "../../../helpers/api";
-
 export default function Card({ item, user }) {
-  const [profile, setProfile] = useState(null);
   const [location, navigate] = useLocation();
 
   const createdDate = new Date(item.created_at);
@@ -21,15 +16,6 @@ export default function Card({ item, user }) {
     24
   ).toFixed();
 
-  useEffect(() => {
-    const getProfileData = async () => {
-      const { body } = await api("get", `/users/profile/${user}`);
-      setProfile(body);
-    };
-    getProfileData();
-    // ellipsis_box(".description" , 140);
-  }, [user]);
-
   function clickCard() {
     setTimeout(() => {
       navigate(`/idea/${item.id}`);
@@ -41,14 +27,6 @@ export default function Card({ item, user }) {
       navigate(`/profile/${item.user_id}`);
     }, 1);
   }
-
-  // function ellipsis_box(elemento, max_chars) {
-  //   limite_text = (elemento).text();
-  //   if (limite_text.length > max_chars) {
-  //     limite = limite_text.substr(0, max_chars) + " ...";
-  //     (elemento).text(limite);
-  //   }
-  // }
 
   return (
     <div css={cardStyle}>
@@ -76,12 +54,14 @@ export default function Card({ item, user }) {
               <img src={item.image} alt="profile" className="profileImage" />
             </div>
           ) : (
-            <div /*className="noImageProfile"*/>
+            <div>
               <div></div>
             </div>
           )}
           <div className="infoProfile">
-            <span className="bold">{profile?.name}</span>
+            <span className="bold">
+              {" "}
+            </span>
             <span className="date">
               {`${createdDate.getDate()}/${
                 createdDate.getMonth() + 1
