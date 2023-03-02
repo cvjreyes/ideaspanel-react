@@ -25,7 +25,7 @@ export default function Card({ item }) {
   }
 
   return (
-    <div css={cardStyle} >
+    <div css={cardStyle}>
       <div onClick={() => clickCard()}>
         {item.image ? (
           <img src={item.image} alt="idea" />
@@ -49,7 +49,7 @@ export default function Card({ item }) {
             </div>
           )}
           <div className="infoProfile">
-            <span className="bold">{item.name} Toni</span>
+            <span className="bold">{item.name}</span>
             <span className="date">
               {`${createdDate.getDate()}/${
                 createdDate.getMonth() + 1
