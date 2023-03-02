@@ -40,3 +40,7 @@
 ### Borders color
 
 - rgb(133, 133, 133)
+
+### Background color Tool
+
+- rgb(253, 254, 242)

@@ -43,7 +43,6 @@ export default function ButtonWithImage({
     div: {
       width: imgWidth || "20px",
       height: imgWidth || "20px",
-      filter: imgFilter,
       backgroundImage: `url(${src})`,
       backgroundSize: "100%",
       mixBlendMode: blend && "screen",

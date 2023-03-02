@@ -14,20 +14,29 @@ export default function Home() {
 
   useEffect(() => {
     const getData = async () => {
-      const { ok, body } = await api("get", "/ideas/get_some/0");
+      const { body } = await api("get", "/ideas/get_some/0");
       setData(body);
     };
     getData();
   }, []);
 
+  // useEffect(() => {
+  //   console.log(data);
+  // }, [data])
+  
   return (
     <div css={homeStyle}>
       <h1 className="page_title">Ideas Panel</h1>
       {data ? (
         data.length > 0 ? (
           <div className="map">
-            {data.map((item) => {
-              return <Card item={item} user={item.user_id} key={item.id} />;
+            {data.map((item, i) => {
+              return (
+                <Card
+                  item={item}
+                  key={item.id + 10}
+                />
+              );
             })}
           </div>
         ) : (
