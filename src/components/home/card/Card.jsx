@@ -3,7 +3,7 @@
 import { jsx } from "@emotion/react";
 import { useLocation } from "wouter";
 
-export default function Card({ item, user }) {
+export default function Card({ item, key }) {
   const [__, navigate] = useLocation();
 
   const createdDate = new Date(item.created_at);
@@ -28,9 +28,9 @@ export default function Card({ item, user }) {
     }, 1);
   }
 
-  console.log(user[0].name);
+  // console.log("Card: ", item.id);
   return (
-    <div css={cardStyle}>
+    <div css={cardStyle} key={item.id}>
       <div onClick={() => clickCard()}>
         <div className="image">
           {item.image ? (
@@ -39,7 +39,7 @@ export default function Card({ item, user }) {
             <div className="noImageIdea"></div>
           )}
         </div>
-        <div className="boxCard" key={item.id}>
+        <div className="boxCard">
           <div className="line">
             <span className="bold">{item.title}</span>
           </div>
@@ -61,7 +61,7 @@ export default function Card({ item, user }) {
           )}
           <div className="infoProfile">
             <span className="bold">
-              {user[0].name}
+              {item.name}
             </span>
             <span className="date">
               {`${createdDate.getDate()}/${
