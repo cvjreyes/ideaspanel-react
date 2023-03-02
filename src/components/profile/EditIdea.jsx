@@ -52,7 +52,7 @@ export default function EditIdea() {
       formData.append("file", image);
       const { ok: ok2 } = await api(
         "post",
-        `/ideas/upload_image/${insertId}`,
+        `/ideas/upload_image/${idea.id}`,
         formData
       );
       if (!ok2) return notify("Something went wrong", "error");
@@ -90,7 +90,7 @@ export default function EditIdea() {
           </div>
         </div>
         <div className="right">
-          <ImageComponent idea={idea} image={image} />
+          <ImageComponent idea={idea} image={image} setImage={setImage} />
         </div>
         <div className="buttonWrapper">
           <ButtonWithImage
