@@ -9,6 +9,7 @@ TODOS:
 - edit max text size in new idea and edit idea textarea + show some kind of alert
 - join query in /ideas/get_some to populate user
 - cambiar tinytext en users.description por text
+-sombra card home
 
 DONE:
 - redirect when route not found
