@@ -22,17 +22,9 @@ export default function Card({ item }) {
     "/" +
     createdDate.getFullYear();
 
-  function clickCard() {
-    navigate(`/idea/${item.id}`);
-  }
-
-  function clickProfile() {
-    navigate(`/profile/${item.user_id}`);
-  }
-
   return (
     <div css={cardStyle}>
-      <div onClick={() => clickCard()}>
+      <div onClick={() => navigate(`/idea/${item.id}`)}>
         {item.image ? (
           <img src={item.image} alt="idea" />
         ) : (
@@ -40,24 +32,28 @@ export default function Card({ item }) {
         )}
         <div className="boxCard">
           <p className="bold">{item.title}</p>
-          <p>{item.description}</p>
+          <p className="description">{item.description}</p>
         </div>
       </div>
       <div
         className="profileBox"
-        onClick={() => {
-          if (!item.anonymous) clickProfile();
-        }}
+        onClick={() => !item.anonymous && navigate(`/profile/${item.user_id}`)}
       >
         <div>
-          <img src={item.profile_pic} alt="profile" className="profileImage" />
+          <img
+            src={
+              !item.anonymous
+                ? item.profile_pic
+                : "http://localhost:5026/images/default.png"
+            }
+            alt="profile"
+            className="profileImage"
+          />
         </div>
         <div className="infoProfile">
-          {!item.anonymous ? (
-            <span className="bold">{item.name}</span>
-          ) : (
-            <span className="bold">Anonymous</span>
-          )}
+          <span className="bold">
+            {!item.anonymous ? item.name : "Anonymous"}
+          </span>
           <span className="date">{displayDate}</span>
           {daysPassed != 0 ? (
             <span className="bold">{daysPassed} day/s ago</span>
@@ -91,8 +87,14 @@ const cardStyle = {
   ".boxCard": {
     padding: "30px",
     height: "170px",
+
+  },
+  ".description": {
+    display: "-webkit-box",
     textOverflow: "ellipsis",
     overflow: "hidden",
+    WebkitLineClamp: "7",
+    WebkitBoxOrient: "vertical",
   },
   ".profileBox": {
     padding: "10px",
