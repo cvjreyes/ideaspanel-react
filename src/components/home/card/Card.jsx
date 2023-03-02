@@ -17,15 +17,11 @@ export default function Card({ item, key }) {
   ).toFixed();
 
   function clickCard() {
-    setTimeout(() => {
-      navigate(`/idea/${item.id}`);
-    }, 1);
+    navigate(`/idea/${item.id}`);
   }
 
   function clickProfile() {
-    setTimeout(() => {
-      navigate(`/profile/${item.user_id}`);
-    }, 1);
+    navigate(`/profile/${item.user_id}`);
   }
 
   // console.log("Card: ", item.id);
@@ -60,9 +56,7 @@ export default function Card({ item, key }) {
             </div>
           )}
           <div className="infoProfile">
-            <span className="bold">
-              {item.name}
-            </span>
+            <span className="bold">{item.name}</span>
             <span className="date">
               {`${createdDate.getDate()}/${
                 createdDate.getMonth() + 1
