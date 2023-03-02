@@ -58,7 +58,7 @@ export default function ButtonWithImage({
       onClick={onClick}
       name={name}
     >
-      <div />
+      {src && <div />}
       <span>{text}</span>
     </button>
   );

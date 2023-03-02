@@ -1,15 +1,17 @@
 TODOS:
-- when match on route => navbar link in diff color
-- create readme
-- tabIndex on navbar imgs
+- NAVBAR:
+  - when match on route => navbar link in diff color
+  - hover on links changes color of text + image
 - create single idea view
 - ability to change uploaded picture on new post
-- edit profile will be another page
-- edit max text size in new idea and edit idea textarea + show some kind of alert
-- blend en publish
 - details in card design
+- abstract image component in new idea
 
 DONE:
+- create readme
+- tabIndex on profile
+- edit max text size in new idea and edit idea textarea + show some kind of alert
+- blend en publish
 - sombra card home
 - cambiar tinytext en users.description por text
 - join query in /ideas/get_some to populate user
