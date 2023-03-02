@@ -60,7 +60,7 @@ export default function NewPost() {
       if (!ok2) return notify("Something went wrong", "error");
     }
     setTimeout(() => {
-      navigate("/ideas_panel/");
+      navigate("/");
     }, 2000);
     return notify("Idea added successfully! Redirecting you home", "success");
   };

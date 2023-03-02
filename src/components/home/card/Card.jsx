@@ -15,6 +15,12 @@ export default function Card({ item }) {
     60 /
     24
   ).toFixed();
+  const displayDate =
+    createdDate.getDate() +
+    "/" +
+    (createdDate.getMonth() + 1) +
+    "/" +
+    createdDate.getFullYear();
 
   function clickCard() {
     navigate(`/idea/${item.id}`);
@@ -37,55 +43,29 @@ export default function Card({ item }) {
           <p>{item.description}</p>
         </div>
       </div>
-      {!item.anonymous ? (
-        <div className="profileBox" onClick={() => clickProfile()}>
-          {item.image ? (
-            <div>
-              <img src={item.image} alt="profile" className="profileImage" />
-            </div>
-          ) : (
-            <div>
-              <div></div>
-            </div>
-          )}
-          <div className="infoProfile">
+      <div
+        className="profileBox"
+        onClick={() => {
+          if (!item.anonymous) clickProfile();
+        }}
+      >
+        <div>
+          <img src={item.profile_pic} alt="profile" className="profileImage" />
+        </div>
+        <div className="infoProfile">
+          {!item.anonymous ? (
             <span className="bold">{item.name}</span>
-            <span className="date">
-              {`${createdDate.getDate()}/${
-                createdDate.getMonth() + 1
-              }/${createdDate.getFullYear()}`}
-            </span>
-            {daysPassed != 0 ? (
-              <span className="bold">{daysPassed} day/s ago</span>
-            ) : (
-              <span className="bold">Today</span>
-            )}
-          </div>
-        </div>
-      ) : (
-        <div className="profileBox">
-          <div>
-            <img
-              src="http://localhost:5026/images/default.png"
-              alt="profile"
-              className="profileAnonymous"
-            />
-          </div>
-          <div className="infoProfile">
+          ) : (
             <span className="bold">Anonymous</span>
-            <span>
-              {`${createdDate.getDate()}/${
-                createdDate.getMonth() + 1
-              }/${createdDate.getFullYear()}`}
-            </span>
-            {daysPassed != 0 ? (
-              <span className="bold">{daysPassed} day/s ago</span>
-            ) : (
-              <span className="bold">Today</span>
-            )}
-          </div>
+          )}
+          <span className="date">{displayDate}</span>
+          {daysPassed != 0 ? (
+            <span className="bold">{daysPassed} day/s ago</span>
+          ) : (
+            <span className="bold">Today</span>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 }
@@ -111,14 +91,8 @@ const cardStyle = {
   ".boxCard": {
     padding: "30px",
     height: "170px",
-    // whiteSpace: "nowrap",
     textOverflow: "ellipsis",
     overflow: "hidden",
-    "::after": {
-      content: '"..."',
-      position: "absolute",
-      right: "0",
-    },
   },
   ".profileBox": {
     padding: "10px",
@@ -134,13 +108,6 @@ const cardStyle = {
       marginLeft: "10px",
     },
     ".profileImage": {
-      borderRadius: "50%",
-      width: "60px",
-      marginRight: "10px",
-      height: "60px",
-      // objectFit: "cover",
-    },
-    ".profileAnonymous": {
       height: "60px",
       background: "linear-gradient(300deg, #e6e6e6, #ffffff)",
       borderRadius: "50%",
@@ -155,8 +122,5 @@ const cardStyle = {
       flexDirection: "column",
       padding: "10px",
     },
-    // ".noImageProfile": {
-    //   marginLeft: "120px"
-    // }
   },
 };
