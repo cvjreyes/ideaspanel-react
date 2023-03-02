@@ -2,13 +2,13 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
 import { useContext, useEffect, useState } from "react";
+import { useRoute } from "wouter";
 
 import Button from "../general/Button";
-import Input from "../general/Input";
 import { api } from "../../helpers/api";
 import { AuthContext } from "../../context/AuthContext";
-import { Link, useRoute } from "wouter";
 import Loading from "../general/Loading";
+import SmallCard from "../general/SmallCard";
 
 export default function Profile() {
   const [_, params] = useRoute("/profile/:user_id");
@@ -41,25 +41,24 @@ export default function Profile() {
   return (
     <div css={profileStyle}>
       <h1 className="page_title">{user.name}</h1>
-      <div className="profPicWrapper">
-        <img alt="profile" src={user.profile_pic} />
+      <div className="profileInfo">
+        <div className="profPicWrapper">
+          <img alt="profile" src={user.profile_pic} />
+        </div>
+        <div>
+          <p>{user.email}</p>
+        </div>
+        <div>
+          <Button text="Logout" onClick={logout} width="150px" margin="0 20px" />
+        </div>
       </div>
-      <p>{user.email}</p>
       <div className="draftsWrapper">
         <h3>Drafts ({drafts?.length})</h3>
         <div className="draftsMapWrapper">
-          {drafts?.map((item) => {
-            return (
-              <Link to={`/profile/edit_idea/${item.id}`} key={item.id}>
-                <p>{item.title}</p>
-                <p>{item.description}</p>
-              </Link>
-            );
+          {drafts?.map((item, i) => {
+            return <SmallCard item={item} key={i} />;
           })}
         </div>
-      </div>
-      <div>
-        <Button text="Logout" onClick={logout} width="150px" />
       </div>
     </div>
   );
@@ -70,11 +69,20 @@ const profileStyle = {
   flexDirection: "column",
   textAlign: "center",
   padding: "0 10vw",
-  ".profPicWrapper": {
-    width: "50px",
-    backgroundColor: "#99C6F8",
-    borderRadius: "100px",
-    margin: "0 auto",
+  ".profileInfo": {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    height: "70px",
+    fontStyle: "italic",
+    ".profPicWrapper": {
+      display: "flex",
+      height: "50px",
+      width: "50px",
+      backgroundColor: "#99C6F8",
+      borderRadius: "100px",
+      margin: "0 30px 0 0",
+    },
   },
   ".draftsWrapper": {
     textAlign: "left",
