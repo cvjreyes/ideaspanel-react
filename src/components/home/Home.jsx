@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 import { api } from "../../helpers/api";
 
-import Card from "./card/Card";
+import Card from "../general/Card";
 import Loading from "../general/Loading";
 import NoResults from "./NoResults";
 

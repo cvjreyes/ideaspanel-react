@@ -31,7 +31,7 @@ export default function Card({ item }) {
           <div className="noImageIdea"></div>
         )}
         <div className="boxCard">
-          <p className="bold">{item.title}</p>
+          <p className="title bold">{item.title}</p>
           <p className="description">{item.description}</p>
         </div>
       </div>
@@ -94,6 +94,13 @@ const cardStyle = {
     textOverflow: "ellipsis",
     overflow: "hidden",
     WebkitLineClamp: "7",
+    WebkitBoxOrient: "vertical",
+  },
+  ".title": {
+    display: "-webkit-box",
+    textOverflow: "ellipsis",
+    overflow: "hidden",
+    WebkitLineClamp: "1",
     WebkitBoxOrient: "vertical",
   },
   ".profileBox": {
