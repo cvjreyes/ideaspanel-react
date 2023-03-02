@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 import { api } from "../../helpers/api";
 
-import Card from "./card/Card";
+import Card from "../general/Card";
 import Loading from "../general/Loading";
 import NoResults from "./NoResults";
 
@@ -19,7 +19,7 @@ export default function Home() {
     };
     getData();
   }, []);
-  
+
   return (
     <div css={homeStyle}>
       <h1 className="page_title">Ideas Panel</h1>
@@ -27,12 +27,7 @@ export default function Home() {
         data.length > 0 ? (
           <div className="map">
             {data.map((item, i) => {
-              return (
-                <Card
-                  item={item}
-                  key={i}
-                />
-              );
+              return <Card item={item} key={i} />;
             })}
           </div>
         ) : (
@@ -50,6 +45,6 @@ const homeStyle = {
   ".map": {
     display: "grid",
     justifyContent: "center",
-    gridTemplateColumns: "repeat(auto-fit, minmax(300px, 458px))",
+    gridTemplateColumns: "repeat(auto-fit, minmax(100px, 400px))",
   },
 };

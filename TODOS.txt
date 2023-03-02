@@ -1,5 +1,4 @@
 TODOS:
-- default img on DB when user is created
 - when match on route => navbar link in diff color
 - create readme
 - tabIndex on navbar imgs
@@ -7,10 +6,12 @@ TODOS:
 - ability to change uploaded picture on new post
 - edit profile will be another page
 - edit max text size in new idea and edit idea textarea + show some kind of alert
-- join query in /ideas/get_some to populate user
-- cambiar tinytext en users.description por text
--sombra card home
+- blend en publish
 
 DONE:
+- sombra card home
+- cambiar tinytext en users.description por text
+- join query in /ideas/get_some to populate user
+- default img on DB when user is created
 - redirect when route not found
 - login/signup
