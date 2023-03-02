@@ -1,7 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { api } from "../../helpers/api";
 import ButtonWithImage from "../general/ButtonWithImage";
@@ -10,19 +10,23 @@ import Loading from "../general/Loading";
 import ThumbsUp from "../../assets/images/thumbs-up.png";
 import ThumbsDown from "../../assets/images/thumbs-down.png";
 import { colors } from "../../helpers/colors";
+import { AuthContext } from "../../context/AuthContext";
+import NoResults from "../home/NoResults";
 
 export default function Comittee() {
   const [data, setData] = useState(null);
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     const getOldestUnapprovedIdea = async () => {
-      const { body } = await api("get", "/ideas/to_approve");
+      const { body } = await api("get", `/ideas/to_approve/${user.id}`);
       setData(body);
     };
     getOldestUnapprovedIdea();
   }, []);
 
   if (!data) return <Loading />;
+  if (!(data.length > 0)) return <NoResults />;
 
   return (
     <div css={comitteeStyle}>
