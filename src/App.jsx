@@ -72,7 +72,7 @@ export default function App() {
             <Route path="/comittee">
               {() => <PrivateRoute component={Comittee} />}
             </Route>
-            <Route>{() => <Redirect to="/" />}</Route>
+            <Route>{() => <Redirect to="/ideas_panel" />}</Route>
           </Switch>
         </Router>
         <PrivateRoute component={Footer} />
