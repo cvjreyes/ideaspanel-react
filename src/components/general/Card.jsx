@@ -21,7 +21,6 @@ export default function Card({ item }) {
     (createdDate.getMonth() + 1) +
     "/" +
     createdDate.getFullYear();
-
   return (
     <div css={cardStyle}>
       <div onClick={() => navigate(`/idea/${item.id}`)}>
@@ -87,7 +86,6 @@ const cardStyle = {
   ".boxCard": {
     padding: "30px",
     height: "170px",
-
   },
   ".description": {
     display: "-webkit-box",
