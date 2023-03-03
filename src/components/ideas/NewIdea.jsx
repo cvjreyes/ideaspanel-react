@@ -142,7 +142,6 @@ export default function NewPost() {
         </div>
         <div className="buttonWrapper">
           <ButtonWithImage
-            type="submit"
             text="Save"
             width="150px"
             color="white"

@@ -2,20 +2,26 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
 import { useContext, useEffect, useState } from "react";
+import { useLocation } from "wouter";
 
 import { api } from "../../helpers/api";
+import { colors } from "../../helpers/colors";
+import { AuthContext } from "../../context/AuthContext";
+import { useNotifications } from "reapop";
+
 import ButtonWithImage from "../general/ButtonWithImage";
 import Card from "../general/Card";
 import Loading from "../general/Loading";
 import ThumbsUp from "../../assets/images/thumbs-up.png";
 import ThumbsDown from "../../assets/images/thumbs-down.png";
-import { colors } from "../../helpers/colors";
-import { AuthContext } from "../../context/AuthContext";
 import NoResults from "../home/NoResults";
 
 export default function Comittee() {
   const [data, setData] = useState(null);
   const { user } = useContext(AuthContext);
+
+  const [__, navigate] = useLocation();
+  const { notify } = useNotifications();
 
   useEffect(() => {
     const getOldestUnapprovedIdea = async () => {
@@ -24,6 +30,20 @@ export default function Comittee() {
     };
     getOldestUnapprovedIdea();
   }, []);
+
+  const handleVote = async (e) => {
+    console.log("idea: ", data[0].id);
+    const { ok } = await api("post", "/votes/submit_votes", {
+      idea_id: data[0].id,
+      user_id: user.id,
+      vote: e,
+    });
+    if (!ok) return notify("Something went wrong", "error");
+    notify("Vote successfully done", "success");
+    setTimeout(() => {
+      window.location.reload();
+    }, 2000);
+  };
 
   if (!data) return <Loading />;
   if (!(data.length > 0)) return <NoResults />;
@@ -40,6 +60,7 @@ export default function Comittee() {
             bgHover={colors["red"].backgroundHover}
             width="50px"
             margin="0 50px"
+            onClick={() => handleVote(0)}
             // img
             src={ThumbsDown}
           />
@@ -51,6 +72,7 @@ export default function Comittee() {
             bgHover={colors["green"].backgroundHover}
             width="50px"
             margin="0 50px"
+            onClick={() => handleVote(1)}
             // img
             src={ThumbsUp}
           />
