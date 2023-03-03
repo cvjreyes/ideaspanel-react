@@ -4,7 +4,7 @@ import { jsx } from "@emotion/react";
 import { colors } from "../../helpers/colors";
 import ButtonWithImage from "../general/ButtonWithImage";
 
-export default function Modal({ isOpen, closeModal }) {
+export default function Modal({ isOpen, closeModal, confirm }) {
   if (!isOpen) return false;
   return [
     <div css={modalStyle} key="3">
@@ -18,10 +18,12 @@ export default function Modal({ isOpen, closeModal }) {
           onClick={closeModal}
         />
         <ButtonWithImage
+          type="button"
           text="Yes"
           bgColor={colors["green"].background}
           bgHover={colors["green"].backgroundHover}
           color="white"
+          onClick={confirm}
         />
       </div>
     </div>,

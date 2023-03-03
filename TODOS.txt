@@ -4,6 +4,7 @@ TODOS:
   - hover on links changes color of text + image
 - create single idea view
 - ability to change uploaded picture on new post
+- resize image uploader to smaller size
 - details in card design
 - abstract image component in new idea
 

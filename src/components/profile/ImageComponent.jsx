@@ -3,9 +3,10 @@
 import { jsx } from "@emotion/react";
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
+import { api } from "../../helpers/api";
 import Modal from "../modals/Modal";
 
-export default function ImageComponent({ idea, image }) {
+export default function ImageComponent({ idea, image, setImage }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const onDrop = useCallback((files) => {
@@ -24,6 +25,11 @@ export default function ImageComponent({ idea, image }) {
 
   const handleDeleteImage = () => {
     setIsModalOpen(true);
+  };
+
+  const deleteImg = async () => {
+    const { ok, body } = await api("delete", `/ideas/delete_img/${idea.id}`);
+    console.log(ok, body);
   };
 
   if (idea.image)
@@ -45,6 +51,7 @@ export default function ImageComponent({ idea, image }) {
         key="2"
         isOpen={isModalOpen}
         closeModal={() => setIsModalOpen(false)}
+        confirm={deleteImg}
       />,
     ];
 
