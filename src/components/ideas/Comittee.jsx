@@ -51,8 +51,15 @@ export default function Comittee() {
 
   return (
     <div css={comitteeStyle}>
-      <h1 className="page_title">Comittee</h1>
-      <Button text="Manage Comittee" width="200px" className="manageComitteeButton" onClick={() => navigate("/comittee/manage")}/>
+      <div>
+        <h1 className="page_title">Comittee</h1>
+        <Button
+          text="Manage Comittee"
+          width="200px"
+          className="manageComitteeButton"
+          onClick={() => navigate("/comittee/manage")}
+        />
+      </div>
       <Card item={{ ...data[0], anonymous: true }} />
       <div className="boxVotes">
         <div>
@@ -96,8 +103,8 @@ const comitteeStyle = {
   },
   ".manageComitteeButton": {
     display: "flex",
-    alignSelf:"flex-end",
+    alignSelf: "flex-end",
     textAlign: "center",
-    margin:"0 200px"
-  }
+    margin: "0 200px",
+  },
 };
