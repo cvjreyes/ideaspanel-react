@@ -24,6 +24,7 @@ export default function Navbar() {
         </Link>
       </div>
       <div className="right">
+        <span>{user.name}</span>
         <Link to={`/ideas_panel/profile/${user.id}`}>
           <img
             tabIndex={0}
@@ -48,6 +49,9 @@ const navbarStyle = {
   padding: "0 5vw",
   position: "fixed",
   top: 0,
+  span: {
+    color: "white",
+  },
   a: {
     color: "white",
     transition: "color 0.2s ease-in-out",
