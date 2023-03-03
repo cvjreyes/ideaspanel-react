@@ -10,6 +10,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { useNotifications } from "reapop";
 
 import ButtonWithImage from "../general/ButtonWithImage";
+import Button from "../general/Button";
 import Card from "../general/Card";
 import Loading from "../general/Loading";
 import ThumbsUp from "../../assets/images/thumbs-up.png";
@@ -51,6 +52,7 @@ export default function Comittee() {
   return (
     <div css={comitteeStyle}>
       <h1 className="page_title">Comittee</h1>
+      <Button text="Manage Comittee" width="200px" className="manageComitteeButton" onClick={() => navigate("/comittee/manage")}/>
       <Card item={{ ...data[0], anonymous: true }} />
       <div className="boxVotes">
         <div>
@@ -85,11 +87,17 @@ export default function Comittee() {
 const comitteeStyle = {
   display: "flex",
   flexDirection: "column",
-  minHeight: "calc(100vh - 50px)",
+  minHeight: "calc(90vh - 50px)",
   width: "100%",
   alignItems: "center",
   ".boxVotes": {
     display: "grid",
     gridTemplateColumns: "repeat(2, 1fr)",
   },
+  ".manageComitteeButton": {
+    display: "flex",
+    alignSelf:"flex-end",
+    textAlign: "center",
+    margin:"0 200px"
+  }
 };

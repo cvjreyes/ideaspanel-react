@@ -15,7 +15,7 @@ export default function Footer() {
 const footerStyle = {
   display: "flex",
   justifyContent: "center",
-  margin: "50px 0",
+  margin: "50px 0 0",
   ".technipLogo": {
     width: "120px",
   },
