@@ -71,7 +71,7 @@ const cardStyle = {
   background: "white",
   margin: "50px",
   minHeight: "500px",
-  minWidth: "350px",
+  width: "350px",
   cursor: "pointer",
   boxShadow: "0 10px 10px -1px rgb(133, 133, 133)",
   img: {
