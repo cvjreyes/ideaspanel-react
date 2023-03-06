@@ -32,13 +32,10 @@ export default function ManageComittee() {
 
   const filter = () => {
     if (!filterData) return setDisplayUsers([...users]);
-    console.log("filterData: ", filterData);
     let tempUsers = [...users];
-    console.log("Antes: ", tempUsers);
     tempUsers = tempUsers.filter((x) =>
       x.email.toLowerCase().includes(filterData.toLowerCase())
     );
-    console.log("tempUsers: ", tempUsers);
     setDisplayUsers(tempUsers);
   };
 
