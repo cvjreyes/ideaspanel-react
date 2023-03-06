@@ -6,12 +6,16 @@ export default function Input({
   id,
   name,
   value,
+  defaultValue,
   type,
   onChange,
   className,
   placeholder,
   margin,
   width,
+  onFocus,
+  onKeyDown,
+  onBlur,
 }) {
   const InputStyle = {
     height: "40px",
@@ -27,10 +31,14 @@ export default function Input({
       id={id}
       name={name}
       value={value}
+      defaultValue={defaultValue}
       type={type}
       onChange={onChange}
       className={className}
       placeholder={placeholder}
+      onFocus={onFocus}
+      onKeyDown={onKeyDown}
+      onBlur={onBlur}
     />
   );
 }
