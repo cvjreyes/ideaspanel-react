@@ -58,7 +58,8 @@ export default function ManageComittee() {
         <div className="columnsBox bold">
           <div className="flexCenter">
             <Input
-              width="100%"
+              width="90%"
+              
               onChange={(e) => setFilterData(e.target.value)}
               defaultValue="Search Email"
               onFocus={(e) => {

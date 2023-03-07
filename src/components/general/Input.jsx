@@ -22,6 +22,7 @@ export default function Input({
     border: "1px solid #D2D2D2",
     borderRadius: "6px",
     padding: "5px",
+    textAlign:"center",
     margin,
     width,
   };
