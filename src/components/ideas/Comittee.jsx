@@ -10,6 +10,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { useNotifications } from "reapop";
 
 import ButtonWithImage from "../general/ButtonWithImage";
+import Button from "../general/Button";
 import Card from "../general/Card";
 import Loading from "../general/Loading";
 import ThumbsUp from "../../assets/images/thumbs-up.png";
@@ -18,8 +19,9 @@ import NoResults from "../home/NoResults";
 
 export default function Comittee() {
   const [data, setData] = useState(null);
-  const { user } = useContext(AuthContext);
+  const [actualUser, setActualUser] = useState(null);
 
+  const { user } = useContext(AuthContext);
   const [__, navigate] = useLocation();
   const { notify } = useNotifications();
 
@@ -28,6 +30,11 @@ export default function Comittee() {
       const { body } = await api("get", `/ideas/to_approve/${user.id}`);
       setData(body);
     };
+    const getActualUser = async () => {
+      const { body } = await api("get", `/users/profile/${user.id}`);
+      setActualUser(body);
+    };
+    getActualUser();
     getOldestUnapprovedIdea();
   }, []);
 
@@ -50,7 +57,22 @@ export default function Comittee() {
 
   return (
     <div css={comitteeStyle}>
-      <h1 className="page_title">Comittee</h1>
+      <div className="boxTop">
+        <div></div>
+        <h1 className="page_title">Comittee</h1>
+        {actualUser.isAdmin ? (
+          <Button
+            text="Manage Comittee"
+            className="manageComitteeButton"
+            onClick={() => navigate("/comittee/manage")}
+            bgColor={colors["blue"].background}
+            bgHover={colors["blue"].backgroundHover}
+            color="white"
+          />
+        ) : (
+          <div></div>
+        )}
+      </div>
       <Card item={{ ...data[0], anonymous: true }} />
       <div className="boxVotes">
         <div>
@@ -85,11 +107,21 @@ export default function Comittee() {
 const comitteeStyle = {
   display: "flex",
   flexDirection: "column",
-  minHeight: "calc(100vh - 50px)",
+  minHeight: "calc(90vh - 50px)",
   width: "100%",
   alignItems: "center",
+  ".boxTop": {
+    display: "grid",
+    gridTemplateColumns: "repeat(3, 1fr)",
+    width: "100%",
+  },
   ".boxVotes": {
     display: "grid",
     gridTemplateColumns: "repeat(2, 1fr)",
+  },
+  ".manageComitteeButton": {
+    display: "flex",
+    alignSelf: "flex-end",
+    width: "190px",
   },
 };
