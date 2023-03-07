@@ -12,7 +12,7 @@ import saveImg from "../../assets/images/save.svg";
 import { api } from "../../helpers/api";
 
 export default function NewPost() {
-  const [location, navigate] = useLocation();
+  const [_, navigate] = useLocation();
 
   const { notify } = useNotifications();
 
