@@ -1,8 +1,11 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNotifications } from "reapop";
+import { useLocation } from "wouter";
+
+import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../helpers/api";
 
 import Checkbox from "../general/Checkbox";
@@ -15,6 +18,8 @@ export default function ManageComittee() {
   const [displayUsers, setDisplayUsers] = useState(null);
   const [filterData, setFilterData] = useState("");
 
+  const { user } = useContext(AuthContext);
+  const [__, navigate] = useLocation();
   const { notify } = useNotifications();
 
   useEffect(() => {
@@ -24,6 +29,14 @@ export default function ManageComittee() {
       setDisplayUsers(body);
     };
     getAllUsers();
+  }, []);
+
+  
+  useEffect(() => {
+    const checkAdmin = () => {
+      if (!user.isAdmin) return navigate("/comittee");
+    };
+    checkAdmin();
   }, []);
 
   useEffect(() => {
@@ -59,7 +72,7 @@ export default function ManageComittee() {
           <div className="flexCenter">
             <Input
               width="90%"
-              
+
               onChange={(e) => setFilterData(e.target.value)}
               defaultValue="Search Email"
               onFocus={(e) => {

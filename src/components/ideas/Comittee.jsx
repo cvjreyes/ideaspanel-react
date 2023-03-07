@@ -19,7 +19,7 @@ import NoResults from "../home/NoResults";
 
 export default function Comittee() {
   const [data, setData] = useState(null);
-  const [actualUser, setActualUser] = useState(null)
+  const [actualUser, setActualUser] = useState(null);
 
   const { user } = useContext(AuthContext);
   const [__, navigate] = useLocation();
@@ -34,7 +34,7 @@ export default function Comittee() {
       const { body } = await api("get", `/users/profile/${user.id}`);
       setActualUser(body);
     };
-    getActualUser()
+    getActualUser();
     getOldestUnapprovedIdea();
   }, []);
 
