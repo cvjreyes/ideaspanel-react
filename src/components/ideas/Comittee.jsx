@@ -16,6 +16,7 @@ import Loading from "../general/Loading";
 import ThumbsUp from "../../assets/images/thumbs-up.png";
 import ThumbsDown from "../../assets/images/thumbs-down.png";
 import NoResults from "../home/NoResults";
+import NoComittee from "./NoComittee";
 
 export default function Comittee() {
   const [data, setData] = useState(null);
@@ -54,6 +55,7 @@ export default function Comittee() {
 
   if (!data) return <Loading />;
   if (!(data.length > 0)) return <NoResults />;
+  if (!user.isComitee) return <NoComittee />;
 
   return (
     <div css={comitteeStyle}>
