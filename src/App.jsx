@@ -19,6 +19,7 @@ import Navbar from "./components/nav/Navbar";
 import NewIdea from "./components/ideas/NewIdea";
 import Footer from "./components/nav/Footer";
 import Comittee from "./components/ideas/Comittee";
+import ManageComittee from "./components/ideas/ManageComittee";
 import EditIdea from "./components/profile/EditIdea";
 import Idea from "./components/idea/Idea";
 
@@ -71,6 +72,9 @@ export default function App() {
             </Route>
             <Route path="/comittee">
               {() => <PrivateRoute component={Comittee} />}
+            </Route>
+            <Route path="/comittee/manage">
+              {() => <PrivateRoute component={ManageComittee} />}
             </Route>
             <Route>{() => <Redirect to="/ideas_panel" />}</Route>
           </Switch>
