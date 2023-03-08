@@ -31,7 +31,6 @@ export default function ManageComittee() {
     getAllUsers();
   }, []);
 
-  
   useEffect(() => {
     const checkAdmin = () => {
       if (!user.isAdmin) return navigate("/comittee");

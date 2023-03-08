@@ -54,15 +54,13 @@ export default function Comittee() {
   };
 
   if (!data) return <Loading />;
-  if (!(data.length > 0)) return <NoResults />;
-  if (!user.isComitee) return <NoComittee />;
 
   return (
     <div css={comitteeStyle}>
       <div className="boxTop">
         <div></div>
         <h1 className="page_title">Comittee</h1>
-        {actualUser.isAdmin ? (
+        {actualUser.isAdmin && (
           <Button
             text="Manage Comittee"
             className="manageComitteeButton"
@@ -71,37 +69,43 @@ export default function Comittee() {
             bgHover={colors["blue"].backgroundHover}
             color="white"
           />
-        ) : (
-          <div></div>
         )}
       </div>
-      <Card item={{ ...data[0], anonymous: true }} />
-      <div className="boxVotes">
-        <div>
-          <ButtonWithImage
-            type="button"
-            bgColor={colors["red"].background}
-            bgHover={colors["red"].backgroundHover}
-            width="50px"
-            margin="0 50px"
-            onClick={() => handleVote(0)}
-            // img
-            src={ThumbsDown}
-          />
-        </div>
-        <div>
-          <ButtonWithImage
-            type="button"
-            bgColor={colors["green"].background}
-            bgHover={colors["green"].backgroundHover}
-            width="50px"
-            margin="0 50px"
-            onClick={() => handleVote(1)}
-            // img
-            src={ThumbsUp}
-          />
-        </div>
-      </div>
+      {(data.length > 0) ? (
+        user.isComitee ? (
+          <div>
+            <Card item={{ ...data[0], anonymous: true }} />
+            <div className="boxVotes">
+              <div className="flexCenter">
+                <ButtonWithImage
+                  type="button"
+                  bgColor={colors["red"].background}
+                  bgHover={colors["red"].backgroundHover}
+                  width="50px"
+                  onClick={() => handleVote(0)}
+                  // img
+                  src={ThumbsDown}
+                />
+              </div>
+              <div className="flexCenter">
+                <ButtonWithImage
+                  type="button"
+                  bgColor={colors["green"].background}
+                  bgHover={colors["green"].backgroundHover}
+                  width="50px"
+                  onClick={() => handleVote(1)}
+                  // img
+                  src={ThumbsUp}
+                />
+              </div>
+            </div>
+          </div>
+        ) : (
+          <NoComittee />
+        )
+      ) : (
+        <NoResults />
+      )}
     </div>
   );
 }
