@@ -94,7 +94,7 @@ const profileStyle = {
     textAlign: "left",
     ".draftsMapWrapper": {
       display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(200px, 250px))",
+      gridTemplateColumns: "repeat(auto-fit, minmax(200px, 240px))",
       width: "50vw",
       marginTop: "20px",
     },

@@ -54,6 +54,10 @@ img {
   font-weight: bold;
 }
 
+.semiBold {
+  font-weight: 600;
+}
+
 .italic {
   font-style: italic;
 }
@@ -62,6 +66,16 @@ img {
   font-size: small;
 }
 
+.medium {
+  font-size: 12px;
+}
+
+.cutLines {
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+}
 
 .red {
   color: red

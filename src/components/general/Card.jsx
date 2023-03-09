@@ -24,40 +24,39 @@ export default function Card({ item }) {
   return (
     <div css={cardStyle}>
       <div onClick={() => navigate(`/idea/${item.id}`)}>
-        {item.image ? (
-          <img src={item.image} alt="idea" />
-        ) : (
-          <div className="noImageIdea"></div>
-        )}
+        <img
+          src={item.image || "http://localhost:5026/images/no_image.jpg"}
+          alt="idea"
+          className="ideaImage"
+        />
         <div className="boxCard">
-          <p className="title bold">{item.title}</p>
-          <p className="description">{item.description}</p>
+          <p className="title cutLines bold">{item.title}</p>
+          <p className="description cutLines">{item.description}</p>
         </div>
       </div>
       <div
         className="profileBox"
         onClick={() => !item.anonymous && navigate(`/profile/${item.user_id}`)}
       >
-        <div>
-          <img
-            src={
-              !item.anonymous
-                ? item.profile_pic
-                : "http://localhost:5026/images/default.png"
-            }
-            alt="profile"
-            className="profileImage"
-          />
-        </div>
+        <img
+          src={
+            !item.anonymous
+              ? item.profile_pic
+              : "http://localhost:5026/images/default.png"
+          }
+          alt="profile"
+        />
         <div className="infoProfile">
-          <span className="bold">
+          <span className="semiBold italic medium">
             {!item.anonymous ? item.name : "Anonymous"}
           </span>
-          <span className="date">{displayDate}</span>
+          <span className="date italic medium">{displayDate}</span>
           {daysPassed != 0 ? (
-            <span className="bold">{daysPassed} day/s ago</span>
+            <span className="semiBold italic medium">
+              {daysPassed} day/s ago
+            </span>
           ) : (
-            <span className="bold">Today</span>
+            <span className="semiBold italic medium">Today</span>
           )}
         </div>
       </div>
@@ -69,9 +68,8 @@ const cardStyle = {
   borderRadius: "20px",
   border: "0 solid black",
   background: "white",
-  margin: "50px",
-  minHeight: "500px",
-  width: "350px",
+  margin: "0 50px 50px 0",
+  lineHeight: "1.5rem",
   cursor: "pointer",
   boxShadow: "8px 8px 17px #e4e5da, -8px -8px 17px #ffffff",
   transition: "all 200ms linear",
@@ -81,62 +79,44 @@ const cardStyle = {
     boxShadow: "12px 12px 24px #e4e5da, -12px -12px 24px #ffffff",
     top: -5,
   },
-  img: {
-    borderRadius: "20px 20px 0 0",
+  ".ideaImage": {
     objectFit: "cover",
     width: "100%",
     height: "200px",
-  },
-  ".noImageIdea": {
-    height: "200px",
+    borderRadius: "20px 20px 0 0",
   },
   ".boxCard": {
     padding: "30px",
     height: "170px",
-  },
-  ".description": {
-    display: "-webkit-box",
-    textOverflow: "ellipsis",
-    overflow: "hidden",
-    WebkitLineClamp: "7",
-    WebkitBoxOrient: "vertical",
-  },
-  ".title": {
-    display: "-webkit-box",
-    textOverflow: "ellipsis",
-    overflow: "hidden",
-    WebkitLineClamp: "1",
-    WebkitBoxOrient: "vertical",
+    ".title": {
+      WebkitLineClamp: 1,
+    },
+    ".description": {
+      WebkitLineClamp: 5,
+    },
   },
   ".profileBox": {
+    margin: "20px",
     padding: "10px",
-    minHeight: "10vh",
-    width: "330px",
     display: "flex",
     alignItems: "center",
-    margin: "10px",
-    fontStyle: "italic",
-    ".infoProfile": {
-      display: "flex",
-      flexDirection: "column",
-      marginLeft: "10px",
+    ":hover": {
+      borderRadius: "10px",
+      background: "linear-gradient(300deg, #f9f9f9, #ffffff)",
     },
-    ".profileImage": {
+    img: {
       width: "60px",
       height: "60px",
       padding: "10px",
       backgroundColor: "#99C6F8",
       borderRadius: "100px",
+      objectFit: "cover",
     },
-    ":hover": {
-      borderRadius: "10px",
-      background: "linear-gradient(300deg, #f9f9f9, #ffffff)",
-    },
-    ".line": {
+    ".infoProfile": {
       display: "flex",
-      alignItems: "center",
       flexDirection: "column",
-      padding: "10px",
+      marginLeft: "10px",
+      lineHeight: "1.2rem",
     },
   },
 };

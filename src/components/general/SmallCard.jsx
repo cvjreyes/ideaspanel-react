@@ -20,11 +20,10 @@ export default function SmallCard({ item }) {
       onClick={() => navigate(`/profile/edit_idea/${item.id}`)}
       className="pointer"
     >
-      {item.image ? (
-        <img src={item.image} alt="idea" />
-      ) : (
-        <div className="noImageIdea" />
-      )}
+      <img
+        src={item.image || "http://localhost:5026/images/no_image.jpg"}
+        alt="idea"
+      />
       <div className="boxCard">
         <p className="title bold">{item.title}</p>
         <p className="description">{item.description}</p>
@@ -37,7 +36,8 @@ export default function SmallCard({ item }) {
 const cardStyle = {
   borderRadius: "20px",
   background: "white",
-  margin: "0 50px 50px 0",
+  margin: "0 30px 30px 0",
+  minHeight: "233px",
   boxShadow: "8px 8px 17px #e4e5da, -8px -8px 17px #ffffff",
   transition: "all 200ms linear",
   top: 0,
@@ -50,9 +50,6 @@ const cardStyle = {
     borderRadius: "20px 20px 0 0",
     objectFit: "cover",
     width: "100%",
-    height: "130px",
-  },
-  ".noImageIdea": {
     height: "130px",
   },
   ".boxCard": {
