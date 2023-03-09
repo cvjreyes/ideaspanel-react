@@ -162,12 +162,12 @@ export default function NewPost() {
 }
 
 const newIdeaStyle = {
-  minHeight: "calc(100vh - 50px)",
+  minHeight: "calc(70vh - 50px)",
   form: {
     display: "grid",
     gridTemplateColumns: "repeat(2, 1fr)",
     padding: "50px 10vw 0",
-    minHeight: "calc(90vh - 130px)",
+    minHeight: "calc(80vh - 130px)",
     margin: "50px 0 0",
     ".left": {
       display: "flex",
