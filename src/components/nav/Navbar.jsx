@@ -24,8 +24,8 @@ export default function Navbar() {
         </Link>
       </div>
       <div className="right">
-        <span>{user.name}</span>
-        <Link to={`/ideas_panel/profile/${user.id}`}>
+        <Link to={`/ideas_panel/profile/${user.id}`} className="flexCenter">
+          <span>{user.name}</span>
           <img
             tabIndex={0}
             className="pointer invert"
@@ -76,7 +76,7 @@ const navbarStyle = {
     },
   },
   ".right": {
-    display: "flex",
-    alignItems: "center",
+    // display: "flex",
+    // alignItems: "center",
   },
 };
