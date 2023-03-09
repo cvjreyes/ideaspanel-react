@@ -41,6 +41,15 @@ img {
   display: none;
 }
 
+.active {
+  color: lightgray !important
+}
+
+.active img {
+  filter: invert(70%);
+  -webkit-filter: invert(70%);
+}
+
 .bold {
   font-weight: bold;
 }
@@ -48,6 +57,7 @@ img {
 .small {
   font-size: small;
 }
+
 
 .red {
   color: red
