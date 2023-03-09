@@ -59,12 +59,14 @@ const CommentSectionStyle = {
     flexDirection: "row",
     width: "100%",
     justifyContent: "center",
+    alignItems:"center",
     ".info": {
       width: "70%",
     },
     ".imageVotes": {
       display: "flex",
       flexDirection: "row",
+      height:"50px"
     },
   },
 };

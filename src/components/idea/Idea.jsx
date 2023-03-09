@@ -19,7 +19,7 @@ export default function Idea() {
   const [newComment, setNewComment] = useState("");
   const [comments, setComments] = useState([
     {
-      text: "primer comentario",
+      text: "primer comentario primer comentario primer comentario primer comentario primer comentario ",
       user: "Sean Saez Fuller",
       like: true,
       numVotosPositivos: 5,
