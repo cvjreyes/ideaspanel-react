@@ -33,13 +33,11 @@ const addCommentSectionStyles = {
   boxShadow: "0px 10px 10px 10px rgb(133, 133, 133)",
   borderRadius: "10px",
   padding: "20px",
-  marginBottom: "20px",
+  margin: "20px 0",
   width: "37vw",
   minWidth: "300px",
   ".list_comments": {
     listStyle: "none",
-    padding: "0",
-    margin: "0",
   },
   ".comment": {
     backgroundColor: "#f9f9f9",

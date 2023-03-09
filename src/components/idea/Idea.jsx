@@ -67,7 +67,7 @@ export default function Idea() {
     <div css={ideaStyle}>
       <h1 className="page_title">Idea</h1>
       <form>
-        <div className="infoIdea">
+        <div className="left">
           <div className="info bold">{idea.title}</div>
           <div className="info">
             <i>{idea.description}</i>
@@ -75,21 +75,18 @@ export default function Idea() {
           <div className="image">
             {idea.image && <img src={idea.image} alt="IdeaImage" />}
           </div>
-        </div>
-        <div className="commentsWrapper">
-          <div>
-            <b>Comments: </b>
-          </div>
-          <CommentSection comments={comments} />
-        </div>
-        <div></div>
-        <div className="addCommentsWrapper">
           <AddCommentSection
             comments={comments}
             newComment={newComment}
             setNewComment={setNewComment}
             handleAddComment={handleAddComment}
           />
+        </div>
+        <div className="right">
+          <div>
+            <b>Comments: </b>
+          </div>
+          <CommentSection comments={comments} />
         </div>
       </form>
     </div>
@@ -103,7 +100,7 @@ const ideaStyle = {
     gridTemplateColumns: "repeat(2, 1fr)",
     padding: "50px 10vw 0",
     minHeight: "calc(80vh - 130px)",
-    ".infoIdea": {
+    ".left": {
       minWidth: "310px",
       display: "flex",
       flexDirection: "column",
@@ -120,15 +117,10 @@ const ideaStyle = {
         width: "250px",
       },
     },
-    ".commentsWrapper": {
+    ".right": {
       display: "flex",
       flexDirection: "column",
       padding: "10px",
-    },
-    ".addCommentsWrapper": {
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
     },
   },
 };

@@ -36,15 +36,6 @@ export default function CommentSection({ comments }) {
 }
 
 const CommentSectionStyle = {
-  overflowY: "auto",
-  height: "40vh",
-  /* Hide scrollbar for IE, Edge and Firefox */
-  msOverflowStyle: "none" /* IE and Edge */,
-  scrollbarWidth: "none" /* Firefox */,
-  /* Hide scrollbar for Chrome, Safari and Opera */
-  "::-webkit-scrollbar": {
-    display: "none",
-  },
   margin: "10px 10px 30px 0",
   padding: "10px",
   borderRadius: "10px",
@@ -59,14 +50,14 @@ const CommentSectionStyle = {
     flexDirection: "row",
     width: "100%",
     justifyContent: "center",
-    alignItems:"center",
+    alignItems: "center",
     ".info": {
       width: "70%",
     },
     ".imageVotes": {
       display: "flex",
       flexDirection: "row",
-      height:"50px"
+      height: "50px",
     },
   },
 };
