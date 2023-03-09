@@ -2,7 +2,7 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
 import { useDropzone } from "react-dropzone";
-import { useCallback, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import Switch from "react-switch";
 import { useLocation } from "wouter";
 import { useNotifications } from "reapop";
@@ -10,11 +10,12 @@ import { useNotifications } from "reapop";
 import ButtonWithImage from "../general/ButtonWithImage";
 import saveImg from "../../assets/images/save.svg";
 import { api } from "../../helpers/api";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function NewPost() {
-  const [_, navigate] = useLocation();
-
+  const [__, navigate] = useLocation();
   const { notify } = useNotifications();
+  const { user } = useContext(AuthContext);
 
   const [form, setForm] = useState({
     title: "",
@@ -62,9 +63,9 @@ export default function NewPost() {
       if (!ok2) return notify("Something went wrong", "error");
     }
     setTimeout(() => {
-      navigate("/");
+      navigate(`/profile/${user.id}`);
     }, 2000);
-    return notify("Idea added successfully! Redirecting you home", "success");
+    return notify("Idea added successfully! Redirecting your profile", "success");
   };
 
   return (

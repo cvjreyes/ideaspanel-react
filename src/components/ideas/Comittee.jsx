@@ -16,6 +16,7 @@ import Loading from "../general/Loading";
 import ThumbsUp from "../../assets/images/thumbs-up.png";
 import ThumbsDown from "../../assets/images/thumbs-down.png";
 import NoResults from "../home/NoResults";
+import NoComittee from "./NoComittee";
 
 export default function Comittee() {
   const [data, setData] = useState(null);
@@ -69,32 +70,38 @@ export default function Comittee() {
           />
         )}
       </div>
-      {data.length > 0 ? (
-        [
-          <Card item={{ ...data[0], anonymous: true }} key="1" />,
-          <div className="boxVotes" key="2">
-            <ButtonWithImage
-              type="button"
-              bgColor={colors["red"].background}
-              bgHover={colors["red"].backgroundHover}
-              width="50px"
-              margin="0 50px"
-              onClick={() => handleVote(0)}
-              // img
-              src={ThumbsDown}
-            />
-            <ButtonWithImage
-              type="button"
-              bgColor={colors["green"].background}
-              bgHover={colors["green"].backgroundHover}
-              width="50px"
-              margin="0 50px"
-              onClick={() => handleVote(1)}
-              // img
-              src={ThumbsUp}
-            />
-          </div>,
-        ]
+      {(data.length > 0) ? (
+        user.isComitee ? (
+          <div>
+            <Card item={{ ...data[0], anonymous: true }} />
+            <div className="boxVotes">
+              <div className="flexCenter">
+                <ButtonWithImage
+                  type="button"
+                  bgColor={colors["red"].background}
+                  bgHover={colors["red"].backgroundHover}
+                  width="50px"
+                  onClick={() => handleVote(0)}
+                  // img
+                  src={ThumbsDown}
+                />
+              </div>
+              <div className="flexCenter">
+                <ButtonWithImage
+                  type="button"
+                  bgColor={colors["green"].background}
+                  bgHover={colors["green"].backgroundHover}
+                  width="50px"
+                  onClick={() => handleVote(1)}
+                  // img
+                  src={ThumbsUp}
+                />
+              </div>
+            </div>
+          </div>
+        ) : (
+          <NoComittee />
+        )
       ) : (
         <NoResults />
       )}
