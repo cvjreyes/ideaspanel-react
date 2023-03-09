@@ -42,7 +42,7 @@ export default function EditIdea() {
     e && e.preventDefault();
     if (!idea.title || !idea.description)
       return notify("Please, fill all fields", "error");
-    const { ok: ok1, body: insertId } = await api("post", "/ideas/update", {
+    const { ok: ok1 } = await api("post", "/ideas/update", {
       form: idea,
       publish,
     });
