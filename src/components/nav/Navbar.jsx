@@ -2,19 +2,35 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
 import { useContext } from "react";
-import { Link } from "wouter";
+import { Link, useRoute } from "wouter";
 
 import { AuthContext } from "../../context/AuthContext";
 
 export default function Navbar() {
   const { user } = useContext(AuthContext);
 
+  const [isHomeActive] = useRoute("/ideas_panel/");
+  const [isComitteeActive] = useRoute("/ideas_panel/comittee");
+  const [isComitteeActive2] = useRoute("/ideas_panel/comittee/manage");
+  const [isNewIdeaActive] = useRoute("/ideas_panel/new_idea");
+  const [isProfileActive] = useRoute("/ideas_panel/profile/:id");
+
   return (
     <div css={navbarStyle}>
       <div className="left">
-        <Link to="/ideas_panel/">Home</Link>
-        <Link to="/ideas_panel/comittee">Comittee</Link>
-        <Link to="/ideas_panel/new_idea" className="flexCenter">
+        <Link to="/ideas_panel/" className={isHomeActive ? "active" : ""}>
+          Home
+        </Link>
+        <Link
+          to="/ideas_panel/comittee"
+          className={isComitteeActive || isComitteeActive2 ? "active" : ""}
+        >
+          Comittee
+        </Link>
+        <Link
+          to="/ideas_panel/new_idea"
+          className={`flexCenter ${isNewIdeaActive ? "active" : ""}`}
+        >
           New Idea
           <img
             alt="new"
@@ -24,8 +40,11 @@ export default function Navbar() {
         </Link>
       </div>
       <div className="right">
-        <Link to={`/ideas_panel/profile/${user.id}`} className="flexCenter">
-          <span>{user.name}</span>
+        <Link
+          to={`/ideas_panel/profile/${user.id}`}
+          className={`flexCenter ${isProfileActive ? "active" : ""}`}
+        >
+          {user.name}
           <img
             tabIndex={0}
             className="pointer invert"
@@ -57,6 +76,10 @@ const navbarStyle = {
     transition: "color 0.2s ease-in-out",
     ":hover": {
       color: "lightgray",
+      img: {
+        filter: "invert(70%)",
+        webkitFilter: "invert(70%)",
+      },
     },
   },
   img: {
