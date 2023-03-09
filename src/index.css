@@ -54,6 +54,10 @@ img {
   font-weight: bold;
 }
 
+.italic {
+  font-style: italic;
+}
+
 .small {
   font-size: small;
 }

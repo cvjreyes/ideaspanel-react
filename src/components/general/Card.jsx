@@ -66,16 +66,23 @@ export default function Card({ item }) {
 }
 
 const cardStyle = {
-  borderRadius: "40px",
+  borderRadius: "20px",
   border: "0 solid black",
   background: "white",
   margin: "50px",
   minHeight: "500px",
   width: "350px",
   cursor: "pointer",
-  boxShadow: "0 10px 10px -1px rgb(133, 133, 133)",
+  boxShadow: "8px 8px 17px #e4e5da, -8px -8px 17px #ffffff",
+  transition: "all 200ms linear",
+  top: 0,
+  position: "relative",
+  ":hover": {
+    boxShadow: "12px 12px 24px #e4e5da, -12px -12px 24px #ffffff",
+    top: -5,
+  },
   img: {
-    borderRadius: "10% 10% 0 0",
+    borderRadius: "20px 20px 0 0",
     objectFit: "cover",
     width: "100%",
     height: "200px",
@@ -115,13 +122,15 @@ const cardStyle = {
       marginLeft: "10px",
     },
     ".profileImage": {
+      width: "60px",
       height: "60px",
-      background: "linear-gradient(300deg, #e6e6e6, #ffffff)",
-      borderRadius: "50%",
+      padding: "10px",
+      backgroundColor: "#99C6F8",
+      borderRadius: "100px",
     },
     ":hover": {
       borderRadius: "10px",
-      background: "linear-gradient(300deg, #e6e6e6, #ffffff)",
+      background: "linear-gradient(300deg, #f9f9f9, #ffffff)",
     },
     ".line": {
       display: "flex",
