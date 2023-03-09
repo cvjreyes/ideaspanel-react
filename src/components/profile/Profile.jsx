@@ -14,7 +14,6 @@ export default function Profile() {
   const [_, params] = useRoute("/profile/:user_id");
   const { user, logout } = useContext(AuthContext);
   const [profile, setProfile] = useState(null);
-  const [ideas, setIdeas] = useState([]);
   const [drafts, setDrafts] = useState(null);
 
   useEffect(() => {
@@ -40,14 +39,14 @@ export default function Profile() {
   if (!profile) return <Loading />;
   return (
     <div css={profileStyle}>
-      <h1 className="page_title">{user.name}</h1>
-      <div className="profileInfo">
+      <div className="headWrapper">
         <div className="profPicWrapper">
           <img alt="profile" src={user.profile_pic} />
         </div>
-        <div>
-          <p>{user.email}</p>
-        </div>
+        <h1 className="page_title">{user.name}</h1>
+        <p>{user.email}</p>
+      </div>
+      <div>
         <div>
           <Button
             color="white"
@@ -77,27 +76,27 @@ const profileStyle = {
   flexDirection: "column",
   textAlign: "center",
   padding: "0 10vw",
-  ".profileInfo": {
+  ".headWrapper": {
+    marginTop: "100px",
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "column",
     alignItems: "center",
-    height: "70px",
-    fontStyle: "italic",
+    h1: { margin: "10px 0" },
     ".profPicWrapper": {
       display: "flex",
       height: "50px",
       width: "50px",
       backgroundColor: "#99C6F8",
       borderRadius: "100px",
-      margin: "0 30px 0 0",
     },
   },
   ".draftsWrapper": {
     textAlign: "left",
     ".draftsMapWrapper": {
       display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(200px, 300px))",
+      gridTemplateColumns: "repeat(auto-fit, minmax(200px, 240px))",
       width: "50vw",
+      marginTop: "20px",
     },
   },
 };
