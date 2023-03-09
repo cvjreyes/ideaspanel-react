@@ -15,7 +15,6 @@ export default function Idea() {
   const [idea, setIdea] = useState({
     title: "",
     description: "",
-    anonymous: false,
   });
 
   useEffect(() => {
@@ -31,20 +30,27 @@ export default function Idea() {
       <h1 className="page_title">Idea</h1>
       <form>
         <div className="left">
-          <input readOnly placeholder="Title" value={idea.title} name="title" />
-          <textarea
-            readOnly
-            placeholder="Describe your idea"
-            value={idea.description}
-            name="description"
-          ></textarea>
+          {/* <input readOnly placeholder="Title" value={idea.title} name="title" /> */}
+          <div className="info">
+            <b>Title: </b>
+            {idea.title}
+          </div>
+          <div className="info">
+            <b>Description: </b>
+            {idea.description}
+          </div>
         </div>
         <div className="right">
-          <img src={idea.image} alt="IdeaImage" />
+          {idea.image && <img src={idea.image} alt="IdeaImage" />}
         </div>
-        <div className="buttonWrapper">
+        <div className="bold">Comments:</div>
+        <div className="commentsWrapper">
+          <textarea
+            placeholder="Write your comment"
+            name="comment"
+          ></textarea>
           <Button
-            text="Home"
+            text="Save"
             color="white"
             fontWeight="600"
             textMargin="0 0 0 5px"
@@ -70,32 +76,31 @@ const newIdeaStyle = {
     ".left": {
       display: "flex",
       flexDirection: "column",
-      input: {
-        border: "1px solid rgb(133, 133, 133)",
-        borderRadius: "8px",
+      ".info": {
         padding: "10px",
-      },
-      textarea: {
         margin: "30px 0 0",
-        borderRadius: "8px",
-        padding: "10px",
-        height: "300px",
       },
     },
     ".right": {
       display: "flex",
       justifyContent: "center",
-      margin: "0 100px",
+      height: "300px",
       img: {
-        height: "300px",
         width: "300px",
       },
     },
-    ".buttonWrapper": {
+    ".commentsWrapper": {
       gridColumn: "span 2",
       display: "flex",
-      justifyContent: "center",
-      alignItems: "flex-start",
+      justifyContent: "start",
+      alignItems: "center",
+      textarea: {
+        margin: "0 30px 0 0",
+        borderRadius: "8px",
+        padding: "10px",
+        height: "200px",
+        width:"50vw"
+      },
     },
   },
 };
