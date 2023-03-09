@@ -45,6 +45,10 @@ img {
   font-weight: bold;
 }
 
+.small {
+  font-size: small;
+}
+
 .red {
   color: red
 }

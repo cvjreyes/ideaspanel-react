@@ -26,11 +26,12 @@ export default function EditIdea() {
   });
   const [image, setImage] = useState(null);
 
+  const getIdeaInfo = async () => {
+    const { body } = await api("get", `/ideas/get_info/${params.idea_id}`);
+    setIdea(body[0]);
+  };
+
   useEffect(() => {
-    const getIdeaInfo = async () => {
-      const { body } = await api("get", `/ideas/get_info/${params.idea_id}`);
-      setIdea(body[0]);
-    };
     getIdeaInfo();
   }, []);
 
@@ -60,6 +61,7 @@ export default function EditIdea() {
     setTimeout(() => {
       publish && navigate("/");
     }, 2000);
+    getIdeaInfo();
     return notify("Idea updated successfully!", "success");
   };
 
@@ -80,7 +82,14 @@ export default function EditIdea() {
             name="description"
             onChange={({ target }) => handleChange(target.name, target.value)}
           ></textarea>
-
+        </div>
+        <div className="right">
+          <ImageComponent
+            idea={idea}
+            image={image}
+            setImage={setImage}
+            getIdeaInfo={getIdeaInfo}
+          />
           <div className="toggleWrapper">
             <p>Show User</p>
             <Switch
@@ -88,9 +97,6 @@ export default function EditIdea() {
               checked={!idea.anonymous}
             />
           </div>
-        </div>
-        <div className="right">
-          <ImageComponent idea={idea} image={image} setImage={setImage} />
         </div>
         <div className="buttonWrapper">
           <ButtonWithImage
@@ -146,8 +152,13 @@ const newIdeaStyle = {
         padding: "10px",
         height: "300px",
       },
+    },
+    ".right": {
+      margin: "0 auto",
+      display: "flex",
+      flexDirection: "column",
       ".toggleWrapper": {
-        margin: "30px 0 0",
+        margin: "50px 0 0",
         display: "flex",
         alignItems: "center",
         border: "1px solid rgb(133, 133, 133)",
@@ -158,10 +169,6 @@ const newIdeaStyle = {
           marginRight: "1rem",
         },
       },
-    },
-    ".right": {
-      display: "flex",
-      justifyContent: "center",
     },
     ".buttonWrapper": {
       gridColumn: "span 2",

@@ -3,10 +3,13 @@
 import { jsx } from "@emotion/react";
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
+import { useNotifications } from "reapop";
 import { api } from "../../helpers/api";
 import Modal from "../modals/Modal";
 
-export default function ImageComponent({ idea, image, setImage }) {
+export default function ImageComponent({ idea, image, setImage, getIdeaInfo }) {
+  const { notify } = useNotifications();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const onDrop = useCallback((files) => {
@@ -28,8 +31,33 @@ export default function ImageComponent({ idea, image, setImage }) {
   };
 
   const deleteImg = async () => {
-    const { ok, body } = await api("delete", `/ideas/delete_img/${idea.id}`);
-    console.log(ok, body);
+    const { ok } = await api("delete", `/ideas/delete_img/${idea.id}`);
+    if (!ok) return notify("Something went wrong", "error");
+    notify("Image deleted successfully", "success");
+    setIsModalOpen(false);
+    setImage(null);
+    return getIdeaInfo();
+  };
+
+  const imageWrapperStyle = {
+    border: "1px dashed rgb(133, 133, 133)",
+    height: "200px",
+    width: "350px",
+    position: "relative",
+    backgroundImage: `url(${idea.image})`,
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    ".close": {
+      position: "absolute",
+      width: "30px",
+      height: "30px",
+      right: 0,
+      display: "none",
+    },
+    ":hover .close": {
+      display: "block",
+    },
   };
 
   if (idea.image)
@@ -45,7 +73,7 @@ export default function ImageComponent({ idea, image, setImage }) {
           alt="close"
           src="https://img.icons8.com/color/48/null/close-window.png"
         />
-        <img alt="idea" src={idea.image} />
+        {/* <img alt="idea" src={idea.image} /> */}
       </div>,
       <Modal
         key="2"
@@ -100,29 +128,11 @@ export default function ImageComponent({ idea, image, setImage }) {
   );
 }
 
-const imageWrapperStyle = {
-  border: "1px dashed rgb(133, 133, 133)",
-  height: "300px",
-  width: "300px",
-  position: "relative",
-  ".close": {
-    position: "absolute",
-    width: "30px",
-    height: "30px",
-    right: 0,
-    display: "none",
-  },
-  ":hover .close": {
-    display: "block",
-  },
-};
-
 const dropzoneWrapperStyle = {
-  margin: "75px 0 0",
   display: "flex",
   flexDirection: "column",
-  height: "300px",
-  width: "300px",
+  height: "200px",
+  width: "350px",
   justifyContent: "center",
   alignItems: "center",
   padding: "10px",
