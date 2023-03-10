@@ -13,7 +13,6 @@ export default function AddCommentSection({
       <ul className="list_comments">
         {comments.length > 0 &&
           comments.map((comment, index) => {
-            //   console.log(comments);
             <li key={index} className="comment">
               {comment}
             </li>;
