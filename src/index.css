@@ -42,12 +42,13 @@ img {
 }
 
 .active {
-  color: lightgray !important
+  /* color: lightgray !important */
+  font-weight: bold;
 }
 
 .active img {
-  filter: invert(70%);
-  -webkit-filter: invert(70%);
+  /* filter: invert(70%);
+  -webkit-filter: invert(70%); */
 }
 
 .bold {
