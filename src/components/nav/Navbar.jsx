@@ -21,7 +21,7 @@ export default function Navbar() {
         <Link
           to="/ideas_panel/"
           className={isHomeActive ? "active" : ""}
-          style={{ width: "80px" }}
+          style={{ width: "79px" }}
         >
           Home
         </Link>
