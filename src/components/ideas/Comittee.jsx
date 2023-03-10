@@ -28,6 +28,7 @@ export default function Comittee() {
   const getOldestUnapprovedIdea = async () => {
     const { body } = await api("get", `/ideas/to_approve/${user.id}`);
     setData(body);
+    setVoted(false);
   };
 
   useEffect(() => {
@@ -97,7 +98,7 @@ export default function Comittee() {
           </div>
         </div>
       ) : (
-        <NoResults />
+        <div>Thanks for voting ❤</div>
       )}
     </div>
   );
