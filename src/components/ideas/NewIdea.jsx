@@ -65,7 +65,10 @@ export default function NewPost() {
     setTimeout(() => {
       navigate(`/profile/${user.id}`);
     }, 2000);
-    return notify("Idea added successfully! Redirecting your profile", "success");
+    return notify(
+      "Idea added successfully! Redirecting your profile",
+      "success"
+    );
   };
 
   return (
@@ -90,13 +93,6 @@ export default function NewPost() {
               Description is too long. Max 500 characters.
             </p>
           )}
-          <div className="toggleWrapper">
-            <p>Show User</p>
-            <Switch
-              onChange={(e) => handleChange("anonymous", !e)}
-              checked={!form.anonymous}
-            />
-          </div>
         </div>
         <div className="right">
           {image ? (
@@ -140,6 +136,14 @@ export default function NewPost() {
                   ]}
             </div>
           )}
+          <p className="small">Image area displayed: 350px x 200px</p>
+          <div className="toggleWrapper">
+            <p>Show User</p>
+            <Switch
+              onChange={(e) => handleChange("anonymous", !e)}
+              checked={!form.anonymous}
+            />
+          </div>
         </div>
         <div className="buttonWrapper">
           <ButtonWithImage
@@ -183,28 +187,16 @@ const newIdeaStyle = {
         padding: "10px",
         height: "300px",
       },
-      ".toggleWrapper": {
-        margin: "30px 0 0",
-        display: "flex",
-        alignItems: "center",
-        border: "1px solid rgb(133, 133, 133)",
-        borderRadius: "8px",
-        padding: "20px",
-        width: "fit-content",
-        p: {
-          marginRight: "1rem",
-        },
-      },
     },
     ".right": {
+      margin: "0 auto",
       display: "flex",
-      justifyContent: "center",
+      flexDirection: "column",
       ".dropzoneWrapper": {
-        margin: "75px 0 0",
         display: "flex",
         flexDirection: "column",
-        height: "300px",
-        width: "300px",
+        height: "200px",
+        width: "350px",
         justifyContent: "center",
         alignItems: "center",
         padding: "10px",
@@ -225,6 +217,19 @@ const newIdeaStyle = {
       },
       ".imgUploaded": {
         border: "1px solid rgb(133, 133, 133)",
+      },
+      ".small": { marginTop: "5px" },
+      ".toggleWrapper": {
+        margin: "50px 0 0",
+        display: "flex",
+        alignItems: "center",
+        border: "1px solid rgb(133, 133, 133)",
+        borderRadius: "8px",
+        padding: "20px",
+        width: "fit-content",
+        p: {
+          marginRight: "1rem",
+        },
       },
     },
     ".buttonWrapper": {

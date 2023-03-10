@@ -1,3 +1,0 @@
-PREGUNTAS
-- botón success/cancel
-- colores

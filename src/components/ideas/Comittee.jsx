@@ -40,7 +40,6 @@ export default function Comittee() {
   }, []);
 
   const handleVote = async (e) => {
-    console.log("idea: ", data[0].id);
     const { ok } = await api("post", "/votes/submit_votes", {
       idea_id: data[0].id,
       user_id: user.id,
@@ -58,7 +57,7 @@ export default function Comittee() {
   return (
     <div css={comitteeStyle}>
       <div className="boxTop">
-        <div></div>
+        <div />
         <h1 className="page_title">Comittee</h1>
         {actualUser.isAdmin && (
           <Button

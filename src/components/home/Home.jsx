@@ -46,5 +46,6 @@ const homeStyle = {
     display: "grid",
     justifyContent: "center",
     gridTemplateColumns: "repeat(auto-fit, minmax(100px, 400px))",
+    marginTop: "50px",
   },
 };

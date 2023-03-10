@@ -41,8 +41,41 @@ img {
   display: none;
 }
 
+.active {
+  /* color: lightgray !important */
+  font-weight: bold;
+}
+
+.active img {
+  /* filter: invert(70%);
+  -webkit-filter: invert(70%); */
+}
+
 .bold {
   font-weight: bold;
+}
+
+.semiBold {
+  font-weight: 600;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.small {
+  font-size: small;
+}
+
+.medium {
+  font-size: 12px;
+}
+
+.cutLines {
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
 }
 
 .red {

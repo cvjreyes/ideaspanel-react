@@ -56,6 +56,7 @@ export default function ManageComittee() {
       email: email,
       admin: admin ? 0 : 1,
     });
+    if (!ok) return notify("Something went wrong", "error");
     notify(`${email} is now ${admin ? "not " : ""}admin`, "info");
     const idx = users.findIndex((user) => user.email === email);
     const tempUsers = [...users];
@@ -71,22 +72,21 @@ export default function ManageComittee() {
           <div className="flexCenter">
             <Input
               width="90%"
-
               onChange={(e) => setFilterData(e.target.value)}
               defaultValue="Search Email"
               onFocus={(e) => {
                 e.target.value = "";
-                setFilterData("")
+                setFilterData("");
               }}
               onBlur={(e) => {
                 e.target.value = e.target.defaultValue;
-                setFilterData("")
+                setFilterData("");
               }}
               onKeyDown={(e) => {
                 if (e.key === "Escape") {
                   e.target.value = e.target.defaultValue;
                   e.target.blur();
-                  setFilterData("")
+                  setFilterData("");
                 }
               }}
             />
@@ -135,7 +135,7 @@ const manageComitteeStyle = {
     borderRadius: "8px",
     padding: "10px",
     backgroundColor: "linear-gradient(145deg, #ffffff, #e4e5da)",
-    boxShadow: "29px 29px 3px #84847e",
+    boxShadow: "20px 20px 60px #d7d8ce, -20px -20px 60px #ffffff",
     ".columnsBox": {
       display: "grid",
       gridTemplateColumns: "2fr 1fr",
