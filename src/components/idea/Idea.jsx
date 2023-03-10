@@ -23,7 +23,7 @@ export default function Idea() {
   const [newComment, setNewComment] = useState("");
   const [comments, setComments] = useState([]);
   const [ideasVotes, setIdeasVotes] = useState([]);
-  const [checkUserVote, setCheckUserVote] = useState(false)
+  const [checkUserVote, setCheckUserVote] = useState(false);
   const [idea, setIdea] = useState({
     title: "",
     description: "",
@@ -54,8 +54,7 @@ export default function Idea() {
     checkUserVotesIdea();
     getComments();
   }, []);
-  
-  
+
   const handleAddComment = async (e) => {
     e && e.preventDefault();
     const { ok } = await api("post", "/comments/add_comment", {
@@ -65,31 +64,30 @@ export default function Idea() {
     });
     if (!ok) return notify("Something went wrong", "error");
     notify("Comment successfully added", "success");
-    setComments([
-      ...comments,
-      {
-        idea_id: params.idea_id,
-        user_id: user.id,
-        name: user.name,
-        like: 0,
-        positiveVotes: 0,
-        comment: newComment,
-        profile_pic: user.profile_pic,
-      },
-    ]);
+    // setComments([
+    //   ...comments,
+    //   {
+    //     idea_id: params.idea_id,
+    //     user_id: user.id,
+    //     name: user.name,
+    //     like: 0,
+    //     positiveVotes: 0,
+    //     comment: newComment,
+    //     profile_pic: user.profile_pic,
+    //   },
+    // ]);
     setNewComment("");
   };
-  
+
   const checkUserVotesIdea = async (e) => {
     e && e.preventDefault();
-    const { body } = await api("get", "/idea_votes/check_user_idea_vote", {
+    await api("get", "/idea_votes/check_user_idea_vote", {
       user_id: user.id,
       idea_id: params.idea_id,
     });
-    console.log(body);
     setCheckUserVote(true);
   };
-  
+
   const handleIdeaVote = async (e) => {
     const { ok } = await api("post", "/idea_votes/submit_idea_vote", {
       idea_id: params.idea_id,
@@ -118,8 +116,8 @@ export default function Idea() {
               text={ideasVotes.length}
               width="60px"
               margin="20px 0 0 0"
-              bgColor={checkUserVote ? (colors["green"].background) : ""}
-              bgHover={checkUserVote ? (colors["green"].backgroundHover) : ""}
+              bgColor={checkUserVote ? colors["green"].background : ""}
+              bgHover={checkUserVote ? colors["green"].backgroundHover : ""}
               // img
               src={ThumbsUp}
             />
@@ -135,7 +133,11 @@ export default function Idea() {
           <div>
             <b>Comments: </b>
           </div>
-          {comments ? <CommentSection comments={comments} /> : <NoComments />}
+          {comments.length > 0 ? (
+            <CommentSection comments={comments} />
+          ) : (
+            <NoComments />
+          )}
         </div>
       </form>
     </div>

@@ -34,6 +34,7 @@ export default function Checkbox({ checked, onChange, className }) {
         type="checkbox"
         checked={checked}
         className={`pointer ${className}`}
+        onChange={() => {}}
       />
     </div>
   );

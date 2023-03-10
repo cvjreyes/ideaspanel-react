@@ -39,7 +39,7 @@ export default function Comittee() {
   const handleVote = async (e) => {
     if (voted) return;
     setVoted(true);
-    const { ok } = await api("post", "/comittee_votes/submit_comittee_votes", {
+    const { ok } = await api("post", "/comittee_votes/submit_vote", {
       idea_id: data[0].id,
       user_id: user.id,
       vote: e,
@@ -62,7 +62,9 @@ export default function Comittee() {
             <CountdownTimer date={data?.[0].sent_to_validate_at} />
           </div>
         ) : (
-          <Loading size="small" />
+          <div style={{ marginTop: "100px", textAlign: "center" }}>
+            That's all
+          </div>
         )}
         {user.isAdmin && (
           <div className="manageComitteeButton">
@@ -153,8 +155,8 @@ const ShowCounter = ({ days, hours, minutes, seconds }) => {
 const DateTimeDisplay = ({ value, type, isDanger }) => {
   return (
     <div className="countdown">
-      <p className={isDanger && "red"}>{value}</p>
-      <span className={isDanger && "red"}>{type}</span>
+      <p className={isDanger ? "red" : ""}>{value}</p>
+      <span className={isDanger ? "red" : ""}>{type}</span>
     </div>
   );
 };
@@ -162,7 +164,7 @@ const DateTimeDisplay = ({ value, type, isDanger }) => {
 const ExpiredNotice = () => {
   return (
     <div css={expiredStyle} className="red">
-      The time to validate this idea ends tonight
+      Tonight this idea is going to be validated
     </div>
   );
 };

@@ -11,12 +11,12 @@ export default function AddCommentSection({
   return (
     <div css={addCommentSectionStyles}>
       <ul className="list_comments">
-        {comments.map((comment, index) => {
-          //   console.log(comments);
-          <li key={index} className="comment">
-            {comment}
-          </li>;
-        })}
+        {comments.length > 0 &&
+          comments.map((comment, index) => {
+            <li key={index} className="comment">
+              {comment}
+            </li>;
+          })}
       </ul>
       <textarea
         placeholder="Add a comment"
