@@ -1,8 +1,8 @@
 TODOS:
-- details in card design
 - add go back from manage comitee
 
 DONE:
+- details in card design
 - when match on route => navbar link in diff color
 - hover on links changes color of text + image
 - ability to change uploaded picture on new post
