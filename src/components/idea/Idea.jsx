@@ -1,106 +1,128 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
-import { useEffect, useState } from "react";
-import { useLocation, useRoute } from "wouter";
+import { useContext, useEffect, useState } from "react";
+import { useNotifications } from "reapop";
+import { useRoute } from "wouter";
 
-import Button from "../general/Button";
+import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../helpers/api";
-import { colors } from "../../helpers/colors";
+
+import AddCommentSection from "./AddCommentSection";
+import CommentSection from "./CommentSection";
+import NoComments from "./NoComments";
 
 export default function Idea() {
   const [_, params] = useRoute("/idea/:idea_id");
-  const [__, navigate] = useLocation();
+  const { user } = useContext(AuthContext);
+  const { notify } = useNotifications();
 
   const [idea, setIdea] = useState({
     title: "",
     description: "",
+    anonymous: false,
   });
+  const [newComment, setNewComment] = useState("");
+  const [comments, setComments] = useState([]);
 
+  const getComments = async () => {
+    const { body } = await api(
+      "get",
+      `/comments/get_comments_from_idea/${params.idea_id}`
+    );
+    setComments(body);
+  };
   useEffect(() => {
     const getIdeaInfo = async () => {
       const { body } = await api("get", `/ideas/get_info/${params.idea_id}`);
       setIdea(body[0]);
     };
     getIdeaInfo();
+    getComments();
   }, []);
 
+  const handleAddComment = async (e) => {
+    e && e.preventDefault();
+    const { ok } = await api("post", "/comments/add_comment", {
+      idea_id: params.idea_id,
+      user_id: user.id,
+      comment: newComment,
+    });
+    if (!ok) return notify("Something went wrong", "error");
+    notify("Comment successfully added", "success");
+    setComments([
+      ...comments,
+      {
+        idea_id: params.idea_id,
+        user_id: user.id,
+        name: user.name,
+        like: 0,
+        positiveVote: 0,
+        comment: newComment,
+        profile_pic: user.profile_pic,
+      },
+    ]);
+    setNewComment("");
+  };
+
   return (
-    <div css={newIdeaStyle}>
+    <div css={ideaStyle}>
       <h1 className="page_title">Idea</h1>
       <form>
         <div className="left">
-          {/* <input readOnly placeholder="Title" value={idea.title} name="title" /> */}
+          <div className="info bold">{idea.title}</div>
           <div className="info">
-            <b>Title: </b>
-            {idea.title}
+            <i>{idea.description}</i>
           </div>
-          <div className="info">
-            <b>Description: </b>
-            {idea.description}
+          <div className="image">
+            {idea.image && <img src={idea.image} alt="IdeaImage" />}
           </div>
+          <AddCommentSection
+            comments={comments}
+            newComment={newComment}
+            setNewComment={setNewComment}
+            handleAddComment={handleAddComment}
+          />
         </div>
         <div className="right">
-          {idea.image && <img src={idea.image} alt="IdeaImage" />}
-        </div>
-        <div className="bold">Comments:</div>
-        <div className="commentsWrapper">
-          <textarea
-            placeholder="Write your comment"
-            name="comment"
-          ></textarea>
-          <Button
-            text="Save"
-            color="white"
-            fontWeight="600"
-            textMargin="0 0 0 5px"
-            width="100px"
-            bgColor={colors["blue"].background}
-            bgHover={colors["blue"].backgroundHover}
-            onClick={() => navigate("/")}
-          />
+          <div>
+            <b>Comments: </b>
+          </div>
+          {comments ? <CommentSection comments={comments} /> : <NoComments />}
         </div>
       </form>
     </div>
   );
 }
 
-const newIdeaStyle = {
+const ideaStyle = {
   minHeight: "calc(70vh - 150px)",
   form: {
     display: "grid",
     gridTemplateColumns: "repeat(2, 1fr)",
     padding: "50px 10vw 0",
     minHeight: "calc(80vh - 130px)",
-    margin: "50px 0 0",
     ".left": {
+      minWidth: "310px",
       display: "flex",
       flexDirection: "column",
       ".info": {
         padding: "10px",
-        margin: "30px 0 0",
+      },
+    },
+    ".image": {
+      display: "flex",
+      justifyContent: "start",
+      height: "250px",
+      marginTop: "50px",
+      img: {
+        width: "250px",
       },
     },
     ".right": {
       display: "flex",
-      justifyContent: "center",
-      height: "300px",
-      img: {
-        width: "300px",
-      },
-    },
-    ".commentsWrapper": {
-      gridColumn: "span 2",
-      display: "flex",
-      justifyContent: "start",
-      alignItems: "center",
-      textarea: {
-        margin: "0 30px 0 0",
-        borderRadius: "8px",
-        padding: "10px",
-        height: "200px",
-        width:"50vw"
-      },
+      flexDirection: "column",
+      padding: "10px",
     },
   },
 };
