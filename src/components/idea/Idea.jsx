@@ -7,40 +7,55 @@ import { useRoute } from "wouter";
 
 import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../helpers/api";
+import { colors } from "../../helpers/colors";
 
+import ButtonWithImage from "../general/ButtonWithImage";
 import AddCommentSection from "./AddCommentSection";
 import CommentSection from "./CommentSection";
 import NoComments from "./NoComments";
+import ThumbsUp from "../../assets/images/thumbs-up.png";
 
 export default function Idea() {
   const [_, params] = useRoute("/idea/:idea_id");
   const { user } = useContext(AuthContext);
   const { notify } = useNotifications();
 
+  const [newComment, setNewComment] = useState("");
+  const [comments, setComments] = useState([]);
+  const [ideasVotes, setIdeasVotes] = useState([]);
+  const [checkUserVote, setCheckUserVote] = useState(false)
   const [idea, setIdea] = useState({
     title: "",
     description: "",
     anonymous: false,
   });
-  const [newComment, setNewComment] = useState("");
-  const [comments, setComments] = useState([]);
 
-  const getComments = async () => {
-    const { body } = await api(
-      "get",
-      `/comments/get_comments_from_idea/${params.idea_id}`
-    );
-    setComments(body);
-  };
   useEffect(() => {
     const getIdeaInfo = async () => {
       const { body } = await api("get", `/ideas/get_info/${params.idea_id}`);
       setIdea(body[0]);
     };
+    const getVotesIdea = async () => {
+      const { body } = await api(
+        "get",
+        `/idea_votes/get_idea_votes/${params.idea_id}`
+      );
+      setIdeasVotes(body);
+    };
+    const getComments = async () => {
+      const { body } = await api(
+        "get",
+        `/comments/get_comments_from_idea/${params.idea_id}`
+      );
+      setComments(body);
+    };
     getIdeaInfo();
+    getVotesIdea();
+    checkUserVotesIdea();
     getComments();
   }, []);
-
+  
+  
   const handleAddComment = async (e) => {
     e && e.preventDefault();
     const { ok } = await api("post", "/comments/add_comment", {
@@ -57,12 +72,32 @@ export default function Idea() {
         user_id: user.id,
         name: user.name,
         like: 0,
-        positiveVote: 0,
+        positiveVotes: 0,
         comment: newComment,
         profile_pic: user.profile_pic,
       },
     ]);
     setNewComment("");
+  };
+  
+  const checkUserVotesIdea = async (e) => {
+    e && e.preventDefault();
+    const { body } = await api("get", "/idea_votes/check_user_idea_vote", {
+      user_id: user.id,
+      idea_id: params.idea_id,
+    });
+    console.log(body);
+    setCheckUserVote(true);
+  };
+  
+  const handleIdeaVote = async (e) => {
+    const { ok } = await api("post", "/idea_votes/submit_idea_vote", {
+      idea_id: params.idea_id,
+      user_id: user.id,
+      vote: e,
+    });
+    if (!ok) return notify("Something went wrong", "error");
+    notify("Vote successfully done", "success");
   };
 
   return (
@@ -76,6 +111,18 @@ export default function Idea() {
           </div>
           <div className="image">
             {idea.image && <img src={idea.image} alt="IdeaImage" />}
+          </div>
+          <div>
+            <ButtonWithImage
+              type="button"
+              text={ideasVotes.length}
+              width="60px"
+              margin="20px 0 0 0"
+              bgColor={checkUserVote ? (colors["green"].background) : ""}
+              bgHover={checkUserVote ? (colors["green"].backgroundHover) : ""}
+              // img
+              src={ThumbsUp}
+            />
           </div>
           <AddCommentSection
             comments={comments}
