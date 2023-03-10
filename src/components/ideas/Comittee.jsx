@@ -27,7 +27,6 @@ export default function Comittee() {
 
   const getOldestUnapprovedIdea = async () => {
     const { body } = await api("get", `/ideas/to_approve/${user.id}`);
-    console.log(body);
     setData(body);
     setVoted(false);
   };

@@ -1,20 +1,33 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
-import { useEffect, useState } from "react";
-import { useLocation, useRoute } from "wouter";
+import { useContext, useEffect, useState } from "react";
+import { useNotifications } from "reapop";
+import { useRoute } from "wouter";
 
-import Button from "../general/Button";
+import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../helpers/api";
 import { colors } from "../../helpers/colors";
 
+import ButtonWithImage from "../general/ButtonWithImage";
+import AddCommentSection from "./AddCommentSection";
+import CommentSection from "./CommentSection";
+import NoComments from "./NoComments";
+import ThumbsUp from "../../assets/images/thumbs-up.png";
+
 export default function Idea() {
   const [_, params] = useRoute("/idea/:idea_id");
-  const [__, navigate] = useLocation();
+  const { user } = useContext(AuthContext);
+  const { notify } = useNotifications();
 
+  const [newComment, setNewComment] = useState("");
+  const [comments, setComments] = useState([]);
+  const [ideasVotes, setIdeasVotes] = useState([]);
+  const [checkUserVote, setCheckUserVote] = useState(false);
   const [idea, setIdea] = useState({
     title: "",
     description: "",
+    anonymous: false,
   });
 
   useEffect(() => {
@@ -22,85 +35,143 @@ export default function Idea() {
       const { body } = await api("get", `/ideas/get_info/${params.idea_id}`);
       setIdea(body[0]);
     };
+    const getVotesIdea = async () => {
+      const { body } = await api(
+        "get",
+        `/idea_votes/get_idea_votes/${params.idea_id}`
+      );
+      setIdeasVotes(body);
+    };
+    const getComments = async () => {
+      const { body } = await api(
+        "get",
+        `/comments/get_comments_from_idea/${params.idea_id}`
+      );
+      setComments(body);
+    };
     getIdeaInfo();
+    getVotesIdea();
+    checkUserVotesIdea();
+    getComments();
   }, []);
 
+  const handleAddComment = async (e) => {
+    e && e.preventDefault();
+    const { ok } = await api("post", "/comments/add_comment", {
+      idea_id: params.idea_id,
+      user_id: user.id,
+      comment: newComment,
+    });
+    if (!ok) return notify("Something went wrong", "error");
+    notify("Comment successfully added", "success");
+    // setComments([
+    //   ...comments,
+    //   {
+    //     idea_id: params.idea_id,
+    //     user_id: user.id,
+    //     name: user.name,
+    //     like: 0,
+    //     positiveVotes: 0,
+    //     comment: newComment,
+    //     profile_pic: user.profile_pic,
+    //   },
+    // ]);
+    setNewComment("");
+  };
+
+  const checkUserVotesIdea = async (e) => {
+    e && e.preventDefault();
+    await api("get", "/idea_votes/check_user_idea_vote", {
+      user_id: user.id,
+      idea_id: params.idea_id,
+    });
+    setCheckUserVote(true);
+  };
+
+  const handleIdeaVote = async (e) => {
+    const { ok } = await api("post", "/idea_votes/submit_idea_vote", {
+      idea_id: params.idea_id,
+      user_id: user.id,
+      vote: e,
+    });
+    if (!ok) return notify("Something went wrong", "error");
+    notify("Vote successfully done", "success");
+  };
+
   return (
-    <div css={newIdeaStyle}>
+    <div css={ideaStyle}>
       <h1 className="page_title">Idea</h1>
       <form>
         <div className="left">
-          {/* <input readOnly placeholder="Title" value={idea.title} name="title" /> */}
+          <div className="info bold">{idea.title}</div>
           <div className="info">
-            <b>Title: </b>
-            {idea.title}
+            <i>{idea.description}</i>
           </div>
-          <div className="info">
-            <b>Description: </b>
-            {idea.description}
+          <div className="image">
+            {idea.image && <img src={idea.image} alt="IdeaImage" />}
           </div>
+          <div>
+            <ButtonWithImage
+              type="button"
+              text={ideasVotes.length}
+              width="60px"
+              margin="20px 0 0 0"
+              bgColor={checkUserVote ? colors["green"].background : ""}
+              bgHover={checkUserVote ? colors["green"].backgroundHover : ""}
+              // img
+              src={ThumbsUp}
+            />
+          </div>
+          <AddCommentSection
+            comments={comments}
+            newComment={newComment}
+            setNewComment={setNewComment}
+            handleAddComment={handleAddComment}
+          />
         </div>
         <div className="right">
-          {idea.image && <img src={idea.image} alt="IdeaImage" />}
-        </div>
-        <div className="bold">Comments:</div>
-        <div className="commentsWrapper">
-          <textarea
-            placeholder="Write your comment"
-            name="comment"
-          ></textarea>
-          <Button
-            text="Save"
-            color="white"
-            fontWeight="600"
-            textMargin="0 0 0 5px"
-            width="100px"
-            bgColor={colors["blue"].background}
-            bgHover={colors["blue"].backgroundHover}
-            onClick={() => navigate("/")}
-          />
+          <div>
+            <b>Comments: </b>
+          </div>
+          {comments.length > 0 ? (
+            <CommentSection comments={comments} />
+          ) : (
+            <NoComments />
+          )}
         </div>
       </form>
     </div>
   );
 }
 
-const newIdeaStyle = {
+const ideaStyle = {
   minHeight: "calc(70vh - 150px)",
   form: {
     display: "grid",
     gridTemplateColumns: "repeat(2, 1fr)",
     padding: "50px 10vw 0",
     minHeight: "calc(80vh - 130px)",
-    margin: "50px 0 0",
     ".left": {
+      minWidth: "310px",
       display: "flex",
       flexDirection: "column",
       ".info": {
         padding: "10px",
-        margin: "30px 0 0",
+      },
+    },
+    ".image": {
+      display: "flex",
+      justifyContent: "start",
+      height: "250px",
+      marginTop: "50px",
+      img: {
+        width: "250px",
       },
     },
     ".right": {
       display: "flex",
-      justifyContent: "center",
-      height: "300px",
-      img: {
-        width: "300px",
-      },
-    },
-    ".commentsWrapper": {
-      gridColumn: "span 2",
-      display: "flex",
-      justifyContent: "start",
-      alignItems: "center",
-      textarea: {
-        margin: "0 30px 0 0",
-        borderRadius: "8px",
-        padding: "10px",
-        height: "200px",
-        width:"50vw"
-      },
+      flexDirection: "column",
+      padding: "10px",
     },
   },
 };
