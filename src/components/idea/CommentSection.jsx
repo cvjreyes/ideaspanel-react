@@ -12,19 +12,19 @@ export default function CommentSection({ comments }) {
       {comments.map((comment, i) => (
         <div className="comment" key={i}>
           <div className="info">
-            <div className="bold">{comment.user}</div>
+            <div className="bold">{comment.name}</div>
             <div>
-              <i>{comment.text}</i>
+              <i>{comment.comment}</i>
             </div>
           </div>
           <div className="imageVotes">
             <ButtonWithImage
               type="button"
-              text={comment.numVotosPositivos}
+              text={comment.positiveVotes}
               width="60px"
               margin="0 20px"
-              bgColor={comment.like && colors["green"].background}
-              bgHover={comment.like && colors["green"].backgroundHover}
+              bgColor={comment.like ? (colors["green"].background) : ""}
+              bgHover={comment.like ? (colors["green"].backgroundHover) : ""}
               // img
               src={ThumbsUp}
             />

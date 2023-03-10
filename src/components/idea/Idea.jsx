@@ -1,15 +1,21 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { useNotifications } from "reapop";
 import { useRoute } from "wouter";
 
+import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../helpers/api";
+
 import AddCommentSection from "./AddCommentSection";
 import CommentSection from "./CommentSection";
+import NoComments from "./NoComments";
 
 export default function Idea() {
   const [_, params] = useRoute("/idea/:idea_id");
+  const { user } = useContext(AuthContext);
+  const { notify } = useNotifications();
 
   const [idea, setIdea] = useState({
     title: "",
@@ -17,49 +23,47 @@ export default function Idea() {
     anonymous: false,
   });
   const [newComment, setNewComment] = useState("");
-  const [comments, setComments] = useState([
-    {
-      text: "primer comentario primer comentario primer comentario primer comentario primer comentario ",
-      user: "Sean Saez Fuller",
-      like: true,
-      numVotosPositivos: 5,
-    },
-    {
-      text: "segundo comentario",
-      user: "Toni Enguix",
-      like: false,
-      numVotosPositivos: 4,
-    },
-    {
-      text: "tercer comentario",
-      user: "Manolo escobar",
-      like: false,
-      numVotosPositivos: 3,
-    },
-    {
-      text: "cuarto comentario",
-      user: "Asier Carracedo",
-      like: true,
-      numVotosPositivos: 2,
-    },
-    {
-      text: "quinto comentario",
-      user: "Xavi Pascual",
-      like: false,
-      numVotosPositivos: 7,
-    },
-  ]);
+  const [comments, setComments] = useState([]);
 
+  const getComments = async () => {
+    const { body } = await api(
+      "get",
+      `/comments/get_comments_from_idea/${params.idea_id}`
+    );
+    setComments(body);
+  };
   useEffect(() => {
     const getIdeaInfo = async () => {
       const { body } = await api("get", `/ideas/get_info/${params.idea_id}`);
       setIdea(body[0]);
     };
     getIdeaInfo();
+    getComments();
   }, []);
 
-  const handleAddComment = () => {
-    setComments([...comments, newComment]);
+  useEffect(() => {
+    getComments();
+  }, [comments]);
+
+  const handleAddComment = async (e) => {
+    e && e.preventDefault();
+    const { ok } = await api("post", "/comments/add_comment", {
+      idea_id: params.idea_id,
+      user_id: user.id,
+      comment: newComment,
+    });
+    if (!ok) return notify("Something went wrong", "error");
+    notify("Vote successfully done", "success");
+    setComments([
+      ...comments,
+      {
+        idea_id: params.idea_id,
+        user_id: user.id,
+        like: 0,
+        positiveVote: 0,
+        comment: newComment,
+      },
+    ]);
     setNewComment("");
   };
 
@@ -86,7 +90,7 @@ export default function Idea() {
           <div>
             <b>Comments: </b>
           </div>
-          <CommentSection comments={comments} />
+          {comments ? <CommentSection comments={comments} /> : <NoComments />}
         </div>
       </form>
     </div>

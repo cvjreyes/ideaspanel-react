@@ -71,7 +71,7 @@ export default function Comittee() {
         )}
       </div>
       {(data.length > 0) ? (
-        user.isComitee ? (
+        user.isComittee ? (
           <div>
             <Card item={{ ...data[0], anonymous: true }} />
             <div className="boxVotes">
