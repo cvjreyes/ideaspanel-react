@@ -41,10 +41,6 @@ export default function Idea() {
     getComments();
   }, []);
 
-  useEffect(() => {
-    getComments();
-  }, [comments]);
-
   const handleAddComment = async (e) => {
     e && e.preventDefault();
     const { ok } = await api("post", "/comments/add_comment", {
@@ -53,15 +49,17 @@ export default function Idea() {
       comment: newComment,
     });
     if (!ok) return notify("Something went wrong", "error");
-    notify("Vote successfully done", "success");
+    notify("Comment successfully added", "success");
     setComments([
       ...comments,
       {
         idea_id: params.idea_id,
         user_id: user.id,
+        name: user.name,
         like: 0,
         positiveVote: 0,
         comment: newComment,
+        profile_pic: user.profile_pic,
       },
     ]);
     setNewComment("");

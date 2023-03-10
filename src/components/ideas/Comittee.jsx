@@ -15,7 +15,6 @@ import Card from "../general/Card";
 import Loading from "../general/Loading";
 import ThumbsUp from "../../assets/images/thumbs-up.png";
 import ThumbsDown from "../../assets/images/thumbs-down.png";
-import NoResults from "../home/NoResults";
 
 export default function Comittee() {
   const { user } = useContext(AuthContext);
@@ -39,7 +38,7 @@ export default function Comittee() {
   const handleVote = async (e) => {
     if (voted) return;
     setVoted(true);
-    const { ok } = await api("post", "/votes/submit_votes", {
+    const { ok } = await api("post", "/comittee_votes/submit_comittee_votes", {
       idea_id: data[0].id,
       user_id: user.id,
       vote: e,

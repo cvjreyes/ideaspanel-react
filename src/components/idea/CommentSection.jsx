@@ -11,6 +11,16 @@ export default function CommentSection({ comments }) {
     <div css={CommentSectionStyle}>
       {comments.map((comment, i) => (
         <div className="comment" key={i}>
+          <div className="imageVotes">
+            <img
+              src={
+                comment.profile_pic
+                  ? comment.profile_pic
+                  : "http://localhost:5026/images/default.png"
+              }
+              alt="profile"
+            />
+          </div>
           <div className="info">
             <div className="bold">{comment.name}</div>
             <div>
@@ -23,8 +33,8 @@ export default function CommentSection({ comments }) {
               text={comment.positiveVotes}
               width="60px"
               margin="0 20px"
-              bgColor={comment.like ? (colors["green"].background) : ""}
-              bgHover={comment.like ? (colors["green"].backgroundHover) : ""}
+              bgColor={comment.like ? colors["green"].background : ""}
+              bgHover={comment.like ? colors["green"].backgroundHover : ""}
               // img
               src={ThumbsUp}
             />
@@ -58,6 +68,15 @@ const CommentSectionStyle = {
       display: "flex",
       flexDirection: "row",
       height: "50px",
+      img: {
+        width: "50px",
+        height: "50px",
+        padding: "10px",
+        backgroundColor: "#99C6F8",
+        borderRadius: "100px",
+        margin:" 0 10px",
+        objectFit: "cover",
+      },
     },
   },
 };
