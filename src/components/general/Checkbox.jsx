@@ -8,7 +8,7 @@ export default function Checkbox({ checked, onChange, className }) {
     alignItems: "center",
     justifyContent: "center",
     gap: "0.5rem",
-    ".input": {
+    input: {
       appearance: "none",
       width: "1.25rem",
       height: "1.25rem",
@@ -33,8 +33,7 @@ export default function Checkbox({ checked, onChange, className }) {
       <input
         type="checkbox"
         checked={checked}
-        onChange={onChange}
-        className={`input ${className}`}
+        className={`pointer ${className}`}
       />
     </div>
   );
