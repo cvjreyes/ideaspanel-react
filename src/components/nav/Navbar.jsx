@@ -21,17 +21,19 @@ export default function Navbar() {
         <Link
           to="/ideas_panel/"
           className={isHomeActive ? "active" : ""}
-          style={{ width: "80px" }}
+          style={{ width: "79px" }}
         >
           Home
         </Link>
-        <Link
-          to="/ideas_panel/comittee"
-          className={isComitteeActive || isComitteeActive2 ? "active" : ""}
-          style={{ width: "100px" }}
-        >
-          Comittee
-        </Link>
+        {user.isComittee ? (
+          <Link
+            to="/ideas_panel/comittee"
+            className={isComitteeActive || isComitteeActive2 ? "active" : ""}
+            style={{ width: "100px" }}
+          >
+            Comittee
+          </Link>
+        ) : null}
         <Link
           to="/ideas_panel/new_idea"
           className={`flexCenter ${isNewIdeaActive ? "active" : ""}`}

@@ -1,7 +1,8 @@
 TODOS:
-- add go back from manage comitee
+- add go back from manage comittee
 
 DONE:
+- fixed voting multiple times and accessing comittee if not comittee
 - details in card design
 - when match on route => navbar link in diff color
 - hover on links changes color of text + image
