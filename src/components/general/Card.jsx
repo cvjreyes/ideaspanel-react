@@ -2,18 +2,18 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
 import { useLocation } from "wouter";
-import { formatDate } from "../../helpers/format";
+import { formatDate } from "../../helpers/time";
 
 export default function Card({ item, comittee }) {
   const [__, navigate] = useLocation();
 
   const cardStyle = {
+    margin: !comittee ? "0 50px 50px 0" : "30px auto 50px",
     width: "380px",
     borderRadius: "20px",
     border: "0 solid black",
     paddingBottom: "1px",
     background: "white",
-    margin: !comittee ? "0 50px 50px 0" : "20px 0 50px",
     lineHeight: "1.5rem",
     boxShadow: "8px 8px 17px #e4e5da, -8px -8px 17px #ffffff",
     transition: "all 200ms linear",
@@ -67,8 +67,8 @@ export default function Card({ item, comittee }) {
   };
 
   return (
-    <div css={cardStyle} className="pointer">
-      <div onClick={() => navigate(`/idea/${item.id}`)}>
+    <div css={cardStyle} className={!comittee && "pointer"}>
+      <div onClick={() => !comittee && navigate(`/idea/${item.id}`)}>
         <img
           src={item.image || "http://localhost:5026/images/no_image.jpg"}
           alt="idea"
