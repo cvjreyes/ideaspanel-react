@@ -18,18 +18,24 @@ export default function Navbar() {
   return (
     <div css={navbarStyle}>
       <div className="left">
-        <Link to="/ideas_panel/" className={isHomeActive ? "active" : ""}>
+        <Link
+          to="/ideas_panel/"
+          className={isHomeActive ? "active" : ""}
+          style={{ width: "80px" }}
+        >
           Home
         </Link>
         <Link
           to="/ideas_panel/comittee"
           className={isComitteeActive || isComitteeActive2 ? "active" : ""}
+          style={{ width: "100px" }}
         >
           Comittee
         </Link>
         <Link
           to="/ideas_panel/new_idea"
           className={`flexCenter ${isNewIdeaActive ? "active" : ""}`}
+          style={{ width: "120px" }}
         >
           New Idea
           <img
@@ -95,7 +101,7 @@ const navbarStyle = {
     display: "flex",
     alignItems: "center",
     a: {
-      margin: "0 2rem 0 0",
+      // margin: "0 2rem 0 0",
     },
   },
   ".right": {
