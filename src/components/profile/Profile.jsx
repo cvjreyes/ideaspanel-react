@@ -40,13 +40,14 @@ export default function Profile() {
   return (
     <div css={profileStyle}>
       <div className="headWrapper">
-        <div className="profPicWrapper">
-          <img alt="profile" src={user.profile_pic} />
+        <div />
+        <div>
+          <div className="profPicWrapper">
+            <img alt="profile" src={user.profile_pic} />
+          </div>
+          <h1 className="page_title">{user.name}</h1>
+          <p>{user.email}</p>
         </div>
-        <h1 className="page_title">{user.name}</h1>
-        <p>{user.email}</p>
-      </div>
-      <div>
         <div>
           <Button
             color="white"
@@ -78,11 +79,14 @@ const profileStyle = {
   padding: "0 10vw",
   ".headWrapper": {
     marginTop: "100px",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
+    // display: "flex",
+    // flexDirection: "column",
+    // alignItems: "center",
+    display: "grid",
+    gridTemplateColumns: ".5fr 1fr .5fr",
     h1: { margin: "10px 0" },
     ".profPicWrapper": {
+      margin: "0 auto",
       display: "flex",
       height: "50px",
       width: "50px",
@@ -92,6 +96,7 @@ const profileStyle = {
   },
   ".draftsWrapper": {
     textAlign: "left",
+    marginTop: "20px",
     ".draftsMapWrapper": {
       display: "grid",
       gridTemplateColumns: "repeat(auto-fit, minmax(200px, 240px))",
