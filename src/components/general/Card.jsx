@@ -2,27 +2,72 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
 import { useLocation } from "wouter";
+import { formatDate } from "../../helpers/format";
 
-export default function Card({ item }) {
+export default function Card({ item, comittee }) {
   const [__, navigate] = useLocation();
 
-  const createdDate = new Date(item.created_at);
-  const actualDate = new Date();
-  const daysPassed = (
-    (actualDate - createdDate) /
-    1000 /
-    60 /
-    60 /
-    24
-  ).toFixed();
-  const displayDate =
-    createdDate.getDate() +
-    "/" +
-    (createdDate.getMonth() + 1) +
-    "/" +
-    createdDate.getFullYear();
+  const cardStyle = {
+    width: "380px",
+    borderRadius: "20px",
+    border: "0 solid black",
+    paddingBottom: "1px",
+    background: "white",
+    margin: !comittee ? "0 50px 50px 0" : "20px 0 50px",
+    lineHeight: "1.5rem",
+    boxShadow: "8px 8px 17px #e4e5da, -8px -8px 17px #ffffff",
+    transition: "all 200ms linear",
+    top: 0,
+    position: "relative",
+    ":hover": {
+      boxShadow:
+        !comittee && "12px 12px 24px #e4e5da, -12px -12px 24px #ffffff",
+      top: !comittee && -5,
+    },
+    ".ideaImage": {
+      objectFit: "cover",
+      width: "100%",
+      height: "200px",
+      borderRadius: "20px 20px 0 0",
+    },
+    ".boxCard": {
+      padding: "30px",
+      height: "170px",
+      ".title": {
+        WebkitLineClamp: 1,
+      },
+      ".description": {
+        WebkitLineClamp: 5,
+      },
+    },
+    ".profileBox": {
+      margin: "20px",
+      padding: "10px",
+      display: "flex",
+      alignItems: "center",
+      ":hover": {
+        borderRadius: "10px",
+        background: "linear-gradient(300deg, #f9f9f9, #ffffff)",
+      },
+      img: {
+        width: "60px",
+        height: "60px",
+        padding: "10px",
+        backgroundColor: "#99C6F8",
+        borderRadius: "100px",
+        objectFit: "cover",
+      },
+      ".infoProfile": {
+        display: "flex",
+        flexDirection: "column",
+        marginLeft: "10px",
+        lineHeight: "1.2rem",
+      },
+    },
+  };
+
   return (
-    <div css={cardStyle}>
+    <div css={cardStyle} className="pointer">
       <div onClick={() => navigate(`/idea/${item.id}`)}>
         <img
           src={item.image || "http://localhost:5026/images/no_image.jpg"}
@@ -50,73 +95,11 @@ export default function Card({ item }) {
           <span className="semiBold italic medium">
             {!item.anonymous ? item.name : "Anonymous"}
           </span>
-          <span className="date italic medium">{displayDate}</span>
-          {daysPassed != 0 ? (
-            <span className="semiBold italic medium">
-              {daysPassed} day/s ago
-            </span>
-          ) : (
-            <span className="semiBold italic medium">Today</span>
-          )}
+          <span className="date italic medium">
+            {formatDate(item.created_at)}
+          </span>
         </div>
       </div>
     </div>
   );
 }
-
-const cardStyle = {
-  borderRadius: "20px",
-  border: "0 solid black",
-  background: "white",
-  margin: "0 50px 50px 0",
-  lineHeight: "1.5rem",
-  cursor: "pointer",
-  boxShadow: "8px 8px 17px #e4e5da, -8px -8px 17px #ffffff",
-  transition: "all 200ms linear",
-  top: 0,
-  position: "relative",
-  ":hover": {
-    boxShadow: "12px 12px 24px #e4e5da, -12px -12px 24px #ffffff",
-    top: -5,
-  },
-  ".ideaImage": {
-    objectFit: "cover",
-    width: "100%",
-    height: "200px",
-    borderRadius: "20px 20px 0 0",
-  },
-  ".boxCard": {
-    padding: "30px",
-    height: "170px",
-    ".title": {
-      WebkitLineClamp: 1,
-    },
-    ".description": {
-      WebkitLineClamp: 5,
-    },
-  },
-  ".profileBox": {
-    margin: "20px",
-    padding: "10px",
-    display: "flex",
-    alignItems: "center",
-    ":hover": {
-      borderRadius: "10px",
-      background: "linear-gradient(300deg, #f9f9f9, #ffffff)",
-    },
-    img: {
-      width: "60px",
-      height: "60px",
-      padding: "10px",
-      backgroundColor: "#99C6F8",
-      borderRadius: "100px",
-      objectFit: "cover",
-    },
-    ".infoProfile": {
-      display: "flex",
-      flexDirection: "column",
-      marginLeft: "10px",
-      lineHeight: "1.2rem",
-    },
-  },
-};

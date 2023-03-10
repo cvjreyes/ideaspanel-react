@@ -16,7 +16,6 @@ export default function Checkbox({ checked, onChange, className }) {
       borderRadius: "0.25rem",
       backgroundColor: `${checked ? "#3182CE" : "transparent"}`,
       transition: "background-color 0.2s ease-in-out",
-      cursor: "pointer",
       ":hover": {
         backgroundColor: `${checked ? "#3182CE" : "#E2E8F0"}`,
       },
@@ -30,7 +29,7 @@ export default function Checkbox({ checked, onChange, className }) {
     },
   };
   return (
-    <div css={checkboxStyle}>
+    <div css={checkboxStyle} className="pointer" onClick={onChange}>
       <input
         type="checkbox"
         checked={checked}

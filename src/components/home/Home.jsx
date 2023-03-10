@@ -45,7 +45,7 @@ const homeStyle = {
   ".map": {
     display: "grid",
     justifyContent: "center",
-    gridTemplateColumns: "repeat(auto-fit, minmax(100px, 400px))",
+    gridTemplateColumns: "repeat(auto-fit, minmax(100px, 380px))",
     marginTop: "50px",
   },
 };
