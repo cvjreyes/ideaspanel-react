@@ -16,30 +16,28 @@ import Loading from "../general/Loading";
 import ThumbsUp from "../../assets/images/thumbs-up.png";
 import ThumbsDown from "../../assets/images/thumbs-down.png";
 import NoResults from "../home/NoResults";
-import NoComittee from "./NoComittee";
 
 export default function Comittee() {
-  const [data, setData] = useState(null);
-  const [actualUser, setActualUser] = useState(null);
-
   const { user } = useContext(AuthContext);
   const [__, navigate] = useLocation();
   const { notify } = useNotifications();
 
+  const [data, setData] = useState(null);
+  const [voted, setVoted] = useState(false);
+
+  const getOldestUnapprovedIdea = async () => {
+    const { body } = await api("get", `/ideas/to_approve/${user.id}`);
+    setData(body);
+  };
+
   useEffect(() => {
-    const getOldestUnapprovedIdea = async () => {
-      const { body } = await api("get", `/ideas/to_approve/${user.id}`);
-      setData(body);
-    };
-    const getActualUser = async () => {
-      const { body } = await api("get", `/users/profile/${user.id}`);
-      setActualUser(body);
-    };
-    getActualUser();
+    if (!user.isComittee) return navigate("/");
     getOldestUnapprovedIdea();
   }, []);
 
   const handleVote = async (e) => {
+    if (voted) return;
+    setVoted(true);
     const { ok } = await api("post", "/votes/submit_votes", {
       idea_id: data[0].id,
       user_id: user.id,
@@ -48,7 +46,7 @@ export default function Comittee() {
     if (!ok) return notify("Something went wrong", "error");
     notify("Vote successfully done", "success");
     setTimeout(() => {
-      window.location.reload();
+      getOldestUnapprovedIdea();
     }, 2000);
   };
 
@@ -59,7 +57,7 @@ export default function Comittee() {
       <div className="boxTop">
         <div />
         <h1 className="page_title">Comittee</h1>
-        {actualUser.isAdmin && (
+        {user.isAdmin && (
           <Button
             text="Manage Comittee"
             className="manageComitteeButton"
@@ -70,38 +68,34 @@ export default function Comittee() {
           />
         )}
       </div>
-      {(data.length > 0) ? (
-        user.isComitee ? (
-          <div>
-            <Card item={{ ...data[0], anonymous: true }} />
-            <div className="boxVotes">
-              <div className="flexCenter">
-                <ButtonWithImage
-                  type="button"
-                  bgColor={colors["red"].background}
-                  bgHover={colors["red"].backgroundHover}
-                  width="50px"
-                  onClick={() => handleVote(0)}
-                  // img
-                  src={ThumbsDown}
-                />
-              </div>
-              <div className="flexCenter">
-                <ButtonWithImage
-                  type="button"
-                  bgColor={colors["green"].background}
-                  bgHover={colors["green"].backgroundHover}
-                  width="50px"
-                  onClick={() => handleVote(1)}
-                  // img
-                  src={ThumbsUp}
-                />
-              </div>
+      {data.length > 0 ? (
+        <div>
+          <Card item={{ ...data[0], anonymous: true }} comittee={true} />
+          <div className="boxVotes">
+            <div className="flexCenter">
+              <ButtonWithImage
+                type="button"
+                bgColor={colors["red"].background}
+                bgHover={colors["red"].backgroundHover}
+                width="50px"
+                onClick={() => handleVote(0)}
+                // img
+                src={ThumbsDown}
+              />
+            </div>
+            <div className="flexCenter">
+              <ButtonWithImage
+                type="button"
+                bgColor={colors["green"].background}
+                bgHover={colors["green"].backgroundHover}
+                width="50px"
+                onClick={() => handleVote(1)}
+                // img
+                src={ThumbsUp}
+              />
             </div>
           </div>
-        ) : (
-          <NoComittee />
-        )
+        </div>
       ) : (
         <NoResults />
       )}
