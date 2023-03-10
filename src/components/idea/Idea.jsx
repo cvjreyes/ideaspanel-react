@@ -88,7 +88,11 @@ export default function Idea() {
           <div>
             <b>Comments: </b>
           </div>
-          {comments ? <CommentSection comments={comments} /> : <NoComments />}
+          {comments.length > 0 ? (
+            <CommentSection comments={comments} />
+          ) : (
+            <NoComments />
+          )}
         </div>
       </form>
     </div>
