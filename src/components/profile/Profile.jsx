@@ -37,9 +37,7 @@ export default function Profile() {
       setDrafts(tempDrafts);
       setDenied(tempDenied);
     };
-    if (profile) {
-      getUserIdeas();
-    }
+    profile && getUserIdeas();
   }, [profile]);
 
   if (!profile) return <Loading />;
