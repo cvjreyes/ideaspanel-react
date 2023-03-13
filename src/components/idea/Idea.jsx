@@ -23,24 +23,33 @@ export default function Idea() {
   const [newComment, setNewComment] = useState("");
   const [comments, setComments] = useState([]);
   const [ideasVotes, setIdeasVotes] = useState([]);
-  const [checkUserVote, setCheckUserVote] = useState(false);
+  const [checkUserVote, setCheckUserVote] = useState([]);
   const [idea, setIdea] = useState({
     title: "",
     description: "",
     anonymous: false,
   });
 
+  const getVotesIdea = async () => {
+    const { body } = await api(
+      "get",
+      `/idea_votes/get_idea_votes/${params.idea_id}`
+    );
+    setIdeasVotes(body);
+  };
+  
+  const checkUserVotesIdea = async () => {
+    const { body } = await api(
+      "get",
+      `/idea_votes/check_user_idea_vote/${params.idea_id}/${user.id}`
+    );
+    setCheckUserVote(body);
+  };
+
   useEffect(() => {
     const getIdeaInfo = async () => {
       const { body } = await api("get", `/ideas/get_info/${params.idea_id}`);
       setIdea(body[0]);
-    };
-    const getVotesIdea = async () => {
-      const { body } = await api(
-        "get",
-        `/idea_votes/get_idea_votes/${params.idea_id}`
-      );
-      setIdeasVotes(body);
     };
     const getComments = async () => {
       const { body } = await api(
@@ -49,11 +58,17 @@ export default function Idea() {
       );
       setComments(body);
     };
+
     getIdeaInfo();
     getVotesIdea();
-    checkUserVotesIdea();
     getComments();
+    checkUserVotesIdea();
   }, []);
+
+  useEffect(() => {
+    getVotesIdea();
+    checkUserVotesIdea();
+  }, [ideasVotes, checkUserVote]);
 
   const handleAddComment = async (e) => {
     e && e.preventDefault();
@@ -64,37 +79,37 @@ export default function Idea() {
     });
     if (!ok) return notify("Something went wrong", "error");
     notify("Comment successfully added", "success");
-    // setComments([
-    //   ...comments,
-    //   {
-    //     idea_id: params.idea_id,
-    //     user_id: user.id,
-    //     name: user.name,
-    //     like: 0,
-    //     positiveVotes: 0,
-    //     comment: newComment,
-    //     profile_pic: user.profile_pic,
-    //   },
-    // ]);
+    setComments([
+      ...comments,
+      {
+        idea_id: params.idea_id,
+        user_id: user.id,
+        name: user.name,
+        like: 0,
+        positiveVotes: 0,
+        comment: newComment,
+        profile_pic: user.profile_pic,
+      },
+    ]);
     setNewComment("");
   };
 
-  const checkUserVotesIdea = async (e) => {
-    e && e.preventDefault();
-    await api("get", "/idea_votes/check_user_idea_vote", {
-      user_id: user.id,
-      idea_id: params.idea_id,
-    });
-    setCheckUserVote(true);
-  };
-
   const handleIdeaVote = async (e) => {
-    const { ok } = await api("post", "/idea_votes/submit_idea_vote", {
-      idea_id: params.idea_id,
-      user_id: user.id,
-      vote: e,
-    });
-    if (!ok) return notify("Something went wrong", "error");
+    if (e.length > 0) {
+      const { ok } = await api("delete", `/idea_votes/delete_idea_vote/${params.idea_id}/${user.id}`, {
+        idea_id: Number(params.idea_id),
+        user_id: user.id,
+      });
+      setCheckUserVote(ok);
+      if (!ok) return notify("Something went wrong", "error");
+    } else {
+      const { ok } = await api("post", "/idea_votes/submit_idea_vote", {
+        idea_id: Number(params.idea_id),
+        user_id: user.id,
+      });
+      setCheckUserVote(ok);
+      if (!ok) return notify("Something went wrong", "error");
+    }
     notify("Vote successfully done", "success");
   };
 
@@ -116,10 +131,15 @@ export default function Idea() {
               text={ideasVotes.length}
               width="60px"
               margin="20px 0 0 0"
-              bgColor={checkUserVote ? colors["green"].background : ""}
-              bgHover={checkUserVote ? colors["green"].backgroundHover : ""}
+              bgColor={
+                checkUserVote.length > 0 ? colors["green"].background : ""
+              }
+              bgHover={
+                checkUserVote.length > 0 ? colors["green"].backgroundHover : ""
+              }
               // img
               src={ThumbsUp}
+              onClick={() => handleIdeaVote(checkUserVote)}
             />
           </div>
           <AddCommentSection
