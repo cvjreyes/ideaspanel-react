@@ -47,11 +47,8 @@ export default function Navbar() {
           />
         </Link>
       </div>
-      <div className="right">
-        <Link
-          to={`/ideas_panel/profile/${user.id}`}
-          className={`flexCenter ${isProfileActive ? "active" : ""}`}
-        >
+      <div>
+        <Link to={`/ideas_panel/profile/${user.id}`} className="flexCenter">
           {user.name}
           <img
             tabIndex={0}
@@ -94,20 +91,9 @@ const navbarStyle = {
     transition: "filter 0.2s ease-in-out",
     width: "30px",
     margin: "0 0 0 .5rem",
-    // ":hover": {
-    //   filter: "invert(70%)",
-    //   webkitFilter: "invert(70%)",
-    // },
   },
   ".left": {
     display: "flex",
     alignItems: "center",
-    a: {
-      // margin: "0 2rem 0 0",
-    },
-  },
-  ".right": {
-    // display: "flex",
-    // alignItems: "center",
   },
 };
