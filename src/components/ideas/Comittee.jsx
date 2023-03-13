@@ -127,27 +127,26 @@ const CountdownTimer = ({ date }) => {
     return (
       <div>
         <p>Time left to vote:</p>
-        <ShowCounter
-          days={days}
-          hours={hours}
-          minutes={minutes}
-          seconds={seconds}
-        />
+        <ShowCounter d={days} h={hours} m={minutes} s={seconds} />
       </div>
     );
   }
 };
 
-const ShowCounter = ({ days, hours, minutes, seconds }) => {
+const ShowCounter = ({ d, h, m, s }) => {
   return (
     <div className="show-counter flexCenter">
-      <DateTimeDisplay value={days} type={"d"} isDanger={days <= 3} />
+      <DateTimeDisplay value={d} type={"d"} isDanger={d <= 3} />
       <p>:</p>
-      <DateTimeDisplay value={hours} type={"h"} isDanger={hours <= 3} />
+      <DateTimeDisplay value={h} type={"h"} isDanger={d <= 3 && h <= 3} />
       <p>:</p>
-      <DateTimeDisplay value={minutes} type={"m"} isDanger={hours < 1} />
+      <DateTimeDisplay value={m} type={"m"} isDanger={d <= 3 && h < 1} />
       <p>:</p>
-      <DateTimeDisplay value={seconds} type={"s"} isDanger={minutes < 5} />
+      <DateTimeDisplay
+        value={s}
+        type={"s"}
+        isDanger={d <= 3 && h < 1 && m < 5}
+      />
     </div>
   );
 };
