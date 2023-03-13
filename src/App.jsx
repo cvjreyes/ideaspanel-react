@@ -22,6 +22,7 @@ import Comittee from "./components/ideas/Comittee";
 import ManageComittee from "./components/ideas/ManageComittee";
 import EditIdea from "./components/profile/EditIdea";
 import Idea from "./components/idea/Idea";
+import EditProfile from "./components/profile/EditProfile";
 
 const queryClient = new QueryClient();
 
@@ -66,6 +67,9 @@ export default function App() {
             </Route>
             <Route path="/profile/edit_idea/:idea_id">
               {() => <PrivateRoute component={EditIdea} />}
+            </Route>
+            <Route path="/profile/edit_profile/:idea_id">
+              {() => <PrivateRoute component={EditProfile} />}
             </Route>
             <Route path="/new_idea">
               {() => <PrivateRoute component={NewIdea} />}

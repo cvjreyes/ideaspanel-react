@@ -1,8 +1,8 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
-import { useContext, useEffect, useState } from "react";
-import { useRoute } from "wouter";
+import { useContext, useEffect, useLayoutEffect, useState } from "react";
+import { useLocation, useRoute } from "wouter";
 
 import Button from "../general/Button";
 import { api, handleFetch } from "../../helpers/api";
@@ -12,12 +12,16 @@ import SmallCard from "../general/SmallCard";
 
 export default function Profile() {
   const [_, params] = useRoute("/profile/:user_id");
+  const [location, navigate] = useLocation();
+
   const { user, logout } = useContext(AuthContext);
+
   const [profile, setProfile] = useState(null);
   const [drafts, setDrafts] = useState(null);
   const [denied, setDenied] = useState(null);
+  const [published, setPublished] = useState(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const getProfileData = async () => {
       if (user.id !== Number(params.user_id)) {
         const { body } = await api("get", `/users/profile/${params.user_id}`);
@@ -25,17 +29,19 @@ export default function Profile() {
       } else setProfile(user);
     };
     getProfileData();
-  }, []);
+  }, [location]);
 
   useEffect(() => {
     const getUserIdeas = async () => {
       const results = await Promise.allSettled([
         api("get", `/ideas/get_drafts/${profile.id}`),
         api("get", `/ideas/get_denied/${profile.id}`),
+        api("get", `/ideas/get_published/${profile.id}`),
       ]);
-      const [tempDrafts, tempDenied] = handleFetch(results);
+      const [tempDrafts, tempDenied, tempPublished] = handleFetch(results);
       setDrafts(tempDrafts);
       setDenied(tempDenied);
+      setPublished(tempPublished);
     };
     profile && getUserIdeas();
   }, [profile]);
@@ -44,7 +50,21 @@ export default function Profile() {
   return (
     <div css={profileStyle}>
       <div className="headWrapper">
-        <div />
+        <div>
+          {user.id == params.user_id && (
+            <Button
+              color="white"
+              bgColor="#338DF1"
+              bgHover="linear-gradient(180deg, #338DF1 -2.23%, #338DF1 -2.22%, #85BFFF 148.66%)"
+              text="Edit"
+              onClick={() =>
+                navigate(`/profile/edit_profile/${params.user_id}`)
+              }
+              width="150px"
+              margin="0 20px"
+            />
+          )}
+        </div>
         <div>
           <div className="profPicWrapper">
             <img alt="profile" src={user.profile_pic} />
@@ -66,21 +86,32 @@ export default function Profile() {
       </div>
       <div className="contentWrapper">
         <div className="draftsWrapper">
-          <h3>Drafts ({drafts?.length})</h3>
+          <h3>Published ({published?.length})</h3>
           <div className="draftsMapWrapper">
-            {drafts?.map((item, i) => {
+            {published?.map((item, i) => {
               return <SmallCard item={item} key={i} />;
             })}
           </div>
         </div>
-        <div className="draftsWrapper">
-          <h3>Denied ({denied?.length})</h3>
-          <div className="draftsMapWrapper">
-            {denied?.map((item, i) => {
-              return <SmallCard item={item} key={i} />;
-            })}
-          </div>
-        </div>
+        <div />
+        {user.id == params.user_id && [
+          <div className="draftsWrapper" key="1">
+            <h3>Drafts ({drafts?.length})</h3>
+            <div className="draftsMapWrapper">
+              {drafts?.map((item, i) => {
+                return <SmallCard item={item} key={i} />;
+              })}
+            </div>
+          </div>,
+          <div className="draftsWrapper" key="2">
+            <h3>Denied ({denied?.length})</h3>
+            <div className="draftsMapWrapper">
+              {denied?.map((item, i) => {
+                return <SmallCard item={item} key={i} />;
+              })}
+            </div>
+          </div>,
+        ]}
       </div>
     </div>
   );
