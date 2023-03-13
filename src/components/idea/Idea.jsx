@@ -36,17 +36,12 @@ export default function Idea() {
       `/idea_votes/get_idea_votes/${params.idea_id}`
     );
     setIdeasVotes(body);
-  };
-  
-  const checkUserVotesIdea = async () => {
-    const { body } = await api(
-      "get",
-      `/idea_votes/check_user_idea_vote/${params.idea_id}/${user.id}`
-    );
-    if (body.length > 0) {
-      setCheckUserVote(true);
+    const idx = body.findIndex((idea) => user.id === idea.user_id);
+    console.log(idx);
+    if (idx === -1) {
+      return setCheckUserVote(false);
     } else {
-      setCheckUserVote(false);
+      setCheckUserVote(true)
     }
   };
 
@@ -67,7 +62,6 @@ export default function Idea() {
     getIdeaInfo();
     getIdeaVotes();
     getComments();
-    checkUserVotesIdea();
   }, []);
 
   const handleAddComment = async (e) => {
@@ -79,29 +73,31 @@ export default function Idea() {
     });
     if (!ok) return notify("Something went wrong", "error");
     notify("Comment successfully added", "success");
-    getComments()
+    getComments();
     setNewComment("");
   };
 
   const handleIdeaVote = async () => {
     if (checkUserVote) {
-      const { ok } = await api("delete", `/idea_votes/delete_idea_vote/${params.idea_id}/${user.id}`, {
-        idea_id: Number(params.idea_id),
-        user_id: user.id,
-      });
-      checkUserVotesIdea();
-      getIdeaVotes();
+      const { ok } = await api(
+        "delete",
+        `/idea_votes/delete_idea_vote/${params.idea_id}/${user.id}`,
+        {
+          idea_id: Number(params.idea_id),
+          user_id: user.id,
+        }
+      );
       if (!ok) return notify("Something went wrong", "error");
+      notify("Unvote successfully done", "success");
     } else {
       const { ok } = await api("post", "/idea_votes/submit_idea_vote", {
         idea_id: Number(params.idea_id),
         user_id: user.id,
       });
-      checkUserVotesIdea();
-      getIdeaVotes();
       if (!ok) return notify("Something went wrong", "error");
+      notify("Vote successfully done", "success");
     }
-    notify("Vote successfully done", "success");
+    getIdeaVotes();
   };
 
   return (
@@ -122,19 +118,14 @@ export default function Idea() {
               text={ideasVotes.length}
               width="60px"
               margin="20px 0 0 0"
-              bgColor={
-                checkUserVote ? colors["green"].background : ""
-              }
-              bgHover={
-                checkUserVote ? colors["green"].backgroundHover : ""
-              }
+              bgColor={checkUserVote ? colors["green"].background : ""}
+              bgHover={checkUserVote ? colors["green"].backgroundHover : ""}
               // img
               src={ThumbsUp}
               onClick={() => handleIdeaVote()}
             />
           </div>
           <AddCommentSection
-            comments={comments}
             newComment={newComment}
             setNewComment={setNewComment}
             handleAddComment={handleAddComment}
