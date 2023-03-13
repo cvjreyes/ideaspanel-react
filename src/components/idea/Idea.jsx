@@ -36,28 +36,19 @@ export default function Idea() {
       `/idea_votes/get_idea_votes/${params.idea_id}`
     );
     setIdeasVotes(body);
-    console.log(body);
-    body.map((idea) => {
-      console.log(idea);
-      if (user.id = idea.user_id) {
-        setCheckUserVote(true);
-      } else {
-        setCheckUserVote(false);
-      }
-    });
   };
-
-  // const checkUserVotesIdea = async () => {
-  //   const { body } = await api(
-  //     "get",
-  //     `/idea_votes/check_user_idea_vote/${params.idea_id}/${user.id}`
-  //   );
-  //   if (body.length > 0) {
-  //     setCheckUserVote(true);
-  //   } else {
-  //     setCheckUserVote(false);
-  //   }
-  // };
+  
+  const checkUserVotesIdea = async () => {
+    const { body } = await api(
+      "get",
+      `/idea_votes/check_user_idea_vote/${params.idea_id}/${user.id}`
+    );
+    if (body.length > 0) {
+      setCheckUserVote(true);
+    } else {
+      setCheckUserVote(false);
+    }
+  };
 
   const getComments = async () => {
     const { body } = await api(
@@ -76,7 +67,7 @@ export default function Idea() {
     getIdeaInfo();
     getIdeaVotes();
     getComments();
-    // checkUserVotesIdea();
+    checkUserVotesIdea();
   }, []);
 
   const handleAddComment = async (e) => {
@@ -88,31 +79,28 @@ export default function Idea() {
     });
     if (!ok) return notify("Something went wrong", "error");
     notify("Comment successfully added", "success");
-    getComments();
+    getComments()
     setNewComment("");
   };
 
   const handleIdeaVote = async () => {
-    console.log(checkUserVote);
     if (checkUserVote) {
-      const { ok } = await api(
-        "delete",
-        `/idea_votes/delete_idea_vote/${params.idea_id}/${user.id}`,
-        {
-          idea_id: Number(params.idea_id),
-          user_id: user.id,
-        }
-      );
+      const { ok } = await api("delete", `/idea_votes/delete_idea_vote/${params.idea_id}/${user.id}`, {
+        idea_id: Number(params.idea_id),
+        user_id: user.id,
+      });
       if (!ok) return notify("Something went wrong", "error");
+      notify("Unvote successfully done", "success");
     } else {
       const { ok } = await api("post", "/idea_votes/submit_idea_vote", {
         idea_id: Number(params.idea_id),
         user_id: user.id,
       });
       if (!ok) return notify("Something went wrong", "error");
+      notify("Vote successfully done", "success");
     }
+    checkUserVotesIdea();
     getIdeaVotes();
-    notify("Vote successfully done", "success");
   };
 
   return (
@@ -133,15 +121,18 @@ export default function Idea() {
               text={ideasVotes.length}
               width="60px"
               margin="20px 0 0 0"
-              bgColor={checkUserVote ? colors["green"].background : ""}
-              bgHover={checkUserVote ? colors["green"].backgroundHover : ""}
+              bgColor={
+                checkUserVote ? colors["green"].background : ""
+              }
+              bgHover={
+                checkUserVote ? colors["green"].backgroundHover : ""
+              }
               // img
               src={ThumbsUp}
               onClick={() => handleIdeaVote()}
             />
           </div>
           <AddCommentSection
-            comments={comments}
             newComment={newComment}
             setNewComment={setNewComment}
             handleAddComment={handleAddComment}

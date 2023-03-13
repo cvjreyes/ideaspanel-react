@@ -3,7 +3,6 @@
 import { jsx } from "@emotion/react";
 
 export default function AddCommentSection({
-  comments,
   newComment,
   setNewComment,
   handleAddComment,
@@ -16,7 +15,7 @@ export default function AddCommentSection({
         onChange={(e) => setNewComment(e.target.value)}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
-            handleAddComment();
+            handleAddComment;
           }
         }}
       />
