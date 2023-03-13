@@ -36,27 +36,14 @@ export default function Idea() {
       `/idea_votes/get_idea_votes/${params.idea_id}`
     );
     setIdeasVotes(body);
-    ideasVotes.forEach((idea) => {
-      console.log(user.id);
-      if (idea.user_id === user.id) {
-        setCheckUserVote(true);
-      } else {
-        setCheckUserVote(false);
-      }
-    });
+    const idx = body.findIndex((idea) => user.id === idea.user_id);
+    console.log(idx);
+    if (idx === -1) {
+      return setCheckUserVote(false);
+    } else {
+      setCheckUserVote(true)
+    }
   };
-
-  // const checkUserVotesIdea = async () => {
-  //   const { body } = await api(
-  //     "get",
-  //     `/idea_votes/check_user_idea_vote/${params.idea_id}/${user.id}`
-  //   );
-  //   if (body.length > 0) {
-  //     setCheckUserVote(true);
-  //   } else {
-  //     setCheckUserVote(false);
-  //   }
-  // };
 
   const getComments = async () => {
     const { body } = await api(
@@ -75,7 +62,6 @@ export default function Idea() {
     getIdeaInfo();
     getIdeaVotes();
     getComments();
-    // checkUserVotesIdea();
   }, []);
 
   const handleAddComment = async (e) => {
@@ -111,7 +97,6 @@ export default function Idea() {
       if (!ok) return notify("Something went wrong", "error");
       notify("Vote successfully done", "success");
     }
-    // checkUserVotesIdea();
     getIdeaVotes();
   };
 
