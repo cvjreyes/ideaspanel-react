@@ -5,7 +5,7 @@ import { useContext, useEffect, useState } from "react";
 import { useRoute } from "wouter";
 
 import Button from "../general/Button";
-import { api } from "../../helpers/api";
+import { api, handleFetch } from "../../helpers/api";
 import { AuthContext } from "../../context/AuthContext";
 import Loading from "../general/Loading";
 import SmallCard from "../general/SmallCard";
@@ -15,6 +15,7 @@ export default function Profile() {
   const { user, logout } = useContext(AuthContext);
   const [profile, setProfile] = useState(null);
   const [drafts, setDrafts] = useState(null);
+  const [denied, setDenied] = useState(null);
 
   useEffect(() => {
     const getProfileData = async () => {
@@ -28,12 +29,15 @@ export default function Profile() {
 
   useEffect(() => {
     const getUserIdeas = async () => {
-      const { body } = await api("get", "/ideas/get_drafts");
-      setDrafts(body);
+      const results = await Promise.allSettled([
+        api("get", `/ideas/get_drafts/${profile.id}`),
+        api("get", `/ideas/get_denied/${profile.id}`),
+      ]);
+      const [tempDrafts, tempDenied] = handleFetch(results);
+      setDrafts(tempDrafts);
+      setDenied(tempDenied);
     };
-    if (profile) {
-      getUserIdeas();
-    }
+    profile && getUserIdeas();
   }, [profile]);
 
   if (!profile) return <Loading />;
@@ -60,12 +64,22 @@ export default function Profile() {
           />
         </div>
       </div>
-      <div className="draftsWrapper">
-        <h3>Drafts ({drafts?.length})</h3>
-        <div className="draftsMapWrapper">
-          {drafts?.map((item, i) => {
-            return <SmallCard item={item} key={i} />;
-          })}
+      <div className="contentWrapper">
+        <div className="draftsWrapper">
+          <h3>Drafts ({drafts?.length})</h3>
+          <div className="draftsMapWrapper">
+            {drafts?.map((item, i) => {
+              return <SmallCard item={item} key={i} />;
+            })}
+          </div>
+        </div>
+        <div className="draftsWrapper">
+          <h3>Denied ({denied?.length})</h3>
+          <div className="draftsMapWrapper">
+            {denied?.map((item, i) => {
+              return <SmallCard item={item} key={i} />;
+            })}
+          </div>
         </div>
       </div>
     </div>
@@ -79,9 +93,6 @@ const profileStyle = {
   padding: "0 10vw",
   ".headWrapper": {
     marginTop: "100px",
-    // display: "flex",
-    // flexDirection: "column",
-    // alignItems: "center",
     display: "grid",
     gridTemplateColumns: ".5fr 1fr .5fr",
     h1: { margin: "10px 0" },
@@ -94,14 +105,18 @@ const profileStyle = {
       borderRadius: "100px",
     },
   },
-  ".draftsWrapper": {
-    textAlign: "left",
-    marginTop: "20px",
-    ".draftsMapWrapper": {
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(200px, 240px))",
-      width: "50vw",
+  ".contentWrapper": {
+    display: "grid",
+    gridTemplateColumns: "repeat(2, 1fr)",
+    ".draftsWrapper": {
+      textAlign: "left",
       marginTop: "20px",
+      ".draftsMapWrapper": {
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fit, minmax(200px, 240px))",
+        width: "50vw",
+        marginTop: "20px",
+      },
     },
   },
 };
