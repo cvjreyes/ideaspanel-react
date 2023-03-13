@@ -3,28 +3,19 @@
 import { jsx } from "@emotion/react";
 
 export default function AddCommentSection({
-  comments,
   newComment,
   setNewComment,
   handleAddComment,
 }) {
   return (
     <div css={addCommentSectionStyles}>
-      <ul className="list_comments">
-        {comments.length > 0 &&
-          comments.map((comment, index) => {
-            <li key={index} className="comment">
-              {comment}
-            </li>;
-          })}
-      </ul>
-      <textarea
+      <input
         placeholder="Add a comment"
         value={newComment}
         onChange={(e) => setNewComment(e.target.value)}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
-            handleAddComment();
+            handleAddComment;
           }
         }}
       />
@@ -41,15 +32,12 @@ const addCommentSectionStyles = {
   margin: "20px 0",
   width: "37vw",
   minWidth: "300px",
-  ".list_comments": {
-    listStyle: "none",
-  },
   ".comment": {
     backgroundColor: "#f9f9f9",
     padding: "10px",
     marginBottom: "10px",
   },
-  textarea: {
+  input: {
     width: "100%",
     padding: "10px",
     marginBottom: "10px",
