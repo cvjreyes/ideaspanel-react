@@ -37,11 +37,10 @@ export default function Idea() {
     );
     setIdeasVotes(body);
     const idx = body.findIndex((idea) => user.id === idea.user_id);
-    console.log(idx);
     if (idx === -1) {
       return setCheckUserVote(false);
     } else {
-      setCheckUserVote(true)
+      setCheckUserVote(true);
     }
   };
 
