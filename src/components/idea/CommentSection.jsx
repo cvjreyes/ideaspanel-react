@@ -7,6 +7,7 @@ import ButtonWithImage from "../general/ButtonWithImage";
 import ThumbsUp from "../../assets/images/thumbs-up.png";
 
 export default function CommentSection({ comments }) {
+  // console.log(comments);
   return (
     <div css={CommentSectionStyle}>
       {comments.map((comment, i) => (
@@ -28,7 +29,7 @@ export default function CommentSection({ comments }) {
             </div>
           </div>
           <div className="imageVotes">
-            <ButtonWithImage
+            {/* <ButtonWithImage
               type="button"
               text={comment.positiveVotes}
               width="60px"
@@ -37,7 +38,7 @@ export default function CommentSection({ comments }) {
               bgHover={comment.like ? colors["green"].backgroundHover : ""}
               // img
               src={ThumbsUp}
-            />
+            /> */}
           </div>
         </div>
       ))}
@@ -50,7 +51,8 @@ const CommentSectionStyle = {
   padding: "10px",
   borderRadius: "10px",
   border: "0 solid black",
-  boxShadow: "0px 10px 10px 10px rgb(133, 133, 133)",
+  background: "white",
+  boxShadow: "8px 8px 17px #e4e5da, -8px -8px 17px #ffffff",
   ".comment": {
     margin: "10px 10px 10px 0",
     border: "4px solid #ccc",

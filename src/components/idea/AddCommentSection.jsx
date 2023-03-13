@@ -22,6 +22,11 @@ export default function AddCommentSection({
         placeholder="Add a comment"
         value={newComment}
         onChange={(e) => setNewComment(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            handleAddComment();
+          }
+        }}
       />
       <button onClick={handleAddComment}>Add Comment</button>
     </div>
@@ -29,8 +34,8 @@ export default function AddCommentSection({
 }
 
 const addCommentSectionStyles = {
-  //   border: "4px solid #ccc",
-  boxShadow: "0px 10px 10px 10px rgb(133, 133, 133)",
+  background: "white",
+  boxShadow: "8px 8px 17px #e4e5da, -8px -8px 17px #ffffff",
   borderRadius: "10px",
   padding: "20px",
   margin: "20px 0",
