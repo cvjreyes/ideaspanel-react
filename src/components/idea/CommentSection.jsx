@@ -28,18 +28,6 @@ export default function CommentSection({ comments }) {
               <i>{comment.comment}</i>
             </div>
           </div>
-          <div className="imageVotes">
-            {/* <ButtonWithImage
-              type="button"
-              text={comment.positiveVotes}
-              width="60px"
-              margin="0 20px"
-              bgColor={comment.like ? colors["green"].background : ""}
-              bgHover={comment.like ? colors["green"].backgroundHover : ""}
-              // img
-              src={ThumbsUp}
-            /> */}
-          </div>
         </div>
       ))}
     </div>
@@ -66,19 +54,14 @@ const CommentSectionStyle = {
     ".info": {
       width: "70%",
     },
-    ".imageVotes": {
-      display: "flex",
-      flexDirection: "row",
+    img: {
+      width: "50px",
       height: "50px",
-      img: {
-        width: "50px",
-        height: "50px",
-        padding: "10px",
-        backgroundColor: "#99C6F8",
-        borderRadius: "100px",
-        margin:" 0 10px",
-        objectFit: "cover",
-      },
+      padding: "10px",
+      backgroundColor: "#99C6F8",
+      borderRadius: "100px",
+      margin: " 0 10px",
+      objectFit: "cover",
     },
   },
 };
