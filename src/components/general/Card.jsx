@@ -8,8 +8,8 @@ export default function Card({ item, comittee }) {
   const [__, navigate] = useLocation();
 
   const cardStyle = {
-    margin: !comittee ? "0 50px 50px 0" : "30px auto 50px",
-    width: "380px",
+    margin: !comittee ? "0 0 50px" : "30px auto 50px",
+    width: "100%",
     borderRadius: "20px",
     border: "0 solid black",
     paddingBottom: "1px",
@@ -31,17 +31,18 @@ export default function Card({ item, comittee }) {
       borderRadius: "20px 20px 0 0",
     },
     ".boxCard": {
-      padding: "30px",
-      height: "170px",
+      padding: "20px 30px 30px",
+      height: "140px",
       ".title": {
         WebkitLineClamp: 1,
+        marginBottom: "5px",
       },
       ".description": {
-        WebkitLineClamp: 5,
+        WebkitLineClamp: 4,
       },
     },
     ".profileBox": {
-      margin: "20px",
+      margin: "10px 20px",
       padding: "10px",
       display: "flex",
       alignItems: "center",

@@ -68,7 +68,7 @@ export default function App() {
             <Route path="/profile/edit_idea/:idea_id">
               {() => <PrivateRoute component={EditIdea} />}
             </Route>
-            <Route path="/profile/edit_profile/:idea_id">
+            <Route path="/profile/edit_profile/:user_id">
               {() => <PrivateRoute component={EditProfile} />}
             </Route>
             <Route path="/new_idea">
