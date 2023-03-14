@@ -77,23 +77,15 @@ export default function Idea() {
   };
 
   const handleIdeaVote = async () => {
+    const { ok } = await api("post", "/idea_votes/submit_idea_vote", {
+      idea_id: Number(params.idea_id),
+      user_id: user.id,
+      check_vote: checkUserVote,
+    });
+    if (!ok) return notify("Something went wrong", "error");
     if (checkUserVote) {
-      const { ok } = await api(
-        "delete",
-        `/idea_votes/delete_idea_vote/${params.idea_id}/${user.id}`,
-        {
-          idea_id: Number(params.idea_id),
-          user_id: user.id,
-        }
-      );
-      if (!ok) return notify("Something went wrong", "error");
       notify("Unvote successfully done", "success");
     } else {
-      const { ok } = await api("post", "/idea_votes/submit_idea_vote", {
-        idea_id: Number(params.idea_id),
-        user_id: user.id,
-      });
-      if (!ok) return notify("Something went wrong", "error");
       notify("Vote successfully done", "success");
     }
     getIdeaVotes();
