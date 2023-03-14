@@ -159,7 +159,7 @@ const manageComitteeStyle = {
     flexDirection: "column",
     minHeight: "calc(85vh - 200px)",
     minWidth: "600px",
-    width: "50vw",
+    // width: "50vw",
     alignItems: "center",
     margin: "2% 25% 0",
     border: "1px solid black",
@@ -175,9 +175,9 @@ const manageComitteeStyle = {
       height: "50px",
       width: "100%",
       ".email": {
-        whiteSpace:"nowrap",
-        minWidth:"400px",
-      }
+        whiteSpace: "nowrap",
+        minWidth: "400px",
+      },
     },
     ".map": {
       width: "100%",

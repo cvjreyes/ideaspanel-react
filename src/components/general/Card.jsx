@@ -9,7 +9,8 @@ export default function Card({ item, comittee }) {
 
   const cardStyle = {
     margin: !comittee ? "0 0 50px" : "30px auto 50px",
-    width: "100%",
+    width: comittee ? "350px" : "100%",
+    height: comittee ? "450px" : "inherit",
     borderRadius: "20px",
     border: "0 solid black",
     paddingBottom: "1px",
@@ -38,7 +39,7 @@ export default function Card({ item, comittee }) {
         marginBottom: "5px",
       },
       ".description": {
-        WebkitLineClamp: 4,
+        WebkitLineClamp: comittee ? 6 : 4,
       },
     },
     ".profileBox": {
@@ -80,27 +81,31 @@ export default function Card({ item, comittee }) {
           <p className="description cutLines">{item.description}</p>
         </div>
       </div>
-      <div
-        className="profileBox"
-        onClick={() => !item.anonymous && navigate(`/profile/${item.user_id}`)}
-      >
-        <img
-          src={
-            !item.anonymous
-              ? item.profile_pic
-              : "http://localhost:5026/images/default.png"
+      {!comittee && (
+        <div
+          className="profileBox"
+          onClick={() =>
+            !item.anonymous && navigate(`/profile/${item.user_id}`)
           }
-          alt="profile"
-        />
-        <div className="infoProfile">
-          <span className="semiBold italic medium">
-            {!item.anonymous ? item.name : "Anonymous"}
-          </span>
-          <span className="date italic medium">
-            {formatDate(item.created_at)}
-          </span>
+        >
+          <img
+            src={
+              !item.anonymous
+                ? item.profile_pic
+                : "http://localhost:5026/images/default.png"
+            }
+            alt="profile"
+          />
+          <div className="infoProfile">
+            <span className="semiBold italic medium">
+              {!item.anonymous ? item.name : "Anonymous"}
+            </span>
+            <span className="date italic medium">
+              {formatDate(item.created_at)}
+            </span>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
