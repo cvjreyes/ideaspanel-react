@@ -1,7 +1,13 @@
 TODOS:
-- add go back from manage comittee
+- validating in profile
+- no anonymous in comittee
+- logo technip abajo
 
 DONE:
+- fix cards margin
+- fix zIndex from cards
+- if all votes emmitted => publish immediately
+- add go back from manage comittee
 - fixed voting multiple times and accessing comittee if not comittee
 - details in card design
 - when match on route => navbar link in diff color
