@@ -29,7 +29,7 @@ export default function Idea() {
     description: "",
     anonymous: false,
   });
-  
+
   useEffect(() => {
     const getIdeaInfo = async () => {
       const { body } = await api("get", `/ideas/get_info/${params.idea_id}`);
@@ -82,11 +82,7 @@ export default function Idea() {
       check_vote: checkUserVote,
     });
     if (!ok) return notify("Something went wrong", "error");
-    if (checkUserVote) {
-      notify("Unvote successfully done", "success");
-    } else {
-      notify("Vote successfully done", "success");
-    }
+    notify(`${checkUserVote ? "Unv" : "V"}ote successfully done`, "success");
     getIdeaVotes();
   };
 
