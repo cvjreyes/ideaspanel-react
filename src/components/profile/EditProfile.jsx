@@ -1,4 +1,7 @@
-import React, { useContext, useEffect } from "react";
+/** @jsxRuntime classic */
+/** @jsx jsx */
+import { jsx } from "@emotion/react";
+import { useContext, useEffect } from "react";
 import { useLocation, useRoute } from "wouter";
 import { AuthContext } from "../../context/AuthContext";
 
@@ -13,12 +16,14 @@ export default function EditProfile() {
   }, []);
 
   return (
-    <div>
+    <div css={editProfileStyle}>
       <h1 className="page_title">EditProfile</h1>
-      <p>click on idea {`=>`} if equal go to edit else go to view</p>
-      <p>redirect home if params.user_id !== context user.id</p>
       <p>Edit image</p>
       <p>Edit bio?</p>
     </div>
   );
 }
+
+const editProfileStyle = {
+  minHeight: "75vh",
+};

@@ -20,6 +20,7 @@ export default function Profile() {
   const [drafts, setDrafts] = useState(null);
   const [denied, setDenied] = useState(null);
   const [published, setPublished] = useState(null);
+  const [validating, setValidating] = useState(null);
 
   useLayoutEffect(() => {
     const getProfileData = async () => {
@@ -37,11 +38,14 @@ export default function Profile() {
         api("get", `/ideas/get_drafts/${profile.id}`),
         api("get", `/ideas/get_denied/${profile.id}`),
         api("get", `/ideas/get_published/${profile.id}`),
+        api("get", `/ideas/get_validating/${profile.id}`),
       ]);
-      const [tempDrafts, tempDenied, tempPublished] = handleFetch(results);
+      const [tempDrafts, tempDenied, tempPublished, tempValidating] =
+        handleFetch(results);
       setDrafts(tempDrafts);
       setDenied(tempDenied);
       setPublished(tempPublished);
+      setValidating(tempValidating);
     };
     profile && getUserIdeas();
   }, [profile]);
@@ -67,10 +71,10 @@ export default function Profile() {
         </div>
         <div>
           <div className="profPicWrapper">
-            <img alt="profile" src={user.profile_pic} />
+            <img alt="profile" src={profile.profile_pic} />
           </div>
-          <h1 className="page_title">{user.name}</h1>
-          <p>{user.email}</p>
+          <h1 className="page_title">{profile.name}</h1>
+          <p>{profile.email}</p>
         </div>
         <div>
           <Button
@@ -90,28 +94,35 @@ export default function Profile() {
           <div className="draftsMapWrapper">
             {published?.map((item, i) => {
               return (
-                <Link to={`/idea/${item.id}`} key={i}>
-                  <SmallCard item={item} />;
+                <Link to={`/idea/${item.id}`} key={`published${i}`}>
+                  <SmallCard item={item} />
                 </Link>
               );
             })}
           </div>
         </div>
-        <div />
         {user.id == params.user_id && [
           <div className="draftsWrapper" key="1">
-            <h3>Drafts ({drafts?.length})</h3>
+            <h3>Validating ({drafts?.length})</h3>
             <div className="draftsMapWrapper">
-              {drafts?.map((item, i) => {
-                return <SmallCard item={item} key={i} />;
+              {validating?.map((item, i) => {
+                return <SmallCard item={item} key={`validating${i}`} />;
               })}
             </div>
           </div>,
           <div className="draftsWrapper" key="2">
+            <h3>Drafts ({drafts?.length})</h3>
+            <div className="draftsMapWrapper">
+              {drafts?.map((item, i) => {
+                return <SmallCard item={item} key={`drafts${i}`} />;
+              })}
+            </div>
+          </div>,
+          <div className="draftsWrapper" key="3">
             <h3>Denied ({denied?.length})</h3>
             <div className="draftsMapWrapper">
               {denied?.map((item, i) => {
-                return <SmallCard item={item} key={i} />;
+                return <SmallCard item={item} key={`denied${i}`} />;
               })}
             </div>
           </div>,
@@ -126,6 +137,7 @@ const profileStyle = {
   flexDirection: "column",
   textAlign: "center",
   padding: "0 10vw",
+  minHeight: "85vh",
   ".headWrapper": {
     marginTop: "100px",
     display: "grid",
@@ -143,13 +155,14 @@ const profileStyle = {
   ".contentWrapper": {
     display: "grid",
     gridTemplateColumns: "repeat(2, 1fr)",
+    width: "100%",
     ".draftsWrapper": {
       textAlign: "left",
       marginTop: "20px",
+      maxWidth: "40vw",
       ".draftsMapWrapper": {
         display: "grid",
         gridTemplateColumns: "repeat(auto-fit, minmax(200px, 240px))",
-        width: "50vw",
         marginTop: "20px",
       },
     },
