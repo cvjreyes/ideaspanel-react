@@ -26,7 +26,16 @@ export default function CommentSection({ comments }) {
               </div>
             </div>
             <div className="dateComment">
-              <i className="bold">Last update: </i>{commentDate.getDate()}/{commentDate.getMonth()+1}/{commentDate.getFullYear()}
+              <div>
+                <div>
+                  {commentDate.getDate()}/{commentDate.getMonth() + 1}/
+                  {commentDate.getFullYear()}
+                </div>
+                <div>
+                  {commentDate.getHours()}:{commentDate.getMinutes()}:
+                  {commentDate.getSeconds()}
+                </div>
+              </div>
             </div>
           </div>
         );
@@ -37,7 +46,7 @@ export default function CommentSection({ comments }) {
 
 const CommentSectionStyle = {
   margin: "10px 10px 30px 0",
-  minWidth:"500px",
+  minWidth: "500px",
   padding: "10px",
   borderRadius: "10px",
   border: "0 solid black",
@@ -67,6 +76,6 @@ const CommentSectionStyle = {
     },
     ".dateComment": {
       whiteSpace: "nowrap",
-    }
+    },
   },
 };
