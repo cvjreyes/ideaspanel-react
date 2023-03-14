@@ -23,13 +23,13 @@ export default function Idea() {
   const [newComment, setNewComment] = useState("");
   const [comments, setComments] = useState([]);
   const [ideasVotes, setIdeasVotes] = useState([]);
-  const [checkUserVote, setCheckUserVote] = useState(false);
+  const [hasUserVoted, setHasUserVoted] = useState(false);
   const [idea, setIdea] = useState({
     title: "",
     description: "",
     anonymous: false,
   });
-  
+
   useEffect(() => {
     const getIdeaInfo = async () => {
       const { body } = await api("get", `/ideas/get_info/${params.idea_id}`);
@@ -48,9 +48,9 @@ export default function Idea() {
     setIdeasVotes(body);
     const idx = body.findIndex((idea) => user.id === idea.user_id);
     if (idx === -1) {
-      return setCheckUserVote(false);
+      return setHasUserVoted(false);
     } else {
-      setCheckUserVote(true);
+      setHasUserVoted(true);
     }
   };
 
@@ -79,10 +79,10 @@ export default function Idea() {
     const { ok } = await api("post", "/idea_votes/submit_idea_vote", {
       idea_id: Number(params.idea_id),
       user_id: user.id,
-      check_vote: checkUserVote,
+      check_vote: hasUserVoted,
     });
     if (!ok) return notify("Something went wrong", "error");
-    if (checkUserVote) {
+    if (hasUserVoted) {
       notify("Unvote successfully done", "success");
     } else {
       notify("Vote successfully done", "success");
@@ -105,8 +105,8 @@ export default function Idea() {
             text={ideasVotes.length}
             width="60px"
             margin="20px 0 0 0"
-            bgColor={checkUserVote ? colors["green"].background : ""}
-            bgHover={checkUserVote ? colors["green"].backgroundHover : ""}
+            bgColor={hasUserVoted ? colors["green"].background : ""}
+            bgHover={hasUserVoted ? colors["green"].backgroundHover : ""}
             // img
             src={ThumbsUp}
             onClick={() => handleIdeaVote()}
@@ -147,8 +147,8 @@ const ideaStyle = {
         justifyContent: "start",
         marginTop: "50px",
         img: {
-          height: "300px",
-          width: "auto",
+          height: "200px",
+          width: "350px",
         },
       },
     },
