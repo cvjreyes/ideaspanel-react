@@ -38,6 +38,7 @@ export default function Login() {
             margin="20px auto 0"
             onChange={(e) => setEmail(e.target.value)}
             width="100%"
+            textAlign="center"
           />
         </div>
         <Button
