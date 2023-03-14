@@ -32,10 +32,10 @@ export default function ManageComittee() {
   }, []);
 
   useEffect(() => {
-    const checkAdmin = () => {
-      if (!user.isAdmin) return navigate("/comittee");
+    const checkComittee = () => {
+      if (!user.isComittee) return navigate("/comittee");
     };
-    checkAdmin();
+    checkComittee();
   }, []);
 
   useEffect(() => {
@@ -51,16 +51,16 @@ export default function ManageComittee() {
     setDisplayUsers(tempUsers);
   };
 
-  const onChange = async (email, admin) => {
-    const { ok } = await api("post", "/users/update_admin", {
+  const onChange = async (email, comittee) => {
+    const { ok } = await api("post", "/users/update_comittee", {
       email: email,
-      admin: admin ? 0 : 1,
+      comittee: comittee ? 0 : 1,
     });
     if (!ok) return notify("Something went wrong", "error");
-    notify(`${email} is now ${admin ? "not " : ""}admin`, "info");
-    const idx = users.findIndex((user) => user.email === email);
-    const tempUsers = [...users];
-    tempUsers[idx].isAdmin = tempUsers[idx].isAdmin ? 0 : 1;
+    notify(`${email} is now ${comittee ? "not " : ""}comittee`, "info");
+    const idx = displayUsers.findIndex((user) => user.email === email);
+    const tempUsers = [...displayUsers];
+    tempUsers[idx].isComittee = tempUsers[idx].isComittee ? 0 : 1;
     setDisplayUsers(tempUsers);
   };
 
@@ -78,10 +78,6 @@ export default function ManageComittee() {
                 e.target.value = "";
                 setFilterData("");
               }}
-              onBlur={(e) => {
-                e.target.value = e.target.defaultValue;
-                setFilterData("");
-              }}
               onKeyDown={(e) => {
                 if (e.key === "Escape") {
                   e.target.value = e.target.defaultValue;
@@ -91,7 +87,7 @@ export default function ManageComittee() {
               }}
             />
           </div>
-          <div className="flexCenter">Admin</div>
+          <div className="flexCenter">Comittee</div>
         </div>
         {displayUsers ? (
           displayUsers.length > 0 ? (
@@ -103,8 +99,8 @@ export default function ManageComittee() {
                     <Checkbox
                       data={item}
                       key={i}
-                      checked={!!item.isAdmin}
-                      onChange={() => onChange(item.email, item.isAdmin)}
+                      checked={!!item.isComittee}
+                      onChange={() => onChange(item.email, item.isComittee)}
                       className="checkbox"
                     />
                   </div>
