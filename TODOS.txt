@@ -1,9 +1,9 @@
 TODOS:
-- validating in profile
 - no anonymous in comittee
-- logo technip abajo
 
 DONE:
+- logo technip abajo
+- validating in profile
 - fix cards margin
 - fix zIndex from cards
 - if all votes emmitted => publish immediately
