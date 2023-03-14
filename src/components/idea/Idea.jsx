@@ -148,7 +148,7 @@ const ideaStyle = {
         height: "250px",
         marginTop: "50px",
         img: {
-          width: "250px",
+          width: "auto",
         },
       },
     },

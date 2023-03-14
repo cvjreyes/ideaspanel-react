@@ -111,7 +111,7 @@ export default function ManageComittee() {
               {displayUsers.map((item, i) => {
                 return (
                   <div className="columnsBox" key={i}>
-                    <div className="flexCenter">{item.email}</div>
+                    <div className="email flexCenter">{item.email}</div>
                     <Checkbox
                       data={item}
                       key={i}
@@ -138,6 +138,7 @@ const manageComitteeStyle = {
   ".topManageBox": {
     display: "grid",
     gridTemplateColumns: "repeat(3, 1fr)",
+    minWidth: "600px",
     h1: {
       fontSize: "25px",
       textAlign: "center",
@@ -157,7 +158,7 @@ const manageComitteeStyle = {
     display: "flex",
     flexDirection: "column",
     minHeight: "calc(85vh - 200px)",
-    minWidth: "400px",
+    minWidth: "600px",
     width: "50vw",
     alignItems: "center",
     margin: "2% 25% 0",
@@ -173,6 +174,10 @@ const manageComitteeStyle = {
       justifyContent: "center",
       height: "50px",
       width: "100%",
+      ".email": {
+        whiteSpace:"nowrap",
+        minWidth:"400px",
+      }
     },
     ".map": {
       width: "100%",
