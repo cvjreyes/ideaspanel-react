@@ -7,6 +7,9 @@ import { useLocation } from "wouter";
 
 import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../helpers/api";
+import { colors } from "../../helpers/colors";
+import Button from "../general/Button";
+import ButtonWithImage from "../general/ButtonWithImage";
 
 import Checkbox from "../general/Checkbox";
 import Input from "../general/Input";
@@ -66,7 +69,19 @@ export default function ManageComittee() {
 
   return (
     <div css={manageComitteeStyle}>
-      <h1 className="page_title">Manage Comittee</h1>
+      <div className="topManageBox">
+        <div />
+        <h1>Manage Comittee</h1>
+        <Button
+          text="Comittee"
+          onClick={() => navigate("/comittee")}
+          bgColor={colors["blue"].background}
+          bgHover={colors["blue"].backgroundHover}
+          color="white"
+          width="120px"
+          className="buttonComittee"
+        />
+      </div>
       <div className="manageBox">
         <div className="columnsBox bold">
           <div className="flexCenter">
@@ -96,7 +111,7 @@ export default function ManageComittee() {
               {displayUsers.map((item, i) => {
                 return (
                   <div className="columnsBox" key={i}>
-                    <div className="flexCenter">{item.email}</div>
+                    <div className="email flexCenter">{item.email}</div>
                     <Checkbox
                       data={item}
                       key={i}
@@ -120,11 +135,30 @@ export default function ManageComittee() {
 }
 
 const manageComitteeStyle = {
+  ".topManageBox": {
+    display: "grid",
+    gridTemplateColumns: "repeat(3, 1fr)",
+    minWidth: "600px",
+    h1: {
+      fontSize: "25px",
+      textAlign: "center",
+      whiteSpace: "nowrap",
+      marginTop: "110px",
+    },
+    button: {
+      width: "120px",
+      margin: "0 35%",
+      display: "flex",
+      whiteSpace: "nowrap",
+      marginTop: "110px",
+      justifyContent: "center",
+    },
+  },
   ".manageBox": {
     display: "flex",
     flexDirection: "column",
-    minHeight: "calc(90vh - 200px)",
-    minWidth: "400px",
+    minHeight: "calc(85vh - 200px)",
+    minWidth: "600px",
     width: "50vw",
     alignItems: "center",
     margin: "2% 25% 0",
@@ -140,6 +174,10 @@ const manageComitteeStyle = {
       justifyContent: "center",
       height: "50px",
       width: "100%",
+      ".email": {
+        whiteSpace:"nowrap",
+        minWidth:"400px",
+      }
     },
     ".map": {
       width: "100%",

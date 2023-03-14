@@ -29,6 +29,16 @@ export default function Idea() {
     description: "",
     anonymous: false,
   });
+  
+  useEffect(() => {
+    const getIdeaInfo = async () => {
+      const { body } = await api("get", `/ideas/get_info/${params.idea_id}`);
+      setIdea(body[0]);
+    };
+    getIdeaInfo();
+    getIdeaVotes();
+    getComments();
+  }, []);
 
   const getIdeaVotes = async () => {
     const { body } = await api(
@@ -51,17 +61,6 @@ export default function Idea() {
     );
     setComments(body);
   };
-
-  const getIdeaInfo = async () => {
-    const { body } = await api("get", `/ideas/get_info/${params.idea_id}`);
-    setIdea(body[0]);
-  };
-
-  useEffect(() => {
-    getIdeaInfo();
-    getIdeaVotes();
-    getComments();
-  }, []);
 
   const handleAddComment = async (e) => {
     e && e.preventDefault();
@@ -137,7 +136,7 @@ const ideaStyle = {
     gridTemplateColumns: "repeat(2, 1fr)",
     padding: "50px 10vw 0",
     ".left": {
-      minWidth: "310px",
+      minWidth: "500px",
       display: "flex",
       flexDirection: "column",
       ".info": {
@@ -146,10 +145,10 @@ const ideaStyle = {
       ".image": {
         display: "flex",
         justifyContent: "start",
-        height: "250px",
         marginTop: "50px",
         img: {
-          width: "250px",
+          height: "300px",
+          width: "auto",
         },
       },
     },
