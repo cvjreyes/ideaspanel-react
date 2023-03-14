@@ -58,8 +58,8 @@ export default function ManageComittee() {
     });
     if (!ok) return notify("Something went wrong", "error");
     notify(`${email} is now ${comittee ? "not " : ""}comittee`, "info");
-    const idx = users.findIndex((user) => user.email === email);
-    const tempUsers = [...users];
+    const idx = displayUsers.findIndex((user) => user.email === email);
+    const tempUsers = [...displayUsers];
     tempUsers[idx].isComittee = tempUsers[idx].isComittee ? 0 : 1;
     setDisplayUsers(tempUsers);
   };
@@ -76,10 +76,6 @@ export default function ManageComittee() {
               defaultValue="Search Email"
               onFocus={(e) => {
                 e.target.value = "";
-                setFilterData("");
-              }}
-              onBlur={(e) => {
-                e.target.value = e.target.defaultValue;
                 setFilterData("");
               }}
               onKeyDown={(e) => {
