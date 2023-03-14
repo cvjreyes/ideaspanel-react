@@ -38,6 +38,6 @@ const addCommentSectionStyles = {
   borderRadius: "10px",
   padding: "20px",
   margin: "20px 0 0",
-  width: "37vw",
-  minWidth: "300px",
+  width: "25vw",
+  minWidth: "500px",
 };

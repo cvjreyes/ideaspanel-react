@@ -136,7 +136,7 @@ const ideaStyle = {
     gridTemplateColumns: "repeat(2, 1fr)",
     padding: "50px 10vw 0",
     ".left": {
-      minWidth: "310px",
+      minWidth: "500px",
       display: "flex",
       flexDirection: "column",
       ".info": {
@@ -145,9 +145,9 @@ const ideaStyle = {
       ".image": {
         display: "flex",
         justifyContent: "start",
-        height: "250px",
         marginTop: "50px",
         img: {
+          height: "300px",
           width: "auto",
         },
       },
