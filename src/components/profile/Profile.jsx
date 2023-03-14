@@ -2,7 +2,7 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
 import { useContext, useEffect, useLayoutEffect, useState } from "react";
-import { useLocation, useRoute } from "wouter";
+import { Link, useLocation, useRoute } from "wouter";
 
 import Button from "../general/Button";
 import { api, handleFetch } from "../../helpers/api";
@@ -89,7 +89,11 @@ export default function Profile() {
           <h3>Published ({published?.length})</h3>
           <div className="draftsMapWrapper">
             {published?.map((item, i) => {
-              return <SmallCard item={item} key={i} />;
+              return (
+                <Link to={`/idea/${item.id}`} key={i}>
+                  <SmallCard item={item} />;
+                </Link>
+              );
             })}
           </div>
         </div>
