@@ -16,13 +16,15 @@ export default function Input({
   onFocus,
   onKeyDown,
   onBlur,
+  padding,
+  textAlign,
 }) {
   const InputStyle = {
     height: "40px",
     border: "1px solid #D2D2D2",
     borderRadius: "6px",
-    padding: "5px",
-    textAlign:"center",
+    padding: padding || "10px",
+    textAlign: textAlign || "left",
     margin,
     width,
   };

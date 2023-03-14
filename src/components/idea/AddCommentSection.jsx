@@ -2,6 +2,10 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
 
+import { colors } from "../../helpers/colors";
+import Button from "../general/ButtonWithImage";
+import Input from "../general/Input";
+
 export default function AddCommentSection({
   newComment,
   setNewComment,
@@ -9,17 +13,21 @@ export default function AddCommentSection({
 }) {
   return (
     <div css={addCommentSectionStyles}>
-      <input
-        placeholder="Add a comment"
+      <Input
+        placeholder="Write your comment here..."
         value={newComment}
         onChange={(e) => setNewComment(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") {
-            handleAddComment;
-          }
-        }}
+        margin="0 0 15px"
+        width="100%"
       />
-      <button onClick={handleAddComment}>Add Comment</button>
+      <Button
+        text="Add Comment"
+        onClick={handleAddComment}
+        bgColor={colors["blue"].background}
+        bgHover={colors["blue"].backgroundHover}
+        color="white"
+        padding="10px 20px"
+      />
     </div>
   );
 }
@@ -29,27 +37,7 @@ const addCommentSectionStyles = {
   boxShadow: "8px 8px 17px #e4e5da, -8px -8px 17px #ffffff",
   borderRadius: "10px",
   padding: "20px",
-  margin: "20px 0",
+  margin: "20px 0 0",
   width: "37vw",
   minWidth: "300px",
-  ".comment": {
-    backgroundColor: "#f9f9f9",
-    padding: "10px",
-    marginBottom: "10px",
-  },
-  input: {
-    width: "100%",
-    padding: "10px",
-    marginBottom: "10px",
-    border: "1px solid #ccc",
-    borderRadius: "3px",
-  },
-  button: {
-    backgroundColor: "#0077cc",
-    color: "#fff",
-    border: "none",
-    borderRadius: "3px",
-    padding: "10px 20px",
-    cursor: "pointer",
-  },
 };

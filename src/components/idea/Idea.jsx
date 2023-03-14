@@ -105,25 +105,21 @@ export default function Idea() {
       <form>
         <div className="left">
           <div className="info bold">{idea.title}</div>
-          <div className="info">
-            <i>{idea.description}</i>
-          </div>
+          <div className="info">{idea.description}</div>
           <div className="image">
             {idea.image && <img src={idea.image} alt="IdeaImage" />}
           </div>
-          <div>
-            <ButtonWithImage
-              type="button"
-              text={ideasVotes.length}
-              width="60px"
-              margin="20px 0 0 0"
-              bgColor={checkUserVote ? colors["green"].background : ""}
-              bgHover={checkUserVote ? colors["green"].backgroundHover : ""}
-              // img
-              src={ThumbsUp}
-              onClick={() => handleIdeaVote()}
-            />
-          </div>
+          <ButtonWithImage
+            type="button"
+            text={ideasVotes.length}
+            width="60px"
+            margin="20px 0 0 0"
+            bgColor={checkUserVote ? colors["green"].background : ""}
+            bgHover={checkUserVote ? colors["green"].backgroundHover : ""}
+            // img
+            src={ThumbsUp}
+            onClick={() => handleIdeaVote()}
+          />
           <AddCommentSection
             newComment={newComment}
             setNewComment={setNewComment}
@@ -131,9 +127,7 @@ export default function Idea() {
           />
         </div>
         <div className="right">
-          <div>
-            <b>Comments: </b>
-          </div>
+          <b>Comments: </b>
           {comments.length > 0 ? (
             <CommentSection comments={comments} />
           ) : (
@@ -146,32 +140,28 @@ export default function Idea() {
 }
 
 const ideaStyle = {
-  minHeight: "calc(70vh - 150px)",
   form: {
     display: "grid",
     gridTemplateColumns: "repeat(2, 1fr)",
     padding: "50px 10vw 0",
-    minHeight: "calc(80vh - 130px)",
     ".left": {
       minWidth: "310px",
       display: "flex",
       flexDirection: "column",
       ".info": {
-        padding: "10px",
+        margin: "10px 0",
       },
-    },
-    ".image": {
-      display: "flex",
-      justifyContent: "start",
-      height: "250px",
-      marginTop: "50px",
-      img: {
-        width: "250px",
+      ".image": {
+        display: "flex",
+        justifyContent: "start",
+        height: "250px",
+        marginTop: "50px",
+        img: {
+          width: "250px",
+        },
       },
     },
     ".right": {
-      display: "flex",
-      flexDirection: "column",
       padding: "10px",
     },
   },
