@@ -1,5 +1,6 @@
 TODOS:
 - validating and denied go to view idea without comments
+- chequear sean's work
 
 DONE:
 - no anonymous in comittee
