@@ -1,5 +1,7 @@
 TODOS:
 - validating and denied go to view idea without comments
+- edit change porfile picture
+- edit change bio ???
 
 DONE:
 - no anonymous in comittee
