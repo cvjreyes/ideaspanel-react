@@ -38,7 +38,6 @@ export default function Idea() {
   useEffect(() => {
     const getIdeaInfo = async () => {
       const { body } = await api("get", `/ideas/get_info/${params.idea_id}`);
-      console.log(body);
       setIdea(body);
     };
     getIdeaInfo();
@@ -95,7 +94,7 @@ export default function Idea() {
       check_vote: hasUserVoted,
     });
     if (!ok) return notify("Something went wrong", "error");
-    notify(`${checkUserVote ? "Unv" : "V"}ote successfully done`, "success");
+    notify(`${hasUserVoted ? "Unv" : "V"}ote successfully done`, "success");
     getIdeaVotes();
   };
 
