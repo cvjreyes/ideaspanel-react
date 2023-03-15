@@ -15,16 +15,17 @@ export default function CommentSection({
         let commentDate = new Date(comment.comment_at);
         return (
           <div className="comment" key={i}>
-            <div className="imageVotes">
-              <img
-                src={
-                  comment.profile_pic
-                    ? comment.profile_pic
-                    : "http://localhost:5026/images/default.png"
-                }
-                alt="profile"
-              />
-            </div>
+            <img
+              src={comment.profile_pic}
+              alt="profile"
+              style={{
+                padding:
+                  comment.profile_pic ===
+                  "http://localhost:5026/images/default.png"
+                    ? "10px"
+                    : "",
+              }}
+            />
             <div className="info">
               <div className="bold">{comment.name}</div>
               <div
@@ -52,7 +53,7 @@ export default function CommentSection({
                 ❌
               </div>
             ) : (
-              <div className="noDelete"/>
+              <div className="noDelete" />
             )}
           </div>
         );
@@ -85,7 +86,6 @@ const CommentSectionStyle = {
     img: {
       width: "50px",
       height: "50px",
-      padding: "10px",
       backgroundColor: "#99C6F8",
       borderRadius: "100px",
       margin: " 0 10px",

@@ -1,7 +1,13 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
-import { useContext, useEffect, useLayoutEffect, useState } from "react";
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from "react";
 import { useLocation, useRoute } from "wouter";
 
 import Button from "../general/Button";
@@ -9,12 +15,13 @@ import { api, handleFetch } from "../../helpers/api";
 import { AuthContext } from "../../context/AuthContext";
 import Loading from "../general/Loading";
 import SmallCard from "../general/SmallCard";
+import { useDropzone } from "react-dropzone";
 
 export default function Profile() {
   const [_, params] = useRoute("/profile/:user_id");
-  const [location, navigate] = useLocation();
+  const [location] = useLocation();
 
-  const { user, logout } = useContext(AuthContext);
+  const { user, logout, updateUserInfo } = useContext(AuthContext);
 
   const [profile, setProfile] = useState(null);
   const [drafts, setDrafts] = useState(null);
@@ -22,13 +29,12 @@ export default function Profile() {
   const [published, setPublished] = useState(null);
   const [validating, setValidating] = useState(null);
 
+  const getProfileData = async () => {
+    const { body } = await api("get", `/users/profile/${params.user_id}`);
+    setProfile(body);
+  };
+
   useLayoutEffect(() => {
-    const getProfileData = async () => {
-      if (user.id !== Number(params.user_id)) {
-        const { body } = await api("get", `/users/profile/${params.user_id}`);
-        setProfile(body);
-      } else setProfile(user);
-    };
     getProfileData();
   }, [location]);
 
@@ -50,28 +56,51 @@ export default function Profile() {
     profile && getUserIdeas();
   }, [profile]);
 
+  const onDrop = useCallback((files) => {
+    files.forEach(async (file) => {
+      const formData = new FormData();
+      formData.append("file", file);
+      const { ok } = await api(
+        "post",
+        `/users/edit_profile_pic/${user.id}`,
+        formData
+      );
+      if (ok) {
+        updateUserInfo();
+        getProfileData();
+      }
+    });
+  }, []);
+
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop,
+    multiple: false,
+    accept: {
+      "image/jpeg": [],
+      "image/png": [],
+      "image/svg": [],
+    },
+  });
+
   if (!profile) return <Loading />;
   return (
     <div css={profileStyle}>
       <div className="headWrapper">
-        <div>
-          {user.id == params.user_id && (
-            <Button
-              color="white"
-              bgColor="#338DF1"
-              bgHover="linear-gradient(180deg, #338DF1 -2.23%, #338DF1 -2.22%, #85BFFF 148.66%)"
-              text="Edit"
-              onClick={() =>
-                navigate(`/profile/edit_profile/${params.user_id}`)
-              }
-              width="150px"
-              margin="0 20px"
-            />
-          )}
-        </div>
+        <div />
         <div>
           <div className="profPicWrapper">
-            <img alt="profile" src={profile.profile_pic} />
+            <img
+              alt="profile"
+              src={profile.profile_pic}
+              className="profile_pic"
+            />
+            <img
+              className="editIcon pointer"
+              alt="edit profile pic"
+              src="https://img.icons8.com/material-outlined/24/null/pencil--v1.png"
+              {...getInputProps()}
+              {...getRootProps()}
+            />
           </div>
           <h1 className="page_title">{profile.name}</h1>
           <p>{profile.email}</p>
@@ -163,6 +192,7 @@ const profileStyle = {
     display: "grid",
     gridTemplateColumns: ".2fr 1fr .2fr",
     h1: { margin: "10px 0" },
+    p: { whiteSpace: "nowrap" },
     ".profPicWrapper": {
       margin: "0 auto",
       display: "flex",
@@ -170,7 +200,24 @@ const profileStyle = {
       width: "50px",
       backgroundColor: "#99C6F8",
       borderRadius: "100px",
-      p: { whiteSpace: "nowrap" },
+      position: "relative",
+      ".profile_pic": {
+        borderRadius: "100px",
+      },
+      ".editIcon": {
+        display: "block !important",
+        position: "absolute",
+        bottom: "-10px",
+        right: "-10px",
+        width: "30px",
+        height: "30px",
+        backgroundColor: "white",
+        borderRadius: "100px",
+        padding: "5px",
+        ":hover": {
+          backgroundColor: "lightgray",
+        },
+      },
     },
   },
   ".contentWrapper": {

@@ -22,7 +22,6 @@ export default function Idea() {
   useEffect(() => {
     const getIdeaInfo = async () => {
       const { body } = await api("get", `/ideas/get_info/${params.idea_id}`);
-      console.log(body);
       if (body.user_id != user.id || body.published || body.draft)
         return navigate("/");
       setIdea(body);
