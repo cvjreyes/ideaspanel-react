@@ -33,7 +33,6 @@ export default function Idea() {
   useEffect(() => {
     const getIdeaInfo = async () => {
       const { body } = await api("get", `/ideas/get_info/${params.idea_id}`);
-      console.log(body);
       setIdea(body);
     };
     getIdeaInfo();
