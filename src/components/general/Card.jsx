@@ -54,7 +54,10 @@ export default function Card({ item, comittee }) {
       img: {
         width: "60px",
         height: "60px",
-        padding: "10px",
+        padding:
+          item.profile_pic === "http://localhost:5026/images/default.png"
+            ? "10px"
+            : "",
         backgroundColor: "#99C6F8",
         borderRadius: "100px",
         objectFit: "cover",
