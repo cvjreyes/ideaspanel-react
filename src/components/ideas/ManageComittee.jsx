@@ -73,59 +73,61 @@ export default function ManageComittee() {
         <ButtonWithImage
           src={Back}
           onClick={() => navigate("/comittee")}
-          bgColor="lightblue"
+          bgColor={colors["blue"].background}
           bgHover={colors["blue"].backgroundHover}
         />
         <h1>Manage Comittee</h1>
         <div />
       </div>
-      <div className="manageBox">
-        <div className="columnsBox bold">
-          <div className="flexCenter">
-            <Input
-              textAlign="center"
-              width="90%"
-              onChange={(e) => setFilterData(e.target.value)}
-              defaultValue="Search Email"
-              onFocus={(e) => {
-                e.target.value = "";
-                setFilterData("");
-              }}
-              onKeyDown={(e) => {
-                if (e.key === "Escape") {
-                  e.target.value = e.target.defaultValue;
-                  e.target.blur();
+      <div className="flexCenter">
+        <div className="manageBox">
+          <div className="columnsBox bold">
+            <div className="flexCenter">
+              <Input
+                textAlign="center"
+                width="90%"
+                onChange={(e) => setFilterData(e.target.value)}
+                defaultValue="Search Email"
+                onFocus={(e) => {
+                  e.target.value = "";
                   setFilterData("");
-                }
-              }}
-            />
-          </div>
-          <div className="flexCenter">Comittee</div>
-        </div>
-        {displayUsers ? (
-          displayUsers.length > 0 ? (
-            <div className="map">
-              {displayUsers.map((item, i) => {
-                return (
-                  <div className="columnsBox" key={i}>
-                    <div className="email flexCenter">{item.email}</div>
-                    <Checkbox
-                      data={item}
-                      key={i}
-                      checked={!!item.isComittee}
-                      onChange={() => onChange(item.email, item.isComittee)}
-                      className="checkbox"
-                    />
-                  </div>
-                );
-              })}
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Escape") {
+                    e.target.value = e.target.defaultValue;
+                    e.target.blur();
+                    setFilterData("");
+                  }
+                }}
+              />
             </div>
+            <div className="flexCenter">Comittee</div>
+          </div>
+          {displayUsers ? (
+            displayUsers.length > 0 ? (
+              <div className="map">
+                {displayUsers.map((item, i) => {
+                  return (
+                    <div className="columnsBox" key={i}>
+                      <div className="email flexCenter">{item.email}</div>
+                      <Checkbox
+                        data={item}
+                        key={i}
+                        checked={!!item.isComittee}
+                        onChange={() => onChange(item.email, item.isComittee)}
+                        className="checkbox"
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <NoResults />
+            )
           ) : (
-            <NoResults />
-          )
-        ) : (
-          <Loading />
-        )}
+            <Loading />
+          )}
+        </div>
       </div>
     </div>
   );
@@ -135,7 +137,7 @@ const manageComitteeStyle = {
   ".topManageBox": {
     display: "grid",
     gridTemplateColumns: "repeat(3, 1fr)",
-    minWidth: "1200px",
+    minWidth: "700px",
     h1: {
       fontSize: "25px",
       textAlign: "center",
@@ -144,7 +146,7 @@ const manageComitteeStyle = {
     },
     button: {
       width: "60px",
-      margin: "0 0 0 80%",
+      margin: "0 0 0 74%",
       display: "flex",
       whiteSpace: "nowrap",
       marginTop: "110px",
@@ -157,8 +159,7 @@ const manageComitteeStyle = {
     minHeight: "calc(85vh - 200px)",
     minWidth: "600px",
     width: "50vw",
-    alignItems: "center",
-    margin: "2% 25% 0",
+    margin: "40px 0 0 0",
     border: "1px solid black",
     borderRadius: "8px",
     padding: "10px",
@@ -167,8 +168,6 @@ const manageComitteeStyle = {
     ".columnsBox": {
       display: "grid",
       gridTemplateColumns: "2fr 1fr",
-      alignItems: "center",
-      justifyContent: "center",
       height: "50px",
       width: "100%",
       ".email": {
