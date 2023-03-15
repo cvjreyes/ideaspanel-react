@@ -89,9 +89,9 @@ export default function Profile() {
         </div>
       </div>
       <div className="contentWrapper">
-        <div className="draftsWrapper">
+        <div className="ideasWrapper">
           <h3>Published ({published?.length})</h3>
-          <div className="draftsMapWrapper">
+          <div className="ideasMapWrapper">
             {published?.map((item, i) => {
               return (
                 <SmallCard
@@ -104,23 +104,23 @@ export default function Profile() {
           </div>
         </div>
         {user.id == params.user_id && [
-          <div className="draftsWrapper" key="1">
+          <div className="ideasWrapper" key="1">
             <h3>Validating ({validating?.length})</h3>
-            <div className="draftsMapWrapper">
+            <div className="ideasMapWrapper">
               {validating?.map((item, i) => {
                 return (
                   <SmallCard
                     item={item}
-                    navigate={`/profile/read_only/${item.id}`}
+                    navigateTo={`/profile/read_only/${item.id}`}
                     key={`validating${i}`}
                   />
                 );
               })}
             </div>
           </div>,
-          <div className="draftsWrapper" key="2">
+          <div className="ideasWrapper" key="2">
             <h3>Drafts ({drafts?.length})</h3>
-            <div className="draftsMapWrapper">
+            <div className="ideasMapWrapper">
               {drafts?.map((item, i) => {
                 return (
                   <SmallCard
@@ -132,14 +132,14 @@ export default function Profile() {
               })}
             </div>
           </div>,
-          <div className="draftsWrapper" key="3">
+          <div className="ideasWrapper" key="3">
             <h3>Denied ({denied?.length})</h3>
-            <div className="draftsMapWrapper">
+            <div className="ideasMapWrapper">
               {denied?.map((item, i) => {
                 return (
                   <SmallCard
                     item={item}
-                    navigate={`/profile/read_only/${item.id}`}
+                    navigateTo={`/profile/read_only/${item.id}`}
                     key={`denied${i}`}
                   />
                 );
@@ -175,17 +175,18 @@ const profileStyle = {
   },
   ".contentWrapper": {
     display: "grid",
-    gridTemplateColumns: "repeat(2, 1fr)",
+    gridTemplateColumns: "repeat(auto-fit, minmax(461px, 1fr))",
     width: "100%",
     marginTop: "30px",
-    ".draftsWrapper": {
+    gap: "20px",
+    ".ideasWrapper": {
       textAlign: "left",
       marginTop: "20px",
-      maxWidth: "40vw",
-      ".draftsMapWrapper": {
+      ".ideasMapWrapper": {
         display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(200px, 240px))",
+        gridTemplateColumns: "repeat(auto-fit, minmax(200px, 220px))",
         marginTop: "20px",
+        gap: "20px",
       },
     },
   },

@@ -29,7 +29,7 @@ export default function EditIdea() {
 
   const getIdeaInfo = async () => {
     const { body } = await api("get", `/ideas/get_info/${params.idea_id}`);
-    setIdea(body[0]);
+    setIdea(body);
   };
 
   useEffect(() => {
