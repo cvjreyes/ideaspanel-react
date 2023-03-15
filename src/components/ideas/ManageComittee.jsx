@@ -73,59 +73,61 @@ export default function ManageComittee() {
         <ButtonWithImage
           src={Back}
           onClick={() => navigate("/comittee")}
-          bgColor="lightblue"
+          bgColor={colors["blue"].background}
           bgHover={colors["blue"].backgroundHover}
         />
         <h1 className="page_title">Manage Comittee</h1>
         <div />
       </div>
-      <div className="manageBox">
-        <div className="columnsBox bold">
-          <div className="flexCenter">
-            <Input
-              textAlign="center"
-              width="90%"
-              onChange={(e) => setFilterData(e.target.value)}
-              defaultValue="Search Email"
-              onFocus={(e) => {
-                e.target.value = "";
-                setFilterData("");
-              }}
-              onKeyDown={(e) => {
-                if (e.key === "Escape") {
-                  e.target.value = e.target.defaultValue;
-                  e.target.blur();
+      <div className="flexCenter">
+        <div className="manageBox">
+          <div className="columnsBox bold">
+            <div className="flexCenter">
+              <Input
+                textAlign="center"
+                width="90%"
+                onChange={(e) => setFilterData(e.target.value)}
+                defaultValue="Search Email"
+                onFocus={(e) => {
+                  e.target.value = "";
                   setFilterData("");
-                }
-              }}
-            />
-          </div>
-          <div className="flexCenter">Comittee</div>
-        </div>
-        {displayUsers ? (
-          displayUsers.length > 0 ? (
-            <div className="map">
-              {displayUsers.map((item, i) => {
-                return (
-                  <div className="columnsBox" key={i}>
-                    <div className="email flexCenter">{item.email}</div>
-                    <Checkbox
-                      data={item}
-                      key={i}
-                      checked={!!item.isComittee}
-                      onChange={() => onChange(item.email, item.isComittee)}
-                      className="checkbox"
-                    />
-                  </div>
-                );
-              })}
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Escape") {
+                    e.target.value = e.target.defaultValue;
+                    e.target.blur();
+                    setFilterData("");
+                  }
+                }}
+              />
             </div>
+            <div className="flexCenter">Comittee</div>
+          </div>
+          {displayUsers ? (
+            displayUsers.length > 0 ? (
+              <div className="map">
+                {displayUsers.map((item, i) => {
+                  return (
+                    <div className="columnsBox" key={i}>
+                      <div className="email flexCenter">{item.email}</div>
+                      <Checkbox
+                        data={item}
+                        key={i}
+                        checked={!!item.isComittee}
+                        onChange={() => onChange(item.email, item.isComittee)}
+                        className="checkbox"
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <NoResults />
+            )
           ) : (
-            <NoResults />
-          )
-        ) : (
-          <Loading />
-        )}
+            <Loading />
+          )}
+        </div>
       </div>
     </div>
   );
@@ -159,8 +161,6 @@ const manageComitteeStyle = {
     ".columnsBox": {
       display: "grid",
       gridTemplateColumns: "2fr 1fr",
-      alignItems: "center",
-      justifyContent: "center",
       height: "50px",
       width: "100%",
       ".email": {

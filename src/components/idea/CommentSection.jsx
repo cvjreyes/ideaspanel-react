@@ -2,7 +2,13 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
 
-export default function CommentSection({ comments }) {
+export default function CommentSection({
+  comments,
+  clickComment,
+  userID,
+  handleClickComment,
+  handleDeleteComment,
+}) {
   return (
     <div css={CommentSectionStyle}>
       {comments.map((comment, i) => {
@@ -21,22 +27,33 @@ export default function CommentSection({ comments }) {
             </div>
             <div className="info">
               <div className="bold">{comment.name}</div>
-              <div>
+              <div
+                className={clickComment ? "" : "textComment"}
+                onClick={handleClickComment}
+              >
                 <i>{comment.comment}</i>
               </div>
             </div>
             <div className="dateComment">
               <div>
-                <div>
-                  {commentDate.getDate()}/{commentDate.getMonth() + 1}/
-                  {commentDate.getFullYear()}
-                </div>
-                <div>
-                  {commentDate.getHours()}:{commentDate.getMinutes()}:
-                  {commentDate.getSeconds()}
-                </div>
+                {commentDate.getDate()}/{commentDate.getMonth() + 1}/
+                {commentDate.getFullYear()}
+              </div>
+              <div>
+                {commentDate.getHours()}:{commentDate.getMinutes()}:
+                {commentDate.getSeconds()}
               </div>
             </div>
+            {userID === comment.user_id ? (
+              <div
+                className="flexCenter delete pointer"
+                onClick={() => handleDeleteComment(comment.id)}
+              >
+                ❌
+              </div>
+            ) : (
+              <div className="noDelete"/>
+            )}
           </div>
         );
       })}
@@ -60,9 +77,9 @@ const CommentSectionStyle = {
     display: "flex",
     flexDirection: "row",
     width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
     ".info": {
+      alignItems: "center",
+      textAlign: "left",
       width: "70%",
     },
     img: {
@@ -76,6 +93,19 @@ const CommentSectionStyle = {
     },
     ".dateComment": {
       whiteSpace: "nowrap",
+    },
+    ".textComment": {
+      display: "-webkit-box",
+      textOverflow: "ellipsis",
+      overflow: "hidden",
+      WebkitLineClamp: "3",
+      WebkitBoxOrient: "vertical",
+    },
+    ".delete": {
+      margin: "0 20px",
+    },
+    ".noDelete": {
+      margin: "0 30px",
     },
   },
 };
