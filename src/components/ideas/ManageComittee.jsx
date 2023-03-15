@@ -76,7 +76,7 @@ export default function ManageComittee() {
           bgColor="lightblue"
           bgHover={colors["blue"].backgroundHover}
         />
-        <h1>Manage Comittee</h1>
+        <h1 className="page_title">Manage Comittee</h1>
         <div />
       </div>
       <div className="manageBox">
@@ -136,19 +136,12 @@ const manageComitteeStyle = {
     display: "grid",
     gridTemplateColumns: "repeat(3, 1fr)",
     minWidth: "1200px",
-    h1: {
-      fontSize: "25px",
-      textAlign: "center",
-      whiteSpace: "nowrap",
-      marginTop: "110px",
-    },
+    alignItems: "flex-end",
+    marginBottom: "30px",
     button: {
       width: "60px",
-      margin: "0 0 0 80%",
-      display: "flex",
-      whiteSpace: "nowrap",
-      marginTop: "110px",
-      justifyContent: "center",
+      justifySelf: "flex-end",
+      marginBottom: "-10px",
     },
   },
   ".manageBox": {
@@ -156,12 +149,11 @@ const manageComitteeStyle = {
     flexDirection: "column",
     minHeight: "calc(85vh - 200px)",
     minWidth: "600px",
-    // width: "50vw",
     alignItems: "center",
-    margin: "2% 25% 0",
+    margin: "0 20vw",
     border: "1px solid black",
     borderRadius: "8px",
-    padding: "10px",
+    padding: "20px 10px",
     backgroundColor: "linear-gradient(145deg, #ffffff, #e4e5da)",
     boxShadow: "20px 20px 60px #d7d8ce, -20px -20px 60px #ffffff",
     ".columnsBox": {
