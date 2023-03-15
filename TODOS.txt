@@ -1,5 +1,5 @@
 TODOS:
-- check published and validating go to correct places NO COMMENTS
+- validating and denied go to view idea without comments
 
 DONE:
 - no anonymous in comittee
