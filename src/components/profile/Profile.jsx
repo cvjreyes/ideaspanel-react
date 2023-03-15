@@ -108,7 +108,13 @@ export default function Profile() {
             <h3>Validating ({validating?.length})</h3>
             <div className="draftsMapWrapper">
               {validating?.map((item, i) => {
-                return <SmallCard item={item} key={`validating${i}`} />;
+                return (
+                  <SmallCard
+                    item={item}
+                    navigate={`/profile/read_only/${item.id}`}
+                    key={`validating${i}`}
+                  />
+                );
               })}
             </div>
           </div>,
@@ -130,7 +136,13 @@ export default function Profile() {
             <h3>Denied ({denied?.length})</h3>
             <div className="draftsMapWrapper">
               {denied?.map((item, i) => {
-                return <SmallCard item={item} key={`denied${i}`} />;
+                return (
+                  <SmallCard
+                    item={item}
+                    navigate={`/profile/read_only/${item.id}`}
+                    key={`denied${i}`}
+                  />
+                );
               })}
             </div>
           </div>,

@@ -22,6 +22,7 @@ import Comittee from "./components/ideas/Comittee";
 import ManageComittee from "./components/ideas/ManageComittee";
 import EditIdea from "./components/profile/EditIdea";
 import Idea from "./components/idea/Idea";
+import IdeaNoComments from "./components/idea/IdeaNoComments";
 import EditProfile from "./components/profile/EditProfile";
 
 const queryClient = new QueryClient();
@@ -67,6 +68,9 @@ export default function App() {
             </Route>
             <Route path="/profile/edit_idea/:idea_id">
               {() => <PrivateRoute component={EditIdea} />}
+            </Route>
+            <Route path="/profile/read_only/:idea_id">
+              {() => <PrivateRoute component={IdeaNoComments} />}
             </Route>
             <Route path="/profile/edit_profile/:user_id">
               {() => <PrivateRoute component={EditProfile} />}
