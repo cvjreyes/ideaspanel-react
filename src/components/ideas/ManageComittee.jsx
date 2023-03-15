@@ -8,13 +8,13 @@ import { useLocation } from "wouter";
 import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../helpers/api";
 import { colors } from "../../helpers/colors";
-import Button from "../general/Button";
-import ButtonWithImage from "../general/ButtonWithImage";
 
+import ButtonWithImage from "../general/ButtonWithImage";
 import Checkbox from "../general/Checkbox";
 import Input from "../general/Input";
 import Loading from "../general/Loading";
 import NoResults from "../home/NoResults";
+import Back from "../../assets/images/back.png";
 
 export default function ManageComittee() {
   const [users, setUsers] = useState(null);
@@ -70,17 +70,14 @@ export default function ManageComittee() {
   return (
     <div css={manageComitteeStyle}>
       <div className="topManageBox">
-        <div />
-        <h1>Manage Comittee</h1>
-        <Button
-          text="Comittee"
+        <ButtonWithImage
+          src={Back}
           onClick={() => navigate("/comittee")}
-          bgColor={colors["blue"].background}
+          bgColor="lightblue"
           bgHover={colors["blue"].backgroundHover}
-          color="white"
-          width="120px"
-          className="buttonComittee"
         />
+        <h1>Manage Comittee</h1>
+        <div />
       </div>
       <div className="manageBox">
         <div className="columnsBox bold">
@@ -138,7 +135,7 @@ const manageComitteeStyle = {
   ".topManageBox": {
     display: "grid",
     gridTemplateColumns: "repeat(3, 1fr)",
-    minWidth: "600px",
+    minWidth: "1200px",
     h1: {
       fontSize: "25px",
       textAlign: "center",
@@ -146,8 +143,8 @@ const manageComitteeStyle = {
       marginTop: "110px",
     },
     button: {
-      width: "120px",
-      margin: "0 35%",
+      width: "60px",
+      margin: "0 0 0 80%",
       display: "flex",
       whiteSpace: "nowrap",
       marginTop: "110px",
