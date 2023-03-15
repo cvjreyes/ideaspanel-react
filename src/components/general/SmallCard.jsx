@@ -36,7 +36,7 @@ export default function SmallCard({ item }) {
 const cardStyle = {
   borderRadius: "20px",
   background: "white",
-  margin: "0 30px 30px 0",
+  margin: "0 0 30px 0",
   minHeight: "233px",
   boxShadow: "8px 8px 17px #e4e5da, -8px -8px 17px #ffffff",
   transition: "all 200ms linear",

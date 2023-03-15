@@ -63,6 +63,7 @@ export default function Navbar() {
 }
 
 const navbarStyle = {
+  zIndex: 1000,
   height: "50px",
   width: "100vw",
   backgroundColor: "#0054B3",

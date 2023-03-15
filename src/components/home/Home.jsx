@@ -42,10 +42,12 @@ export default function Home() {
 
 const homeStyle = {
   minHeight: "calc(100vh - 50px)",
+  padding: "0 5vw",
   ".map": {
     display: "grid",
     justifyContent: "center",
-    gridTemplateColumns: "repeat(auto-fit, minmax(100px, 380px))",
+    gridTemplateColumns: "repeat(auto-fit, minmax(100px, 320px))",
     marginTop: "50px",
+    gap: "50px",
   },
 };

@@ -82,11 +82,7 @@ export default function Idea() {
       check_vote: hasUserVoted,
     });
     if (!ok) return notify("Something went wrong", "error");
-    if (hasUserVoted) {
-      notify("Unvote successfully done", "success");
-    } else {
-      notify("Vote successfully done", "success");
-    }
+    notify(`${checkUserVote ? "Unv" : "V"}ote successfully done`, "success");
     getIdeaVotes();
   };
 
