@@ -2,71 +2,33 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
 import { useContext, useEffect, useState } from "react";
-import { useNotifications } from "reapop";
-import { useRoute } from "wouter";
+import { useLocation, useRoute } from "wouter";
 
-import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../helpers/api";
-import { colors } from "../../helpers/colors";
-
-import ButtonWithImage from "../general/ButtonWithImage";
-import AddCommentSection from "./AddCommentSection";
-import CommentSection from "./CommentSection";
-import NoComments from "./NoComments";
-import ThumbsUp from "../../assets/images/thumbs-up.png";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function Idea() {
-  const [_, params] = useRoute("/idea/:idea_id");
-  const { user } = useContext(AuthContext);
-  const { notify } = useNotifications();
+  const [_, params] = useRoute("/profile/read_only/:idea_id");
+  const [__, navigate] = useLocation();
 
-  const [newComment, setNewComment] = useState("");
-  const [ideasVotes, setIdeasVotes] = useState([]);
-  const [hasUserVoted, setHasUserVoted] = useState(false);
+  const { user } = useContext(AuthContext);
+
   const [idea, setIdea] = useState({
     title: "",
     description: "",
     anonymous: false,
   });
-  const [clickComment, setClickComment] = useState(false);
-
-  function handleClickComment() {
-    setClickComment(!clickComment);
-  }
 
   useEffect(() => {
     const getIdeaInfo = async () => {
       const { body } = await api("get", `/ideas/get_info/${params.idea_id}`);
+      console.log(body);
+      if (body.user_id != user.id || body.published || body.draft)
+        return navigate("/");
       setIdea(body);
     };
     getIdeaInfo();
-    getIdeaVotes();
   }, []);
-
-  const getIdeaVotes = async () => {
-    const { body } = await api(
-      "get",
-      `/idea_votes/get_idea_votes/${params.idea_id}`
-    );
-    setIdeasVotes(body);
-    const idx = body.findIndex((idea) => user.id === idea.user_id);
-    if (idx === -1) {
-      return setHasUserVoted(false);
-    } else {
-      setHasUserVoted(true);
-    }
-  };
-
-  const handleIdeaVote = async () => {
-    const { ok } = await api("post", "/idea_votes/submit_idea_vote", {
-      idea_id: Number(params.idea_id),
-      user_id: user.id,
-      check_vote: hasUserVoted,
-    });
-    if (!ok) return notify("Something went wrong", "error");
-    notify(`${hasUserVoted ? "Unv" : "V"}ote successfully done`, "success");
-    getIdeaVotes();
-  };
 
   return (
     <div css={ideaStyle}>
@@ -76,38 +38,8 @@ export default function Idea() {
           <div className="bold title">{idea.title}</div>
           <div className="info">{idea.description}</div>
           <div className="image">
-            {idea.image && <img src={idea.image} alt="IdeaImage" />}
+            {idea.image && <img src={idea.image} alt="idea" />}
           </div>
-          <ButtonWithImage
-            type="button"
-            text={ideasVotes.length}
-            width="60px"
-            margin="20px 0 0 0"
-            bgColor={hasUserVoted ? colors["green"].background : ""}
-            bgHover={hasUserVoted ? colors["green"].backgroundHover : ""}
-            // img
-            src={ThumbsUp}
-            onClick={() => handleIdeaVote()}
-          />
-          <AddCommentSection
-            newComment={newComment}
-            setNewComment={setNewComment}
-            handleAddComment={handleAddComment}
-          />
-        </div>
-        <div className="right">
-          <b>Comments: </b>
-          {comments.length > 0 ? (
-            <CommentSection
-              comments={comments}
-              clickComment={clickComment}
-              userID={user.id}
-              handleClickComment={handleClickComment}
-              handleDeleteComment={handleDeleteComment}
-            />
-          ) : (
-            <NoComments />
-          )}
         </div>
       </form>
     </div>
@@ -115,6 +47,7 @@ export default function Idea() {
 }
 
 const ideaStyle = {
+  minHeight: "70vh",
   form: {
     display: "grid",
     gridTemplateColumns: "repeat(2, 1fr)",
@@ -139,9 +72,6 @@ const ideaStyle = {
           width: "350px",
         },
       },
-    },
-    ".right": {
-      padding: "10px",
     },
   },
 };
