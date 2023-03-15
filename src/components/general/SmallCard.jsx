@@ -3,7 +3,7 @@
 import { jsx } from "@emotion/react";
 import { useLocation } from "wouter";
 
-export default function SmallCard({ item }) {
+export default function SmallCard({ item, navigateTo }) {
   const [__, navigate] = useLocation();
 
   const createdDate = new Date(item.created_at);
@@ -17,7 +17,7 @@ export default function SmallCard({ item }) {
   return (
     <div
       css={cardStyle}
-      onClick={() => navigate(`/profile/edit_idea/${item.id}`)}
+      onClick={() => navigateTo && navigate(navigateTo)}
       className="pointer"
     >
       <img

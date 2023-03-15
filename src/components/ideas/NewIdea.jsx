@@ -170,9 +170,10 @@ const newIdeaStyle = {
   form: {
     display: "grid",
     gridTemplateColumns: "repeat(2, 1fr)",
-    padding: "50px 10vw 0",
+    padding: "0 10vw",
     minHeight: "calc(80vh - 130px)",
     margin: "50px 0 0",
+    gap: "20px",
     ".left": {
       display: "flex",
       flexDirection: "column",
@@ -237,6 +238,7 @@ const newIdeaStyle = {
       display: "flex",
       justifyContent: "center",
       alignItems: "flex-start",
+      marginTop: "50px",
     },
   },
 };

@@ -2,7 +2,7 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
 import { useContext, useEffect, useLayoutEffect, useState } from "react";
-import { Link, useLocation, useRoute } from "wouter";
+import { useLocation, useRoute } from "wouter";
 
 import Button from "../general/Button";
 import { api, handleFetch } from "../../helpers/api";
@@ -94,16 +94,18 @@ export default function Profile() {
           <div className="draftsMapWrapper">
             {published?.map((item, i) => {
               return (
-                <Link to={`/idea/${item.id}`} key={`published${i}`}>
-                  <SmallCard item={item} />
-                </Link>
+                <SmallCard
+                  item={item}
+                  navigateTo={`/idea/${item.id}`}
+                  key={`published${i}`}
+                />
               );
             })}
           </div>
         </div>
         {user.id == params.user_id && [
           <div className="draftsWrapper" key="1">
-            <h3>Validating ({drafts?.length})</h3>
+            <h3>Validating ({validating?.length})</h3>
             <div className="draftsMapWrapper">
               {validating?.map((item, i) => {
                 return <SmallCard item={item} key={`validating${i}`} />;
@@ -114,7 +116,13 @@ export default function Profile() {
             <h3>Drafts ({drafts?.length})</h3>
             <div className="draftsMapWrapper">
               {drafts?.map((item, i) => {
-                return <SmallCard item={item} key={`drafts${i}`} />;
+                return (
+                  <SmallCard
+                    item={item}
+                    navigateTo={`/profile/edit_idea/${item.id}`}
+                    key={`drafts${i}`}
+                  />
+                );
               })}
             </div>
           </div>,
@@ -141,7 +149,7 @@ const profileStyle = {
   ".headWrapper": {
     marginTop: "100px",
     display: "grid",
-    gridTemplateColumns: ".5fr 1fr .5fr",
+    gridTemplateColumns: ".2fr 1fr .2fr",
     h1: { margin: "10px 0" },
     ".profPicWrapper": {
       margin: "0 auto",
@@ -150,12 +158,14 @@ const profileStyle = {
       width: "50px",
       backgroundColor: "#99C6F8",
       borderRadius: "100px",
+      p: { whiteSpace: "nowrap" },
     },
   },
   ".contentWrapper": {
     display: "grid",
     gridTemplateColumns: "repeat(2, 1fr)",
     width: "100%",
+    marginTop: "30px",
     ".draftsWrapper": {
       textAlign: "left",
       marginTop: "20px",
