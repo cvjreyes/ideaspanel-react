@@ -29,6 +29,11 @@ export default function Idea() {
     description: "",
     anonymous: false,
   });
+  const [clickComment, setClickComment] = useState(false);
+
+  function handleClickComment() {
+    setClickComment(!clickComment);
+  }
 
   useEffect(() => {
     const getIdeaInfo = async () => {
@@ -76,6 +81,13 @@ export default function Idea() {
     setNewComment("");
   };
 
+  const handleDeleteComment = async (comment_id) => {
+    const { ok } = await api("delete", `/comments/delete_comment/${comment_id}`);
+    if (!ok) return notify("Something went wrong", "error");
+    notify("Comment deleted", "success");
+    getComments();
+  };
+
   const handleIdeaVote = async () => {
     const { ok } = await api("post", "/idea_votes/submit_idea_vote", {
       idea_id: Number(params.idea_id),
@@ -92,7 +104,7 @@ export default function Idea() {
       <h1 className="page_title">Idea</h1>
       <form>
         <div className="left">
-          <div className="info bold">{idea.title}</div>
+          <div className="bold title">{idea.title}</div>
           <div className="info">{idea.description}</div>
           <div className="image">
             {idea.image && <img src={idea.image} alt="IdeaImage" />}
@@ -117,7 +129,13 @@ export default function Idea() {
         <div className="right">
           <b>Comments: </b>
           {comments.length > 0 ? (
-            <CommentSection comments={comments} />
+            <CommentSection
+              comments={comments}
+              clickComment={clickComment}
+              userID={user.id}
+              handleClickComment={handleClickComment}
+              handleDeleteComment={handleDeleteComment}
+            />
           ) : (
             <NoComments />
           )}
@@ -137,7 +155,11 @@ const ideaStyle = {
       display: "flex",
       flexDirection: "column",
       ".info": {
-        margin: "10px 0",
+        margin: "20px 40px 0  0",
+      },
+      ".title":{
+        margin: "10px 40px 0  0",
+        fontSize: "25px"
       },
       ".image": {
         display: "flex",
