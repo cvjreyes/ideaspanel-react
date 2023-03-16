@@ -1,7 +1,8 @@
 TODOS:
-- validating and denied go to view idea without comments
 
 DONE:
+- edit change porfile picture
+- validating and denied go to view idea without comments
 - no anonymous in comittee
 - logo technip abajo
 - validating in profile

@@ -12,6 +12,7 @@ import publishImg from "../../assets/images/publish.gif";
 import { api } from "../../helpers/api";
 import { colors } from "../../helpers/colors";
 import ImageComponent from "./ImageComponent";
+import Loading from "../general/Loading";
 
 export default function EditIdea() {
   const [_, params] = useRoute("/profile/edit_idea/:idea_id");
@@ -28,7 +29,7 @@ export default function EditIdea() {
 
   const getIdeaInfo = async () => {
     const { body } = await api("get", `/ideas/get_info/${params.idea_id}`);
-    setIdea(body[0]);
+    setIdea(body);
   };
 
   useEffect(() => {
@@ -65,6 +66,7 @@ export default function EditIdea() {
     return notify("Idea updated successfully!", "success");
   };
 
+  if (!idea) return <Loading />;
   return (
     <div css={newIdeaStyle}>
       <h1 className="page_title">Edit Idea</h1>

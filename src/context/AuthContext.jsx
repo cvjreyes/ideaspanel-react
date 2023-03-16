@@ -16,11 +16,11 @@ export const AuthProvider = ({ children }) => {
     return res;
   };
 
-  // const updateUserInfo = async () => {
-  //   const { body } = await getUserInfo();
-  //   delete body.token;
-  //   setUser(body);
-  // };
+  const updateUserInfo = async () => {
+    const { body } = await getUserInfo();
+    delete body.token;
+    setUser(body);
+  };
 
   useEffect(() => {
     const checkAuthCookie = async () => {
@@ -56,7 +56,9 @@ export const AuthProvider = ({ children }) => {
   if (isLoggedIn === null) return <Loading />;
 
   return (
-    <AuthContext.Provider value={{ user, isLoggedIn, login, logout }}>
+    <AuthContext.Provider
+      value={{ user, isLoggedIn, login, logout, updateUserInfo }}
+    >
       {children}
     </AuthContext.Provider>
   );
