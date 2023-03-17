@@ -29,6 +29,11 @@ export default function Profile() {
   const [published, setPublished] = useState(null);
   const [validating, setValidating] = useState(null);
 
+  const [viewPublished, setViewPublished] = useState(false);
+  const [viewValidating, setViewValidating] = useState(false);
+  const [viewDrafts, setViewDrafts] = useState(false);
+  const [viewDenied, setViewDenied] = useState(false);
+
   const getProfileData = async () => {
     const { body } = await api("get", `/users/profile/${params.user_id}`);
     setProfile(body);
@@ -119,8 +124,14 @@ export default function Profile() {
       </div>
       <div className="contentWrapper">
         <div className="ideasWrapper">
-          <h3>Published ({published?.length})</h3>
-          <div className="ideasMapWrapper">
+          <h3 onClick={() => setViewPublished(!viewPublished)}>
+            Published ({published?.length})
+          </h3>
+          <div
+            className={`ideasMapWrapper ${
+              viewPublished === false ? "hidden" : ""
+            }`}
+          >
             {published?.map((item, i) => {
               return (
                 <SmallCard
@@ -134,8 +145,14 @@ export default function Profile() {
         </div>
         {user.id == params.user_id && [
           <div className="ideasWrapper" key="1">
-            <h3>Validating ({validating?.length})</h3>
-            <div className="ideasMapWrapper">
+            <h3 onClick={() => setViewValidating(!viewValidating)}>
+              Validating ({validating?.length})
+            </h3>
+            <div
+              className={`ideasMapWrapper ${
+                viewValidating === false ? "hidden" : ""
+              }`}
+            >
               {validating?.map((item, i) => {
                 return (
                   <SmallCard
@@ -148,8 +165,14 @@ export default function Profile() {
             </div>
           </div>,
           <div className="ideasWrapper" key="2">
-            <h3>Drafts ({drafts?.length})</h3>
-            <div className="ideasMapWrapper">
+            <h3 onClick={() => setViewDrafts(!viewDrafts)}>
+              Drafts ({drafts?.length})
+            </h3>
+            <div
+              className={`ideasMapWrapper ${
+                viewDrafts === false ? "hidden" : ""
+              }`}
+            >
               {drafts?.map((item, i) => {
                 return (
                   <SmallCard
@@ -162,8 +185,14 @@ export default function Profile() {
             </div>
           </div>,
           <div className="ideasWrapper" key="3">
-            <h3>Denied ({denied?.length})</h3>
-            <div className="ideasMapWrapper">
+            <h3 onClick={() => setViewDenied(!viewDenied)}>
+              Denied ({denied?.length})
+            </h3>
+            <div
+              className={`ideasMapWrapper ${
+                viewDenied === false ? "hidden" : ""
+              }`}
+            >
               {denied?.map((item, i) => {
                 return (
                   <SmallCard
@@ -234,6 +263,10 @@ const profileStyle = {
         gridTemplateColumns: "repeat(auto-fit, minmax(200px, 220px))",
         marginTop: "20px",
         gap: "20px",
+        transition: "all 4s ease",
+      },
+      ".hidden": {
+        display: "none",
       },
     },
   },
