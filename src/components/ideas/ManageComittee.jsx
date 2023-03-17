@@ -157,7 +157,7 @@ const manageComitteeStyle = {
     borderRadius: "8px",
     padding: "20px 10px",
     backgroundColor: "linear-gradient(145deg, #ffffff, #e4e5da)",
-    boxShadow: "20px 20px 60px #d7d8ce, -20px -20px 60px #ffffff",
+    boxShadow: "20px 20px 60px #d7d8ce, -5px -5px 15px #ffffff",
     ".columnsBox": {
       display: "grid",
       gridTemplateColumns: "2fr 1fr",

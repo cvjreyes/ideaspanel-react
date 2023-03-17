@@ -5,12 +5,14 @@ import { useContext, useLayoutEffect, useState } from "react";
 import { Link, useLocation } from "wouter";
 import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../helpers/api";
+import { colors } from "../../helpers/colors";
+import Button from "../general/Button";
 import Loading from "../general/Loading";
 import SmallCard from "../general/SmallCard";
 import NoResults from "../home/NoResults";
 
 export default function NewComittee() {
-  const [location] = useLocation();
+  const [location, navigate] = useLocation();
   const { user } = useContext(AuthContext);
 
   const [data, setData] = useState(null);
@@ -26,7 +28,17 @@ export default function NewComittee() {
 
   return (
     <div css={comitteeStyle}>
-      <h1 className="page_title">Comittee</h1>
+      <div className="top">
+        <div />
+        <h1 className="page_title">Comittee</h1>
+        <Button
+          text="Manage Comittee"
+          onClick={() => navigate("/comittee/manage")}
+          bgColor={colors["blue"].background}
+          bgHover={colors["blue"].backgroundHover}
+          color="white"
+        />
+      </div>
       <div className="ideasWrapper">
         <h3>Validating... ({data?.length})</h3>
         <div className="ideasMapWrapper">
@@ -66,6 +78,11 @@ export default function NewComittee() {
 const comitteeStyle = {
   padding: "0 10vw",
   minHeight: "85vh",
+  ".top": {
+    display: "grid",
+    gridTemplateColumns: "1fr 3fr 1fr",
+    alignItems: "flex-end",
+  },
   ".ideasWrapper": {
     textAlign: "left",
     marginTop: "20px",
