@@ -124,7 +124,7 @@ export default function Profile() {
       </div>
       <div className="contentWrapper">
         <div className="ideasWrapper">
-          <h3 onClick={() => setViewPublished(!viewPublished)} className="pointer">
+          <h3 onClick={() => setViewPublished(!viewPublished)}>
             Published ({published?.length})
           </h3>
           <div
@@ -145,7 +145,7 @@ export default function Profile() {
         </div>
         {user.id == params.user_id && [
           <div className="ideasWrapper" key="1">
-            <h3 className="pointer" onClick={() => setViewValidating(!viewValidating)}>
+            <h3 onClick={() => setViewValidating(!viewValidating)}>
               Validating ({validating?.length})
             </h3>
             <div
@@ -165,7 +165,7 @@ export default function Profile() {
             </div>
           </div>,
           <div className="ideasWrapper" key="2">
-            <h3 className="pointer" onClick={() => setViewDrafts(!viewDrafts)}>
+            <h3 onClick={() => setViewDrafts(!viewDrafts)}>
               Drafts ({drafts?.length})
             </h3>
             <div
@@ -185,7 +185,7 @@ export default function Profile() {
             </div>
           </div>,
           <div className="ideasWrapper" key="3">
-            <h3 className="pointer" onClick={() => setViewDenied(!viewDenied)}>
+            <h3 onClick={() => setViewDenied(!viewDenied)}>
               Denied ({denied?.length})
             </h3>
             <div
@@ -267,7 +267,6 @@ const profileStyle = {
       },
       ".hidden": {
         display: "none",
-        transition: "all 4s ease",
       },
     },
   },
