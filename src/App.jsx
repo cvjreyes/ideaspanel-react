@@ -83,14 +83,11 @@ export default function App() {
             <Route path="/comittee">
               {() => <PrivateRoute component={NewComittee} />}
             </Route>
-            <Route path="/comittee/:idea_id">
-              {() => <PrivateRoute component={NewComitteeSingleView} />}
-            </Route>
-            {/* <Route path="/comittee">
-              {() => <PrivateRoute component={Comittee} />}
-            </Route> */}
             <Route path="/comittee/manage">
               {() => <PrivateRoute component={ManageComittee} />}
+            </Route>
+            <Route path="/comittee/:idea_id">
+              {() => <PrivateRoute component={NewComitteeSingleView} />}
             </Route>
             <Route>{() => <Redirect to="/ideas_panel" />}</Route>
           </Switch>
