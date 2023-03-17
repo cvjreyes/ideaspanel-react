@@ -1,8 +1,8 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
-import { useContext, useEffect, useState } from "react";
-import { Link } from "wouter";
+import { useContext, useLayoutEffect, useState } from "react";
+import { Link, useLocation } from "wouter";
 import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../helpers/api";
 import Loading from "../general/Loading";
@@ -10,18 +10,19 @@ import SmallCard from "../general/SmallCard";
 import NoResults from "../home/NoResults";
 
 export default function NewComittee() {
+  const [location] = useLocation();
   const { user } = useContext(AuthContext);
 
   const [data, setData] = useState(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!user.isComittee) return navigate("/");
     const getData = async () => {
       const { body } = await api("get", "/ideas/get_all_validating");
       setData(body);
     };
     getData();
-  }, []);
+  }, [location]);
 
   return (
     <div css={comitteeStyle}>
@@ -38,11 +39,8 @@ export default function NewComittee() {
                     key={item.id}
                     className="card"
                   >
-                    <SmallCard
-                      item={item}
-                      // navigateTo={`/comittee/${item.id}`}
-                    />
-                    {item.voter_id && (
+                    <SmallCard item={item} />
+                    {item.approved !== null && (
                       <div className="overlay flexCenter">
                         <img
                           alt="voted"
