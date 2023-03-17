@@ -1,7 +1,7 @@
 TODOS:
-- edit comittee  vote
 
 DONE:
+- edit comittee vote
 - edit change porfile picture
 - validating and denied go to view idea without comments
 - no anonymous in comittee
