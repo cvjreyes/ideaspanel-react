@@ -54,13 +54,21 @@ export default function ManageComittee() {
     setDisplayUsers(tempUsers);
   };
 
-  const onChange = async (email, comittee) => {
+  const onChange = async (email, comittee, user_id) => {
     const { ok } = await api("post", "/users/update_comittee", {
       email: email,
       comittee: comittee ? 0 : 1,
     });
     if (!ok) return notify("Something went wrong", "error");
     notify(`${email} is now ${comittee ? "not " : ""}comittee`, "info");
+    let isComittee = comittee ? 0 : 1;
+    if (isComittee) {
+      await api("post", "/comittee_votes/submit_comittee_votes", {
+        user_id,
+      });
+    } else {
+      await api("delete", `/comittee_votes/delete_comittee_votes/${user_id}`);
+    }
     const idx = displayUsers.findIndex((user) => user.email === email);
     const tempUsers = [...displayUsers];
     tempUsers[idx].isComittee = tempUsers[idx].isComittee ? 0 : 1;
@@ -114,7 +122,9 @@ export default function ManageComittee() {
                         data={item}
                         key={i}
                         checked={!!item.isComittee}
-                        onChange={() => onChange(item.email, item.isComittee)}
+                        onChange={() =>
+                          onChange(item.email, item.isComittee, item.id)
+                        }
                         className="checkbox"
                       />
                     </div>
