@@ -49,7 +49,7 @@ export default function Profile() {
         api("get", `/ideas/get_drafts/${profile.id}`),
         api("get", `/ideas/get_denied/${profile.id}`),
         api("get", `/ideas/get_published/${profile.id}`),
-        api("get", `/ideas/get_user_validating/${profile.id}`),
+        api("get", `/ideas/get_validating/${profile.id}`),
       ]);
       const [tempDrafts, tempDenied, tempPublished, tempValidating] =
         handleFetch(results);
