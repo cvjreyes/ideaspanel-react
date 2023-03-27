@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { api } from "../../helpers/api";
 
 import Card from "../general/Card";
+import Input from "../general/Input";
 import Loading from "../general/Loading";
 import NoResults from "./NoResults";
 
@@ -13,28 +14,60 @@ export default function Home() {
   const [data, setData] = useState(null);
   const [totalPages, setTotalPages] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
-  
+  const [searchTerm, setSearchTerm] = useState("");
+
   const getData = async () => {
     const { body } = await api("get", `/ideas/get_some/${currentPage}`);
     setData(body);
   };
-  
-  useEffect(() => {
-    const getPages = async () => {
-      const { body: pages } = await api("get", "/ideas/get_page_published");
-      const pagesArray = [];
+
+  const getPages = async () => {
+    const { body: pages } = await api("get", "/ideas/get_page_published");
+    const pagesArray = [];
+    for (let i = 0; i < pages; i++) {
+      pagesArray.push(i + 1);
+    }
+    setTotalPages(pagesArray);
+  };
+
+  const getFilterData = async () => {
+    const { body } = await api(
+      "get",
+      `/ideas/get_some_filter/${searchTerm}/${currentPage}`
+    );
+    setData(body);
+  };
+
+  const getPagesFilter = async () => {
+    const { body: pages } = await api(
+      "get",
+      `/ideas/get_filter_page_published/${searchTerm}`
+    );
+    const pagesArray = [];
+    if (pages != 0) {
       for (let i = 0; i < pages; i++) {
         pagesArray.push(i + 1);
       }
-      setTotalPages(pagesArray);
-    };
+    } else {
+      pagesArray.push(1);
+    }
+    setTotalPages(pagesArray);
+  };
+
+  useEffect(() => {
     getData();
     getPages();
   }, []);
 
   useEffect(() => {
-    getData();
-  }, [currentPage]);
+    if (!searchTerm) {
+      getData();
+      getPages();
+    } else {
+      getFilterData();
+      getPagesFilter();
+    }
+  }, [currentPage, searchTerm]);
 
   function handleClickPage(e) {
     setCurrentPage(e - 1);
@@ -43,6 +76,14 @@ export default function Home() {
   return (
     <div css={homeStyle}>
       <h1 className="page_title">Ideas Panel</h1>
+      <div className="search_box">
+        <Input
+          type="text"
+          placeholder="Search"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
       {data ? (
         data.length > 0 ? (
           <div>
@@ -76,6 +117,9 @@ export default function Home() {
 const homeStyle = {
   minHeight: "calc(100vh - 50px)",
   padding: "0 5vw",
+  ".search_box": {
+    margin: "20px 0 20px 8%",
+  },
   ".map": {
     display: "grid",
     justifyContent: "center",
