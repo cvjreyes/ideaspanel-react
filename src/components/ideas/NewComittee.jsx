@@ -50,14 +50,22 @@ export default function NewComittee() {
                     className="card"
                   >
                     <SmallCard item={item} />
-                    {item.approved !== null && (
-                      <div className="overlay flexCenter">
-                        <img
-                          alt="voted"
-                          src="https://img.icons8.com/arcade/64/null/checked.png"
-                        />
-                      </div>
-                    )}
+                    {item.approved !== null &&
+                      (item.approved ? (
+                        <div className="overlay flexCenter">
+                          <img
+                            alt="voted"
+                            src="https://img.icons8.com/arcade/64/null/checked.png"
+                          />
+                        </div>
+                      ) : (
+                        <div className="overlay flexCenter">
+                          <img
+                            alt="voted"
+                            src="https://img.icons8.com/color/48/null/close-window.png"
+                          />
+                        </div>
+                      ))}
                   </Link>
                 );
               })
@@ -81,7 +89,7 @@ const comitteeStyle = {
     gridTemplateColumns: "1fr 3fr 1fr",
     alignItems: "flex-end",
     ".manage_btn": {
-      height:"40px",
+      height: "40px",
       width: "250px",
       color: "#fff",
       padding: "5px 10px",

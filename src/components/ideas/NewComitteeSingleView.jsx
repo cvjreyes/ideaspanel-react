@@ -6,7 +6,6 @@ import { useLocation, useRoute } from "wouter";
 
 import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../helpers/api";
-import { colors } from "../../helpers/colors";
 import ButtonWithImage from "../general/ButtonWithImage";
 
 import Card from "../general/Card";
@@ -63,9 +62,9 @@ export default function NewComitteeSingleView() {
       </div>
       <Card item={{ ...data, anonymous: true }} comittee={true} />
       <BoxVotes handleVote={handleVote} approved={data.approved} />
-      <p className="remove pointer" onClick={() => handleVote(null)}>
+      {/* <p className="remove pointer" onClick={() => handleVote(null)}>
         Remove vote
-      </p>
+      </p> */}
     </div>
   );
 }
@@ -76,8 +75,9 @@ const BoxVotes = ({ handleVote, approved }) => {
       <VoteWrapper voted={approved !== null && !approved}>
         <ButtonWithImage
           type="button"
-          className="negative_vote"
-          width="50px"
+          className={
+            approved !== null && !approved ? "active_negative" : "negative_vote"
+          }
           onClick={() => handleVote(0)}
           // img
           src={thumbsDown}
@@ -87,7 +87,7 @@ const BoxVotes = ({ handleVote, approved }) => {
         <ButtonWithImage
           type="button"
           onClick={() => handleVote(1)}
-          className="positive_vote"
+          className={approved ? "active_positive" : "positive_vote"}
           // img
           src={thumbsUp}
         />
@@ -99,7 +99,7 @@ const BoxVotes = ({ handleVote, approved }) => {
 const VoteWrapper = ({ children, voted }) => {
   const voteWrapperStyle = {
     padding: "5px",
-    border: voted && "2px solid blue",
+    // border: voted && "2px solid blue",
     borderRadius: "6px",
   };
 
@@ -157,15 +157,24 @@ const singleViewStyle = {
       borderRadius: "5px",
       border: "none",
       background: "#80ed99",
-      boxShadow: "0 5px #57cc99",
+      boxShadow: "5px 5px #57cc99",
       ":hover": {
         boxShadow: "0 3px #57cc99",
         top: "1px",
       },
-      ":active": {
-        boxShadow: "0 0 #57cc99",
-        top: "5px",
-      },
+    },
+    ".active_positive":{
+      width: "50px",
+      height: "50px",
+      color: "#fff",
+      cursor: "pointer",
+      transition: "all 0.3s ease",
+      position: "relative",
+      display: "inline-block",
+      outline: "none",
+      borderRadius: "5px",
+      border: "none",
+      background: "#80ed99",
     },
     ".negative_vote": {
       width: "50px",
@@ -178,16 +187,25 @@ const singleViewStyle = {
       outline: "none",
       borderRadius: "5px",
       border: "none",
-      background: "#ef233c",
-      boxShadow: "0 5px #d90429",
+      background: "#FA5F55",
+      boxShadow: "5px 5px #EE4B2B",
       ":hover": {
-        boxShadow: "0 3px #d90429",
+        boxShadow: "0 3px #EE4B2B",
         top: "1px",
       },
-      ":active": {
-        boxShadow: "0 0 #d90429",
-        top: "5px",
-      },
+    },
+    ".active_negative": {
+      width: "50px",
+      height: "50px",
+      color: "#fff",
+      cursor: "pointer",
+      transition: "all 0.3s ease",
+      position: "relative",
+      display: "inline-block",
+      outline: "none",
+      borderRadius: "5px",
+      border: "none",
+      background: "#FA5F55",
     },
   },
   ".remove": {
