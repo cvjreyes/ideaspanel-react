@@ -81,8 +81,9 @@ export default function ManageComittee() {
         <ButtonWithImage
           src={Back}
           onClick={() => navigate("/comittee")}
-          bgColor={colors["blue"].background}
-          bgHover={colors["blue"].backgroundHover}
+          // bgColor={colors["blue"].background}
+          // bgHover={colors["blue"].backgroundHover}
+          className="back_btn"
         />
         <h1 className="page_title">Manage Comittee</h1>
         <div />
@@ -150,10 +151,29 @@ const manageComitteeStyle = {
     minWidth: "1200px",
     alignItems: "flex-end",
     marginBottom: "30px",
-    button: {
-      width: "60px",
+    ".back_btn": {
       justifySelf: "flex-end",
       marginBottom: "-10px",
+      width: "50px",
+      height: "45px",
+      color: "#fff",
+      cursor: "pointer",
+      transition: "all 0.3s ease",
+      position: "relative",
+      display: "inline-block",
+      outline: "none",
+      borderRadius: "5px",
+      border: "none",
+      background: "#3a86ff",
+      boxShadow: "0 5px #4433ff",
+      ":hover": {
+        boxShadow: "0 3px #4433ff",
+        top: "1px",
+      },
+      ":active": {
+        boxShadow: "0 0 #4433ff",
+        top: "5px",
+      },
     },
   },
   ".manageBox": {

@@ -57,9 +57,7 @@ export default function NewComitteeSingleView() {
         <ButtonWithImage
           src={Back}
           onClick={() => navigate("/comittee")}
-          bgColor={colors["blue"].background}
-          bgHover={colors["blue"].backgroundHover}
-          width="70px"
+          className="back_btn"
         />
         <CountdownTimer date={data.sent_to_validate_at} />
       </div>
@@ -78,8 +76,7 @@ const BoxVotes = ({ handleVote, approved }) => {
       <VoteWrapper voted={approved !== null && !approved}>
         <ButtonWithImage
           type="button"
-          bgColor={colors["red"].background}
-          bgHover={colors["red"].backgroundHover}
+          className="negative_vote"
           width="50px"
           onClick={() => handleVote(0)}
           // img
@@ -89,10 +86,8 @@ const BoxVotes = ({ handleVote, approved }) => {
       <VoteWrapper voted={approved}>
         <ButtonWithImage
           type="button"
-          bgColor={colors["green"].background}
-          bgHover={colors["green"].backgroundHover}
-          width="50px"
           onClick={() => handleVote(1)}
+          className="positive_vote"
           // img
           src={thumbsUp}
         />
@@ -120,12 +115,80 @@ const singleViewStyle = {
     alignItems: "flex-end",
     justifyItems: "center",
     width: "100vw",
+    ".back_btn": {
+      justifySelf: "flex-end",
+      marginBottom: "-10px",
+      width: "50px",
+      height: "45px",
+      color: "#fff",
+      cursor: "pointer",
+      transition: "all 0.3s ease",
+      position: "relative",
+      display: "inline-block",
+      outline: "none",
+      borderRadius: "5px",
+      border: "none",
+      background: "#3a86ff",
+      boxShadow: "0 5px #4433ff",
+      ":hover": {
+        boxShadow: "0 3px #4433ff",
+        top: "1px",
+      },
+      ":active": {
+        boxShadow: "0 0 #4433ff",
+        top: "5px",
+      },
+    },
   },
   ".boxVotes": {
     width: "400px",
     margin: "0 auto",
     display: "flex",
     justifyContent: "space-evenly",
+    ".positive_vote": {
+      width: "50px",
+      height: "50px",
+      color: "#fff",
+      cursor: "pointer",
+      transition: "all 0.3s ease",
+      position: "relative",
+      display: "inline-block",
+      outline: "none",
+      borderRadius: "5px",
+      border: "none",
+      background: "#80ed99",
+      boxShadow: "0 5px #57cc99",
+      ":hover": {
+        boxShadow: "0 3px #57cc99",
+        top: "1px",
+      },
+      ":active": {
+        boxShadow: "0 0 #57cc99",
+        top: "5px",
+      },
+    },
+    ".negative_vote": {
+      width: "50px",
+      height: "50px",
+      color: "#fff",
+      cursor: "pointer",
+      transition: "all 0.3s ease",
+      position: "relative",
+      display: "inline-block",
+      outline: "none",
+      borderRadius: "5px",
+      border: "none",
+      background: "#ef233c",
+      boxShadow: "0 5px #d90429",
+      ":hover": {
+        boxShadow: "0 3px #d90429",
+        top: "1px",
+      },
+      ":active": {
+        boxShadow: "0 0 #d90429",
+        top: "5px",
+      },
+    },
   },
   ".remove": {
     textAlign: "center",

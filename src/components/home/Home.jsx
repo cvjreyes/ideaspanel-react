@@ -66,8 +66,19 @@ export default function Home() {
     } else {
       getFilterData();
       getPagesFilter();
+      setCurrentPage(0)
     }
-  }, [currentPage, searchTerm]);
+  }, [searchTerm]);
+
+  useEffect(() => {
+    if (!searchTerm) {
+      getData();
+      getPages();
+    } else {
+      getFilterData();
+      getPagesFilter();
+    }
+  }, [currentPage]);
 
   function handleClickPage(e) {
     setCurrentPage(e - 1);
@@ -84,25 +95,23 @@ export default function Home() {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
+      <div className="pagination">
+        {totalPages?.map((page) => (
+          <div
+            key={page}
+            className={page === currentPage + 1 ? "active" : ""}
+            onClick={() => handleClickPage(page)}
+          >
+            {page}
+          </div>
+        ))}
+      </div>
       {data ? (
         data.length > 0 ? (
-          <div>
-            <div className="pagination">
-              {totalPages?.map((page) => (
-                <div
-                  key={page}
-                  className={page === currentPage + 1 ? "active" : ""}
-                  onClick={() => handleClickPage(page)}
-                >
-                  {page}
-                </div>
-              ))}
-            </div>
-            <div className="map">
-              {data.map((item, i) => {
-                return <Card item={item} key={i} />;
-              })}
-            </div>
+          <div className="map">
+            {data.map((item, i) => {
+              return <Card item={item} key={i} />;
+            })}
           </div>
         ) : (
           <NoResults />

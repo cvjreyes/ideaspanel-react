@@ -34,9 +34,7 @@ export default function NewComittee() {
         <Button
           text="Manage Comittee"
           onClick={() => navigate("/comittee/manage")}
-          bgColor={colors["blue"].background}
-          bgHover={colors["blue"].backgroundHover}
-          color="white"
+          className="manage_btn"
         />
       </div>
       <div className="ideasWrapper">
@@ -82,6 +80,40 @@ const comitteeStyle = {
     display: "grid",
     gridTemplateColumns: "1fr 3fr 1fr",
     alignItems: "flex-end",
+    ".manage_btn": {
+      height:"40px",
+      width: "250px",
+      color: "#fff",
+      padding: "5px 10px",
+      cursor: "pointer",
+      transition: "all 0.3s ease",
+      position: "relative",
+      display: "inline-block",
+      outline: "none",
+      overflow: "hidden",
+      borderRadius: "5px",
+      border: "none",
+      backgroundColor: "#3a86ff",
+      ":hover": {
+        borderRadius: "5px",
+        paddingRight: "24px",
+        paddingLeft: "8px",
+      },
+      ":hover:after": {
+        opacity: "1",
+        right: "10px",
+      },
+      ":after": {
+        content: "'>>'",
+        position: "absolute",
+        opacity: "0",
+        fontSize: "20px",
+        lineHeight: "40px",
+        top: "0",
+        right: "-20px",
+        transition: "0.4s",
+      },
+    },
   },
   ".ideasWrapper": {
     textAlign: "left",
