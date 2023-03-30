@@ -5,7 +5,6 @@ import { useContext, useLayoutEffect, useState } from "react";
 import { Link, useLocation } from "wouter";
 import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../helpers/api";
-import { colors } from "../../helpers/colors";
 import Button from "../general/Button";
 import Loading from "../general/Loading";
 import SmallCard from "../general/SmallCard";

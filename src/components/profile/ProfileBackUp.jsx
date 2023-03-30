@@ -17,7 +17,7 @@ import Loading from "../general/Loading";
 import SmallCard from "../general/SmallCard";
 import { useDropzone } from "react-dropzone";
 
-export default function Profile() {
+export default function ProfileBackUp() {
   const [_, params] = useRoute("/profile/:user_id");
   const [location] = useLocation();
 
@@ -28,11 +28,11 @@ export default function Profile() {
   const [denied, setDenied] = useState(null);
   const [published, setPublished] = useState(null);
   const [validating, setValidating] = useState(null);
-  const [displayData, setDisplayData] = useState([]);
 
-  const [selectedOption, setSelectedOption] = useState("Published");
-
-  const selectedOptions = ["Published", "Denied", "Validating", "Drafts"];
+  const [viewPublished, setViewPublished] = useState(false);
+  const [viewValidating, setViewValidating] = useState(false);
+  const [viewDrafts, setViewDrafts] = useState(false);
+  const [viewDenied, setViewDenied] = useState(false);
 
   const getProfileData = async () => {
     const { body } = await api("get", `/users/profile/${params.user_id}`);
@@ -57,7 +57,6 @@ export default function Profile() {
       setDenied(tempDenied);
       setPublished(tempPublished);
       setValidating(tempValidating);
-      setDisplayData(tempPublished);
     };
     profile && getUserIdeas();
   }, [profile]);
@@ -87,19 +86,6 @@ export default function Profile() {
       "image/svg": [],
     },
   });
-
-  const toggleDropdown = (selected) => {
-    setSelectedOption(selected);
-    if (selected == "Published") {
-      setDisplayData(published);
-    } else if (selected == "Denied") {
-      setDisplayData(denied);
-    } else if (selected == "Validating") {
-      setDisplayData(validating);
-    } else if (selected == "Drafts") {
-      setDisplayData(drafts);
-    }
-  };
 
   if (!profile) return <Loading />;
   return (
@@ -137,41 +123,88 @@ export default function Profile() {
         </div>
       </div>
       <div className="contentWrapper">
-        <div className="dropdownWrapper">
-          {selectedOptions.map((selected) => {
-            return (
-              <div key={selected}>
-                <button
-                  className="dropdownButton"
-                  onClick={() => toggleDropdown(selected)}
-                  style={{
-                    backgroundColor: selectedOption === selected && "lightgray",
-                  }}
-                >
-                  {selected}
-                </button>
-              </div>
-            );
-          })}
+        <div className="ideasWrapper">
+          <h3 onClick={() => setViewPublished(!viewPublished)} className="pointer">
+            Published ({published?.length})
+          </h3>
+          <div
+            className={`ideasMapWrapper ${
+              viewPublished === false ? "hidden" : ""
+            }`}
+          >
+            {published?.map((item, i) => {
+              return (
+                <SmallCard
+                  item={item}
+                  navigateTo={`/idea/${item.id}`}
+                  key={`published${i}`}
+                />
+              );
+            })}
+          </div>
         </div>
-        <div className="ideasMapWrapper">
-          {displayData?.map((item, i) => {
-            const navigateTo =
-              selectedOption === "Denied" || selectedOption === "Validating"
-                ? `/profile/read_only/${item.id}`
-                : selectedOption === "Published"
-                ? `/idea/${item.id}`
-                : selectedOption === "Drafts" &&
-                  `/profile/edit_idea/${item.id}`;
-            return (
-              <SmallCard
-                item={item}
-                navigateTo={navigateTo}
-                key={`displayData${i}`}
-              />
-            );
-          })}
-        </div>
+        {user.id == params.user_id && [
+          <div className="ideasWrapper" key="1">
+            <h3 className="pointer" onClick={() => setViewValidating(!viewValidating)}>
+              Validating ({validating?.length})
+            </h3>
+            <div
+              className={`ideasMapWrapper ${
+                viewValidating === false ? "hidden" : ""
+              }`}
+            >
+              {validating?.map((item, i) => {
+                return (
+                  <SmallCard
+                    item={item}
+                    navigateTo={`/profile/read_only/${item.id}`}
+                    key={`validating${i}`}
+                  />
+                );
+              })}
+            </div>
+          </div>,
+          <div className="ideasWrapper" key="2">
+            <h3 className="pointer" onClick={() => setViewDrafts(!viewDrafts)}>
+              Drafts ({drafts?.length})
+            </h3>
+            <div
+              className={`ideasMapWrapper ${
+                viewDrafts === false ? "hidden" : ""
+              }`}
+            >
+              {drafts?.map((item, i) => {
+                return (
+                  <SmallCard
+                    item={item}
+                    navigateTo={`/profile/edit_idea/${item.id}`}
+                    key={`drafts${i}`}
+                  />
+                );
+              })}
+            </div>
+          </div>,
+          <div className="ideasWrapper" key="3">
+            <h3 className="pointer" onClick={() => setViewDenied(!viewDenied)}>
+              Denied ({denied?.length})
+            </h3>
+            <div
+              className={`ideasMapWrapper ${
+                viewDenied === false ? "hidden" : ""
+              }`}
+            >
+              {denied?.map((item, i) => {
+                return (
+                  <SmallCard
+                    item={item}
+                    navigateTo={`/profile/read_only/${item.id}`}
+                    key={`denied${i}`}
+                  />
+                );
+              })}
+            </div>
+          </div>,
+        ]}
       </div>
     </div>
   );
@@ -218,40 +251,24 @@ const profileStyle = {
   },
   ".contentWrapper": {
     display: "grid",
-    gridTemplateColumns: "1fr 5fr",
+    gridTemplateColumns: "repeat(auto-fit, minmax(461px, 1fr))",
     width: "100%",
     marginTop: "30px",
     gap: "20px",
-    ".dropdownWrapper": {
-      width: "200px",
-      height: "200px",
-      fontSize: "16px",
-      border: "3px solid #999",
-      padding: "10px 0",
-      backgroundColor: "#fff",
-      borderRadius: "10px",
+    ".ideasWrapper": {
+      textAlign: "left",
       marginTop: "20px",
-      ".dropdownButton": {
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        width: "100%",
-        padding: "12px 16px",
-        cursor: "pointer",
-        backgroundColor: "#fff",
-        border: "0",
-        transition: "background-color 0.3s ease-out",
-        ":hover": {
-          backgroundColor: "#f4f4f4",
-        },
+      ".ideasMapWrapper": {
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fit, minmax(200px, 220px))",
+        marginTop: "20px",
+        gap: "20px",
+        transition: "all 4s ease",
       },
-    },
-    ".ideasMapWrapper": {
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(200px, 220px))",
-      justifyContent: "center",
-      marginTop: "20px",
-      gap: "20px",
+      ".hidden": {
+        display: "none",
+        transition: "all 4s ease",
+      },
     },
   },
 };
