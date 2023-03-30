@@ -9,13 +9,14 @@ import {
   useState,
 } from "react";
 import { useLocation, useRoute } from "wouter";
+import { useDropzone } from "react-dropzone";
 
-import Button from "../general/Button";
 import { api, handleFetch } from "../../helpers/api";
 import { AuthContext } from "../../context/AuthContext";
 import Loading from "../general/Loading";
+import NoResults from "../home/NoResults";
 import SmallCard from "../general/SmallCard";
-import { useDropzone } from "react-dropzone";
+import Button from "../general/Button";
 
 export default function Profile() {
   const [_, params] = useRoute("/profile/:user_id");
@@ -29,6 +30,9 @@ export default function Profile() {
   const [published, setPublished] = useState(null);
   const [validating, setValidating] = useState(null);
   const [displayData, setDisplayData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const itemsPerPage = 10; // o el número de elementos que desee mostrar por página
 
   const [selectedOption, setSelectedOption] = useState("Published");
 
@@ -101,6 +105,12 @@ export default function Profile() {
     }
   };
 
+  const paginate = (array) => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return array.slice(startIndex, endIndex);
+  };
+
   if (!profile) return <Loading />;
   return (
     <div css={profileStyle}>
@@ -154,23 +164,50 @@ export default function Profile() {
             );
           })}
         </div>
-        <div className="ideasMapWrapper">
-          {displayData?.map((item, i) => {
-            const navigateTo =
-              selectedOption === "Denied" || selectedOption === "Validating"
-                ? `/profile/read_only/${item.id}`
-                : selectedOption === "Published"
-                ? `/idea/${item.id}`
-                : selectedOption === "Drafts" &&
-                  `/profile/edit_idea/${item.id}`;
-            return (
-              <SmallCard
-                item={item}
-                navigateTo={navigateTo}
-                key={`displayData${i}`}
-              />
-            );
-          })}
+        <div>
+          {displayData.length > itemsPerPage && (
+            <div className="paginationButtons">
+              {currentPage !== 1 && (
+                <button onClick={() => setCurrentPage(currentPage - 1)}>
+                  Prev
+                </button>
+              )}
+              {Array(Math.ceil(displayData.length / itemsPerPage))
+                .fill()
+                .map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setCurrentPage(i + 1)}
+                    style={{ fontWeight: currentPage === i + 1 && "bold" }}
+                  >
+                    {i + 1}
+                  </button>
+                ))}
+              {currentPage !== Math.ceil(displayData.length / itemsPerPage) && (
+                <button onClick={() => setCurrentPage(currentPage + 1)}>
+                  Next
+                </button>
+              )}
+            </div>
+          )}
+          {displayData.length > 0 ? (
+            <div className="ideasMapWrapper">
+              {paginate(displayData).map((item, i) => {
+                const navigateTo =
+                  selectedOption === "Denied" || selectedOption === "Validating"
+                    ? `/profile/read_only/${item.id}`
+                    : selectedOption === "Published"
+                    ? `/idea/${item.id}`
+                    : selectedOption === "Drafts" &&
+                      `/profile/edit_idea/${item.id}`;
+                return (
+                  <SmallCard item={item} navigateTo={navigateTo} key={i} />
+                );
+              })}
+            </div>
+          ) : (
+            <NoResults />
+          )}
         </div>
       </div>
     </div>
