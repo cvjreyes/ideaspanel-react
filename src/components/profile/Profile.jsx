@@ -219,7 +219,7 @@ const profileStyle = {
   flexDirection: "column",
   textAlign: "center",
   padding: "0 10vw",
-  minHeight: "85vh",
+  minHeight: "80vh",
   ".headWrapper": {
     marginTop: "100px",
     display: "grid",
@@ -267,7 +267,7 @@ const profileStyle = {
       padding: "10px 0",
       backgroundColor: "#fff",
       borderRadius: "10px",
-      marginTop: "20px",
+      marginTop: "80px",
       ".dropdownButton": {
         display: "flex",
         justifyContent: "space-between",
@@ -280,6 +280,28 @@ const profileStyle = {
         transition: "background-color 0.3s ease-out",
         ":hover": {
           backgroundColor: "#f4f4f4",
+        },
+      },
+    },
+    ".paginationButtons": {
+      display: "flex",
+      justifyContent: "center",
+      marginTop: "1rem",
+      button: {
+        margin: "0 0.5rem",
+        padding: "0.5rem",
+        border: "1px solid #ccc",
+        borderRadius: "5px",
+        backgroundColor: "#fff",
+        cursor: "pointer",
+        transition: "all 0.3s ease",
+        ":hover": {
+          backgroundColor: "#ccc",
+        },
+        ":focus": {
+          outline: "none",
+          backgroundColor: "#ccc",
+          boxShadow: "0 0 0 3px #ddd",
         },
       },
     },
