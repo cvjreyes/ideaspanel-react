@@ -3,12 +3,15 @@
 import { jsx } from "@emotion/react";
 import { useContext, useLayoutEffect, useState } from "react";
 import { Link, useLocation } from "wouter";
+
 import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../helpers/api";
-import Button from "../general/Button";
+
+import ButtonWithImage from "../general/ButtonWithImage";
 import Loading from "../general/Loading";
 import SmallCard from "../general/SmallCard";
 import NoResults from "../home/NoResults";
+import Settings from "../../assets/images/settings.png";
 
 export default function NewComittee() {
   const [location, navigate] = useLocation();
@@ -30,14 +33,14 @@ export default function NewComittee() {
       <div className="top">
         <div />
         <h1 className="page_title">Comittee</h1>
-        <Button
-          text="Manage Comittee"
+        <ButtonWithImage
           onClick={() => navigate("/comittee/manage")}
           className="manage_btn"
+          src="https://img.icons8.com/ios-filled/250/null/settings.png"
+          imgWidth="30px"
         />
       </div>
       <div className="ideasWrapper">
-        <h3>Validating... ({data?.length})</h3>
         <div className="ideasMapWrapper">
           {data ? (
             data.length > 0 ? (
@@ -88,43 +91,17 @@ const comitteeStyle = {
     gridTemplateColumns: "1fr 3fr 1fr",
     alignItems: "flex-end",
     ".manage_btn": {
-      height: "40px",
-      width: "250px",
-      color: "#fff",
-      padding: "5px 10px",
-      cursor: "pointer",
-      transition: "all 0.3s ease",
-      position: "relative",
-      display: "inline-block",
-      outline: "none",
-      overflow: "hidden",
-      borderRadius: "5px",
-      border: "none",
-      backgroundColor: "#3a86ff",
+      backgroundColor: "transparent",
+      width:"60px",
       ":hover": {
-        borderRadius: "5px",
-        paddingRight: "24px",
-        paddingLeft: "8px",
-      },
-      ":hover:after": {
-        opacity: "1",
-        right: "10px",
-      },
-      ":after": {
-        content: "'>>'",
-        position: "absolute",
-        opacity: "0",
-        fontSize: "20px",
-        lineHeight: "40px",
-        top: "0",
-        right: "-20px",
-        transition: "0.4s",
+        transform: "rotate(360deg)",
+        transition: "transform 0.5s ease-in-out",
       },
     },
   },
   ".ideasWrapper": {
     textAlign: "left",
-    marginTop: "20px",
+    marginTop: "50px",
     ".ideasMapWrapper": {
       display: "grid",
       gridTemplateColumns: "repeat(auto-fit, minmax(200px, 220px))",

@@ -16,13 +16,12 @@ import { AuthContext } from "../../context/AuthContext";
 import Loading from "../general/Loading";
 import NoResults from "../home/NoResults";
 import SmallCard from "../general/SmallCard";
-import Button from "../general/Button";
 
 export default function Profile() {
   const [_, params] = useRoute("/profile/:user_id");
   const [location] = useLocation();
 
-  const { user, logout, updateUserInfo } = useContext(AuthContext);
+  const { user, updateUserInfo } = useContext(AuthContext);
 
   const [profile, setProfile] = useState(null);
   const [drafts, setDrafts] = useState(null);
@@ -133,17 +132,6 @@ export default function Profile() {
           </div>
           <h1 className="page_title">{profile.name}</h1>
           <p>{profile.email}</p>
-        </div>
-        <div>
-          <Button
-            color="white"
-            bgColor="#338DF1"
-            bgHover="linear-gradient(180deg, #338DF1 -2.23%, #338DF1 -2.22%, #85BFFF 148.66%)"
-            text="Logout"
-            onClick={logout}
-            width="150px"
-            margin="0 20px"
-          />
         </div>
       </div>
       <div className="contentWrapper">

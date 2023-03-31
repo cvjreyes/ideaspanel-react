@@ -14,13 +14,12 @@ export default function Footer() {
 
 const footerStyle = {
   position: "fixed",
-  bottom: 0,
-  left: 0,
+  top: 50,
+  left: 60,
   display: "flex",
-  justifyContent: "center",
-  alignItems: "flex-end",
-  height: "100px",
-  width: "100%",
+  justifyContent: "flex-start",
+  height: "110px",
+  width: "10%",
   padding: "20px",
   boxSizing: "border-box",
   ".technipLogo": {

@@ -5,9 +5,10 @@ import { useContext } from "react";
 import { Link, useRoute } from "wouter";
 
 import { AuthContext } from "../../context/AuthContext";
+import LogoutImg from "../../assets/images/logout.png";
 
 export default function Navbar() {
-  const { user } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
 
   const [isHomeActive] = useRoute("/ideas_panel/");
   const [isComitteeActive] = useRoute("/ideas_panel/comittee");
@@ -47,7 +48,8 @@ export default function Navbar() {
           />
         </Link>
       </div>
-      <div>
+      <div />
+      <div className="profileBox">
         <Link to={`/ideas_panel/profile/${user.id}`} className="flexCenter">
           {user.name}
           <img
@@ -57,6 +59,7 @@ export default function Navbar() {
             src="https://img.icons8.com/ios-glyphs/30/null/user--v1.png"
           />
         </Link>
+        <img onClick={logout} src={LogoutImg} className="pointer logout" />
       </div>
     </div>
   );
@@ -96,5 +99,17 @@ const navbarStyle = {
   ".left": {
     display: "flex",
     alignItems: "center",
+  },
+  ".profileBox": {
+    display: "flex",
+    alignItems:"center",
+    ".logout": {
+      height:"25px",
+      width:"25px",
+      marginLeft:"20px",
+      ":hover":{
+        filter: "invert(20%)",
+      }
+    }
   },
 };
