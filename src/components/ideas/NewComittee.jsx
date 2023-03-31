@@ -11,7 +11,6 @@ import ButtonWithImage from "../general/ButtonWithImage";
 import Loading from "../general/Loading";
 import SmallCard from "../general/SmallCard";
 import NoResults from "../home/NoResults";
-import Settings from "../../assets/images/settings.png";
 
 export default function NewComittee() {
   const [location, navigate] = useLocation();

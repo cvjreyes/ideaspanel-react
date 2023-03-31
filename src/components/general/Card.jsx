@@ -68,6 +68,15 @@ export default function Card({ item, comittee }) {
         marginLeft: "10px",
         lineHeight: "1.2rem",
       },
+      ".imgComments": {
+        height: "20px",
+        width: "20px",
+        backgroundColor: "transparent",
+        marginLeft: "30px",
+      },
+      ".count_comments": {
+        margin:"-5px 0 0 5px" 
+      }
     },
   };
 
@@ -107,6 +116,13 @@ export default function Card({ item, comittee }) {
               {formatDate(item.created_at)}
             </span>
           </div>
+          <div>
+            <img
+              className="imgComments"
+              src="https://img.icons8.com/material-outlined/24/null/comments--v1.png"
+            />
+          </div>
+          <div className="count_comments">{item.comment_count}</div>
         </div>
       )}
     </div>

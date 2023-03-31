@@ -37,12 +37,18 @@ export default function CommentSection({
             </div>
             <div className="dateComment">
               <div>
-                {commentDate.getDate()}/{commentDate.getMonth() + 1}/
-                {commentDate.getFullYear()}
+                {commentDate.toLocaleString("es-ES", {
+                  day: "numeric",
+                  month: "numeric",
+                  year: "numeric",
+                })}
               </div>
               <div>
-                {commentDate.getHours()}:{commentDate.getMinutes()}:
-                {commentDate.getSeconds()}
+                {commentDate.toLocaleString("es-ES", {
+                  hour: "numeric",
+                  minute: "numeric",
+                  second: "numeric",
+                })}
               </div>
             </div>
             {userID === comment.user_id ? (

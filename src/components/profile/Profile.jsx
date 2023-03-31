@@ -29,6 +29,8 @@ export default function Profile() {
   const [published, setPublished] = useState(null);
   const [validating, setValidating] = useState(null);
   const [displayData, setDisplayData] = useState([]);
+  const [lengthAllOptions, setLengthAllOptions] = useState([]);
+  const [lengthDisplayData, setLengthDisplayData] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
 
   const itemsPerPage = 10; // o el número de elementos que desee mostrar por página
@@ -61,6 +63,13 @@ export default function Profile() {
       setPublished(tempPublished);
       setValidating(tempValidating);
       setDisplayData(tempPublished);
+      setLengthDisplayData(tempPublished.length);
+      setLengthAllOptions([
+        tempPublished.length,
+        tempDenied.length,
+        tempValidating.length,
+        tempDrafts.length,
+      ]);
     };
     profile && getUserIdeas();
   }, [profile]);
@@ -93,14 +102,19 @@ export default function Profile() {
 
   const toggleDropdown = (selected) => {
     setSelectedOption(selected);
+    setCurrentPage(1);
     if (selected == "Published") {
       setDisplayData(published);
+      setLengthDisplayData(published.length);
     } else if (selected == "Denied") {
       setDisplayData(denied);
+      setLengthDisplayData(denied.length);
     } else if (selected == "Validating") {
       setDisplayData(validating);
+      setLengthDisplayData(validating.length);
     } else if (selected == "Drafts") {
       setDisplayData(drafts);
+      setLengthDisplayData(drafts.length);
     }
   };
 
@@ -136,7 +150,7 @@ export default function Profile() {
       </div>
       <div className="contentWrapper">
         <div className="dropdownWrapper">
-          {selectedOptions.map((selected) => {
+          {selectedOptions.map((selected, i) => {
             return (
               <div key={selected}>
                 <button
@@ -147,31 +161,37 @@ export default function Profile() {
                   }}
                 >
                   {selected}
+                  <p>{lengthAllOptions[i]}</p>
                 </button>
               </div>
             );
           })}
         </div>
         <div>
-          {displayData.length > itemsPerPage && (
+          <span>Results found {lengthDisplayData}</span>
+          {displayData && (
             <div className="paginationButtons">
               {currentPage !== 1 && (
                 <button onClick={() => setCurrentPage(currentPage - 1)}>
                   Prev
                 </button>
               )}
-              {Array(Math.ceil(displayData.length / itemsPerPage))
-                .fill()
-                .map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setCurrentPage(i + 1)}
-                    style={{ fontWeight: currentPage === i + 1 && "bold" }}
-                  >
-                    {i + 1}
-                  </button>
-                ))}
-              {currentPage !== Math.ceil(displayData.length / itemsPerPage) && (
+              {Math.ceil(displayData.length / itemsPerPage) < 2 ? (
+                <button disabled style={{ fontWeight: "bold" }}>1</button>
+              ) : (
+                Array(Math.ceil(displayData.length / itemsPerPage))
+                  .fill()
+                  .map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setCurrentPage(i + 1)}
+                      style={{ fontWeight: currentPage === i + 1 && "bold" }}
+                    >
+                      {i + 1}
+                    </button>
+                  ))
+              )}
+              {currentPage !== Math.ceil(displayData.length / itemsPerPage) && displayData.length > 10 && (
                 <button onClick={() => setCurrentPage(currentPage + 1)}>
                   Next
                 </button>
@@ -205,10 +225,10 @@ export default function Profile() {
 const profileStyle = {
   display: "flex",
   flexDirection: "column",
-  textAlign: "center",
   padding: "0 10vw",
   minHeight: "calc(80vh - 50px)",
   ".headWrapper": {
+    textAlign: "center",
     marginTop: "70px",
     display: "grid",
     gridTemplateColumns: ".2fr 1fr .2fr",
@@ -247,6 +267,14 @@ const profileStyle = {
     width: "100%",
     marginTop: "30px",
     gap: "20px",
+    span: {
+      display: "grid",
+      fontSize: "16px",
+      color: "#333",
+      fontWeight: "bold",
+      marginLeft: "10px",
+      textAlign: "center",
+    },
     ".dropdownWrapper": {
       width: "200px",
       height: "200px",
@@ -256,6 +284,9 @@ const profileStyle = {
       backgroundColor: "#fff",
       borderRadius: "10px",
       marginTop: "80px",
+      p: {
+        fontWeight: "bold",
+      },
       ".dropdownButton": {
         display: "flex",
         justifyContent: "space-between",
@@ -290,6 +321,10 @@ const profileStyle = {
           outline: "none",
           backgroundColor: "#ccc",
           boxShadow: "0 0 0 3px #ddd",
+        },
+        ":disabled": {
+          opacity: "0.5",
+          cursor: "not-allowed",
         },
       },
     },
