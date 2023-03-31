@@ -219,9 +219,9 @@ const profileStyle = {
   flexDirection: "column",
   textAlign: "center",
   padding: "0 10vw",
-  minHeight: "80vh",
+  minHeight: "calc(80vh - 50px)",
   ".headWrapper": {
-    marginTop: "100px",
+    marginTop: "70px",
     display: "grid",
     gridTemplateColumns: ".2fr 1fr .2fr",
     h1: { margin: "10px 0" },
@@ -286,10 +286,10 @@ const profileStyle = {
     ".paginationButtons": {
       display: "flex",
       justifyContent: "center",
-      marginTop: "1rem",
+      marginTop: "10px",
       button: {
-        margin: "0 0.5rem",
-        padding: "0.5rem",
+        margin: "0 0.4rem",
+        padding: "0.3rem",
         border: "1px solid #ccc",
         borderRadius: "5px",
         backgroundColor: "#fff",

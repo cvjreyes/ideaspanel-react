@@ -124,7 +124,7 @@ export default function Home() {
 }
 
 const homeStyle = {
-  minHeight: "calc(100vh - 50px)",
+  minHeight: "calc(80vh - 50px)",
   padding: "0 5vw",
   ".search_box": {
     margin: "20px 0 20px 8%",
