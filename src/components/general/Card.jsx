@@ -55,7 +55,8 @@ export default function Card({ item, comittee }) {
         width: "60px",
         height: "60px",
         padding:
-          item.profile_pic === "http://localhost:5026/images/default.png"
+          item.profile_pic === "http://localhost:5026/images/default.png" ||
+          item.anonymous
             ? "10px"
             : "",
         backgroundColor: "#99C6F8",
@@ -72,11 +73,12 @@ export default function Card({ item, comittee }) {
         height: "20px",
         width: "20px",
         backgroundColor: "transparent",
-        marginLeft: "30px",
+        marginLeft: "20px",
+        padding: "0",
       },
       ".count_comments": {
-        margin:"-5px 0 0 5px" 
-      }
+        margin: "-5px 0 0 5px",
+      },
     },
   };
 

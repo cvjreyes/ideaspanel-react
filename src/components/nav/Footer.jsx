@@ -15,7 +15,6 @@ export default function Footer() {
 const footerStyle = {
   position: "fixed",
   top: 50,
-  left: 60,
   display: "flex",
   justifyContent: "flex-start",
   height: "110px",
