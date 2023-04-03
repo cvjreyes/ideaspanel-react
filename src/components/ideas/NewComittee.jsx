@@ -91,7 +91,7 @@ const comitteeStyle = {
     alignItems: "flex-end",
     ".manage_btn": {
       backgroundColor: "transparent",
-      width:"60px",
+      width: "60px",
       ":hover": {
         transform: "rotate(360deg)",
         transition: "transform 0.5s ease-in-out",
@@ -110,7 +110,11 @@ const comitteeStyle = {
       ".card": {
         position: "relative",
         ":hover": {
-          ".overlay": { top: -5 },
+          ".overlay": {
+            top: -5,
+            boxShadow: "0px 10px 10px rgba(0, 0, 0, 0.2)",
+            // transform: "skewY(10deg)",
+          },
           ".pointer": {
             boxShadow: "12px 12px 24px #e4e5da, -12px -12px 24px #ffffff",
             top: -5,
@@ -121,12 +125,14 @@ const comitteeStyle = {
         position: "absolute",
         top: 0,
         left: 0,
-        borderRadius: "20px",
-        width: "100%",
-        height: "calc(100% - 30px)",
-        backgroundColor: "rgba(230, 230, 230, .5)",
+        borderRadius: "20px 0 20px 0",
+        width: "25%",
+        height: "20%",
+        backgroundColor: "white",
         zIndex: 10,
         transition: "all 200ms linear",
+        transformOrigin: "bottom left",
+        transform: "skewY(-10deg)",
         img: {
           width: "50px",
           height: "50px",
