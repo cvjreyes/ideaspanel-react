@@ -1,13 +1,12 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import { jsx } from "@emotion/react";
+import { jsx, keyframes } from "@emotion/react";
 import { useContext, useEffect, useState } from "react";
 import { useNotifications } from "reapop";
 import { useRoute } from "wouter";
 
 import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../helpers/api";
-import { colors } from "../../helpers/colors";
 
 import ButtonWithImage from "../general/ButtonWithImage";
 import AddCommentSection from "./AddCommentSection";
@@ -69,6 +68,7 @@ export default function Idea() {
 
   const handleAddComment = async (e) => {
     e && e.preventDefault();
+    console.log(e.target.value);
     const { ok } = await api("post", "/comments/add_comment", {
       idea_id: params.idea_id,
       user_id: user.id,
@@ -81,7 +81,10 @@ export default function Idea() {
   };
 
   const handleDeleteComment = async (comment_id) => {
-    const { ok } = await api("delete", `/comments/delete_comment/${comment_id}`);
+    const { ok } = await api(
+      "delete",
+      `/comments/delete_comment/${comment_id}`
+    );
     if (!ok) return notify("Something went wrong", "error");
     notify("Comment deleted", "success");
     getComments();
@@ -113,11 +116,12 @@ export default function Idea() {
             text={ideasVotes.length}
             width="60px"
             margin="20px 0 0 0"
-            bgColor={hasUserVoted ? colors["green"].background : ""}
-            bgHover={hasUserVoted ? colors["green"].backgroundHover : ""}
+            bgColor={hasUserVoted ? "#1DA1F3" : ""}
+            bgHover={hasUserVoted ? "#1DA1F3" : ""}
             // img
             src={ThumbsUp}
             onClick={() => handleIdeaVote()}
+            className={hasUserVoted ? "btn_vote_active" : "btn_vote"}
           />
           <AddCommentSection
             newComment={newComment}
@@ -144,6 +148,12 @@ export default function Idea() {
   );
 }
 
+const circleAnim = keyframes`
+0%      {transform: scale(1); }
+50%     {transform: scale(1.5); }
+100%    {transform: scale(1); }
+`;
+
 const ideaStyle = {
   form: {
     display: "grid",
@@ -156,9 +166,9 @@ const ideaStyle = {
       ".info": {
         margin: "20px 40px 0  0",
       },
-      ".title":{
+      ".title": {
         margin: "10px 40px 0  0",
-        fontSize: "25px"
+        fontSize: "25px",
       },
       ".image": {
         display: "flex",
@@ -168,6 +178,20 @@ const ideaStyle = {
           height: "200px",
           width: "350px",
         },
+      },
+      ".btn_vote": {
+        display: "flex",
+        borderRadius: "50%",
+        transition: "background-color 0.2s ease-in-out",
+        ":hover": {
+          transition: "all 0.4s ease",
+          backgroundColor: "#1DA1F3",
+        },
+      },
+      ".btn_vote_active": {
+        display: "flex",
+        borderRadius: "50%",
+        animation: `${circleAnim} 1s ease forwards`,
       },
     },
     ".right": {

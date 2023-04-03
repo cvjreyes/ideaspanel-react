@@ -23,10 +23,7 @@ export default function AddCommentSection({
       <Button
         text="Add Comment"
         onClick={handleAddComment}
-        bgColor={colors["blue"].background}
-        bgHover={colors["blue"].backgroundHover}
         color="white"
-        padding="10px 20px"
       />
     </div>
   );
@@ -40,4 +37,22 @@ const addCommentSectionStyles = {
   margin: "20px 0 0",
   width: "25vw",
   minWidth: "500px",
+  button: {
+    background: colors["blue"].background, // use the same background color as the button
+    padding: "15px 25px",
+    borderRadius: "5px",
+    fontWeight: "bold",
+    width:"100%",
+    border: "none", // remove the border
+    cursor: "pointer", // change the cursor to a pointer on hover
+    transition: "all 0.3s ease-in-out", // add transition effect
+    ":hover": {
+      background: colors["blue"].backgroundHover, // use the same hover background color as the button
+      transform: "scale(1.05)", // add scaling effect on hover
+    },
+    ":focus": {
+      outline: "none", // remove the default focus outline
+      boxShadow: "0 0 0 3px rgba(66, 153, 225, 0.5)", // add custom focus box shadow
+    },
+  },
 };
