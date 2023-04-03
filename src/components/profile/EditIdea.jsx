@@ -93,7 +93,7 @@ export default function EditIdea() {
             getIdeaInfo={getIdeaInfo}
           />
           <div className="toggleWrapper">
-            <p>Show User</p>
+            <p>Show my name</p>
             <Switch
               onChange={(e) => handleChange("anonymous", !e)}
               checked={!idea.anonymous}

@@ -16,6 +16,7 @@ import { AuthContext } from "../../context/AuthContext";
 import Loading from "../general/Loading";
 import NoResults from "../home/NoResults";
 import SmallCard from "../general/SmallCard";
+import Pagination from "../general/Pagination";
 
 export default function Profile() {
   const [_, params] = useRoute("/profile/:user_id");
@@ -129,74 +130,60 @@ export default function Profile() {
     <div css={profileStyle}>
       <div className="headWrapper">
         <div />
-        <div>
+        <div className="profileBox">
           <div className="profPicWrapper">
             <img
               alt="profile"
               src={profile.profile_pic}
               className="profile_pic"
             />
-            <img
-              className="editIcon pointer"
-              alt="edit profile pic"
-              src="https://img.icons8.com/material-outlined/24/null/pencil--v1.png"
-              {...getInputProps()}
-              {...getRootProps()}
-            />
+            {params.user_id == user.id && (
+              <img
+                className="editIcon pointer"
+                alt="edit profile pic"
+                src="https://img.icons8.com/material-outlined/24/null/pencil--v1.png"
+                {...getInputProps()}
+                {...getRootProps()}
+              />
+            )}
           </div>
           <h1 className="page_title">{profile.name}</h1>
           <p>{profile.email}</p>
         </div>
       </div>
       <div className="contentWrapper">
-        <div className="dropdownWrapper">
-          {selectedOptions.map((selected, i) => {
-            return (
-              <div key={selected}>
-                <button
-                  className="dropdownButton"
-                  onClick={() => toggleDropdown(selected)}
-                  style={{
-                    backgroundColor: selectedOption === selected && "lightgray",
-                  }}
-                >
-                  {selected}
-                  <p>{lengthAllOptions[i]}</p>
-                </button>
-              </div>
-            );
-          })}
-        </div>
+        {params.user_id == user.id ? (
+          <div className="dropdownWrapper">
+            {selectedOptions.map((selected, i) => {
+              return (
+                <div key={selected}>
+                  <button
+                    className="dropdownButton"
+                    onClick={() => toggleDropdown(selected)}
+                    style={{
+                      backgroundColor:
+                        selectedOption === selected && "lightgray",
+                    }}
+                  >
+                    {selected}
+                    <p>{lengthAllOptions[i]}</p>
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          <div />
+        )}
         <div>
           <span>Results found {lengthDisplayData}</span>
           {displayData && (
-            <div className="paginationButtons">
-              {currentPage !== 1 && (
-                <button onClick={() => setCurrentPage(currentPage - 1)}>
-                  Prev
-                </button>
-              )}
-              {Math.ceil(displayData.length / itemsPerPage) < 2 ? (
-                <button disabled style={{ fontWeight: "bold" }}>1</button>
-              ) : (
-                Array(Math.ceil(displayData.length / itemsPerPage))
-                  .fill()
-                  .map((_, i) => (
-                    <button
-                      key={i}
-                      onClick={() => setCurrentPage(i + 1)}
-                      style={{ fontWeight: currentPage === i + 1 && "bold" }}
-                    >
-                      {i + 1}
-                    </button>
-                  ))
-              )}
-              {currentPage !== Math.ceil(displayData.length / itemsPerPage) && displayData.length > 10 && (
-                <button onClick={() => setCurrentPage(currentPage + 1)}>
-                  Next
-                </button>
-              )}
-            </div>
+            <Pagination
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              displayData={displayData}
+              itemsPerPage={itemsPerPage}
+            />
           )}
           {displayData.length > 0 ? (
             <div className="ideasMapWrapper">
@@ -234,6 +221,9 @@ const profileStyle = {
     gridTemplateColumns: ".2fr 1fr .2fr",
     h1: { margin: "10px 0" },
     p: { whiteSpace: "nowrap" },
+    ".profileBox": {
+      marginLeft: "25%",
+    },
     ".profPicWrapper": {
       margin: "0 auto",
       display: "flex",
@@ -299,32 +289,6 @@ const profileStyle = {
         transition: "background-color 0.3s ease-out",
         ":hover": {
           backgroundColor: "#f4f4f4",
-        },
-      },
-    },
-    ".paginationButtons": {
-      display: "flex",
-      justifyContent: "center",
-      marginTop: "10px",
-      button: {
-        margin: "0 0.4rem",
-        padding: "0.3rem",
-        border: "1px solid #ccc",
-        borderRadius: "5px",
-        backgroundColor: "#fff",
-        cursor: "pointer",
-        transition: "all 0.3s ease",
-        ":hover": {
-          backgroundColor: "#ccc",
-        },
-        ":focus": {
-          outline: "none",
-          backgroundColor: "#ccc",
-          boxShadow: "0 0 0 3px #ddd",
-        },
-        ":disabled": {
-          opacity: "0.5",
-          cursor: "not-allowed",
         },
       },
     },
