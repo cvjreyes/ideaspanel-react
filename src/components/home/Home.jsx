@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 
 import { api } from "../../helpers/api";
 
+import Pagination from "../general/Pagination";
 import Card from "../general/Card";
 import Input from "../general/Input";
 import Loading from "../general/Loading";
@@ -12,113 +13,74 @@ import NoResults from "./NoResults";
 
 export default function Home() {
   const [data, setData] = useState(null);
-  const [totalPages, setTotalPages] = useState([]);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
+  const [filteredData, setFilteredData] = useState(null);
+
+  const itemsPerPage = 4; // o el número de elementos que desee mostrar por página
 
   const getData = async () => {
-    const { body } = await api("get", `/ideas/get_some/${currentPage}`);
+    const { body } = await api("get", "/ideas/get_some");
     setData(body);
-  };
-
-  const getPages = async () => {
-    const { body: pages } = await api("get", "/ideas/get_page_published");
-    const pagesArray = [];
-    for (let i = 0; i < pages; i++) {
-      pagesArray.push(i + 1);
-    }
-    setTotalPages(pagesArray);
-  };
-
-  const getFilterData = async () => {
-    const { body } = await api(
-      "get",
-      `/ideas/get_some_filter/${searchTerm}/${currentPage}`
-    );
-    setData(body);
-  };
-
-  const getPagesFilter = async () => {
-    const { body: pages } = await api(
-      "get",
-      `/ideas/get_filter_page_published/${searchTerm}`
-    );
-    const pagesArray = [];
-    if (pages != 0) {
-      for (let i = 0; i < pages; i++) {
-        pagesArray.push(i + 1);
-      }
-    } else {
-      pagesArray.push(1);
-    }
-    setTotalPages(pagesArray);
   };
 
   useEffect(() => {
     getData();
-    getPages();
   }, []);
 
   useEffect(() => {
-    if (!searchTerm) {
-      getData();
-      getPages();
-    } else {
-      getFilterData();
-      getPagesFilter();
-      setCurrentPage(0)
-    }
-  }, [searchTerm]);
+    if (!data) return; // evitar errores mientras se carga data
+    setFilteredData(
+      data.filter((item) =>
+        item.title.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    );
+    setCurrentPage(1);
+  }, [data, searchTerm]);
 
-  useEffect(() => {
-    if (!searchTerm) {
-      getData();
-      getPages();
-    } else {
-      getFilterData();
-      getPagesFilter();
-    }
-  }, [currentPage]);
-
-  function handleClickPage(e) {
-    setCurrentPage(e - 1);
-  }
+  const paginate = (array) => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return array.slice(startIndex, endIndex);
+  };
 
   return (
     <div css={homeStyle}>
       <h1 className="page_title">Ideas Panel</h1>
       <div className="search_box">
-        <Input
-          type="text"
-          placeholder="Search"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
+        {filteredData && (
+          <Input
+            type="text"
+            placeholder="Search"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        )}
       </div>
       <div className="pagination">
-        {totalPages?.map((page) => (
-          <div
-            key={page}
-            className={page === currentPage + 1 ? "active" : ""}
-            onClick={() => handleClickPage(page)}
-          >
-            {page}
-          </div>
-        ))}
+        {filteredData && (
+          <Pagination
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            displayData={filteredData}
+            itemsPerPage={itemsPerPage}
+            maxPagesToShow={3}
+          />
+        )}
       </div>
-      {data ? (
-        data.length > 0 ? (
-          <div className="map">
-            {data.map((item, i) => {
-              return <Card item={item} key={i} />;
-            })}
-          </div>
+      <div className="map">
+        {filteredData ? (
+          filteredData.length > 0 ? (
+            paginate(filteredData).map((item, i) => (
+              <Card item={item} key={i} />
+            ))
+          ) : (
+            <NoResults />
+          )
         ) : (
-          <NoResults />
-        )
-      ) : (
-        <Loading />
-      )}
+          <Loading />
+        )}
+      </div>
     </div>
   );
 }
@@ -145,8 +107,6 @@ const homeStyle = {
       display: "inline-block",
       margin: "0 5px",
       padding: "5px 10px",
-      border: "1px solid #ccc",
-      borderRadius: "5px",
       cursor: "pointer",
     },
     ".active": {

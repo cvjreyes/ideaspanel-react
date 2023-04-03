@@ -183,6 +183,7 @@ export default function Profile() {
               setCurrentPage={setCurrentPage}
               displayData={displayData}
               itemsPerPage={itemsPerPage}
+              maxPagesToShow={3}
             />
           )}
           {displayData.length > 0 ? (
