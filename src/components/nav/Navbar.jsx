@@ -50,7 +50,7 @@ export default function Navbar() {
       </div>
       <div />
       <div className="profileBox">
-        <Link to={`/ideas_panel/profile/${user.id}`} className="flexCenter">
+        <Link to={`/ideas_panel/profile/${user.id}/Published`} className="flexCenter">
           {user.name}
           <img
             tabIndex={0}

@@ -11,7 +11,7 @@ import {
 import { useLocation, useRoute } from "wouter";
 import { useDropzone } from "react-dropzone";
 
-import { api, handleFetch } from "../../helpers/api";
+import { api } from "../../helpers/api";
 import { AuthContext } from "../../context/AuthContext";
 import Loading from "../general/Loading";
 import NoResults from "../home/NoResults";
@@ -19,16 +19,12 @@ import SmallCard from "../general/SmallCard";
 import Pagination from "../general/Pagination";
 
 export default function Profile() {
-  const [_, params] = useRoute("/profile/:user_id");
-  const [location] = useLocation();
+  const [_, params] = useRoute("/profile/:user_id/:type");
+  const [location, navigate] = useLocation();
 
   const { user, updateUserInfo } = useContext(AuthContext);
 
   const [profile, setProfile] = useState(null);
-  const [drafts, setDrafts] = useState(null);
-  const [denied, setDenied] = useState(null);
-  const [published, setPublished] = useState(null);
-  const [validating, setValidating] = useState(null);
   const [displayData, setDisplayData] = useState([]);
   const [lengthAllOptions, setLengthAllOptions] = useState([]);
   const [lengthDisplayData, setLengthDisplayData] = useState(null);
@@ -45,35 +41,22 @@ export default function Profile() {
     setProfile(body);
   };
 
+  const getUserIdeas = async () => {
+    const { body } = await api(
+      "get",
+      `/ideas/get_profile_ideas/${params.user_id}/${params.type}`
+    );
+    setDisplayData(body);
+    setLengthDisplayData(body.length);
+  };
+
   useLayoutEffect(() => {
     getProfileData();
   }, [location]);
 
   useEffect(() => {
-    const getUserIdeas = async () => {
-      const results = await Promise.allSettled([
-        api("get", `/ideas/get_drafts/${profile.id}`),
-        api("get", `/ideas/get_denied/${profile.id}`),
-        api("get", `/ideas/get_published/${profile.id}`),
-        api("get", `/ideas/get_validating/${profile.id}`),
-      ]);
-      const [tempDrafts, tempDenied, tempPublished, tempValidating] =
-        handleFetch(results);
-      setDrafts(tempDrafts);
-      setDenied(tempDenied);
-      setPublished(tempPublished);
-      setValidating(tempValidating);
-      setDisplayData(tempPublished);
-      setLengthDisplayData(tempPublished.length);
-      setLengthAllOptions([
-        tempPublished.length,
-        tempDenied.length,
-        tempValidating.length,
-        tempDrafts.length,
-      ]);
-    };
     profile && getUserIdeas();
-  }, [profile]);
+  }, [profile, selectedOption]);
 
   const onDrop = useCallback((files) => {
     files.forEach(async (file) => {
@@ -104,19 +87,8 @@ export default function Profile() {
   const toggleDropdown = (selected) => {
     setSelectedOption(selected);
     setCurrentPage(1);
-    if (selected == "Published") {
-      setDisplayData(published);
-      setLengthDisplayData(published.length);
-    } else if (selected == "Denied") {
-      setDisplayData(denied);
-      setLengthDisplayData(denied.length);
-    } else if (selected == "Validating") {
-      setDisplayData(validating);
-      setLengthDisplayData(validating.length);
-    } else if (selected == "Drafts") {
-      setDisplayData(drafts);
-      setLengthDisplayData(drafts.length);
-    }
+    getUserIdeas();
+    navigate(`/profile/${params.user_id}/${selected}`);
   };
 
   const paginate = (array) => {
@@ -162,7 +134,7 @@ export default function Profile() {
                     onClick={() => toggleDropdown(selected)}
                     style={{
                       backgroundColor:
-                        selectedOption === selected && "lightgray",
+                        selected === params.type && "lightgray",
                     }}
                   >
                     {selected}

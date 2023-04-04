@@ -116,7 +116,7 @@ export default function Card({ item, comittee }) {
         <div
           className="profileBox"
           onClick={() =>
-            !item.anonymous && navigate(`/profile/${item.user_id}`)
+            !item.anonymous && navigate(`/profile/${item.user_id}/Published`)
           }
         >
           <img

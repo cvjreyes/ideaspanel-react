@@ -65,7 +65,7 @@ export default function App() {
             <Route path="/log_in/:user_id/:token">
               {() => <PublicRoute component={CheckLogin} />}
             </Route>
-            <Route path="/profile/:user_id">
+            <Route path="/profile/:user_id/:type">
               {() => <PrivateRoute component={Profile} />}
             </Route>
             <Route path="/profile/edit_idea/:idea_id">
