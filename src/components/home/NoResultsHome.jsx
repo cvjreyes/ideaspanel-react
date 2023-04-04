@@ -42,18 +42,12 @@ const noResultsStyle = {
     padding: "12px 24px",
     border: "none",
     cursor: "pointer",
-    fontSize: "16px",
     transition: "all 0.2s ease-in-out",
-    fontFamily: "Arial, sans-serif",
     fontWeight: "bold",
     boxShadow: "0 2px 5px rgba(0, 0, 0, 0.3)",
     ":hover": {
       backgroundColor: "lightskyblue",
       boxShadow: "0 2px 5px rgba(0, 0, 0, 0.5)",
-    },
-    "@media (max-width: 480px)": {
-      fontSize: "14px",
-      padding: "10px 20px",
     },
   },
 };
