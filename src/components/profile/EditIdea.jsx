@@ -1,7 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import Switch from "react-switch";
 import { useLocation, useRoute } from "wouter";
 import { useNotifications } from "reapop";
@@ -13,10 +13,12 @@ import { api } from "../../helpers/api";
 import { colors } from "../../helpers/colors";
 import ImageComponent from "./ImageComponent";
 import Loading from "../general/Loading";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function EditIdea() {
-  const [_, params] = useRoute("/profile/edit_idea/:idea_id");
+  const [_, params] = useRoute("/edit_idea/:idea_id");
   const [__, navigate] = useLocation();
+  const { user } = useContext(AuthContext);
 
   const { notify } = useNotifications();
 
@@ -60,7 +62,7 @@ export default function EditIdea() {
       if (!ok2) return notify("Something went wrong", "error");
     }
     setTimeout(() => {
-      publish && navigate("/");
+      publish && navigate(`/profile/${user.id}/Validating`);
     }, 2000);
     getIdeaInfo();
     return notify("Idea updated successfully!", "success");

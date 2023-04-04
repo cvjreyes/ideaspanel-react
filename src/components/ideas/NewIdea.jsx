@@ -63,7 +63,7 @@ export default function NewPost() {
       if (!ok2) return notify("Something went wrong", "error");
     }
     setTimeout(() => {
-      navigate(`/profile/${user.id}/Published`);
+      navigate(`/profile/${user.id}/Drafts`);
     }, 2000);
     return notify(
       "Idea added successfully! Redirecting your profile",

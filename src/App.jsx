@@ -68,14 +68,14 @@ export default function App() {
             <Route path="/profile/:user_id/:type">
               {() => <PrivateRoute component={Profile} />}
             </Route>
-            <Route path="/profile/edit_idea/:idea_id">
-              {() => <PrivateRoute component={EditIdea} />}
-            </Route>
-            <Route path="/profile/read_only/:idea_id">
-              {() => <PrivateRoute component={IdeaNoComments} />}
-            </Route>
             <Route path="/profile/edit_profile/:user_id">
               {() => <PrivateRoute component={EditProfile} />}
+            </Route>
+            <Route path="/edit_idea/:idea_id">
+              {() => <PrivateRoute component={EditIdea} />}
+            </Route>
+            <Route path="/read_only/:idea_id">
+              {() => <PrivateRoute component={IdeaNoComments} />}
             </Route>
             <Route path="/new_idea">
               {() => <PrivateRoute component={NewIdea} />}
@@ -89,7 +89,7 @@ export default function App() {
             <Route path="/comittee/:idea_id">
               {() => <PrivateRoute component={NewComitteeSingleView} />}
             </Route>
-            <Route>{() => <Redirect to="/ideas_panel" />}</Route>
+            <Route>{() => <Redirect to="/" />}</Route>
           </Switch>
         </Router>
         <PrivateRoute component={Footer} />

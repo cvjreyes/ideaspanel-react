@@ -8,7 +8,7 @@ import { api } from "../../helpers/api";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function Idea() {
-  const [_, params] = useRoute("/profile/read_only/:idea_id");
+  const [_, params] = useRoute("/read_only/:idea_id");
   const [__, navigate] = useLocation();
 
   const { user } = useContext(AuthContext);

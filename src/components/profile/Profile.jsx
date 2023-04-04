@@ -51,11 +51,17 @@ export default function Profile() {
   };
 
   useLayoutEffect(() => {
-    getProfileData();
+    if (params) {
+      getProfileData();
+    } else {
+      navigate("/");
+    }
   }, [location]);
 
   useEffect(() => {
     profile && getUserIdeas();
+    if (params.user_id != user.id)
+      return navigate(`/profile/${params.user_id}/Published`);
   }, [profile, selectedOption]);
 
   const onDrop = useCallback((files) => {
@@ -109,43 +115,49 @@ export default function Profile() {
               src={profile.profile_pic}
               className="profile_pic"
             />
-            {params.user_id == user.id && (
-              <img
-                className="editIcon pointer"
-                alt="edit profile pic"
-                src="https://img.icons8.com/material-outlined/24/null/pencil--v1.png"
-                {...getInputProps()}
-                {...getRootProps()}
-              />
-            )}
+            {params
+              ? params.user_id == user.id && (
+                  <img
+                    className="editIcon pointer"
+                    alt="edit profile pic"
+                    src="https://img.icons8.com/material-outlined/24/null/pencil--v1.png"
+                    {...getInputProps()}
+                    {...getRootProps()}
+                  />
+                )
+              : navigate("/")}
           </div>
           <h1 className="page_title">{profile.name}</h1>
           <p>{profile.email}</p>
         </div>
       </div>
       <div className="contentWrapper">
-        {params.user_id == user.id ? (
-          <div className="dropdownWrapper">
-            {selectedOptions.map((selected, i) => {
-              return (
-                <div key={selected}>
-                  <button
-                    className="dropdownButton"
-                    onClick={() => toggleDropdown(selected)}
-                    style={{
-                      backgroundColor:
-                        selected === params.type && "lightgray",
-                    }}
-                  >
-                    {selected}
-                    <p>{lengthAllOptions[i]}</p>
-                  </button>
-                </div>
-              );
-            })}
-          </div>
+        {params ? (
+          params.user_id == user.id ? (
+            <div className="dropdownWrapper">
+              {selectedOptions.map((selected, i) => {
+                return (
+                  <div key={selected}>
+                    <button
+                      className="dropdownButton"
+                      onClick={() => toggleDropdown(selected)}
+                      style={{
+                        backgroundColor:
+                          selected === params.type && "lightgray",
+                      }}
+                    >
+                      {selected}
+                      <p>{lengthAllOptions[i]}</p>
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div />
+          )
         ) : (
-          <div />
+          navigate("/")
         )}
         <div>
           <span>Results found {lengthDisplayData}</span>
@@ -160,18 +172,19 @@ export default function Profile() {
           )}
           {displayData.length > 0 ? (
             <div className="ideasMapWrapper">
-              {paginate(displayData).map((item, i) => {
-                const navigateTo =
-                  selectedOption === "Denied" || selectedOption === "Validating"
-                    ? `/profile/read_only/${item.id}`
-                    : selectedOption === "Published"
-                    ? `/idea/${item.id}`
-                    : selectedOption === "Drafts" &&
-                      `/profile/edit_idea/${item.id}`;
-                return (
-                  <SmallCard item={item} navigateTo={navigateTo} key={i} />
-                );
-              })}
+              {params
+                ? paginate(displayData).map((item, i) => {
+                    const navigateTo =
+                      params.type === "Denied" || params.type === "Validating"
+                        ? `/read_only/${item.id}`
+                        : params.type === "Published"
+                        ? `/idea/${item.id}`
+                        : params.type === "Drafts" && `/edit_idea/${item.id}`;
+                    return (
+                      <SmallCard item={item} navigateTo={navigateTo} key={i} />
+                    );
+                  })
+                : navigate("/")}
             </div>
           ) : (
             <NoResults />
