@@ -31,8 +31,10 @@ export default function Home() {
   useEffect(() => {
     if (!data) return; // evitar errores mientras se carga data
     setFilteredData(
-      data.filter((item) =>
-        item.title.toLowerCase().includes(searchTerm.toLowerCase())
+      data.filter(
+        (item) =>
+          item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          item.name.toLowerCase().includes(searchTerm.toLowerCase())
       )
     );
     setCurrentPage(1);
