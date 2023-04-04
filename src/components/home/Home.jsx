@@ -9,7 +9,7 @@ import Pagination from "../general/Pagination";
 import Card from "../general/Card";
 import Input from "../general/Input";
 import Loading from "../general/Loading";
-import NoResults from "./NoResults";
+import NoResultsHome from "./NoResultsHome";
 
 export default function Home() {
   const [data, setData] = useState(null);
@@ -77,7 +77,7 @@ export default function Home() {
               <Card item={item} key={i} />
             ))
           ) : (
-            <NoResults />
+            <NoResultsHome />
           )
         ) : (
           <Loading />
