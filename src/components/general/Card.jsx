@@ -42,6 +42,21 @@ export default function Card({ item, comittee }) {
         WebkitLineClamp: comittee ? 6 : 4,
       },
     },
+    ".boxCount": {
+      display: "flex",
+      alignItems: "center",
+      textAlign: "center",
+      ".imgComments": {
+        height: "20px",
+        width: "20px",
+        backgroundColor: "transparent",
+        marginLeft: "30px",
+        padding: "0",
+      },
+      ".count_comments": {
+        marginLeft: "5px",
+      },
+    },
     ".profileBox": {
       margin: "10px 20px",
       padding: "10px",
@@ -69,16 +84,6 @@ export default function Card({ item, comittee }) {
         marginLeft: "10px",
         lineHeight: "1.2rem",
       },
-      ".imgComments": {
-        height: "20px",
-        width: "20px",
-        backgroundColor: "transparent",
-        marginLeft: "20px",
-        padding: "0",
-      },
-      ".count_comments": {
-        margin: "-5px 0 0 5px",
-      },
     },
   };
 
@@ -94,6 +99,18 @@ export default function Card({ item, comittee }) {
           <p className="title cutLines bold">{item.title}</p>
           <p className="description cutLines">{item.description}</p>
         </div>
+      </div>
+      <div className="boxCount">
+        <img
+          className="imgComments"
+          src="https://img.icons8.com/material-outlined/24/null/comments--v1.png"
+        />
+        <div className="count_comments">{item.comment_count}</div>
+        <img
+          className="imgComments"
+          src="https://img.icons8.com/windows/32/null/facebook-like.png"
+        />
+        <div className="count_comments">{item.like_count}</div>
       </div>
       {!comittee && (
         <div
@@ -118,13 +135,6 @@ export default function Card({ item, comittee }) {
               {formatDate(item.created_at)}
             </span>
           </div>
-          <div>
-            <img
-              className="imgComments"
-              src="https://img.icons8.com/material-outlined/24/null/comments--v1.png"
-            />
-          </div>
-          <div className="count_comments">{item.comment_count}</div>
         </div>
       )}
     </div>
