@@ -89,7 +89,7 @@ const BoxVotes = ({ handleVote, approved }) => {
           onClick={() => handleVote(1)}
           className={approved ? "active_positive" : "positive_vote"}
           // img
-          src={thumbsUp}
+          src="https://img.icons8.com/ios/50/null/thumb-up--v1.png"
         />
       </VoteWrapper>
     </div>

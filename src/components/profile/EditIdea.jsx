@@ -28,6 +28,7 @@ export default function EditIdea() {
     anonymous: false,
   });
   const [image, setImage] = useState(null);
+  const [activePublish, setActivePublish] = useState(false);
 
   const getIdeaInfo = async () => {
     const { body } = await api("get", `/ideas/get_info/${params.idea_id}`);
@@ -61,9 +62,10 @@ export default function EditIdea() {
       );
       if (!ok2) return notify("Something went wrong", "error");
     }
+    setActivePublish(true);
     setTimeout(() => {
       publish && navigate(`/profile/${user.id}/Validating`);
-    }, 2000);
+    }, 3000);
     getIdeaInfo();
     return notify("Idea updated successfully!", "success");
   };
@@ -113,7 +115,7 @@ export default function EditIdea() {
             // img
             src={saveImg}
           />
-          <ButtonWithImage
+          {/* <ButtonWithImage
             type="button"
             onClick={(e) => submit(e, 1)}
             text="Publish"
@@ -127,7 +129,40 @@ export default function EditIdea() {
             blend={true}
             imgFilter="invert(100%)"
             src={publishImg}
-          />
+          /> */}
+          <div className="containerPublish">
+            <button
+              id="btn"
+              onClick={(e) => submit(e, 1)}
+              className={`btn-publish ${activePublish ? "active-btn" : ""}`}
+            >
+              <p
+                id="btnText"
+                className={`p-text ${activePublish ? "active-p" : ""}`}
+              >
+                Publish
+              </p>
+              <div
+                className={`check-box ${
+                  activePublish ? "active-check-box" : ""
+                }`}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 50 50"
+                  className={`svg-publish ${activePublish ? "active-svg" : ""}`}
+                >
+                  <path
+                    fill="transparent"
+                    d="M14.1 27.2l7.1 7.2 16.7-16.8"
+                    className={`path-publish ${
+                      activePublish ? "active-path" : ""
+                    }`}
+                  />
+                </svg>
+              </div>
+            </button>
+          </div>
         </div>
       </form>
     </div>
@@ -180,6 +215,74 @@ const newIdeaStyle = {
       display: "flex",
       justifyContent: "center",
       alignItems: "flex-start",
+      ".containerPublish": {
+        marginLeft: "20px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        ".btn-publish": {
+          width: "170px",
+          height: "50px",
+          border: "none",
+          outline: "none",
+          background: "lightskyblue",
+          fontSize: "22px",
+          borderRadius: "10px",
+          textAlign: "center",
+          boxShadow: "0 6px 20px -5px rgba(0,0,0,0.4)",
+          position: "relative",
+          overflow: "hidden",
+          cursor: "pointer",
+          ".p-text": {
+            color: "#fff",
+            fontWeight: "600",
+          },
+          ".active-p": {
+            marginRight: "60px",
+            transition: "1s",
+          },
+          ".check-box": {
+            width: "50px",
+            height: "50px",
+            borderRadius: "10px",
+            boxShadow: "0 0 12px -2px rgba(0,0,0,0.5)",
+            position: "absolute",
+            top: "0",
+            right: "-20px",
+            opacity: "0",
+            ".svg-publish": {
+              width: "30px",
+              margin: "10px",
+              ".path-publish": {
+                strokeWidth: "3",
+                stroke: "#fff",
+                strokeDasharray: "34",
+                strokeDashoffset: "34",
+                strokeLinecap: "round",
+              },
+              ".active-path": {
+                strokeDashoffset: "0",
+                transition: "1s",
+                transitionDelay: "1s",
+              },
+            },
+            ".active-svg": {
+              strokeDashoffset: "0",
+              transition: "1s",
+              transitionDelay: "1s",
+            },
+          },
+          ".active-check-box": {
+            right: "0",
+            opacity: "1",
+            transition: "1s",
+          },
+        },
+        ".active-btn": {
+          background: "lightseagreen",
+          transition: "1s",
+        },
+      },
     },
   },
 };

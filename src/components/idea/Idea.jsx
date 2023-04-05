@@ -13,6 +13,7 @@ import AddCommentSection from "./AddCommentSection";
 import CommentSection from "./CommentSection";
 import NoComments from "./NoComments";
 import ThumbsUp from "../../assets/images/thumbs-up.png";
+import ThumbsUpBlue from "../../assets/images/thumbs-up-blue.png";
 
 export default function Idea() {
   const [_, params] = useRoute("/idea/:idea_id");
@@ -116,10 +117,10 @@ export default function Idea() {
             text={ideasVotes.length}
             width="60px"
             margin="20px 0 0 0"
-            bgColor={hasUserVoted ? "#1DA1F3" : ""}
-            bgHover={hasUserVoted ? "#1DA1F3" : ""}
+            bgColor={"transparent"}
+            bgHover={"transparent"}
             // img
-            src={ThumbsUp}
+            src={hasUserVoted ? ThumbsUpBlue : ThumbsUp}
             onClick={() => handleIdeaVote()}
             className={hasUserVoted ? "btn_vote_active" : "btn_vote"}
           />
@@ -181,16 +182,9 @@ const ideaStyle = {
       },
       ".btn_vote": {
         display: "flex",
-        borderRadius: "50%",
-        transition: "background-color 0.2s ease-in-out",
-        ":hover": {
-          transition: "all 0.4s ease",
-          backgroundColor: "#1DA1F3",
-        },
       },
       ".btn_vote_active": {
         display: "flex",
-        borderRadius: "50%",
         animation: `${circleAnim} 1s ease forwards`,
       },
     },
