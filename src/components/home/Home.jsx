@@ -16,6 +16,7 @@ export default function Home() {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredData, setFilteredData] = useState(null);
+  
 
   const itemsPerPage = 4; // o el número de elementos que desee mostrar por página
 
