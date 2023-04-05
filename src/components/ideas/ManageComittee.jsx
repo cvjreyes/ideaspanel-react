@@ -7,7 +7,6 @@ import { useLocation } from "wouter";
 
 import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../helpers/api";
-import { colors } from "../../helpers/colors";
 
 import ButtonWithImage from "../general/ButtonWithImage";
 import Checkbox from "../general/Checkbox";
@@ -81,8 +80,6 @@ export default function ManageComittee() {
         <ButtonWithImage
           src={Back}
           onClick={() => navigate("/comittee")}
-          // bgColor={colors["blue"].background}
-          // bgHover={colors["blue"].backgroundHover}
           className="back_btn"
         />
         <h1 className="page_title">Manage Comittee</h1>

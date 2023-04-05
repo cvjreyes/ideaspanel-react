@@ -113,7 +113,6 @@ const comitteeStyle = {
           ".overlay": {
             top: -5,
             boxShadow: "0px 10px 10px rgba(0, 0, 0, 0.2)",
-            // transform: "skewY(10deg)",
           },
           ".pointer": {
             boxShadow: "12px 12px 24px #e4e5da, -12px -12px 24px #ffffff",
@@ -124,15 +123,15 @@ const comitteeStyle = {
       ".overlay": {
         position: "absolute",
         top: 0,
-        left: 0,
-        borderRadius: "20px 0 20px 0",
-        width: "25%",
-        height: "20%",
+        right: 0,
+        borderRadius: "0 0 0 20px",
+        width: "30%",
+        height: "25%",
         backgroundColor: "white",
         zIndex: 10,
         transition: "all 200ms linear",
-        transformOrigin: "bottom left",
-        transform: "skewY(-10deg)",
+        // transformOrigin: "bottom right",
+        // transform: "skewY(-10deg)",
         img: {
           width: "50px",
           height: "50px",
