@@ -1,6 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
+import { useEffect, useRef } from "react";
 
 export default function Pagination({
   currentPage,
@@ -14,10 +15,33 @@ export default function Pagination({
   let upperLimit = Math.min(totalPages, lowerLimit + maxPagesToShow - 1);
   lowerLimit = Math.max(1, upperLimit - maxPagesToShow + 1);
 
+  const prevButtonRef = useRef(null);
+  const nextButtonRef = useRef(null);
+  const currentPageRef = useRef(null);
+
+  const focusPrevButton = () => {
+    prevButtonRef.current && prevButtonRef.current.focus();
+  };
+
+  const focusNextButton = () => {
+    nextButtonRef.current && nextButtonRef.current.focus();
+  };
+
+  useEffect(() => {
+    if (currentPage === 1) {
+      focusNextButton();
+    } else if (currentPage === totalPages) {
+      focusPrevButton();
+    } 
+
+    currentPageRef.current && currentPageRef.current.focus();
+  }, [currentPage, totalPages]);
+
   return (
     <div css={paginationStyle}>
       {currentPage !== 1 && (
         <button
+          ref={prevButtonRef}
           onClick={() => setCurrentPage(currentPage - 1)}
           className="prev_btn"
         >
@@ -36,6 +60,7 @@ export default function Pagination({
               return (
                 <button
                   key={i}
+                  ref={i + 1 === currentPage ? currentPageRef : null}
                   onClick={() => setCurrentPage(i + 1)}
                   style={{ fontWeight: currentPage === i + 1 && "bold" }}
                   className="active_page"
@@ -56,6 +81,7 @@ export default function Pagination({
       )}
       {currentPage !== totalPages && displayData.length > 10 && (
         <button
+          ref={nextButtonRef}
           onClick={() => setCurrentPage(currentPage + 1)}
           className="next_btn"
         >
@@ -151,16 +177,9 @@ const paginationStyle = {
     padding: "0.5rem",
     border: "1px solid #ccc",
     borderRadius: "5px",
-    backgroundColor: "#fff",
+    backgroundColor: "lightgray",
     color: "#333",
     cursor: "not-allowed",
     fontWeight: "bold",
-    ":hover": {
-      backgroundColor: "#fff",
-    },
-    ":focus": {
-      outline: "none",
-      backgroundColor: "#fff",
-    },
   },
 };
