@@ -17,6 +17,7 @@ import Loading from "../general/Loading";
 import NoResults from "../home/NoResults";
 import SmallCard from "../general/SmallCard";
 import Pagination from "../general/Pagination";
+import { FullSection } from "../general/FullSection";
 
 export default function Profile() {
   const [_, params] = useRoute("/profile/:user_id/:type");
@@ -104,7 +105,7 @@ export default function Profile() {
 
   if (!profile) return <Loading />;
   return (
-    <div css={profileStyle}>
+    <FullSection css={profileStyle}>
       <div className="profileWrapper">
         <div className="profileBox">
           <div className="profPicWrapper">
@@ -144,6 +145,7 @@ export default function Profile() {
                           selected === params.type && "lightgray",
                         fontWeight: selected === params.type && "bold",
                         color: selected === params.type && "black",
+                        borderRight: selected === params.type && "2px solid #155AAA",
                       }}
                     >
                       {selected}
@@ -162,7 +164,7 @@ export default function Profile() {
       <div className="contentWrapper">
         <div>
           <span>Results found {lengthDisplayData}</span>
-          
+
           {displayData.length > 0 ? (
             <div className="ideasMapWrapper">
               {params
@@ -182,27 +184,23 @@ export default function Profile() {
           ) : (
             <NoResults />
           )}
-          {displayData && (
-            <Pagination
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              displayData={displayData}
-              itemsPerPage={itemsPerPage}
-              maxPagesToShow={3}
-            />
-          )}
         </div>
+        {displayData && (
+          <Pagination
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            displayData={displayData}
+            itemsPerPage={itemsPerPage}
+            maxPagesToShow={3}
+          />
+        )}
       </div>
-    </div>
+    </FullSection>
   );
 }
 
 const profileStyle = {
-  display: "flex",
-  padding: "0 10vw",
-  minHeight: "calc(90vh - 50px)",
-  boxSizing: "border-box",
-  marginTop: "100px",
+  flexDirection: "row",
   ".profileWrapper": {
     marginTop: "80px",
     display: "flex",
@@ -217,13 +215,11 @@ const profileStyle = {
     top: "152px",
     borderRight: "1px solid #C4C4C4",
     ".profileBox": {
-      // marginLeft: "25%",
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
       padding: "0px",
       gap: "5px",
-      // h1: { margin: "10px 0" },
       p: { whiteSpace: "nowrap" },
       ".profPicWrapper": {
         position: "relative",
@@ -260,7 +256,6 @@ const profileStyle = {
       flex: "none",
       order: "1",
       flexGrow: "0",
-      // Voy por aqui, los dos parrafos me faltan
       span: {
         fontWeight: "600",
         fontSize: "16px",
@@ -302,12 +297,13 @@ const profileStyle = {
         order: "0",
         alignSelf: "stretch",
         flexGrow: "0",
-        backgroundColor: "transparent",
+        background: "transparent",
         border: "0",
         ":hover": {
           backgroundColor: "#f4f4f4",
           color: "black",
           fontWeight: "bold",
+          borderRight: "1px solid #C4C4C4",
         },
       },
     },
