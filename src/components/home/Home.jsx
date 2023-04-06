@@ -12,6 +12,8 @@ import Loading from "../general/Loading";
 import NoResultsHome from "./NoResultsHome";
 import {IoMdCreate} from "react-icons/io"
 import { FullSection } from "../general/FullSection";
+import { IdeaCard } from "./components/Card";
+import { Grid } from "./components/Grid";
 
 export default function Home() {
   const [data, setData] = useState(null);
@@ -59,12 +61,12 @@ export default function Home() {
         <button className="button">Add new <IoMdCreate/></button>
         </div>
       </div>
-      <div className="grid">
+      <Grid>
         {console.log(filteredData)}
         {filteredData.map(idea => (
-          <Card item={idea} key={idea.id} />
+          <IdeaCard {...idea} key={idea.id} />
         ))}
-      </div>
+      </Grid>
       <div className="pagination">
         {filteredData && (
           <Pagination
@@ -116,7 +118,6 @@ export default function Home() {
 }
 
  const homeStyle = {
-  
   ".header": {
     display: "flex",
     alignItems: "start",
@@ -155,15 +156,6 @@ export default function Home() {
   ".title":{
     fontSize: "1.4rem",
     textTransform: "uppercase"
-  },
-  ".grid":{
-    display: "grid",
-    gridTemplateColumns: "repeat( auto-fill, minmax(20rem, 1fr))",
-    gridTemplateRows:"auto 1fr",
-    gridAutoFlow :"dense",
-    gap: "1rem",
-    overflow: "auto",
-    height: "100%"
   },
   ".pagination": {
     display: "flex",
