@@ -10,18 +10,21 @@ import Card from "../general/Card";
 import Input from "../general/Input";
 import Loading from "../general/Loading";
 import NoResultsHome from "./NoResultsHome";
+import {IoMdCreate} from "react-icons/io"
+import { FullSection } from "../general/FullSection";
 
 export default function Home() {
   const [data, setData] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredData, setFilteredData] = useState(null);
+  const [filteredData, setFilteredData] = useState([]);
   
 
   const itemsPerPage = 4; // o el número de elementos que desee mostrar por página
 
   const getData = async () => {
     const { body } = await api("get", "/ideas/get_some");
+    console.log(body)
     setData(body);
   };
 
@@ -48,8 +51,32 @@ export default function Home() {
   };
 
   return (
-    <div css={homeStyle}>
-      <h1 className="page_title">Ideas Panel</h1>
+    <FullSection css={homeStyle}>
+      <div className="header">
+        <h1 className="title">Home</h1>
+        <div className="header__actions">
+        <input type="text" className="input"/>
+        <button className="button">Add new <IoMdCreate/></button>
+        </div>
+      </div>
+      <div className="grid">
+        {console.log(filteredData)}
+        {filteredData.map(idea => (
+          <Card item={idea} key={idea.id} />
+        ))}
+      </div>
+      <div className="pagination">
+        {filteredData && (
+          <Pagination
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            displayData={filteredData}
+            itemsPerPage={itemsPerPage}
+            maxPagesToShow={3}
+          />
+        )}
+      </div>
+      {/* <h1 className="page_title">Ideas Panel</h1>
       <div className="search_box">
         {filteredData && (
           <Input
@@ -83,23 +110,60 @@ export default function Home() {
         ) : (
           <Loading />
         )}
-      </div>
-    </div>
+      </div> */}
+    </FullSection>
   );
 }
 
-const homeStyle = {
-  minHeight: "calc(80vh - 50px)",
-  padding: "0 5vw",
-  ".search_box": {
-    margin: "20px 0 20px 8%",
+ const homeStyle = {
+  
+  ".header": {
+    display: "flex",
+    alignItems: "start",
+    justifyContent: "space-between",
+    flexWrap: "wrap",
+    marginBottom: "2rem",
+    "&__actions":{
+      display: "flex",
+      justifyContent: "end",
+      gap: "1rem",
+      flex: "0 0 1"
+    },
+    "& > *":{
+      flex: "1"
+    }
   },
-  ".map": {
+  ".button":{
+    padding: "0.75rem 1rem",
+    background: "#155AAA",
+    border: "unset",
+    color: "white",
+    borderRadius: "5px",
+    display: "flex",
+    alignItems: "center",
+    "& svg": {
+      marginLeft: "0.5rem",
+      color: "white"
+    }
+  },
+ " .input": {
+    width: "auto",
+    border: "1px solid #C3C3C3",
+    borderRadius: "5px",
+    padding: "1rem"
+  },
+  ".title":{
+    fontSize: "1.4rem",
+    textTransform: "uppercase"
+  },
+  ".grid":{
     display: "grid",
-    justifyContent: "center",
-    gridTemplateColumns: "repeat(auto-fit, minmax(100px, 320px))",
-    marginTop: "50px",
-    gap: "50px",
+    gridTemplateColumns: "repeat( auto-fill, minmax(20rem, 1fr))",
+    gridTemplateRows:"auto 1fr",
+    gridAutoFlow :"dense",
+    gap: "1rem",
+    overflow: "auto",
+    height: "100%"
   },
   ".pagination": {
     display: "flex",
@@ -118,4 +182,19 @@ const homeStyle = {
       border: "none",
     },
   },
-};
+ }
+/* const homeStyle = {
+  minHeight: "calc(80vh - 50px)",
+  padding: "0 5vw",
+  ".search_box": {
+    margin: "20px 0 20px 8%",
+  },
+  ".map": {
+    display: "grid",
+    justifyContent: "center",
+    gridTemplateColumns: "repeat(auto-fit, minmax(100px, 320px))",
+    marginTop: "50px",
+    gap: "50px",
+  },
+ 
+}; */
