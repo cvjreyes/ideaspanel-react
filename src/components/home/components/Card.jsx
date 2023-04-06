@@ -2,19 +2,20 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
 import { ProfileInfo } from "../../general/ProfileInfo";
+import { Link } from "wouter";
 
 function IdeaCard({info}) {
     const {description, title, image, name} = info
     console.log(info)
   return (
-    <article css={ideaCard}>
+    <Link to="" css={ideaCard}>
         <img className='image' src={image}/>
         <div className='content'> 
             <h3 className='title'>{title}</h3>
             <p className="text">{description}</p>
            {name && <ProfileInfo profile={info}/>}
         </div>
-    </article>
+    </Link>
   )
 }
 
@@ -23,6 +24,10 @@ const ideaCard={
     borderRadius: "10px",
     backgroundColor: "#F5F5F5",
     overflow:"hidden",
+    transition: "ease 0.3s all",
+    ":hover":{
+        borderColor:"#155AAA"
+    },
     ".image":{
         width: "100%",
     },

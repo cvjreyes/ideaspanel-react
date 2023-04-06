@@ -71,7 +71,7 @@ export default function Home() {
           <Pagination
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
-            displayData={Array(20).fill()}
+            displayData={filteredData}
             itemsPerPage={itemsPerPage}
             maxPagesToShow={3}
           />
