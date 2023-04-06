@@ -1,15 +1,8 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
-import {
-  useCallback,
-  useContext,
-  useEffect,
-  useLayoutEffect,
-  useState,
-} from "react";
+import { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { useLocation, useRoute } from "wouter";
-import { useDropzone } from "react-dropzone";
 
 import { api } from "../../helpers/api";
 import { AuthContext } from "../../context/AuthContext";
@@ -18,12 +11,15 @@ import NoResults from "../home/NoResults";
 import SmallCard from "../general/SmallCard";
 import Pagination from "../general/Pagination";
 import { FullSection } from "../general/FullSection";
+import { ProfileInfo } from "../general/ProfileInfo";
+import { Grid } from "../general/Grid";
+import { IdeaCard } from "../home/components/Card";
 
 export default function Profile() {
   const [_, params] = useRoute("/profile/:user_id/:type");
   const [location, navigate] = useLocation();
 
-  const { user, updateUserInfo } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   const [profile, setProfile] = useState(null);
   const [displayData, setDisplayData] = useState([]);
@@ -64,32 +60,6 @@ export default function Profile() {
       return navigate(`/profile/${params.user_id}/Published`);
   }, [profile, selectedOption]);
 
-  const onDrop = useCallback((files) => {
-    files.forEach(async (file) => {
-      const formData = new FormData();
-      formData.append("file", file);
-      const { ok } = await api(
-        "post",
-        `/users/edit_profile_pic/${user.id}`,
-        formData
-      );
-      if (ok) {
-        updateUserInfo();
-        getProfileData();
-      }
-    });
-  }, []);
-
-  const { getRootProps, getInputProps } = useDropzone({
-    onDrop,
-    multiple: false,
-    accept: {
-      "image/jpeg": [],
-      "image/png": [],
-      "image/svg": [],
-    },
-  });
-
   const toggleDropdown = (selected) => {
     setSelectedOption(selected);
     setCurrentPage(1);
@@ -103,36 +73,22 @@ export default function Profile() {
     return array.slice(startIndex, endIndex);
   };
 
+  const isCurrentUserAccount = params.user_id == user.id;
+
+  console.log(displayData)
+
   if (!profile) return <Loading />;
   return (
-    <FullSection css={profileStyle}>
-      <div className="profileWrapper">
-        <div className="profileBox">
-          <div className="profPicWrapper">
-            <img
-              alt="profile"
-              src={profile.profile_pic}
-              className="profile_pic"
-            />
-            {params
-              ? params.user_id == user.id && (
-                  <img
-                    className="editIcon pointer"
-                    alt="edit profile pic"
-                    src="https://img.icons8.com/material-outlined/24/null/pencil--v1.png"
-                    {...getInputProps()}
-                    {...getRootProps()}
-                  />
-                )
-              : navigate("/")}
-          </div>
-          <div className="infoProfile">
-            <span>{profile.name}</span>
-            <p>{profile.email}</p>
-          </div>
-        </div>
-        {params ? (
-          params.user_id == user.id ? (
+    <FullSection >
+      <div css={profileStyle}>
+        <div className="profileWrapper">
+          <ProfileInfo
+            profile={profile}
+            isEditable={isCurrentUserAccount}
+            user={user}
+            getProfileData={getProfileData}
+          />
+          {isCurrentUserAccount ? (
             <div className="dropdownWrapper">
               {selectedOptions.map((selected, i) => {
                 return (
@@ -141,11 +97,11 @@ export default function Profile() {
                       className="dropdownButton"
                       onClick={() => toggleDropdown(selected)}
                       style={{
-                        backgroundColor:
-                          selected === params.type && "lightgray",
+                        backgroundColor: selected === params.type && "#D0DEEE",
                         fontWeight: selected === params.type && "bold",
                         color: selected === params.type && "black",
-                        borderRight: selected === params.type && "2px solid #155AAA",
+                        borderRight:
+                          selected === params.type && "2px solid #155AAA",
                       }}
                     >
                       {selected}
@@ -156,16 +112,32 @@ export default function Profile() {
             </div>
           ) : (
             <div />
-          )
-        ) : (
-          navigate("/")
-        )}
-      </div>
-      <div className="contentWrapper">
-        <div>
+          )}
+        </div>
+        <div className="contentWrapper">
           <span>Results found {lengthDisplayData}</span>
 
           {displayData.length > 0 ? (
+            <Grid>
+              {params
+                ? paginate(displayData).map((item, i) => {
+                    const navigateTo =
+                      params.type === "Denied" || params.type === "Validating"
+                        ? `/read_only/${item.id}`
+                        : params.type === "Published"
+                        ? `/idea/${item.id}`
+                        : params.type === "Drafts" && `/edit_idea/${item.id}`;
+                    return (
+                      <IdeaCard info={item} navigateTo={navigateTo} key={i} />
+                    );
+                  })
+                : navigate("/")}
+            </Grid>
+          ) : (
+            <NoResults />
+          )}
+
+          {/*  {displayData.length > 0 ? (
             <div className="ideasMapWrapper">
               {params
                 ? paginate(displayData).map((item, i) => {
@@ -183,9 +155,8 @@ export default function Profile() {
             </div>
           ) : (
             <NoResults />
-          )}
-        </div>
-        {displayData && (
+          )} */}
+           {displayData && (
           <Pagination
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
@@ -194,15 +165,20 @@ export default function Profile() {
             maxPagesToShow={3}
           />
         )}
+        </div>
+       
       </div>
     </FullSection>
   );
 }
 
 const profileStyle = {
+  display: "flex",
+  gap: "2rem",
+  height: "100%",
   flexDirection: "row",
   ".profileWrapper": {
-    marginTop: "80px",
+    marginTop: "50px",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
@@ -214,59 +190,6 @@ const profileStyle = {
     left: "178px",
     top: "152px",
     borderRight: "1px solid #C4C4C4",
-    ".profileBox": {
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
-      padding: "0px",
-      gap: "5px",
-      p: { whiteSpace: "nowrap" },
-      ".profPicWrapper": {
-        position: "relative",
-        width: "60px",
-        flex: "none",
-        order: "0",
-        flexGrow: "0",
-        ".profile_pic": {
-          borderRadius: "100px",
-        },
-        ".editIcon": {
-          position: "absolute",
-          display: "block !important",
-          backgroundColor: "white",
-          borderRadius: "100px",
-          padding: "5px",
-          right: 0,
-          bottom: 0,
-          width: "25px",
-          ":hover": {
-            backgroundColor: "lightgray",
-          },
-        },
-      },
-    },
-    ".infoProfile": {
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "flex-start",
-      padding: "10px",
-      gap: "10px",
-      width: "203px",
-      height: "62px",
-      flex: "none",
-      order: "1",
-      flexGrow: "0",
-      span: {
-        fontWeight: "600",
-        fontSize: "16px",
-        lineHeight: "17px",
-      },
-      p: {
-        fontSize: "14px",
-        lineHeight: "15px",
-        color: "#7E7E7E",
-      },
-    },
     ".dropdownWrapper": {
       boxSizing: "border-box",
       display: "flex",
@@ -302,15 +225,15 @@ const profileStyle = {
         ":hover": {
           backgroundColor: "#f4f4f4",
           color: "black",
-          fontWeight: "bold",
           borderRight: "1px solid #C4C4C4",
         },
       },
     },
   },
   ".contentWrapper": {
+    display: "flex",
+    flexDirection: "column",
     width: "100%",
-    marginTop: "30px",
     gap: "20px",
     span: {
       display: "grid",
@@ -319,13 +242,6 @@ const profileStyle = {
       fontWeight: "bold",
       marginLeft: "10px",
       textAlign: "center",
-    },
-    ".ideasMapWrapper": {
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(200px, 220px))",
-      justifyContent: "center",
-      marginTop: "20px",
-      gap: "20px",
     },
   },
 };

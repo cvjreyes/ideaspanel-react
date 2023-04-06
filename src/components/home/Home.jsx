@@ -10,23 +10,21 @@ import Card from "../general/Card";
 import Input from "../general/Input";
 import Loading from "../general/Loading";
 import NoResultsHome from "./NoResultsHome";
-import {IoMdCreate} from "react-icons/io"
+import { IoMdCreate } from "react-icons/io";
 import { FullSection } from "../general/FullSection";
 import { IdeaCard } from "./components/Card";
-import { Grid } from "./components/Grid";
+import { Grid } from "../general/Grid";
 
 export default function Home() {
   const [data, setData] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredData, setFilteredData] = useState([]);
-  
 
-  const itemsPerPage = 4; // o el número de elementos que desee mostrar por página
+  const itemsPerPage = 8; // o el número de elementos que desee mostrar por página
 
   const getData = async () => {
     const { body } = await api("get", "/ideas/get_some");
-    console.log(body)
     setData(body);
   };
 
@@ -57,14 +55,15 @@ export default function Home() {
       <div className="header">
         <h1 className="title">Home</h1>
         <div className="header__actions">
-        <input type="text" className="input"/>
-        <button className="button">Add new <IoMdCreate/></button>
+          <input type="text" className="input" />
+          <button className="button">
+            Add new <IoMdCreate />
+          </button>
         </div>
       </div>
       <Grid>
-        {console.log(filteredData)}
-        {filteredData.map(idea => (
-          <IdeaCard {...idea} key={idea.id} />
+        {paginate(filteredData).map((idea) => (
+          <IdeaCard info={idea} key={idea?.id} />
         ))}
       </Grid>
       <div className="pagination">
@@ -72,7 +71,7 @@ export default function Home() {
           <Pagination
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
-            displayData={filteredData}
+            displayData={Array(20).fill()}
             itemsPerPage={itemsPerPage}
             maxPagesToShow={3}
           />
@@ -86,17 +85,6 @@ export default function Home() {
             placeholder="Search"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        )}
-      </div>
-      <div className="pagination">
-        {filteredData && (
-          <Pagination
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            displayData={filteredData}
-            itemsPerPage={itemsPerPage}
-            maxPagesToShow={3}
           />
         )}
       </div>
@@ -117,24 +105,27 @@ export default function Home() {
   );
 }
 
- const homeStyle = {
+const homeStyle = {
   ".header": {
     display: "flex",
     alignItems: "start",
     justifyContent: "space-between",
     flexWrap: "wrap",
-    marginBottom: "2rem",
-    "&__actions":{
+    ".title": {
+      fontSize: "1.4rem",
+      textTransform: "uppercase",
+    },
+    "&__actions": {
       display: "flex",
       justifyContent: "end",
       gap: "1rem",
-      flex: "0 0 1"
+      flex: "0 0 1",
     },
-    "& > *":{
-      flex: "1"
-    }
+    "& > *": {
+      flex: "1",
+    },
   },
-  ".button":{
+  ".button": {
     padding: "0.75rem 1rem",
     background: "#155AAA",
     border: "unset",
@@ -144,24 +135,20 @@ export default function Home() {
     alignItems: "center",
     "& svg": {
       marginLeft: "0.5rem",
-      color: "white"
-    }
+      color: "white",
+    },
   },
- " .input": {
+  " .input": {
     width: "auto",
     border: "1px solid #C3C3C3",
     borderRadius: "5px",
-    padding: "1rem"
-  },
-  ".title":{
-    fontSize: "1.4rem",
-    textTransform: "uppercase"
+    padding: "1rem",
   },
   ".pagination": {
     display: "flex",
     justifyContent: "start",
     alignItems: "center",
-    margin: "20px 0 0 8%",
+    margin: "auto",
     div: {
       display: "inline-block",
       margin: "0 5px",
@@ -174,7 +161,7 @@ export default function Home() {
       border: "none",
     },
   },
- }
+};
 /* const homeStyle = {
   minHeight: "calc(80vh - 50px)",
   padding: "0 5vw",
