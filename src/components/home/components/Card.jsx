@@ -9,9 +9,7 @@ function IdeaCard({ id, image, title, description, comment_count, like_count, us
         <div className='content'> 
             <h3 className='title'>Titulo</h3>
             <p className="text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam a odio amet quis necessitatibus velit corporis cupiditate itaque nobis, doloremque libero. Cupiditate minus, dicta sapiente at libero dolorum reiciendis vel?</p>
-            <div className='footer'>
-                
-            </div>
+           {/*ProfileInfo component */}
         </div>
     </article>
   )
@@ -39,7 +37,6 @@ const ideaCard={
         "-webkit-box-orient": "vertical", 
         overflow: "hidden"
     },
-    ".footer":{}
 }
 
 export {IdeaCard}

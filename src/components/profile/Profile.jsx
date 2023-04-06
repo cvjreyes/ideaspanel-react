@@ -1,15 +1,8 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
-import {
-  useCallback,
-  useContext,
-  useEffect,
-  useLayoutEffect,
-  useState,
-} from "react";
+import { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { useLocation, useRoute } from "wouter";
-import { useDropzone } from "react-dropzone";
 
 import { api } from "../../helpers/api";
 import { AuthContext } from "../../context/AuthContext";
@@ -18,12 +11,13 @@ import NoResults from "../home/NoResults";
 import SmallCard from "../general/SmallCard";
 import Pagination from "../general/Pagination";
 import { FullSection } from "../general/FullSection";
+import { ProfileInfo } from "../general/ProfileInfo";
 
 export default function Profile() {
   const [_, params] = useRoute("/profile/:user_id/:type");
   const [location, navigate] = useLocation();
 
-  const { user, updateUserInfo } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   const [profile, setProfile] = useState(null);
   const [displayData, setDisplayData] = useState([]);
@@ -64,32 +58,6 @@ export default function Profile() {
       return navigate(`/profile/${params.user_id}/Published`);
   }, [profile, selectedOption]);
 
-  const onDrop = useCallback((files) => {
-    files.forEach(async (file) => {
-      const formData = new FormData();
-      formData.append("file", file);
-      const { ok } = await api(
-        "post",
-        `/users/edit_profile_pic/${user.id}`,
-        formData
-      );
-      if (ok) {
-        updateUserInfo();
-        getProfileData();
-      }
-    });
-  }, []);
-
-  const { getRootProps, getInputProps } = useDropzone({
-    onDrop,
-    multiple: false,
-    accept: {
-      "image/jpeg": [],
-      "image/png": [],
-      "image/svg": [],
-    },
-  });
-
   const toggleDropdown = (selected) => {
     setSelectedOption(selected);
     setCurrentPage(1);
@@ -103,62 +71,42 @@ export default function Profile() {
     return array.slice(startIndex, endIndex);
   };
 
+  const isCurrentUserAccount = params.user_id == user.id;
+
   if (!profile) return <Loading />;
   return (
     <FullSection css={profileStyle}>
       <div className="profileWrapper">
-        <div className="profileBox">
-          <div className="profPicWrapper">
-            <img
-              alt="profile"
-              src={profile.profile_pic}
-              className="profile_pic"
-            />
-            {params
-              ? params.user_id == user.id && (
-                  <img
-                    className="editIcon pointer"
-                    alt="edit profile pic"
-                    src="https://img.icons8.com/material-outlined/24/null/pencil--v1.png"
-                    {...getInputProps()}
-                    {...getRootProps()}
-                  />
-                )
-              : navigate("/")}
+        <ProfileInfo
+          profile={profile}
+          isEditable={isCurrentUserAccount}
+          user={user}
+          getProfileData={getProfileData}
+        />
+        {isCurrentUserAccount ? (
+          <div className="dropdownWrapper">
+            {selectedOptions.map((selected, i) => {
+              return (
+                <div key={selected}>
+                  <button
+                    className="dropdownButton"
+                    onClick={() => toggleDropdown(selected)}
+                    style={{
+                      backgroundColor: selected === params.type && "lightgray",
+                      fontWeight: selected === params.type && "bold",
+                      color: selected === params.type && "black",
+                      borderRight:
+                        selected === params.type && "2px solid #155AAA",
+                    }}
+                  >
+                    {selected}
+                  </button>
+                </div>
+              );
+            })}
           </div>
-          <div className="infoProfile">
-            <span>{profile.name}</span>
-            <p>{profile.email}</p>
-          </div>
-        </div>
-        {params ? (
-          params.user_id == user.id ? (
-            <div className="dropdownWrapper">
-              {selectedOptions.map((selected, i) => {
-                return (
-                  <div key={selected}>
-                    <button
-                      className="dropdownButton"
-                      onClick={() => toggleDropdown(selected)}
-                      style={{
-                        backgroundColor:
-                          selected === params.type && "lightgray",
-                        fontWeight: selected === params.type && "bold",
-                        color: selected === params.type && "black",
-                        borderRight: selected === params.type && "2px solid #155AAA",
-                      }}
-                    >
-                      {selected}
-                    </button>
-                  </div>
-                );
-              })}
-            </div>
-          ) : (
-            <div />
-          )
         ) : (
-          navigate("/")
+          <div />
         )}
       </div>
       <div className="contentWrapper">
@@ -214,59 +162,6 @@ const profileStyle = {
     left: "178px",
     top: "152px",
     borderRight: "1px solid #C4C4C4",
-    ".profileBox": {
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
-      padding: "0px",
-      gap: "5px",
-      p: { whiteSpace: "nowrap" },
-      ".profPicWrapper": {
-        position: "relative",
-        width: "60px",
-        flex: "none",
-        order: "0",
-        flexGrow: "0",
-        ".profile_pic": {
-          borderRadius: "100px",
-        },
-        ".editIcon": {
-          position: "absolute",
-          display: "block !important",
-          backgroundColor: "white",
-          borderRadius: "100px",
-          padding: "5px",
-          right: 0,
-          bottom: 0,
-          width: "25px",
-          ":hover": {
-            backgroundColor: "lightgray",
-          },
-        },
-      },
-    },
-    ".infoProfile": {
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "flex-start",
-      padding: "10px",
-      gap: "10px",
-      width: "203px",
-      height: "62px",
-      flex: "none",
-      order: "1",
-      flexGrow: "0",
-      span: {
-        fontWeight: "600",
-        fontSize: "16px",
-        lineHeight: "17px",
-      },
-      p: {
-        fontSize: "14px",
-        lineHeight: "15px",
-        color: "#7E7E7E",
-      },
-    },
     ".dropdownWrapper": {
       boxSizing: "border-box",
       display: "flex",
