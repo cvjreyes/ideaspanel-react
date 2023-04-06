@@ -12,10 +12,10 @@ import Card from "../general/Card";
 import { CountdownTimer } from "../general/CountDown";
 import Loading from "../general/Loading";
 
-import thumbsUp from "../../assets/images/thumbs-up.png";
 import thumbsDown from "../../assets/images/thumbs-down.png";
 import Back from "../../assets/images/back.png";
 import { useNotifications } from "reapop";
+import { FullSection } from "../general/FullSection";
 
 export default function NewComitteeSingleView() {
   const [_, params] = useRoute("/comittee/:idea_id");
@@ -24,12 +24,15 @@ export default function NewComitteeSingleView() {
   const { notify } = useNotifications();
 
   const [data, setData] = useState(null);
+  const [validateDate, setValidateDate] = useState(null);
 
   const getData = async () => {
     const { body } = await api(
       "get",
       `/ideas/get_info_and_vote/${params.idea_id}`
     );
+    let sent_to_validate_at = new Date(body.sent_to_validate_at);
+    setValidateDate(sent_to_validate_at);
     setData(body);
   };
 
@@ -51,8 +54,8 @@ export default function NewComitteeSingleView() {
 
   if (!data) return <Loading />;
   return (
-    <div css={singleViewStyle}>
-      <div className="top page_title">
+    <FullSection css={singleViewStyle}>
+      <div className="top">
         <ButtonWithImage
           src={Back}
           onClick={() => navigate("/comittee")}
@@ -60,12 +63,34 @@ export default function NewComitteeSingleView() {
         />
         <CountdownTimer date={data.sent_to_validate_at} />
       </div>
-      <Card item={{ ...data, anonymous: true }} comittee={true} />
-      <BoxVotes handleVote={handleVote} approved={data.approved} />
-      {/* <p className="remove pointer" onClick={() => handleVote(null)}>
-        Remove vote
-      </p> */}
-    </div>
+      <div className="box_info_card">
+        <div className="left">
+          <img
+            src={data.image || "http://localhost:5026/images/no_image.jpg"}
+            alt="idea"
+            className="ideaImage"
+          />
+        </div>
+        <div className="right">
+          <div className="topRight">
+            <div>
+              <div className="title">{data.title}</div>
+              <div className="date">
+                {validateDate.toLocaleString("es-ES", {
+                  day: "numeric",
+                  month: "numeric",
+                  year: "numeric",
+                })}
+              </div>
+            </div>
+            <BoxVotes handleVote={handleVote} approved={data.approved} />
+          </div>
+          <div className="bottomRight">
+            <div className="description">{data.description}</div>
+          </div>
+        </div>
+      </div>
+    </FullSection>
   );
 }
 
@@ -74,22 +99,18 @@ const BoxVotes = ({ handleVote, approved }) => {
     <div className="boxVotes">
       <VoteWrapper voted={approved !== null && !approved}>
         <ButtonWithImage
+          text="Denied"
           type="button"
-          className={
-            approved !== null && !approved ? "active_negative" : "negative_vote"
-          }
+          className={approved !== null && !approved ? "active_vote" : "vote"}
           onClick={() => handleVote(0)}
-          // img
-          src={thumbsDown}
         />
       </VoteWrapper>
       <VoteWrapper voted={approved}>
         <ButtonWithImage
+          text="Approved"
           type="button"
           onClick={() => handleVote(1)}
-          className={approved ? "active_positive" : "positive_vote"}
-          // img
-          src="https://img.icons8.com/ios/50/null/thumb-up--v1.png"
+          className={approved ? "active_vote" : "vote"}
         />
       </VoteWrapper>
     </div>
@@ -107,8 +128,6 @@ const VoteWrapper = ({ children, voted }) => {
 };
 
 const singleViewStyle = {
-  width: "fit-content",
-  margin: "100px auto 0",
   ".top": {
     display: "grid",
     gridTemplateColumns: "repeat(3, 1fr)",
@@ -117,7 +136,6 @@ const singleViewStyle = {
     width: "100vw",
     ".back_btn": {
       justifySelf: "flex-end",
-      marginBottom: "-10px",
       width: "50px",
       height: "45px",
       color: "#fff",
@@ -140,77 +158,67 @@ const singleViewStyle = {
       },
     },
   },
+  ".box_info_card": {
+    display: "flex",
+    height: "100%",
+    width: "100%",
+    ".left": {
+      marginRight: "30px",
+      flex: "1",
+    },
+    ".right": {
+      flex: "1",
+      minWidth: "500px",
+      ".topRight": {
+        display: "flex",
+        justifyContent: "space-between",
+        borderBottom: "1px solid #C4C4C4",
+        padding: "0 0 20px 0",
+        ".title": {
+          fontWeight: "600",
+          fontSize: "18px",
+          lineHeight: "22px",
+        },
+        ".date": {
+          marginTop: "10px",
+          color: "#7E7E7E",
+        },
+      },
+      ".bottomRight": {
+        padding: "20px 0",
+        ".description": {
+          color: "#7E7E7E",
+        },
+      },
+    },
+  },
   ".boxVotes": {
     width: "400px",
-    margin: "0 auto",
+    height: "50px",
     display: "flex",
-    justifyContent: "space-evenly",
-    ".positive_vote": {
-      width: "50px",
-      height: "50px",
-      color: "#fff",
+    justifyContent: "end",
+    ".vote": {
+      width: "100px",
+      color: "#155AAA",
       cursor: "pointer",
-      transition: "all 0.3s ease",
       position: "relative",
-      display: "inline-block",
       outline: "none",
+      transition: "all 0.3s ease",
       borderRadius: "5px",
-      border: "none",
-      background: "#80ed99",
-      boxShadow: "5px 5px #57cc99",
+      border: "1px solid #155AAA",
+      background: "white",
       ":hover": {
-        boxShadow: "0 3px #57cc99",
-        top: "1px",
+        color: "white",
+        background: "#155AAA",
       },
     },
-    ".active_positive":{
-      width: "50px",
-      height: "50px",
-      color: "#fff",
-      cursor: "pointer",
-      transition: "all 0.3s ease",
-      position: "relative",
-      display: "inline-block",
-      outline: "none",
-      borderRadius: "5px",
-      border: "none",
-      background: "#80ed99",
-    },
-    ".negative_vote": {
-      width: "50px",
-      height: "50px",
-      color: "#fff",
-      cursor: "pointer",
-      transition: "all 0.3s ease",
-      position: "relative",
-      display: "inline-block",
-      outline: "none",
-      borderRadius: "5px",
-      border: "none",
-      background: "#FA5F55",
-      boxShadow: "5px 5px #EE4B2B",
-      ":hover": {
-        boxShadow: "0 3px #EE4B2B",
-        top: "1px",
-      },
-    },
-    ".active_negative": {
-      width: "50px",
-      height: "50px",
-      color: "#fff",
-      cursor: "pointer",
-      transition: "all 0.3s ease",
-      position: "relative",
-      display: "inline-block",
-      outline: "none",
-      borderRadius: "5px",
-      border: "none",
-      background: "#FA5F55",
+    ".active_vote": {
+      color: "white",
+      background: "#155AAA",
     },
   },
   ".remove": {
     textAlign: "center",
-    marginTop: "30px",
     color: "blue",
     ":hover": {
       textDecoration: "underline",
