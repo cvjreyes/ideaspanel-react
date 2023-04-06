@@ -62,15 +62,19 @@ const profileStyle = {
     alignItems: "center",
     padding: "0px",
     gap: "5px",
-    p: { whiteSpace: "nowrap" },
+    p: { "word-break": "break-all" },
     ".profPicWrapper": {
       position: "relative",
       width: "60px",
+      height: "60px",
       flex: "none",
       order: "0",
       flexGrow: "0",
       ".profile_pic": {
         borderRadius: "100px",
+        width: "100%",
+        height: "100%",
+        objectFit: "cover"
       },
       ".editIcon": {
         position: "absolute",

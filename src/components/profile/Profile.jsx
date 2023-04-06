@@ -12,6 +12,8 @@ import SmallCard from "../general/SmallCard";
 import Pagination from "../general/Pagination";
 import { FullSection } from "../general/FullSection";
 import { ProfileInfo } from "../general/ProfileInfo";
+import { Grid } from "../general/Grid";
+import { IdeaCard } from "../home/components/Card";
 
 export default function Profile() {
   const [_, params] = useRoute("/profile/:user_id/:type");
@@ -73,47 +75,69 @@ export default function Profile() {
 
   const isCurrentUserAccount = params.user_id == user.id;
 
+  console.log(displayData)
+
   if (!profile) return <Loading />;
   return (
-    <FullSection css={profileStyle}>
-      <div className="profileWrapper">
-        <ProfileInfo
-          profile={profile}
-          isEditable={isCurrentUserAccount}
-          user={user}
-          getProfileData={getProfileData}
-        />
-        {isCurrentUserAccount ? (
-          <div className="dropdownWrapper">
-            {selectedOptions.map((selected, i) => {
-              return (
-                <div key={selected}>
-                  <button
-                    className="dropdownButton"
-                    onClick={() => toggleDropdown(selected)}
-                    style={{
-                      backgroundColor: selected === params.type && "lightgray",
-                      fontWeight: selected === params.type && "bold",
-                      color: selected === params.type && "black",
-                      borderRight:
-                        selected === params.type && "2px solid #155AAA",
-                    }}
-                  >
-                    {selected}
-                  </button>
-                </div>
-              );
-            })}
-          </div>
-        ) : (
-          <div />
-        )}
-      </div>
-      <div className="contentWrapper">
-        <div>
+    <FullSection >
+      <div css={profileStyle}>
+        <div className="profileWrapper">
+          <ProfileInfo
+            profile={profile}
+            isEditable={isCurrentUserAccount}
+            user={user}
+            getProfileData={getProfileData}
+          />
+          {isCurrentUserAccount ? (
+            <div className="dropdownWrapper">
+              {selectedOptions.map((selected, i) => {
+                return (
+                  <div key={selected}>
+                    <button
+                      className="dropdownButton"
+                      onClick={() => toggleDropdown(selected)}
+                      style={{
+                        backgroundColor: selected === params.type && "#D0DEEE",
+                        fontWeight: selected === params.type && "bold",
+                        color: selected === params.type && "black",
+                        borderRight:
+                          selected === params.type && "2px solid #155AAA",
+                      }}
+                    >
+                      {selected}
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div />
+          )}
+        </div>
+        <div className="contentWrapper">
           <span>Results found {lengthDisplayData}</span>
 
           {displayData.length > 0 ? (
+            <Grid>
+              {params
+                ? paginate(displayData).map((item, i) => {
+                    const navigateTo =
+                      params.type === "Denied" || params.type === "Validating"
+                        ? `/read_only/${item.id}`
+                        : params.type === "Published"
+                        ? `/idea/${item.id}`
+                        : params.type === "Drafts" && `/edit_idea/${item.id}`;
+                    return (
+                      <IdeaCard info={item} navigateTo={navigateTo} key={i} />
+                    );
+                  })
+                : navigate("/")}
+            </Grid>
+          ) : (
+            <NoResults />
+          )}
+
+          {/*  {displayData.length > 0 ? (
             <div className="ideasMapWrapper">
               {params
                 ? paginate(displayData).map((item, i) => {
@@ -131,9 +155,8 @@ export default function Profile() {
             </div>
           ) : (
             <NoResults />
-          )}
-        </div>
-        {displayData && (
+          )} */}
+           {displayData && (
           <Pagination
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
@@ -142,15 +165,20 @@ export default function Profile() {
             maxPagesToShow={3}
           />
         )}
+        </div>
+       
       </div>
     </FullSection>
   );
 }
 
 const profileStyle = {
+  display: "flex",
+  gap: "2rem",
+  height: "100%",
   flexDirection: "row",
   ".profileWrapper": {
-    marginTop: "80px",
+    marginTop: "50px",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
@@ -197,15 +225,15 @@ const profileStyle = {
         ":hover": {
           backgroundColor: "#f4f4f4",
           color: "black",
-          fontWeight: "bold",
           borderRight: "1px solid #C4C4C4",
         },
       },
     },
   },
   ".contentWrapper": {
+    display: "flex",
+    flexDirection: "column",
     width: "100%",
-    marginTop: "30px",
     gap: "20px",
     span: {
       display: "grid",
@@ -214,13 +242,6 @@ const profileStyle = {
       fontWeight: "bold",
       marginLeft: "10px",
       textAlign: "center",
-    },
-    ".ideasMapWrapper": {
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(200px, 220px))",
-      justifyContent: "center",
-      marginTop: "20px",
-      gap: "20px",
     },
   },
 };

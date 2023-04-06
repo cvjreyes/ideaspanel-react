@@ -13,7 +13,7 @@ import NoResultsHome from "./NoResultsHome";
 import { IoMdCreate } from "react-icons/io";
 import { FullSection } from "../general/FullSection";
 import { IdeaCard } from "./components/Card";
-import { Grid } from "./components/Grid";
+import { Grid } from "../general/Grid";
 
 export default function Home() {
   const [data, setData] = useState(null);
@@ -63,7 +63,7 @@ export default function Home() {
       </div>
       <Grid>
         {paginate(filteredData).map((idea) => (
-          <IdeaCard {...idea} key={idea?.id} />
+          <IdeaCard info={idea} key={idea?.id} />
         ))}
       </Grid>
       <div className="pagination">
