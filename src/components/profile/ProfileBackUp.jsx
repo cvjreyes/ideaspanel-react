@@ -18,7 +18,7 @@ import NoResults from "../home/NoResults";
 import SmallCard from "../general/SmallCard";
 import Pagination from "../general/Pagination";
 
-export default function Profile() {
+export default function ProfileBackUp() {
   const [_, params] = useRoute("/profile/:user_id/:type");
   const [location, navigate] = useLocation();
 
@@ -26,10 +26,11 @@ export default function Profile() {
 
   const [profile, setProfile] = useState(null);
   const [displayData, setDisplayData] = useState([]);
+  const [lengthAllOptions, setLengthAllOptions] = useState([]);
   const [lengthDisplayData, setLengthDisplayData] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const itemsPerPage = 8; // o el número de elementos que desee mostrar por página
+  const itemsPerPage = 10; // o el número de elementos que desee mostrar por página
 
   const [selectedOption, setSelectedOption] = useState("Published");
 
@@ -105,7 +106,8 @@ export default function Profile() {
   if (!profile) return <Loading />;
   return (
     <div css={profileStyle}>
-      <div className="profileWrapper">
+      <div className="headWrapper">
+        <div />
         <div className="profileBox">
           <div className="profPicWrapper">
             <img
@@ -125,11 +127,11 @@ export default function Profile() {
                 )
               : navigate("/")}
           </div>
-          <div className="infoProfile">
-            <span>{profile.name}</span>
-            <p>{profile.email}</p>
-          </div>
+          <h1 className="page_title">{profile.name}</h1>
+          <p>{profile.email}</p>
         </div>
+      </div>
+      <div className="contentWrapper">
         {params ? (
           params.user_id == user.id ? (
             <div className="dropdownWrapper">
@@ -142,11 +144,10 @@ export default function Profile() {
                       style={{
                         backgroundColor:
                           selected === params.type && "lightgray",
-                        fontWeight: selected === params.type && "bold",
-                        color: selected === params.type && "black",
                       }}
                     >
                       {selected}
+                      <p>{lengthAllOptions[i]}</p>
                     </button>
                   </div>
                 );
@@ -158,11 +159,17 @@ export default function Profile() {
         ) : (
           navigate("/")
         )}
-      </div>
-      <div className="contentWrapper">
         <div>
           <span>Results found {lengthDisplayData}</span>
-          
+          {displayData && (
+            <Pagination
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              displayData={displayData}
+              itemsPerPage={itemsPerPage}
+              maxPagesToShow={3}
+            />
+          )}
           {displayData.length > 0 ? (
             <div className="ideasMapWrapper">
               {params
@@ -182,15 +189,6 @@ export default function Profile() {
           ) : (
             <NoResults />
           )}
-          {displayData && (
-            <Pagination
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              displayData={displayData}
-              itemsPerPage={itemsPerPage}
-              maxPagesToShow={3}
-            />
-          )}
         </div>
       </div>
     </div>
@@ -199,120 +197,49 @@ export default function Profile() {
 
 const profileStyle = {
   display: "flex",
+  flexDirection: "column",
   padding: "0 10vw",
-  minHeight: "calc(90vh - 50px)",
-  boxSizing: "border-box",
-  marginTop: "100px",
-  ".profileWrapper": {
-    marginTop: "80px",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "flex-start",
-    padding: "10px 0px",
-    gap: "30px",
-    width: "400px",
-    height: "284px",
-    left: "178px",
-    top: "152px",
-    borderRight: "1px solid #C4C4C4",
+  minHeight: "calc(80vh - 50px)",
+  ".headWrapper": {
+    textAlign: "center",
+    marginTop: "70px",
+    display: "grid",
+    gridTemplateColumns: ".2fr 1fr .2fr",
+    h1: { margin: "10px 0" },
+    p: { whiteSpace: "nowrap" },
     ".profileBox": {
-      // marginLeft: "25%",
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
-      padding: "0px",
-      gap: "5px",
-      // h1: { margin: "10px 0" },
-      p: { whiteSpace: "nowrap" },
-      ".profPicWrapper": {
-        position: "relative",
-        width: "60px",
-        flex: "none",
-        order: "0",
-        flexGrow: "0",
-        ".profile_pic": {
-          borderRadius: "100px",
-        },
-        ".editIcon": {
-          position: "absolute",
-          display: "block !important",
-          backgroundColor: "white",
-          borderRadius: "100px",
-          padding: "5px",
-          right: 0,
-          bottom: 0,
-          width: "25px",
-          ":hover": {
-            backgroundColor: "lightgray",
-          },
-        },
-      },
+      marginLeft: "25%",
     },
-    ".infoProfile": {
+    ".profPicWrapper": {
+      margin: "0 auto",
       display: "flex",
-      flexDirection: "column",
-      alignItems: "flex-start",
-      padding: "10px",
-      gap: "10px",
-      width: "203px",
-      height: "62px",
-      flex: "none",
-      order: "1",
-      flexGrow: "0",
-      // Voy por aqui, los dos parrafos me faltan
-      span: {
-        fontWeight: "600",
-        fontSize: "16px",
-        lineHeight: "17px",
+      height: "50px",
+      width: "50px",
+      backgroundColor: "#99C6F8",
+      borderRadius: "100px",
+      position: "relative",
+      ".profile_pic": {
+        borderRadius: "100px",
       },
-      p: {
-        fontSize: "14px",
-        lineHeight: "15px",
-        color: "#7E7E7E",
-      },
-    },
-    ".dropdownWrapper": {
-      boxSizing: "border-box",
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      padding: "0px",
-      width: "400px",
-      height: "172px",
-      borderTop: "1px solid #C4C4C4",
-      flex: "none",
-      order: "1",
-      alignSelf: "stretch",
-      flexGrow: "0",
-      p: {
-        fontWeight: "bold",
-      },
-      ".dropdownButton": {
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "flex-start",
-        padding: "13px 10px",
-        gap: "10px",
-        width: "400px",
-        height: "43px",
-        color: "#7E7E7E",
-        flex: "none",
-        order: "0",
-        alignSelf: "stretch",
-        flexGrow: "0",
-        backgroundColor: "transparent",
-        border: "0",
+      ".editIcon": {
+        display: "block !important",
+        position: "absolute",
+        bottom: "-10px",
+        right: "-10px",
+        width: "30px",
+        height: "30px",
+        backgroundColor: "white",
+        borderRadius: "100px",
+        padding: "5px",
         ":hover": {
-          backgroundColor: "#f4f4f4",
-          color: "black",
-          fontWeight: "bold",
+          backgroundColor: "lightgray",
         },
       },
     },
   },
   ".contentWrapper": {
+    display: "grid",
+    gridTemplateColumns: "1fr 5fr",
     width: "100%",
     marginTop: "30px",
     gap: "20px",
@@ -323,6 +250,33 @@ const profileStyle = {
       fontWeight: "bold",
       marginLeft: "10px",
       textAlign: "center",
+    },
+    ".dropdownWrapper": {
+      width: "200px",
+      height: "200px",
+      fontSize: "16px",
+      border: "3px solid #999",
+      padding: "10px 0",
+      backgroundColor: "#fff",
+      borderRadius: "10px",
+      marginTop: "80px",
+      p: {
+        fontWeight: "bold",
+      },
+      ".dropdownButton": {
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        width: "100%",
+        padding: "12px 16px",
+        cursor: "pointer",
+        backgroundColor: "#fff",
+        border: "0",
+        transition: "background-color 0.3s ease-out",
+        ":hover": {
+          backgroundColor: "#f4f4f4",
+        },
+      },
     },
     ".ideasMapWrapper": {
       display: "grid",
