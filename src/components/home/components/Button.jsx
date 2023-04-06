@@ -1,6 +1,6 @@
 import styled from '@emotion/styled'
 
-const Button = styled.button`
+const Button = styled.button(`
   padding: 32px;
   background-color: hotpink;
   font-size: 24px;
@@ -11,4 +11,4 @@ const Button = styled.button`
     color: white;
   }
 `
-
+)

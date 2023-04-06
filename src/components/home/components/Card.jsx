@@ -1,17 +1,18 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
+import { ProfileInfo } from "../../general/ProfileInfo";
 
-function IdeaCard({ id, image, title, description, comment_count, like_count, user_id, anonymous, created_at }) {
+function IdeaCard({info}) {
+    const {description, title, image, name} = info
+    console.log(info)
   return (
     <article css={ideaCard}>
         <img className='image' src={image}/>
         <div className='content'> 
-            <h3 className='title'>Titulo</h3>
-            <p className="text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam a odio amet quis necessitatibus velit corporis cupiditate itaque nobis, doloremque libero. Cupiditate minus, dicta sapiente at libero dolorum reiciendis vel?</p>
-            <div className='footer'>
-                
-            </div>
+            <h3 className='title'>{title}</h3>
+            <p className="text">{description}</p>
+           {name && <ProfileInfo profile={info}/>}
         </div>
     </article>
   )
@@ -36,10 +37,10 @@ const ideaCard={
         display: "-webkit-box",
         color: "#7E7E7E",
        " -webkit-line-clamp": 3,
-        "-webkit-box-orient": "vertical", 
-        overflow: "hidden"
+        WebkitBoxOrient: "vertical", 
+        overflow: "hidden",
+        marginBottom: "1rem"
     },
-    ".footer":{}
 }
 
 export {IdeaCard}
