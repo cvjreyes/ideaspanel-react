@@ -6,7 +6,7 @@ import { Link, useRoute } from "wouter";
 
 import { AuthContext } from "../../context/AuthContext";
 import LogoutImg from "../../assets/images/logout.png";
-
+import { IoMdCreate } from "react-icons/io";
 export default function Navbar() {
   const { user, logout } = useContext(AuthContext);
 
@@ -41,11 +41,7 @@ export default function Navbar() {
           style={{ width: "120px" }}
         >
           New Idea
-          <img
-            alt="new"
-            src="https://img.icons8.com/external-others-amoghdesign/24/null/external-write-multimedia-solid-24px-others-amoghdesign.png"
-            className="invert pointer"
-          />
+          <IoMdCreate/>
         </Link>
       </div>
       <div />

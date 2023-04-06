@@ -61,11 +61,16 @@ export default function Home() {
           </button>
         </div>
       </div>
-      <Grid>
-        {paginate(filteredData).map((idea) => (
-          <IdeaCard info={idea} key={idea?.id} />
-        ))}
-      </Grid>
+      {filteredData.length ? (
+        <Grid>
+          {paginate(filteredData).map((idea) => (
+            <IdeaCard info={idea} key={idea?.id} />
+          ))}
+        </Grid>
+      ) : (
+        <NoResultsHome />
+      )}
+
       <div className="pagination">
         {filteredData && (
           <Pagination
