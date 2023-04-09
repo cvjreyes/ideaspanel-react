@@ -7,6 +7,7 @@ const Button = styled.button({
   color: "white",
   borderRadius: "5px",
   display: "flex",
+  flexShrink:0,
   gap: "0.4rem",
   alignItems: "center",
   cursor: "pointer",

@@ -107,17 +107,9 @@ const homeStyle = {
       display: "flex",
       justifyContent: "end",
       gap: "1rem",
-      flex: "0 0 1",
     },
     "& > *": {
-      flex: "1",
     },
-  },
-  " .input": {
-    width: "auto",
-    border: "1px solid #C3C3C3",
-    borderRadius: "5px",
-    padding: "1rem",
   },
   ".pagination": {
     display: "flex",
@@ -137,18 +129,3 @@ const homeStyle = {
     },
   },
 };
-/* const homeStyle = {
-  minHeight: "calc(80vh - 50px)",
-  padding: "0 5vw",
-  ".search_box": {
-    margin: "20px 0 20px 8%",
-  },
-  ".map": {
-    display: "grid",
-    justifyContent: "center",
-    gridTemplateColumns: "repeat(auto-fit, minmax(100px, 320px))",
-    marginTop: "50px",
-    gap: "50px",
-  },
- 
-}; */
