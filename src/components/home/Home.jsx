@@ -56,7 +56,11 @@ export default function Home() {
       <div className="header">
         <h1 className="title">Home</h1>
         <div className="header__actions">
-          <TextField id="search"/>
+          <TextField
+            id="search"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
           <button className="button">
             Add new <IoMdCreate />
           </button>
@@ -83,30 +87,6 @@ export default function Home() {
           />
         )}
       </div>
-      {/* <h1 className="page_title">Ideas Panel</h1>
-      <div className="search_box">
-        {filteredData && (
-          <Input
-            type="text"
-            placeholder="Search"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        )}
-      </div>
-      <div className="map">
-        {filteredData ? (
-          filteredData.length > 0 ? (
-            paginate(filteredData).map((item, i) => (
-              <Card item={item} key={i} />
-            ))
-          ) : (
-            <NoResultsHome />
-          )
-        ) : (
-          <Loading />
-        )}
-      </div> */}
     </FullSection>
   );
 }
