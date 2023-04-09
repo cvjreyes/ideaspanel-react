@@ -22,11 +22,12 @@ function IdeaCard({info}) {
 const ideaCard={
     border: "1px solid #C3C3C3",
     borderRadius: "10px",
-    backgroundColor: "#F5F5F5",
+    backgroundColor: "#F8F8F8",
     overflow:"hidden",
     transition: "ease 0.3s all",
     ":hover":{
-        borderColor:"#155AAA"
+        borderColor:"#7E7E7E",
+        backgroundColor:"#f2f2f2"
     },
     ".image":{
         width: "100%",

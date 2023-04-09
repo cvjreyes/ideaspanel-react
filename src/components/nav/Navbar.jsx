@@ -7,6 +7,8 @@ import { Link, useRoute } from "wouter";
 import { AuthContext } from "../../context/AuthContext";
 import LogoutImg from "../../assets/images/logout.png";
 import { IoMdCreate } from "react-icons/io";
+import { AiOutlineUser, AiOutlinePoweroff } from "react-icons/ai";
+
 export default function Navbar() {
   const { user, logout } = useContext(AuthContext);
 
@@ -41,20 +43,22 @@ export default function Navbar() {
           style={{ width: "120px" }}
         >
           New Idea
-          <IoMdCreate/>
+          <IoMdCreate />
         </Link>
       </div>
       <div />
       <div className="profileBox">
-        <Link to={`/ideas_panel/profile/${user.id}/Published`} className="flexCenter">
+        <Link
+          to={`/ideas_panel/profile/${user.id}/Published`}
+          className="flexCenter"
+        >
           {user.name}
-          <img
-            tabIndex={0}
-            className="pointer invert"
-            alt="user"
-            src="https://img.icons8.com/ios-glyphs/30/null/user--v1.png"
-          />
+          <AiOutlineUser />
         </Link>
+        <button onClick={logout}>
+          <AiOutlinePoweroff />
+        </button>
+
         <img onClick={logout} src={LogoutImg} className="pointer logout" />
       </div>
     </div>
@@ -66,7 +70,7 @@ const navbarStyle = {
   height: "50px",
   width: "100vw",
   backgroundColor: "#0054B3",
-  color: "white",
+  color: "#C3C3C3",
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
@@ -77,7 +81,6 @@ const navbarStyle = {
     color: "white",
   },
   a: {
-    color: "white",
     transition: "color 0.2s ease-in-out",
     ":hover": {
       color: "lightgray",
@@ -98,14 +101,14 @@ const navbarStyle = {
   },
   ".profileBox": {
     display: "flex",
-    alignItems:"center",
+    alignItems: "center",
     ".logout": {
-      height:"25px",
-      width:"25px",
-      marginLeft:"20px",
-      ":hover":{
+      height: "25px",
+      width: "25px",
+      marginLeft: "20px",
+      ":hover": {
         filter: "invert(20%)",
-      }
-    }
+      },
+    },
   },
 };
