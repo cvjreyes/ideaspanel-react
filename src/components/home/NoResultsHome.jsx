@@ -30,6 +30,7 @@ const shake = keyframes`
 `;
 
 const noResultsStyle = {
+  height: "100%",
   textAlign: "center",
   marginTop: "100px",
   fontSize: "20px",

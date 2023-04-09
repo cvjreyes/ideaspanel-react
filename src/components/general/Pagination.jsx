@@ -32,7 +32,7 @@ export default function Pagination({
       focusNextButton();
     } else if (currentPage === totalPages) {
       focusPrevButton();
-    } 
+    }
 
     currentPageRef.current && currentPageRef.current.focus();
   }, [currentPage, totalPages]);
@@ -48,37 +48,33 @@ export default function Pagination({
           {"<"}
         </button>
       )}
-      {totalPages < 2 ? (
-        <button disabled style={{ fontWeight: "bold" }} className="no_pages">
-          1
-        </button>
-      ) : (
-        Array(totalPages)
-          .fill()
-          .map((_, i) => {
-            if (i + 1 >= lowerLimit && i + 1 <= upperLimit) {
-              return (
-                <button
-                  key={i}
-                  ref={i + 1 === currentPage ? currentPageRef : null}
-                  onClick={() => setCurrentPage(i + 1)}
-                  style={{ fontWeight: currentPage === i + 1 && "bold" }}
-                  className="active_page"
-                >
-                  {i + 1}
-                </button>
-              );
-            } else if (i + 1 === lowerLimit - 1 || i + 1 === upperLimit + 1) {
-              return (
-                <span key={i} className="dots">
-                  ...
-                </span>
-              );
-            } else {
-              return null;
-            }
-          })
-      )}
+      {totalPages > 2
+        ? Array(totalPages)
+            .fill()
+            .map((_, i) => {
+              if (i + 1 >= lowerLimit && i + 1 <= upperLimit) {
+                return (
+                  <button
+                    key={i}
+                    ref={i + 1 === currentPage ? currentPageRef : null}
+                    onClick={() => setCurrentPage(i + 1)}
+                    style={{ fontWeight: currentPage === i + 1 && "bold" }}
+                    className="active_page"
+                  >
+                    {i + 1}
+                  </button>
+                );
+              } else if (i + 1 === lowerLimit - 1 || i + 1 === upperLimit + 1) {
+                return (
+                  <span key={i} className="dots">
+                    ...
+                  </span>
+                );
+              } else {
+                return null;
+              }
+            })
+        : null}
       {currentPage !== totalPages && displayData.length > 10 && (
         <button
           ref={nextButtonRef}
@@ -97,22 +93,18 @@ const paginationStyle = {
   justifyContent: "center",
   marginTop: "10px",
   ".prev_btn": {
+    height: "2.5rem",
+    width: "2.5rem",
     margin: "0 0.5rem",
     padding: "0.5rem",
-    border: "1px solid #ccc",
+    border: "unset",
     borderRadius: "5px",
-    backgroundColor: "lightblue",
-    color: "#fff",
+    color: "#7E7E7E",
     cursor: "pointer",
     transition: "all 0.3s ease",
-    boxShadow: "0px 1px 3px rgba(0, 0, 0, 0.2)",
+    backgroundColor: "unset",
     ":hover": {
-      backgroundColor: "lightskyblue",
-    },
-    ":focus": {
-      outline: "none",
-      backgroundColor: "lightseagreen",
-      boxShadow: "0 0 0 3px #ddd",
+      backgroundColor: "#F5F5F5",
     },
     ":disabled": {
       opacity: "0.5",
@@ -120,23 +112,23 @@ const paginationStyle = {
     },
   },
   ".active_page": {
+    height: "2.5rem",
+    width: "2.5rem",
     margin: "0 0.5rem",
     padding: "0.5rem",
-    border: "1px solid #ccc",
+    border: "unset",
     borderRadius: "5px",
-    backgroundColor: "lightblue",
-    color: "#fff",
+    color: "#7E7E7E",
     cursor: "pointer",
     transition: "all 0.3s ease",
-    boxShadow: "0px 1px 3px rgba(0, 0, 0, 0.2)",
-    fontWeight: "bold",
+    backgroundColor: "unset",
     ":hover": {
-      backgroundColor: "lightskyblue",
+      backgroundColor: "#14529A",
     },
     ":focus": {
       outline: "none",
-      backgroundColor: "lightseagreen",
-      boxShadow: "0 0 0 3px rgba(76, 175, 80, 0.5)",
+      backgroundColor: "#155AAA",
+      color: "#fff",
     },
     ":disabled": {
       opacity: "0.5",
@@ -150,22 +142,18 @@ const paginationStyle = {
     color: "#777",
   },
   ".next_btn": {
+    height: "2.5rem",
+    width: "2.5rem",
     margin: "0 0.5rem",
     padding: "0.5rem",
-    border: "1px solid #ccc",
+    border: "unset",
     borderRadius: "5px",
-    backgroundColor: "lightblue",
-    color: "#fff",
+    color: "#7E7E7E",
     cursor: "pointer",
     transition: "all 0.3s ease",
-    boxShadow: "0px 1px 3px rgba(0, 0, 0, 0.2)",
+    backgroundColor: "unset",
     ":hover": {
-      backgroundColor: "lightskyblue",
-    },
-    ":focus": {
-      outline: "none",
-      backgroundColor: "lightseagreen",
-      boxShadow: "0 0 0 3px #ddd",
+      backgroundColor: "#F5F5F5",
     },
     ":disabled": {
       opacity: "0.5",

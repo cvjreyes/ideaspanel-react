@@ -223,7 +223,7 @@ const profileStyle = {
         background: "transparent",
         border: "0",
         ":hover": {
-          backgroundColor: "#f4f4f4",
+          backgroundColor: "#f2f2f2",
           color: "black",
           borderRight: "1px solid #C4C4C4",
         },
