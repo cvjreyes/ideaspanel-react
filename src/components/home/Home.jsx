@@ -15,7 +15,7 @@ import { FullSection } from "../general/FullSection";
 import { IdeaCard } from "./components/Card";
 import { Grid } from "../general/Grid";
 import { TextField } from "./components/TextField";
-import {Button} from "./components/Button";
+import { Button } from "./components/Button";
 
 export default function Home() {
   const [data, setData] = useState(null);
@@ -71,7 +71,11 @@ export default function Home() {
       {filteredData.length ? (
         <Grid>
           {paginate(filteredData).map((idea) => (
-            <IdeaCard info={idea} key={idea?.id} />
+            <IdeaCard
+              info={idea}
+              key={idea?.id}
+              navigateTo={`/idea/${idea.id}`}
+            />
           ))}
         </Grid>
       ) : (
@@ -108,8 +112,7 @@ const homeStyle = {
       justifyContent: "end",
       gap: "1rem",
     },
-    "& > *": {
-    },
+    "& > *": {},
   },
   ".pagination": {
     display: "flex",

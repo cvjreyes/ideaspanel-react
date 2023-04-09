@@ -5,11 +5,10 @@ import { ProfileInfo } from "../../general/ProfileInfo";
 import { Link } from "wouter";
 import { BsImage } from "react-icons/bs";
 
-function IdeaCard({ info }) {
+function IdeaCard({ info, navigateTo }) {
   const { description, title, image, name } = info;
-  console.log(info);
   return (
-    <Link to="" css={ideaCard}>
+    <Link to={navigateTo} css={ideaCard}>
       <div className="imageContainer">
         {image ? (
           <img className="image" src={image} />
