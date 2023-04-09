@@ -3,8 +3,14 @@ import styled from '@emotion/styled'
 const StyledTextField = styled.div({
   position: "relative",
   width: "100%",
+  overflow:"hidden",
+  textarea: {
+    resize: "none",
+    minHeight: "200px",
+    lineHeight: 2,
+  },
 
-  "input": {
+  "input, textarea": {
     backgroundColor: "#F5F5F5",
     fontSize: "1rem",
     border: "1px solid #C3C3C3",

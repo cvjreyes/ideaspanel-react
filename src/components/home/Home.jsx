@@ -15,6 +15,7 @@ import { FullSection } from "../general/FullSection";
 import { IdeaCard } from "./components/Card";
 import { Grid } from "../general/Grid";
 import { TextField } from "./components/TextField";
+import {Button} from "./components/Button";
 
 export default function Home() {
   const [data, setData] = useState(null);
@@ -61,9 +62,10 @@ export default function Home() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <button className="button">
+
+          <Button>
             Add new <IoMdCreate />
-          </button>
+          </Button>
         </div>
       </div>
       {filteredData.length ? (
@@ -109,19 +111,6 @@ const homeStyle = {
     },
     "& > *": {
       flex: "1",
-    },
-  },
-  ".button": {
-    padding: "0.75rem 1rem",
-    background: "#155AAA",
-    border: "unset",
-    color: "white",
-    borderRadius: "5px",
-    display: "flex",
-    alignItems: "center",
-    "& svg": {
-      marginLeft: "0.5rem",
-      color: "white",
     },
   },
   " .input": {
