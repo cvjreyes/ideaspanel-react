@@ -75,11 +75,10 @@ export default function Profile() {
 
   const isCurrentUserAccount = params.user_id == user.id;
 
-  console.log(displayData)
 
   if (!profile) return <Loading />;
   return (
-    <FullSection >
+    <FullSection>
       <div css={profileStyle}>
         <div className="profileWrapper">
           <ProfileInfo
@@ -136,37 +135,17 @@ export default function Profile() {
           ) : (
             <NoResults />
           )}
-
-          {/*  {displayData.length > 0 ? (
-            <div className="ideasMapWrapper">
-              {params
-                ? paginate(displayData).map((item, i) => {
-                    const navigateTo =
-                      params.type === "Denied" || params.type === "Validating"
-                        ? `/read_only/${item.id}`
-                        : params.type === "Published"
-                        ? `/idea/${item.id}`
-                        : params.type === "Drafts" && `/edit_idea/${item.id}`;
-                    return (
-                      <SmallCard item={item} navigateTo={navigateTo} key={i} />
-                    );
-                  })
-                : navigate("/")}
-            </div>
-          ) : (
-            <NoResults />
-          )} */}
-           {displayData && (
-          <Pagination
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            displayData={displayData}
-            itemsPerPage={itemsPerPage}
-            maxPagesToShow={3}
-          />
-        )}
+          
+          {displayData && (
+            <Pagination
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              displayData={displayData}
+              itemsPerPage={itemsPerPage}
+              maxPagesToShow={3}
+            />
+          )}
         </div>
-       
       </div>
     </FullSection>
   );

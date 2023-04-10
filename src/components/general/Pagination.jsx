@@ -48,7 +48,7 @@ export default function Pagination({
           {"<"}
         </button>
       )}
-      {totalPages > 2
+      {totalPages > 1
         ? Array(totalPages)
             .fill()
             .map((_, i) => {

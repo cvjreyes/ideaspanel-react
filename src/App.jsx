@@ -21,7 +21,6 @@ import NewIdea from "./components/ideas/NewIdea";
 import Footer from "./components/nav/Footer";
 import Comittee from "./components/ideas/Comittee";
 import ManageComittee from "./components/ideas/ManageComittee";
-import EditIdea from "./components/profile/EditIdea";
 import Idea from "./components/idea/Idea";
 import IdeaNoComments from "./components/idea/IdeaNoComments";
 import EditProfile from "./components/profile/EditProfile";
@@ -63,42 +62,42 @@ export default function App() {
             // 4. Pass a builtIn theme or a custom theme.
             theme={atalhoTheme}
           />
-          <PrivateRoute component={Navbar} />
+          <PrivateRoute component={<Navbar/>} />
           <Router base="/ideas_panel">
             <Switch>
-              <Route path="/">{() => <PrivateRoute component={Home} />}</Route>
+              <Route path="/">{() => <PrivateRoute component={<Home/>} />}</Route>
               <Route path="/idea/:id">
-                {() => <PrivateRoute component={Idea} />}
+                {() => <PrivateRoute component={<Idea/>} />}
               </Route>
               <Route path="/login">
-                {() => <PublicRoute component={Login} />}
+                {() => <PublicRoute component={<Login/>} />}
               </Route>
               <Route path="/log_in/:user_id/:token">
-                {() => <PublicRoute component={CheckLogin} />}
+                {() => <PublicRoute component={<CheckLogin/>} />}
               </Route>
               <Route path="/profile/:user_id/:type">
-                {() => <PrivateRoute component={Profile} />}
+                {() => <PrivateRoute component={<Profile/>} />}
               </Route>
               <Route path="/profile/edit_profile/:user_id">
-                {() => <PrivateRoute component={EditProfile} />}
+                {() => <PrivateRoute component={<EditProfile/>} />}
               </Route>
               <Route path="/edit_idea/:idea_id">
-                {() => <PrivateRoute component={EditIdea} />}
+                {() => <PrivateRoute component={<NewIdea isEditing/>} />}
               </Route>
               <Route path="/read_only/:idea_id">
-                {() => <PrivateRoute component={IdeaNoComments} />}
+                {() => <PrivateRoute component={<IdeaNoComments/>} />}
               </Route>
               <Route path="/new_idea">
-                {() => <PrivateRoute component={NewIdea} />}
+                {() => <PrivateRoute component={<NewIdea/>} />}
               </Route>
               <Route path="/comittee">
-                {() => <PrivateRoute component={NewComittee} />}
+                {() => <PrivateRoute component={<NewComittee/>} />}
               </Route>
               <Route path="/comittee/manage">
-                {() => <PrivateRoute component={ManageComittee} />}
+                {() => <PrivateRoute component={<ManageComittee/>} />}
               </Route>
               <Route path="/comittee/:idea_id">
-                {() => <PrivateRoute component={NewComitteeSingleView} />}
+                {() => <PrivateRoute component={<NewComitteeSingleView/>} />}
               </Route>
               <Route>{() => <Redirect to="/" />}</Route>
             </Switch>

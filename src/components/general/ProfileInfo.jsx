@@ -62,7 +62,7 @@ const profileStyle = {
     alignItems: "center",
     padding: "0px",
     gap: "5px",
-    p: { "word-break": "break-all" },
+    p: { "wordBreak": "break-all" },
     ".profPicWrapper": {
       position: "relative",
       width: "60px",
