@@ -1,23 +1,23 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
-import React, { useCallback, useContext, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { AiFillFile, AiOutlineSave, AiOutlineUpload, AiOutlineClose } from "react-icons/ai";
+import { AiFillFile, AiOutlineClose, AiOutlineSave, AiOutlineUpload } from "react-icons/ai";
 import { BsCheck } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 import Switch from "react-switch";
 import { useNotifications } from "reapop";
-import { useLocation, useRoute } from "wouter";
+import { useRoute } from "wouter";
 import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../helpers/api";
-import { FullSection } from "../general/FullSection";
+import { Section } from "../general/Section";
 import { Button } from "../home/components/Button";
 import { TextField } from "../home/components/TextField";
-import { useEffect } from "react";
 
 export default function NewIdea({ isEditing }) {
   const [_, params] = useRoute("/edit_idea/:idea_id");
-  const [__, navigate] = useLocation();
+  const navigate = useNavigate();
   const { notify } = useNotifications();
   const { user } = useContext(AuthContext);
 
@@ -118,7 +118,7 @@ export default function NewIdea({ isEditing }) {
   }, [isEditing]);
 
   return (
-    <FullSection css={newIdeaStyle}>
+    <Section css={newIdeaStyle} fullHeight>
       <h1>{isEditing ? "Edit idea" : "New idea"}</h1>
       <form onSubmit={isEditing ? editSubmit : crateSubmit} className="form">
         <div className="formContent">
@@ -206,7 +206,7 @@ export default function NewIdea({ isEditing }) {
           )}
         </div>
       </form>
-    </FullSection>
+    </Section>
   );
 }
 

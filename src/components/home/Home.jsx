@@ -2,20 +2,15 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
 import { useEffect, useState } from "react";
-
 import { api } from "../../helpers/api";
-
-import Pagination from "../general/Pagination";
-import Card from "../general/Card";
-import Input from "../general/Input";
-import Loading from "../general/Loading";
-import NoResultsHome from "./NoResultsHome";
 import { IoMdCreate } from "react-icons/io";
-import { FullSection } from "../general/FullSection";
-import { IdeaCard } from "./components/Card";
 import { Grid } from "../general/Grid";
-import { TextField } from "./components/TextField";
+import Pagination from "../general/Pagination";
+import { Section } from "../general/Section";
+import NoResultsHome from "./NoResultsHome";
 import { Button } from "./components/Button";
+import { IdeaCard } from "./components/Card";
+import { TextField } from "./components/TextField";
 
 export default function Home() {
   const [data, setData] = useState(null);
@@ -53,7 +48,7 @@ export default function Home() {
   };
 
   return (
-    <FullSection css={homeStyle}>
+    <Section css={homeStyle} fullHeight>
       <div className="header">
         <h1 className="title">Home</h1>
         <div className="header__actions">
@@ -93,7 +88,7 @@ export default function Home() {
           />
         )}
       </div>
-    </FullSection>
+    </Section>
   );
 }
 
@@ -110,7 +105,7 @@ const homeStyle = {
     "&__actions": {
       display: "flex",
       justifyContent: "end",
-      gap: "1rem",
+      gap: "0.5rem",
     },
     "& > *": {},
   },

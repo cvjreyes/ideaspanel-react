@@ -2,25 +2,24 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
 import { useContext, useEffect, useState } from "react";
-import { useLocation, useRoute } from "wouter";
+import { useRoute } from "wouter";
 
 import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../helpers/api";
 import ButtonWithImage from "../general/ButtonWithImage";
 
-import Card from "../general/Card";
 import { CountdownTimer } from "../general/CountDown";
 import Loading from "../general/Loading";
 
-import thumbsDown from "../../assets/images/thumbs-down.png";
-import Back from "../../assets/images/back.png";
+import { useNavigate } from "react-router-dom";
 import { useNotifications } from "reapop";
-import { FullSection } from "../general/FullSection";
+import Back from "../../assets/images/back.png";
+import { Section } from "../general/Section";
 
 export default function NewComitteeSingleView() {
   const [_, params] = useRoute("/comittee/:idea_id");
   const { user } = useContext(AuthContext);
-  const [__, navigate] = useLocation();
+  const navigate = useNavigate();
   const { notify } = useNotifications();
 
   const [data, setData] = useState(null);
@@ -54,7 +53,7 @@ export default function NewComitteeSingleView() {
 
   if (!data) return <Loading />;
   return (
-    <FullSection css={singleViewStyle}>
+    <Section css={singleViewStyle} fullHeight>
       <div className="top">
         <ButtonWithImage
           src={Back}
@@ -90,7 +89,7 @@ export default function NewComitteeSingleView() {
           </div>
         </div>
       </div>
-    </FullSection>
+    </Section>
   );
 }
 

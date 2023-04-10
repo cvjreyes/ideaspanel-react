@@ -1,11 +1,11 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
-import { useLocation } from "wouter";
+import { useNavigate } from "react-router-dom";
 import { formatDate } from "../../helpers/time";
 
 export default function Card({ item, comittee }) {
-  const [__, navigate] = useLocation();
+  const navigate = useNavigate();
 
   const cardStyle = {
     margin: !comittee ? "0 0 50px" : "30px auto 50px",

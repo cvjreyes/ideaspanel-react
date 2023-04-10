@@ -2,65 +2,43 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
 import { useContext } from "react";
-import { Link, useRoute } from "wouter";
 
-import { AuthContext } from "../../context/AuthContext";
-import LogoutImg from "../../assets/images/logout.png";
+import { AiOutlinePoweroff, AiOutlineUser } from "react-icons/ai";
 import { IoMdCreate } from "react-icons/io";
-import { AiOutlineUser, AiOutlinePoweroff } from "react-icons/ai";
-
+import { Outlet, Link } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
+  
 export default function Navbar() {
   const { user, logout } = useContext(AuthContext);
 
-  const [isHomeActive] = useRoute("/ideas_panel/");
-  const [isComitteeActive] = useRoute("/ideas_panel/comittee");
-  const [isComitteeActive2] = useRoute("/ideas_panel/comittee/manage");
-  const [isNewIdeaActive] = useRoute("/ideas_panel/new_idea");
-  const [isProfileActive] = useRoute("/ideas_panel/profile/:id");
-
   return (
-    <div css={navbarStyle}>
-      <div className="left">
-        <Link
-          to="/ideas_panel/"
-          className={isHomeActive ? "active" : ""}
-          style={{ width: "79px" }}
-        >
-          Home
-        </Link>
-        {user.isComittee ? (
-          <Link
-            to="/ideas_panel/comittee"
-            className={isComitteeActive || isComitteeActive2 ? "active" : ""}
-            style={{ width: "100px" }}
-          >
-            Comittee
+    <div>
+      <div css={navbarStyle}>
+        <div className="left">
+          <Link to="/">Home</Link>
+          {user.isComittee ? (
+            <Link to="/comittee">Comittee</Link>
+          ) : null}
+          <Link to="/new_idea">
+            New Idea
+            <IoMdCreate />
           </Link>
-        ) : null}
-        <Link
-          to="/ideas_panel/new_idea"
-          className={`flexCenter ${isNewIdeaActive ? "active" : ""}`}
-          style={{ width: "120px" }}
-        >
-          New Idea
-          <IoMdCreate />
-        </Link>
+        </div>
+        <div />
+        <div className="profileBox">
+          <Link
+            to={`/profile/${user.id}/Published`}
+            className="flexCenter"
+          >
+            {user.name}
+            <AiOutlineUser />
+          </Link>
+          <button onClick={logout}>
+            <AiOutlinePoweroff />
+          </button>
+        </div>
       </div>
-      <div />
-      <div className="profileBox">
-        <Link
-          to={`/ideas_panel/profile/${user.id}/Published`}
-          className="flexCenter"
-        >
-          {user.name}
-          <AiOutlineUser />
-        </Link>
-        <button onClick={logout}>
-          <AiOutlinePoweroff />
-        </button>
-
-        <img onClick={logout} src={LogoutImg} className="pointer logout" />
-      </div>
+      <Outlet />
     </div>
   );
 }

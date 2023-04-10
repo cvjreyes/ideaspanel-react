@@ -1,13 +1,14 @@
 import React, { useContext, useEffect } from "react";
 import { useNotifications } from "reapop";
-import { useLocation, useRoute } from "wouter";
+import { useRoute } from "wouter";
 
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthContext";
 import { api } from "../../../helpers/api";
 
 export default function CheckLogin() {
   const [match, { user_id, token }] = useRoute("/log_in/:user_id/:token");
-  const [location, navigate] = useLocation();
+  const navigation = useNavigate();
   const { notify } = useNotifications();
   const { login } = useContext(AuthContext);
 

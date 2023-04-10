@@ -2,23 +2,23 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
 import { useContext, useEffect, useState } from "react";
-import { useLocation } from "wouter";
 import { useNotifications } from "reapop";
 
+import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../helpers/api";
 import { colors } from "../../helpers/colors";
-import { AuthContext } from "../../context/AuthContext";
 
-import ButtonWithImage from "../general/ButtonWithImage";
+import { useNavigate } from "react-router-dom";
+import thumbsDown from "../../assets/images/thumbs-down.png";
+import thumbsUp from "../../assets/images/thumbs-up.png";
 import Button from "../general/Button";
+import ButtonWithImage from "../general/ButtonWithImage";
 import Card from "../general/Card";
 import Loading from "../general/Loading";
-import thumbsUp from "../../assets/images/thumbs-up.png";
-import thumbsDown from "../../assets/images/thumbs-down.png";
 
 export default function Comittee() {
   const { user } = useContext(AuthContext);
-  const [__, navigate] = useLocation();
+  const navigate = useNavigate();
   const { notify } = useNotifications();
 
   const [data, setData] = useState(null);

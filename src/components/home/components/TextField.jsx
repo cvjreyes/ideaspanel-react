@@ -14,10 +14,10 @@ const StyledTextField = styled.div({
     backgroundColor: "#F5F5F5",
     fontSize: "1rem",
     border: "1px solid #C3C3C3",
-    borderRadius: "10px",
-    height: "55px",
+    borderRadius: "5px",
+    height: "45px",
     outline: "unset",
-    padding: "1.2rem 1rem 0",
+    padding: "0.9rem 1rem 0",
     caretColor: "#7E7E7E",
     width: "100%",
     "&:hover":{
@@ -37,7 +37,7 @@ const StyledTextField = styled.div({
   label: {
     position: "absolute",
     fontSize: "1rem",
-    top: "31px",
+    top: "50%",
     left: "1.2em",
     transform: "translateY(-50%)",
     transition: "ease 300ms top, ease 300ms font-size",
@@ -49,8 +49,8 @@ const StyledTextField = styled.div({
   },
   "input:not(:placeholder-shown) + label, input:focus + label, textarea:not(:placeholder-shown) + label, textarea:focus + label":
     {
-      top: "14px",
-      fontSize: "0.75rem",
+      top: "10px",
+      fontSize: "0.65rem",
     },
   "&:focus-within": {
     zIndex: 100,

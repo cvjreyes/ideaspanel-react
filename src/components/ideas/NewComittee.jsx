@@ -2,21 +2,21 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
 import { useContext, useLayoutEffect, useState } from "react";
-import { Link, useLocation } from "wouter";
+import { Link } from "react-router-dom";
 
 import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../helpers/api";
 
-import ButtonWithImage from "../general/ButtonWithImage";
+import { BsFillGearFill } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
+import { Grid } from "../general/Grid";
 import Loading from "../general/Loading";
+import { Section } from "../general/Section";
 import NoResults from "../home/NoResults";
 import { IdeaCard } from "../home/components/Card";
-import { Grid } from "../general/Grid";
-import { FullSection } from "../general/FullSection";
-import { BsFillGearFill } from "react-icons/bs";
 
 export default function NewComittee() {
-  const [location, navigate] = useLocation();
+  const navigate = useNavigate();
   const { user } = useContext(AuthContext);
 
   const [data, setData] = useState([]);
@@ -28,10 +28,10 @@ export default function NewComittee() {
       setData(body);
     };
     getData();
-  }, [location]);
+  }, []);
 
   return (
-    <FullSection css={comitteeStyle}>
+    <Section css={comitteeStyle} fullHeight>
       <div className="top">
         <h1>Comittee</h1>
         <Link to="/comittee/manage">
@@ -56,7 +56,7 @@ export default function NewComittee() {
           <Loading />
         )}
       </Grid>
-    </FullSection>
+    </Section>
   );
 }
 

@@ -11,6 +11,7 @@ const Button = styled.button({
   gap: "0.4rem",
   alignItems: "center",
   cursor: "pointer",
+  fontSize: "0.85rem",
   transition: "ease 0.3s all",
   "&:hover":{
     backgroundColor: "#154782"

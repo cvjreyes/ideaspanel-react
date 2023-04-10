@@ -2,7 +2,7 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
 import { ProfileInfo } from "../../general/ProfileInfo";
-import { Link } from "wouter";
+import { Link } from "react-router-dom";
 import { BsImage, BsCheck } from "react-icons/bs";
 
 function IdeaCard({ info, navigateTo, comittee }) {
@@ -54,7 +54,7 @@ const ideaCard = {
     color: "#7E7E7E",
   },
   ".content": {
-    padding: "1rem",
+    padding: "1rem"
   },
   ".title": {
     fontSize: "1rem",

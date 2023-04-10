@@ -2,22 +2,22 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
 import { useContext, useEffect, useLayoutEffect, useState } from "react";
-import { useLocation, useRoute } from "wouter";
+import { useRoute } from "wouter";
 
-import { api } from "../../helpers/api";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-import Loading from "../general/Loading";
-import NoResults from "../home/NoResults";
-import SmallCard from "../general/SmallCard";
-import Pagination from "../general/Pagination";
-import { FullSection } from "../general/FullSection";
-import { ProfileInfo } from "../general/ProfileInfo";
+import { api } from "../../helpers/api";
 import { Grid } from "../general/Grid";
+import Loading from "../general/Loading";
+import Pagination from "../general/Pagination";
+import { ProfileInfo } from "../general/ProfileInfo";
+import { Section } from "../general/Section";
+import NoResults from "../home/NoResults";
 import { IdeaCard } from "../home/components/Card";
 
 export default function Profile() {
   const [_, params] = useRoute("/profile/:user_id/:type");
-  const [location, navigate] = useLocation();
+  const navigate = useNavigate();
 
   const { user } = useContext(AuthContext);
 
@@ -52,7 +52,7 @@ export default function Profile() {
     } else {
       navigate("/");
     }
-  }, [location]);
+  }, []);
 
   useEffect(() => {
     profile && getUserIdeas();
@@ -75,10 +75,9 @@ export default function Profile() {
 
   const isCurrentUserAccount = params.user_id == user.id;
 
-
   if (!profile) return <Loading />;
   return (
-    <FullSection>
+    <Section fullHeight>
       <div css={profileStyle}>
         <div className="profileWrapper">
           <ProfileInfo
@@ -135,7 +134,7 @@ export default function Profile() {
           ) : (
             <NoResults />
           )}
-          
+
           {displayData && (
             <Pagination
               currentPage={currentPage}
@@ -147,7 +146,7 @@ export default function Profile() {
           )}
         </div>
       </div>
-    </FullSection>
+    </Section>
   );
 }
 
