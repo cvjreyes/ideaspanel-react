@@ -61,9 +61,6 @@ export default function Home() {
           <Button as="a" href="/new_idea">
             Add new <IoMdCreate />
           </Button>
-          <Button  href="/new_idea" disabled>
-            Add new <IoMdCreate />
-          </Button>
         </div>
       </div>
       {filteredData.length ? (
