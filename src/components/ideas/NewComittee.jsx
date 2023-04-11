@@ -12,8 +12,8 @@ import { useNavigate } from "react-router-dom";
 import { Grid } from "../general/Grid";
 import Loading from "../general/Loading";
 import { Section } from "../general/Section";
-import NoResults from "../home/NoResultsTest";
-import { IdeaCard } from "../home/components/Card";
+import NoResults from "../home/NoResults";
+import { IdeaCard } from "../home/components/IdeaCard";
 
 export default function NewComittee() {
   const navigate = useNavigate();

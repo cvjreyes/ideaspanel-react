@@ -1,12 +1,28 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
-import { ProfileInfo } from "../../general/ProfileInfo";
 import { Link } from "react-router-dom";
 import { BsImage } from "react-icons/bs";
+import { AiOutlineComment, AiOutlineLike } from "react-icons/ai";
+import React from "react";
+import moment from "moment/moment";
 
-function IdeaCard({ idea, navigateTo, comittee }) {
-  const { description, title, image, name, approved, anonymous } = idea;
+import { ProfileInfo } from "../../general/ProfileInfo";
+
+function IdeaCard({ idea, navigateTo, comittee, home }) {
+  const {
+    description,
+    title,
+    image,
+    approved,
+    anonymous,
+    like_count,
+    comment_count,
+    published_at,
+  } = idea;
+
+  let publishedDate = new Date(published_at);
+
   return (
     <Link to={navigateTo} css={ideaCard}>
       <div className="imageContainer">
@@ -19,9 +35,24 @@ function IdeaCard({ idea, navigateTo, comittee }) {
       <div className="content">
         <h3 className="title">{title}</h3>
         <p className="text">{description}</p>
-        {name && <ProfileInfo profile={idea} anonymous={anonymous} />}
+        {home && (
+          <>
+            <div>
+              <AiOutlineLike /> {like_count} <AiOutlineComment />{" "}
+              {comment_count}
+            </div>
+            {moment(publishedDate, "YYYYMMDD").fromNow()}
+            <ProfileInfo profile={idea} anonymous={anonymous} />
+          </>
+        )}
       </div>
-      {comittee && <div className={`statusTag statusTag--${approved ? "approved" : "denied"}`} />}
+      {comittee && (
+        <div
+          className={`statusTag statusTag--${
+            approved === 1 ? "approved" : approved === 0 ? "denied" : ""
+          }`}
+        />
+      )}
     </Link>
   );
 }
@@ -54,7 +85,7 @@ const ideaCard = {
     color: "#7E7E7E",
   },
   ".content": {
-    padding: "1rem"
+    padding: "1rem",
   },
   ".title": {
     fontSize: "1rem",
@@ -77,12 +108,12 @@ const ideaCard = {
     borderLeft: "6rem solid transparent",
     borderBottom: "6rem solid transparent",
   },
-  ".statusTag--approved":{
+  ".statusTag--approved": {
     borderRight: "6rem solid #76A84Ea6",
   },
-  ".statusTag--denied":{
+  ".statusTag--denied": {
     borderRight: "6rem solid #E44545a6",
-  }
+  },
 };
 
 export { IdeaCard };
