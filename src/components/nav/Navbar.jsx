@@ -1,7 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
-import { useContext } from "react";
+import React, { useContext } from "react";
 
 import { AiOutlinePoweroff, AiOutlineUser } from "react-icons/ai";
 import { IoMdCreate } from "react-icons/io";
@@ -12,69 +12,71 @@ export default function Navbar() {
   const { user, logout } = useContext(AuthContext);
 
   return (
-    <div>
+    <>
       <div css={navbarStyle}>
-        <div className="left">
-          <NavLink
-            to="/"
-            style={({ isActive }) => (isActive ? { color: "white" } : null)}
-          >
-            Home
-          </NavLink>
-          {user.isComittee ? (
+        <div className="container">
+          <div className="menu">
             <NavLink
-              to="/comittee"
+              to="/"
               style={({ isActive }) => (isActive ? { color: "white" } : null)}
             >
-              Comittee
+              Home
             </NavLink>
-          ) : null}
-          <NavLink
-            to="/new_idea"
-            style={({ isActive }) => (isActive ? { color: "white" } : null)}
-            className="buttonLink"
-          >
-            New Idea
-            <IoMdCreate />
-          </NavLink>
-        </div>
-        <div />
-        <div className="profileBox">
-          <NavLink to={`/profile/${user.id}/Published`} className="buttonLink">
-            {user.name}
-            <AiOutlineUser />
-          </NavLink>
-          <AiOutlinePoweroff onClick={logout} className="logoutButton" />
+            {user.isComittee ? (
+              <NavLink
+                to="/comittee"
+                style={({ isActive }) => (isActive ? { color: "white" } : null)}
+              >
+                Comittee
+              </NavLink>
+            ) : null}
+            <NavLink
+              to="/new_idea"
+              style={({ isActive }) => (isActive ? { color: "white" } : null)}
+              className="buttonLink"
+            >
+              New Idea
+              <IoMdCreate />
+            </NavLink>
+          </div>
+          <div />
+          <div className="profileBox">
+            <NavLink
+              to={`/profile/${user.id}/Published`}
+              className="buttonLink"
+            >
+              {user.name}
+              <AiOutlineUser />
+            </NavLink>
+            <AiOutlinePoweroff onClick={logout} className="logoutButton" />
+          </div>
         </div>
       </div>
       <Outlet />
-    </div>
+    </>
   );
 }
 
 const navbarStyle = {
   zIndex: 1000,
-  height: "50px",
-  width: "100vw",
+  width: "100%",
   backgroundColor: "#0054B3",
   color: "#C3C3C3",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
-  padding: "0 5vw",
   position: "fixed",
   top: 0,
-  span: {
-    color: "white",
+  ".container":{
+    maxWidth:"100rem",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    height: "50px",
+    padding: " 0 5vw",
+    margin:"auto"
   },
   a: {
     transition: "color 0.2s ease-in-out",
     ":hover": {
       color: "lightgray",
-      img: {
-        filter: "invert(70%)",
-        webkitFilter: "invert(70%)",
-      },
     },
   },
   img: {
@@ -82,7 +84,7 @@ const navbarStyle = {
     width: "30px",
     margin: "0 0 0 .5rem",
   },
-  ".left": {
+  ".menu": {
     display: "flex",
     gap: "1.1rem",
     alignItems: "center",

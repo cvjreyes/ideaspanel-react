@@ -1,14 +1,9 @@
-import styled from '@emotion/styled'
+import styled from "@emotion/styled";
 
 const StyledTextField = styled.div({
   position: "relative",
   width: "100%",
-  overflow:"hidden",
-  textarea: {
-    resize: "none",
-    minHeight: "200px",
-    lineHeight: 2,
-  },
+  overflow: "hidden",
 
   "input, textarea": {
     backgroundColor: "#F5F5F5",
@@ -20,14 +15,11 @@ const StyledTextField = styled.div({
     padding: "0.9rem 1rem 0",
     caretColor: "#7E7E7E",
     width: "100%",
-    "&:hover":{
+    "&:hover": {
       borderColor: "#7E7E7E",
     },
     "&:focus": {
       borderColor: "#155AAA",
-      label:{
-        color:"#155AAA"
-      }
     },
     "&[aria-errormessage]": {
       borderColor: "#E44545",
@@ -47,13 +39,25 @@ const StyledTextField = styled.div({
     color: "#C3C3C3",
     cursor: "text",
   },
+  "&:has(textarea) label":{
+    top:"25px"
+  },
+  textarea: {
+    resize: "none",
+    minHeight: "200px",
+    lineHeight: 2,
+    label: {
+      top:"10px"
+    }
+  },
   "input:required + label::after, textarea:required + label::after,": {
     content: '" *"',
   },
   "input:not(:placeholder-shown) + label, input:focus + label, textarea:not(:placeholder-shown) + label, textarea:focus + label":
     {
-      top: "10px",
-      fontSize: "0.65rem",
+      top: "12px",
+      fontSize: "0.68rem",
+      color:"#155AAA"
     },
 });
 

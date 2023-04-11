@@ -10,6 +10,15 @@ const variants = {
     "& svg": {
       color: "white",
     },
+    "&:disabled":{
+      cursor:"default",
+      color:"#7E7E7E",
+      backgroundColor:"#C3C3C3",
+      "& svg": {
+        color: "white",
+        color:"#7E7E7E",
+      },
+    },
   },
   outlined:{
     border: "1px solid #1E75DB",
@@ -20,6 +29,15 @@ const variants = {
     },
     "& svg": {
       color: "#154782",
+    },
+    "&:disabled":{
+      cursor:"default",
+      color:"#7E7E7E",
+      borderColor:"#C3C3C3",
+      "& svg": {
+        color: "white",
+        color:"#7E7E7E",
+      },
     },
   },
 }
