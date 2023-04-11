@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 
-import { Outlet, redirect } from "react-router-dom";
+import { Navigate, Outlet, redirect } from "react-router-dom";
 import Navbar from "../components/nav/Navbar";
 import { AuthContext } from "../context/AuthContext";
 
@@ -12,7 +12,7 @@ const PrivateRoute = () => {
       <Outlet />
     </Navbar>
   ) : (
-    redirect("/ideas_panel/login")
+    <Navigate replace to="/login" />
   );
 };
 
