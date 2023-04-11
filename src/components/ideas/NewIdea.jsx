@@ -3,12 +3,16 @@
 import { jsx } from "@emotion/react";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { AiFillFile, AiOutlineClose, AiOutlineSave, AiOutlineUpload } from "react-icons/ai";
+import {
+  AiFillFile,
+  AiOutlineClose,
+  AiOutlineSave,
+  AiOutlineUpload,
+} from "react-icons/ai";
 import { BsCheck } from "react-icons/bs";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Switch from "react-switch";
 import { useNotifications } from "reapop";
-import { useRoute } from "wouter";
 import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../helpers/api";
 import { Section } from "../general/Section";
@@ -16,7 +20,7 @@ import { Button } from "../home/components/Button";
 import { TextField } from "../home/components/TextField";
 
 export default function NewIdea({ isEditing }) {
-  const [_, params] = useRoute("/edit_idea/:idea_id");
+  const { idea_id } = useParams();
   const navigate = useNavigate();
   const { notify } = useNotifications();
   const { user } = useContext(AuthContext);
@@ -102,7 +106,7 @@ export default function NewIdea({ isEditing }) {
   };
 
   const getIdeaInfo = async () => {
-    const { body } = await api("get", `/ideas/get_info/${params.idea_id}`);
+    const { body } = await api("get", `/ideas/get_info/${idea_id}`);
     setImage(body.image);
     setForm(body);
   };
@@ -152,7 +156,10 @@ export default function NewIdea({ isEditing }) {
           <div className="right">
             {image ? (
               <div className="dropzoneWrapper imgUploaded">
-                <AiOutlineClose className="close" onClick={()=> setImage(null)}/>
+                <AiOutlineClose
+                  className="close"
+                  onClick={() => setImage(null)}
+                />
                 <AiFillFile className="icon" />
                 <div className="text">
                   <p>Image Uploaded</p>
@@ -197,7 +204,7 @@ export default function NewIdea({ isEditing }) {
               <Button>
                 Save <AiOutlineSave />
               </Button>
-              <Button onClick={(e)=>editSubmit(e, 1)}>
+              <Button onClick={(e) => editSubmit(e, 1)}>
                 Publish <AiOutlineSave />
               </Button>
             </>
@@ -268,13 +275,13 @@ const newIdeaStyle = {
           fontSize: "1.4rem",
         },
       },
-      ".close":{
+      ".close": {
         cursor: "pointer",
         position: "absolute",
         top: "1rem",
         right: "1rem",
-        color: "#7E7E7E"
-      }
+        color: "#7E7E7E",
+      },
     },
     ".small": { marginTop: "5px" },
     ".checkboxContainer": {

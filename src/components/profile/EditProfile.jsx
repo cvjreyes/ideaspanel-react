@@ -2,18 +2,17 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
 import { useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useRoute } from "wouter";
+import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function EditProfile() {
-  const [_, params] = useRoute("/profile/edit_profile/:user_id");
+  const { user_id } = useParams();
   const navigate = useNavigate();
 
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
-    if (params.user_id != user.id) navigate("/");
+    if (user_id != user.id) navigate("/");
   }, []);
 
   return (

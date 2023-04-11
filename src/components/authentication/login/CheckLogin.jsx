@@ -6,8 +6,7 @@ import { AuthContext } from "../../../context/AuthContext";
 import { api } from "../../../helpers/api";
 
 export default function CheckLogin() {
-  const {user_id, token} = useParams();
-  console.log(user_id, token)
+  const { user_id, token } = useParams();
   const navigate = useNavigate();
   const { notify } = useNotifications();
   const { login } = useContext(AuthContext);

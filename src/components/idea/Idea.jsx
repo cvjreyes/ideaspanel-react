@@ -3,7 +3,6 @@
 import { jsx, keyframes } from "@emotion/react";
 import React, { useContext, useEffect, useState } from "react";
 import { useNotifications } from "reapop";
-import { useRoute } from "wouter";
 
 import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../helpers/api";

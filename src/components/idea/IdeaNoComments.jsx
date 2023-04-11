@@ -2,14 +2,13 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
 import { useContext, useEffect, useState } from "react";
-import { useRoute } from "wouter";
 
-import { useNavigation } from "react-router-dom";
+import { useNavigation, useParams } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../helpers/api";
 
 export default function Idea() {
-  const [_, params] = useRoute("/read_only/:idea_id");
+  const {idea_id} = useParams();
   const navigate = useNavigation();
 
   const { user } = useContext(AuthContext);
@@ -22,7 +21,7 @@ export default function Idea() {
 
   useEffect(() => {
     const getIdeaInfo = async () => {
-      const { body } = await api("get", `/ideas/get_info/${params.idea_id}`);
+      const { body } = await api("get", `/ideas/get_info/${idea_id}`);
       if (body.user_id != user.id || body.published || body.draft)
         return navigate("/");
       setIdea(body);
