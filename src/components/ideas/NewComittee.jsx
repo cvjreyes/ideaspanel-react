@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { Grid } from "../general/Grid";
 import Loading from "../general/Loading";
 import { Section } from "../general/Section";
-import NoResults from "../home/NoResults";
+import NoResults from "../home/NoResultsTest";
 import { IdeaCard } from "../home/components/Card";
 
 export default function NewComittee() {

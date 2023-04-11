@@ -3,17 +3,16 @@
 import { jsx } from "@emotion/react";
 import { useContext, useEffect, useState } from "react";
 import { useNotifications } from "reapop";
-
 import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../helpers/api";
-
 import { useNavigate } from "react-router-dom";
 import Back from "../../assets/images/back.png";
 import ButtonWithImage from "../general/ButtonWithImage";
 import Checkbox from "../general/Checkbox";
 import Input from "../general/Input";
 import Loading from "../general/Loading";
-import NoResults from "../home/NoResults";
+import { Section } from "../general/Section";
+import NoResults from "../home/NoResultsTest";
 
 export default function ManageComittee() {
   const [users, setUsers] = useState(null);
@@ -75,15 +74,10 @@ export default function ManageComittee() {
   };
 
   return (
-    <FullSection css={manageComitteeStyle}>
+    <Section css={manageComitteeStyle} fullHeight>
       <div>
         <div className="topManageBox">
-          <ButtonWithImage
-            src={Back}
-            onClick={() => navigate("/comittee")}
-            className="back_btn"
-          />
-          <h1 className="page_title">Manage Comittee</h1>
+          <h1>Manage Comittee</h1>
           <div />
         </div>
         <div>
@@ -141,7 +135,7 @@ export default function ManageComittee() {
           </div>
         </div>
       </div>
-    </FullSection>
+    </Section>
   );
 }
 

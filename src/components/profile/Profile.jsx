@@ -11,7 +11,7 @@ import Loading from "../general/Loading";
 import Pagination from "../general/Pagination";
 import { ProfileInfo } from "../general/ProfileInfo";
 import { Section } from "../general/Section";
-import NoResults from "../home/NoResults";
+import NoResults from "../home/NoResultsTest";
 import { IdeaCard } from "../home/components/Card";
 
 export default function Profile() {

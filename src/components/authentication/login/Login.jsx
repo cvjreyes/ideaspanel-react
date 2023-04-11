@@ -5,9 +5,11 @@ import { useState } from "react";
 import { useNotifications } from "reapop";
 
 import { api } from "../../../helpers/api";
-import Button from "../../general/Button";
 import Input from "../../general/Input";
 import TechnipLogo from "../../../assets/images/technip.png";
+import { Section } from "../../general/Section";
+import { Button } from "../../home/components/Button";
+import { TextField } from "../../home/components/TextField";
 
 export default function Login() {
   const { notify } = useNotifications();
@@ -23,66 +25,51 @@ export default function Login() {
   };
 
   return (
-    <div css={styleLogin}>
-      <img src={TechnipLogo} alt="technip" className="technipLogo" />
+    <Section css={styleLogin} fullHeight>
       <form onSubmit={handleSubmit} className="form">
-        <h1 className="title flexCenter">Ideas Panel</h1>
+        <img src={TechnipLogo} alt="technip" className="technipLogo" />
+        <h1 className="title flexCenter">Ideas panel</h1>
         <div className="inputWrapper">
-          <p>Enter your email:</p>
-          <Input
-            placeholder={"Email..."}
+          <TextField
             id="email"
-            name="email"
             value={email}
             type="email"
-            margin="20px auto 0"
             onChange={(e) => setEmail(e.target.value)}
-            width="100%"
-            textAlign="center"
           />
+          <Button className="button">Login</Button>
         </div>
-        <Button
-          bgColor="linear-gradient(322deg, rgba(0,105,223,1) 0%, rgba(0,112,237,1) 21%, rgba(22,128,247,1) 100%)"
-          bgHover="linear-gradient(180deg, #338DF1 -2.23%, #338DF1 -2.22%, #85BFFF 148.66%)"
-          text={"Login"}
-          color={"white"}
-          width="120px"
-          margin="100px 0 0"
-          border={"1px solid black"}
-        />
       </form>
-    </div>
+    </Section>
   );
 }
 
 const styleLogin = {
-  height: "100vh",
-  display: "flex",
-  flexDirection: "column",
   justifyContent: "center",
+  backgroundColor:"#E3EBF5",
   alignItems: "center",
-  textAlign: "center",
   ".technipLogo": {
-    position: "absolute",
-    top: "80px",
-    left: "100px",
     width: "140px",
+    display:"block",
+    marginInline:"auto",
+    marginBottom:"1rem"
   },
   ".form": {
+    minWidth:"30rem",
     borderRadius: "10px",
-    border: "1px solid black",
-    padding: "100px",
-    background: "linear-gradient(300deg, #e6e6e6, #ffffff)",
-    width: "700px",
-    height: "60vh",
+    border: "1px solid #C3C3C3",
+    padding: "2.5rem",
+    backgroundColor:"#F7F7F7",
     ".title": {
       fontSize: "30px",
-      margin: "0 0 20px 0",
+      marginBottom:"3rem"
     },
-    ".inputWrapper": {
-      textAlign: "left",
-      margin: "100px auto 0",
-      width: "80%",
+    ".inputWrapper":{
+      display: "flex",
+      gap:"0.7rem",
+      flexDirection:"column"
     },
+    ".button":{
+      width:"100%"
+    }
   },
 };
