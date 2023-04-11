@@ -13,7 +13,7 @@ import { Grid } from "../general/Grid";
 import Loading from "../general/Loading";
 import { Section } from "../general/Section";
 import NoResults from "../home/NoResults";
-import { IdeaCard } from "../home/components/Card";
+import { IdeaCard } from "../home/components/IdeaCard";
 
 export default function NewComittee() {
   const navigate = useNavigate();

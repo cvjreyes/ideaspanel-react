@@ -12,7 +12,7 @@ import Pagination from "../general/Pagination";
 import { ProfileInfo } from "../general/ProfileInfo";
 import { Section } from "../general/Section";
 import NoResults from "../home/NoResults";
-import { IdeaCard } from "../home/components/Card";
+import { IdeaCard } from "../home/components/IdeaCard";
 
 export default function Profile() {
   const { user_id, type } = useParams();
