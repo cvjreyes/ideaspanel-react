@@ -26,7 +26,7 @@ const StyledTextField = styled.div({
     },
     "&:autofill, &:-webkit-autofill": {
       transition: " background-color 9999s ease-in-out 0s",
-      "-webkit-text-fill-color": "#7E7E7E",
+      WebkitTextFillColor: "#7E7E7E",
     },
   },
   label: {
