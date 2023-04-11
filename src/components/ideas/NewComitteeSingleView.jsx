@@ -12,7 +12,6 @@ import Loading from "../general/Loading";
 
 import { useNavigate, useParams } from "react-router-dom";
 import { useNotifications } from "reapop";
-import Back from "../../assets/images/back.png";
 import { Section } from "../general/Section";
 
 export default function NewComitteeSingleView() {

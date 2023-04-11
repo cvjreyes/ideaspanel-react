@@ -58,7 +58,11 @@ export default function Pagination({
                     key={i}
                     ref={i + 1 === currentPage ? currentPageRef : null}
                     onClick={() => setCurrentPage(i + 1)}
-                    style={{ fontWeight: currentPage === i + 1 && "bold" }}
+                    style={{
+                      fontWeight: currentPage === i + 1 && "bold",
+                      color: currentPage === i + 1 && "white",
+                      backgroundColor: currentPage === i + 1 && "#14529A",
+                    }}
                     className="active_page"
                   >
                     {i + 1}
@@ -124,6 +128,8 @@ const paginationStyle = {
     backgroundColor: "unset",
     ":hover": {
       backgroundColor: "#14529A",
+      color: "white",
+      fontWeight: "bold",
     },
     ":focus": {
       outline: "none",
