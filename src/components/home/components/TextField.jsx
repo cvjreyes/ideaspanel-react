@@ -1,9 +1,9 @@
-import styled from '@emotion/styled'
+import styled from "@emotion/styled";
 
 const StyledTextField = styled.div({
   position: "relative",
   width: "100%",
-  overflow:"hidden",
+  overflow: "hidden",
   textarea: {
     resize: "none",
     minHeight: "200px",
@@ -20,21 +20,21 @@ const StyledTextField = styled.div({
     padding: "0.9rem 1rem 0",
     caretColor: "#7E7E7E",
     width: "100%",
-    "&:hover":{
+    "&:hover": {
       borderColor: "#7E7E7E",
     },
     "&:focus": {
       borderColor: "#155AAA",
-      label:{
-        color:"#155AAA"
-      }
+      label: {
+        color: "#155AAA",
+      },
     },
     "&[aria-errormessage]": {
       borderColor: "#E44545",
     },
     "&:autofill, &:-webkit-autofill": {
       transition: " background-color 9999s ease-in-out 0s",
-      "-webkit-text-fill-color": "#7E7E7E",
+      WebkitTextFillColor: "#7E7E7E",
     },
   },
   label: {
