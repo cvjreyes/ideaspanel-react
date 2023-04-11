@@ -11,8 +11,8 @@ import Loading from "../general/Loading";
 import Pagination from "../general/Pagination";
 import { ProfileInfo } from "../general/ProfileInfo";
 import { Section } from "../general/Section";
-import NoResults from "../home/NoResultsTest";
 import { IdeaCard } from "../home/components/Card";
+import NoResults from "../general/NoResults";
 
 export default function Profile() {
   const { user_id, type } = useParams();
