@@ -66,7 +66,7 @@ export default function App() {
             </Route>
             <Route element={<PublicRoute />}>
               <Route path="/login" element={<Login />} />
-              <Route path="/login/:user_id" element={<CheckLogin />} />
+              <Route path="/log_in/:user_id/:token" element={<CheckLogin />} />
             </Route>
             <Route path="*" element={<Navigate replace to="/" />} />
           </Routes>
