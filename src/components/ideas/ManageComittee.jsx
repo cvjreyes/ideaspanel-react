@@ -6,13 +6,11 @@ import { useNotifications } from "reapop";
 import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../helpers/api";
 import { useNavigate } from "react-router-dom";
-import Back from "../../assets/images/back.png";
-import ButtonWithImage from "../general/ButtonWithImage";
 import Checkbox from "../general/Checkbox";
 import Input from "../general/Input";
 import Loading from "../general/Loading";
 import { Section } from "../general/Section";
-import NoResults from "../home/NoResultsTest";
+import NoResults from "../home/NoResults";
 
 export default function ManageComittee() {
   const [users, setUsers] = useState(null);
