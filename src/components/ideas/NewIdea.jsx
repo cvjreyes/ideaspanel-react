@@ -20,7 +20,7 @@ import { Button } from "../home/components/Button";
 import { TextField } from "../home/components/TextField";
 
 export default function NewIdea({ isEditing }) {
-  const { idea_id } = useParams();
+  const { id: idea_id } = useParams();
   const navigate = useNavigate();
   const { notify } = useNotifications();
   const { user } = useContext(AuthContext);
@@ -107,6 +107,8 @@ export default function NewIdea({ isEditing }) {
 
   const getIdeaInfo = async () => {
     const { body } = await api("get", `/ideas/get_info/${idea_id}`);
+    // console.log(body);
+    console.log(idea_id);
     setImage(body.image);
     setForm(body);
   };

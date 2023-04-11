@@ -16,7 +16,7 @@ import Back from "../../assets/images/back.png";
 import { Section } from "../general/Section";
 
 export default function NewComitteeSingleView() {
-  const { idea_id } = useParams();
+  const { id: idea_id } = useParams();
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const { notify } = useNotifications();
