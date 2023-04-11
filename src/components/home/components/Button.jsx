@@ -1,17 +1,30 @@
 import styled from "@emotion/styled";
 
+const variant = {
+  outlined:{
+
+  },
+  contain:{
+
+  },
+  text:{
+    
+  }
+}
 const Button = styled.button({
-  padding: "0.75rem 1.3rem",
-  background: "#155AAA",
-  border: "unset",
-  color: "white",
-  borderRadius: "5px",
   display: "flex",
   flexShrink:0,
   gap: "0.4rem",
   alignItems: "center",
+  padding: "0.85rem 1.3rem",
+  background: "#155AAA",
+  color: "white",
+  fontSize: "0.7rem",
+  fontWeight: 500,
+  textTransform:"uppercase",
+  border: "unset",
+  borderRadius: "5px",
   cursor: "pointer",
-  fontSize: "0.85rem",
   transition: "ease 0.3s all",
   "&:hover":{
     backgroundColor: "#154782"

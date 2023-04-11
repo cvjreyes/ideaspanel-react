@@ -25,6 +25,9 @@ const StyledTextField = styled.div({
     },
     "&:focus": {
       borderColor: "#155AAA",
+      label:{
+        color:"#155AAA"
+      }
     },
     "&[aria-errormessage]": {
       borderColor: "#E44545",
@@ -52,12 +55,6 @@ const StyledTextField = styled.div({
       top: "10px",
       fontSize: "0.65rem",
     },
-  "&:focus-within": {
-    zIndex: 100,
-  },
-  "&:has(input[aria-errormessage]), &:has(textarea[aria-errormessage])": {
-    zIndex: 1,
-  },
 });
 
 function TextField({ label, id, error, textarea, ...props }) {

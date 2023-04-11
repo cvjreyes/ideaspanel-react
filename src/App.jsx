@@ -67,7 +67,7 @@ export default function App() {
               <Route path="/comittee/manage" element={<ManageComittee />} />
               <Route path="/comittee/:id" element={<NewComitteeSingleView />} />
             </Route>
-
+            
             {/* 
             <Route path="/login">
               {() => <PublicRoute component={<Login />} />}

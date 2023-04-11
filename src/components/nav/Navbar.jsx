@@ -7,7 +7,7 @@ import { AiOutlinePoweroff, AiOutlineUser } from "react-icons/ai";
 import { IoMdCreate } from "react-icons/io";
 import { Outlet, Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-  
+
 export default function Navbar() {
   const { user, logout } = useContext(AuthContext);
 
@@ -16,9 +16,7 @@ export default function Navbar() {
       <div css={navbarStyle}>
         <div className="left">
           <Link to="/">Home</Link>
-          {user.isComittee ? (
-            <Link to="/comittee">Comittee</Link>
-          ) : null}
+          {user.isComittee ? <Link to="/comittee">Comittee</Link> : null}
           <Link to="/new_idea">
             New Idea
             <IoMdCreate />
@@ -26,16 +24,11 @@ export default function Navbar() {
         </div>
         <div />
         <div className="profileBox">
-          <Link
-            to={`/profile/${user.id}/Published`}
-            className="flexCenter"
-          >
+          <Link to={`/profile/${user.id}/Published`} >
             {user.name}
             <AiOutlineUser />
           </Link>
-          <button onClick={logout}>
-            <AiOutlinePoweroff />
-          </button>
+          <AiOutlinePoweroff onClick={logout} />
         </div>
       </div>
       <Outlet />
@@ -75,10 +68,12 @@ const navbarStyle = {
   },
   ".left": {
     display: "flex",
+    gap: "1rem",
     alignItems: "center",
   },
   ".profileBox": {
     display: "flex",
+    gap: "1rem",
     alignItems: "center",
     ".logout": {
       height: "25px",
