@@ -1,15 +1,27 @@
 import styled from "@emotion/styled";
 
-const variant = {
+const variants = {
+  contained:{
+    background: "#155AAA",
+    color: "white",
+    "&:hover":{
+      backgroundColor: "#154782"
+    },
+    "& svg": {
+      color: "white",
+    },
+  },
   outlined:{
-
+    border: "1px solid #1E75DB",
+    color:"#155AAA",
+    background:"unset",
+    "&:hover":{
+      borderColor: "#154782"
+    },
+    "& svg": {
+      color: "#154782",
+    },
   },
-  contain:{
-
-  },
-  text:{
-    
-  }
 }
 const Button = styled.button({
   display: "flex",
@@ -17,8 +29,6 @@ const Button = styled.button({
   gap: "0.4rem",
   alignItems: "center",
   padding: "0.85rem 1.3rem",
-  background: "#155AAA",
-  color: "white",
   fontSize: "0.7rem",
   fontWeight: 500,
   textTransform:"uppercase",
@@ -26,12 +36,6 @@ const Button = styled.button({
   borderRadius: "5px",
   cursor: "pointer",
   transition: "ease 0.3s all",
-  "&:hover":{
-    backgroundColor: "#154782"
-  },
-  "& svg": {
-    color: "white",
-  },
-});
+}, ({variant = "contained"}) => variants[variant]);
 
 export { Button };

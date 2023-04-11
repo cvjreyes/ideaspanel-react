@@ -5,7 +5,7 @@ import { useContext } from "react";
 
 import { AiOutlinePoweroff, AiOutlineUser } from "react-icons/ai";
 import { IoMdCreate } from "react-icons/io";
-import { Outlet, Link } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function Navbar() {
@@ -15,20 +15,36 @@ export default function Navbar() {
     <div>
       <div css={navbarStyle}>
         <div className="left">
-          <Link to="/">Home</Link>
-          {user.isComittee ? <Link to="/comittee">Comittee</Link> : null}
-          <Link to="/new_idea">
+          <NavLink
+            to="/"
+            style={({ isActive }) => (isActive ? { color: "white" } : null)}
+          >
+            Home
+          </NavLink>
+          {user.isComittee ? (
+            <NavLink
+              to="/comittee"
+              style={({ isActive }) => (isActive ? { color: "white" } : null)}
+            >
+              Comittee
+            </NavLink>
+          ) : null}
+          <NavLink
+            to="/new_idea"
+            style={({ isActive }) => (isActive ? { color: "white" } : null)}
+            className="buttonLink"
+          >
             New Idea
             <IoMdCreate />
-          </Link>
+          </NavLink>
         </div>
         <div />
         <div className="profileBox">
-          <Link to={`/profile/${user.id}/Published`} >
+          <NavLink to={`/profile/${user.id}/Published`} className="buttonLink">
             {user.name}
             <AiOutlineUser />
-          </Link>
-          <AiOutlinePoweroff onClick={logout} />
+          </NavLink>
+          <AiOutlinePoweroff onClick={logout} className="logoutButton" />
         </div>
       </div>
       <Outlet />
@@ -68,13 +84,14 @@ const navbarStyle = {
   },
   ".left": {
     display: "flex",
-    gap: "1rem",
+    gap: "1.1rem",
     alignItems: "center",
   },
   ".profileBox": {
     display: "flex",
-    gap: "1rem",
+    gap: "1.1rem",
     alignItems: "center",
+    color: "white",
     ".logout": {
       height: "25px",
       width: "25px",
@@ -82,6 +99,17 @@ const navbarStyle = {
       ":hover": {
         filter: "invert(20%)",
       },
+    },
+  },
+  ".buttonLink": {
+    display: "flex",
+    alignItems: "center",
+    gap: "0.4rem",
+  },
+  ".logoutButton": {
+    cursor: "pointer",
+    ":hover": {
+      filter: "invert(20%)",
     },
   },
 };
