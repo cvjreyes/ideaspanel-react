@@ -1,12 +1,11 @@
 import React, { useContext } from "react";
-import { Redirect } from "wouter";
 
 import { AuthContext } from "../context/AuthContext";
-import { Outlet, redirect } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 
 const PublicRoute = () => {
   const { isLoggedIn } = useContext(AuthContext);
-  return !isLoggedIn ? <Outlet /> : redirect("/");
+  return !isLoggedIn ? <Outlet /> : <Navigate replace to="/" />;
 };
 
 export default PublicRoute;

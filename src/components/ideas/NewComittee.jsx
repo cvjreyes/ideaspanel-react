@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../helpers/api";
 
-import { BsFillGearFill } from "react-icons/bs";
+import { AiOutlineSetting } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { Grid } from "../general/Grid";
 import Loading from "../general/Loading";
@@ -35,7 +35,7 @@ export default function NewComittee() {
       <div className="top">
         <h1>Comittee</h1>
         <Link to="/comittee/manage">
-          <BsFillGearFill className="manage_btn" />
+          <AiOutlineSetting className="manage_btn" />
         </Link>
       </div>
       <Grid>
