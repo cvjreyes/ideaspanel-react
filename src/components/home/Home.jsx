@@ -58,7 +58,10 @@ export default function Home() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
 
-          <Button as="a" to="/ideas_panel/new_idea">
+          <Button as="a" href="/new_idea">
+            Add new <IoMdCreate />
+          </Button>
+          <Button  href="/new_idea" disabled>
             Add new <IoMdCreate />
           </Button>
         </div>
