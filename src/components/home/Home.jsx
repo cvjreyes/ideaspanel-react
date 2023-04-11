@@ -67,7 +67,7 @@ export default function Home() {
         <Grid>
           {paginate(filteredIdeas).map((idea) => (
             <IdeaCard
-              info={idea}
+              idea={idea}
               key={idea?.id}
               navigateTo={`/idea/${idea.id}`}
             />

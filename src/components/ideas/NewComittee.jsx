@@ -43,7 +43,7 @@ export default function NewComittee() {
           data.length > 0 ? (
             data.map((idea) => (
               <IdeaCard
-                info={idea}
+                idea={idea}
                 navigateTo={`/comittee/${idea.id}`}
                 comittee
                 key={idea.id}

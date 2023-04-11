@@ -1,12 +1,18 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
-import { useCallback, useContext } from "react";
+import React, { useCallback, useContext } from "react";
 import { useDropzone } from "react-dropzone";
 import { api } from "../../helpers/api";
 import { AuthContext } from "../../context/AuthContext";
+import { AiOutlineUser } from "react-icons/ai";
 
-function ProfileInfo({ profile, isEditable = false, getProfileData }) {
+function ProfileInfo({
+  profile,
+  anonymous,
+  isEditable = false,
+  getProfileData,
+}) {
   const { user, updateUserInfo } = useContext(AuthContext);
   const onDrop = useCallback((files) => {
     files.forEach(async (file) => {
@@ -37,7 +43,15 @@ function ProfileInfo({ profile, isEditable = false, getProfileData }) {
   return (
     <div className="profileBox" css={profileStyle}>
       <div className="profPicWrapper">
-        <img alt="profile" src={profile.profile_pic} className="profile_pic" />
+        {!anonymous ? (
+          <img
+            alt="profile"
+            src={profile.profile_pic}
+            className="profile_pic"
+          />
+        ) : (
+          <AiOutlineUser className="profile_anonymous" />
+        )}
         {isEditable && (
           <img
             className="editIcon pointer"
@@ -49,47 +63,64 @@ function ProfileInfo({ profile, isEditable = false, getProfileData }) {
         )}
       </div>
       <div className="infoProfile">
-        <span>{profile.name}</span>
-        <p>{profile.email}</p>
+        {!anonymous ? (
+          <>
+            <span>{profile.name}</span>
+            <p>{profile.email}</p>
+          </>
+        ) : (
+          <>
+            <span>Anonymous</span>
+          </>
+        )}
       </div>
     </div>
   );
 }
 
 const profileStyle = {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    padding: "0px",
-    gap: "5px",
-    p: { "wordBreak": "break-all" },
-    ".profPicWrapper": {
-      position: "relative",
-      width: "60px",
-      height: "60px",
-      flex: "none",
-      order: "0",
-      flexGrow: "0",
-      ".profile_pic": {
-        borderRadius: "100px",
-        width: "100%",
-        height: "100%",
-        objectFit: "cover"
-      },
-      ".editIcon": {
-        position: "absolute",
-        display: "block !important",
-        backgroundColor: "white",
-        borderRadius: "100px",
-        padding: "5px",
-        right: 0,
-        bottom: 0,
-        width: "25px",
-        ":hover": {
-          backgroundColor: "lightgray",
-        },
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "center",
+  padding: "0px",
+  gap: "5px",
+  p: { wordBreak: "break-all" },
+  ".profPicWrapper": {
+    position: "relative",
+    width: "60px",
+    height: "60px",
+    flex: "none",
+    order: "0",
+    flexGrow: "0",
+    backgroundColor:"#C3C3C3",
+    borderRadius: "100px",
+    overflow:"hidden",
+    display:"flex",
+    justifyContent:"center",
+    alignItems:"center",
+    ".profile_pic": { 
+      width: "100%",
+      height: "100%",
+      objectFit: "cover",
+    },
+    ".profile_anonymous": {
+      fontSize:"1.7rem",
+      color:"#7E7E7E"
+    },
+    ".editIcon": {
+      position: "absolute",
+      display: "block !important",
+      backgroundColor: "white",
+      borderRadius: "100px",
+      padding: "5px",
+      right: 0,
+      bottom: 0,
+      width: "25px",
+      ":hover": {
+        backgroundColor: "lightgray",
       },
     },
+  },
   ".infoProfile": {
     display: "flex",
     flexDirection: "column",

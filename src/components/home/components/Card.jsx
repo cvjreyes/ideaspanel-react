@@ -3,10 +3,10 @@
 import { jsx } from "@emotion/react";
 import { ProfileInfo } from "../../general/ProfileInfo";
 import { Link } from "react-router-dom";
-import { BsImage, BsCheck } from "react-icons/bs";
+import { BsImage } from "react-icons/bs";
 
-function IdeaCard({ info, navigateTo, comittee }) {
-  const { description, title, image, name, approved } = info;
+function IdeaCard({ idea, navigateTo, comittee }) {
+  const { description, title, image, name, approved, anonymous } = idea;
   return (
     <Link to={navigateTo} css={ideaCard}>
       <div className="imageContainer">
@@ -19,7 +19,7 @@ function IdeaCard({ info, navigateTo, comittee }) {
       <div className="content">
         <h3 className="title">{title}</h3>
         <p className="text">{description}</p>
-        {name && <ProfileInfo profile={info} />}
+        {name && <ProfileInfo profile={idea} anonymous={anonymous} />}
       </div>
       {comittee && <div className={`statusTag statusTag--${approved ? "approved" : "denied"}`} />}
     </Link>
