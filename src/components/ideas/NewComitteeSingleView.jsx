@@ -2,7 +2,6 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
 import { useContext, useEffect, useState } from "react";
-import { useRoute } from "wouter";
 
 import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../helpers/api";
@@ -17,7 +16,7 @@ import Back from "../../assets/images/back.png";
 import { Section } from "../general/Section";
 
 export default function NewComitteeSingleView() {
-  const [_, params] = useRoute("/comittee/:idea_id");
+  const { id: idea_id } = useParams();
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const { notify } = useNotifications();
@@ -26,10 +25,7 @@ export default function NewComitteeSingleView() {
   const [validateDate, setValidateDate] = useState(null);
 
   const getData = async () => {
-    const { body } = await api(
-      "get",
-      `/ideas/get_info_and_vote/${params.idea_id}`
-    );
+    const { body } = await api("get", `/ideas/get_info_and_vote/${idea_id}`);
     let sent_to_validate_at = new Date(body.sent_to_validate_at);
     setValidateDate(sent_to_validate_at);
     setData(body);
