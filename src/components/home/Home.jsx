@@ -7,39 +7,39 @@ import { IoMdCreate } from "react-icons/io";
 import { Grid } from "../general/Grid";
 import Pagination from "../general/Pagination";
 import { Section } from "../general/Section";
-import NoResultsHome from "./NoResultsHome";
+import NoResults from "../general/NoResults";
 import { Button } from "./components/Button";
 import { IdeaCard } from "./components/Card";
 import { TextField } from "./components/TextField";
 
 export default function Home() {
-  const [data, setData] = useState(null);
+  const [ideas, setIdeas] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredData, setFilteredData] = useState([]);
+  const [filteredIdeas, setFilteredIdeas] = useState([]);
 
   const itemsPerPage = 8; // o el número de elementos que desee mostrar por página
 
-  const getData = async () => {
+  const getIdeas = async () => {
     const { body } = await api("get", "/ideas/get_some");
-    setData(body);
+    setIdeas(body);
   };
 
   useEffect(() => {
-    getData();
+    getIdeas();
   }, []);
 
   useEffect(() => {
-    if (!data) return; // evitar errores mientras se carga data
-    setFilteredData(
-      data.filter(
+    if (!ideas) return; // evitar errores mientras se carga data
+    setFilteredIdeas(
+      ideas.filter(
         (item) =>
           item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
           item.name.toLowerCase().includes(searchTerm.toLowerCase())
       )
     );
     setCurrentPage(1);
-  }, [data, searchTerm]);
+  }, [ideas, searchTerm]);
 
   const paginate = (array) => {
     const startIndex = (currentPage - 1) * itemsPerPage;
@@ -63,10 +63,9 @@ export default function Home() {
           </Button>
         </div>
       </div>
-      {filteredData.length ? (
+      {filteredIdeas.length ? (
         <Grid>
-          
-          {paginate(filteredData).map((idea) => (
+          {paginate(filteredIdeas).map((idea) => (
             <IdeaCard
               idea={idea}
               key={idea?.id}
@@ -75,15 +74,15 @@ export default function Home() {
           ))}
         </Grid>
       ) : (
-        <NoResultsHome />
+        <NoResults />
       )}
 
       <div className="pagination">
-        {filteredData && (
+        {filteredIdeas && (
           <Pagination
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
-            displayData={filteredData}
+            displayData={filteredIdeas}
             itemsPerPage={itemsPerPage}
             maxPagesToShow={3}
           />
