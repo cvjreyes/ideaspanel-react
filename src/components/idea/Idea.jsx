@@ -15,6 +15,7 @@ import { Section } from "../general/Section";
 import AddCommentSection from "./AddCommentSection";
 import CommentSection from "./CommentSection";
 import NoResults from "../general/NoResults";
+import { BsImage } from "react-icons/bs";
 
 export default function Idea({ readOnly }) {
   let { id: ideaId } = useParams();
@@ -105,7 +106,7 @@ export default function Idea({ readOnly }) {
       <form className="form">
         <div className="left">
           <div className="imageContainer">
-            {idea.image && <img src={idea.image} alt="IdeaImage" />}
+            {idea.image ? <img src={idea.image} alt="IdeaImage" /> : <div><BsImage className="noImage"/></div>}
           </div>
          {!readOnly && <ButtonWithImage
             type="button"
@@ -176,5 +177,17 @@ const ideaStyle = {
       color: "#7E7E7E",
       marginBottom: "1.5rem",
     },
+    ".imageContainer":{
+      backgroundColor:"red",
+      minHeight:"25rem",
+      backgroundColor: "#C3C3C3",
+      display:"flex",
+      alignItems:"center",
+      justifyContent:"center"
+    },
+    ".noImage":{
+      color:"#7E7E7E",
+      fontSize:"6rem"
+    }
   },
 };

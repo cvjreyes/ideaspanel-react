@@ -9,8 +9,8 @@ import Pagination from "../general/Pagination";
 import { Section } from "../general/Section";
 import NoResults from "../general/NoResults";
 import { Button } from "./components/Button";
-import { IdeaCard } from "./components/Card";
 import { TextField } from "./components/TextField";
+import { IdeaCard } from "./components/IdeaCard";
 
 export default function Home() {
   const [ideas, setIdeas] = useState(null);
@@ -68,6 +68,7 @@ export default function Home() {
           {paginate(filteredIdeas).map((idea) => (
             <IdeaCard
               idea={idea}
+              home
               key={idea?.id}
               navigateTo={`/idea/${idea.id}`}
             />
