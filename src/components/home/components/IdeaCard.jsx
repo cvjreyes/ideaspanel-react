@@ -1,11 +1,10 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
-import { Link } from "react-router-dom";
-import { BsImage } from "react-icons/bs";
-import { AiOutlineComment, AiOutlineLike } from "react-icons/ai";
-import React from "react";
 import moment from "moment/moment";
+import { AiOutlineComment, AiOutlineLike } from "react-icons/ai";
+import { BsImage } from "react-icons/bs";
+import { Link, useNavigate } from "react-router-dom";
 
 import { ProfileInfo } from "../../general/ProfileInfo";
 
@@ -19,9 +18,12 @@ function IdeaCard({ idea, navigateTo, comittee, home }) {
     like_count,
     comment_count,
     published_at,
+    user_id
   } = idea;
 
   let publishedDate = new Date(published_at);
+
+  const navigate = useNavigate(9)
 
   return (
     <Link to={navigateTo} css={ideaCard}>
@@ -32,18 +34,29 @@ function IdeaCard({ idea, navigateTo, comittee, home }) {
           <BsImage className="noImage" />
         )}
       </div>
-      <div className="content">
-        <h3 className="title">{title}</h3>
-        <p className="text">{description}</p>
-        {home && (
-          <>
-            <div>
-              <AiOutlineLike /> {like_count} <AiOutlineComment />{" "}
-              {comment_count}
+      <div className="card__content">
+        <header className="card__header">
+          <h3 className="title">{title}</h3>
+          {home && (
+            <div className="card__actions">
+              <div>
+                <AiOutlineLike /> {like_count}
+              </div>
+              <div>
+                <AiOutlineComment /> {comment_count}
+              </div>
             </div>
-            {moment(publishedDate, "YYYYMMDD").fromNow()}
+          )}
+        </header>
+        <p className="text">{description}</p>
+
+        {home && (
+          <Link to={`/profile/${user_id}/Published`} className="profileLink">
             <ProfileInfo profile={idea} anonymous={anonymous} />
-          </>
+            <footer className="card__footer">
+              {moment(publishedDate, "YYYYMMDD").fromNow()}
+            </footer>
+          </Link>
         )}
       </div>
       {comittee && (
@@ -84,12 +97,30 @@ const ideaCard = {
     fontSize: "3rem",
     color: "#7E7E7E",
   },
-  ".content": {
-    padding: "1rem",
+  ".card__content": {
+    padding: "1.1rem",
+    display: "flex",
+    flexDirection: "column",
+    gap: "0.4rem",
+  },
+  ".card__header": {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: "1rem",
+  },
+  ".card__actions": {
+    display: "flex",
+    gap: "0.8rem",
+    fontSize: "1.2rem",
+  },
+  ".card__footer": {
+    color: "#7E7E7E",
+    textAlign: "right",
   },
   ".title": {
-    fontSize: "1rem",
-    marginBottom: "0.3rem",
+    fontSize: "1.2rem",
+    fontWeight: "600",
   },
   ".text": {
     display: "-webkit-box",
@@ -98,6 +129,12 @@ const ideaCard = {
     WebkitBoxOrient: "vertical",
     overflow: "hidden",
     marginBottom: "1rem",
+  },
+  ".profileLink":{
+    transition:"ease 0.3s background-color"
+  },
+  ".profileLink:hover":{
+    backgroundColor: "f9f9f9"
   },
   ".statusTag": {
     position: "absolute",
@@ -117,3 +154,4 @@ const ideaCard = {
 };
 
 export { IdeaCard };
+
