@@ -2,9 +2,8 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
 import { useContext, useEffect, useLayoutEffect, useState } from "react";
-import { useRoute } from "wouter";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../helpers/api";
 import { Grid } from "../general/Grid";
@@ -16,7 +15,7 @@ import NoResults from "../home/NoResults";
 import { IdeaCard } from "../home/components/Card";
 
 export default function Profile() {
-  const [_, params] = useRoute("/profile/:user_id/:type");
+  const { user_id, type } = useParams();
   const navigate = useNavigate();
 
   const { user } = useContext(AuthContext);
@@ -33,21 +32,21 @@ export default function Profile() {
   const selectedOptions = ["Published", "Denied", "Validating", "Drafts"];
 
   const getProfileData = async () => {
-    const { body } = await api("get", `/users/profile/${params.user_id}`);
+    const { body } = await api("get", `/users/profile/${user_id}`);
     setProfile(body);
   };
 
   const getUserIdeas = async () => {
     const { body } = await api(
       "get",
-      `/ideas/get_profile_ideas/${params.user_id}/${params.type}`
+      `/ideas/get_profile_ideas/${user_id}/${type}`
     );
     setDisplayData(body);
     setLengthDisplayData(body.length);
   };
 
   useLayoutEffect(() => {
-    if (params) {
+    if (user_id || type) {
       getProfileData();
     } else {
       navigate("/");
@@ -56,15 +55,14 @@ export default function Profile() {
 
   useEffect(() => {
     profile && getUserIdeas();
-    if (params.user_id != user.id)
-      return navigate(`/profile/${params.user_id}/Published`);
+    if (user_id != user.id) return navigate(`/profile/${user_id}/Published`);
   }, [profile, selectedOption]);
 
   const toggleDropdown = (selected) => {
     setSelectedOption(selected);
     setCurrentPage(1);
     getUserIdeas();
-    navigate(`/profile/${params.user_id}/${selected}`);
+    navigate(`/profile/${user_id}/${selected}`);
   };
 
   const paginate = (array) => {
@@ -73,7 +71,7 @@ export default function Profile() {
     return array.slice(startIndex, endIndex);
   };
 
-  const isCurrentUserAccount = params.user_id == user.id;
+  const isCurrentUserAccount = user_id == user.id;
 
   if (!profile) return <Loading />;
   return (
@@ -95,11 +93,10 @@ export default function Profile() {
                       className="dropdownButton"
                       onClick={() => toggleDropdown(selected)}
                       style={{
-                        backgroundColor: selected === params.type && "#D0DEEE",
-                        fontWeight: selected === params.type && "bold",
-                        color: selected === params.type && "black",
-                        borderRight:
-                          selected === params.type && "2px solid #155AAA",
+                        backgroundColor: selected === type && "#D0DEEE",
+                        fontWeight: selected === type && "bold",
+                        color: selected === type && "black",
+                        borderRight: selected === type && "2px solid #155AAA",
                       }}
                     >
                       {selected}
@@ -117,14 +114,14 @@ export default function Profile() {
 
           {displayData.length > 0 ? (
             <Grid>
-              {params
+              {user_id || type
                 ? paginate(displayData).map((item, i) => {
                     const navigateTo =
-                      params.type === "Denied" || params.type === "Validating"
+                      type === "Denied" || type === "Validating"
                         ? `/read_only/${item.id}`
-                        : params.type === "Published"
+                        : type === "Published"
                         ? `/idea/${item.id}`
-                        : params.type === "Drafts" && `/edit_idea/${item.id}`;
+                        : type === "Drafts" && `/edit_idea/${item.id}`;
                     return (
                       <IdeaCard info={item} navigateTo={navigateTo} key={i} />
                     );
