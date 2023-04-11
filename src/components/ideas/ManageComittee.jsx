@@ -75,90 +75,85 @@ export default function ManageComittee() {
   };
 
   return (
-    <div css={manageComitteeStyle}>
-      <div className="topManageBox">
-        <ButtonWithImage
-          src={Back}
-          onClick={() => navigate("/comittee")}
-          className="back_btn"
-        />
-        <h1 className="page_title">Manage Comittee</h1>
-        <div />
-      </div>
-      <div className="flexCenter">
-        <div className="manageBox">
-          <div className="columnsBox bold">
-            <div className="flexCenter">
-              <Input
-                textAlign="center"
-                width="90%"
-                onChange={(e) => setFilterData(e.target.value)}
-                defaultValue="Search Email"
-                onFocus={(e) => {
-                  e.target.value = "";
-                  setFilterData("");
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === "Escape") {
-                    e.target.value = e.target.defaultValue;
-                    e.target.blur();
+    <FullSection css={manageComitteeStyle}>
+      <div>
+        <div className="topManageBox">
+          <ButtonWithImage
+            src={Back}
+            onClick={() => navigate("/comittee")}
+            className="back_btn"
+          />
+          <h1 className="page_title">Manage Comittee</h1>
+          <div />
+        </div>
+        <div>
+          <div className="manageBox">
+            <div className="header_table bold">
+              <div className="filter_email_box ">
+                <Input
+                  textAlign="center"
+                  onChange={(e) => setFilterData(e.target.value)}
+                  placeholder="Email"
+                  onFocus={(e) => {
+                    e.target.value = "";
                     setFilterData("");
-                  }
-                }}
-              />
-            </div>
-            <div className="flexCenter">Comittee</div>
-          </div>
-          {displayUsers ? (
-            displayUsers.length > 0 ? (
-              <div className="map">
-                {displayUsers.map((item, i) => {
-                  return (
-                    <div className="columnsBox" key={i}>
-                      <div className="email flexCenter">{item.email}</div>
-                      <Checkbox
-                        data={item}
-                        key={i}
-                        checked={!!item.isComittee}
-                        onChange={() =>
-                          onChange(item.email, item.isComittee, item.id)
-                        }
-                        className="checkbox"
-                      />
-                    </div>
-                  );
-                })}
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Escape") {
+                      e.target.value = e.target.defaultValue;
+                      e.target.blur();
+                      setFilterData("");
+                    }
+                  }}
+                  width="100%"
+                />
               </div>
+              <div className="comittee">Is Comittee</div>
+            </div>
+            {displayUsers ? (
+              displayUsers.length > 0 ? (
+                <div className="body_table">
+                  {displayUsers.map((item, i) => {
+                    return (
+                      <div className="rowBox" key={i}>
+                        <div className="email">{item.email}</div>
+                        <div className="checkboxContainer">
+                          <Checkbox
+                            data={item}
+                            key={i}
+                            checked={!!item.isComittee}
+                            onChange={() =>
+                              onChange(item.email, item.isComittee, item.id)
+                            }
+                            className="checkbox"
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <NoResults />
+              )
             ) : (
-              <NoResults />
-            )
-          ) : (
-            <Loading />
-          )}
+              <Loading />
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </FullSection>
   );
 }
 
 const manageComitteeStyle = {
   ".topManageBox": {
-    display: "grid",
-    gridTemplateColumns: "repeat(3, 1fr)",
-    minWidth: "1200px",
-    alignItems: "flex-end",
     marginBottom: "30px",
     ".back_btn": {
-      justifySelf: "flex-end",
-      marginBottom: "-10px",
       width: "50px",
       height: "45px",
       color: "#fff",
       cursor: "pointer",
       transition: "all 0.3s ease",
-      position: "relative",
-      display: "inline-block",
-      outline: "none",
       borderRadius: "5px",
       border: "none",
       background: "#3a86ff",
@@ -174,29 +169,50 @@ const manageComitteeStyle = {
     },
   },
   ".manageBox": {
-    display: "flex",
-    flexDirection: "column",
-    minHeight: "calc(85vh - 200px)",
-    minWidth: "600px",
-    alignItems: "center",
-    margin: "0 20vw",
-    border: "1px solid black",
-    borderRadius: "8px",
-    padding: "20px 10px",
-    backgroundColor: "linear-gradient(145deg, #ffffff, #e4e5da)",
-    boxShadow: "20px 20px 60px #d7d8ce, -5px -5px 15px #ffffff",
-    ".columnsBox": {
-      display: "grid",
-      gridTemplateColumns: "2fr 1fr",
-      height: "50px",
-      width: "100%",
-      ".email": {
-        whiteSpace: "nowrap",
-        minWidth: "400px",
+    background: "#F5F5F5",
+    border: "1px solid #C4C4C4",
+    borderRadius: "10px",
+    ".header_table": {
+      display: "flex",
+      alignItems: "center",
+      borderBottom: "1px solid #C4C4C4",
+      ".filter_email_box": {
+        display: "flex",
+        alignItems: "center",
+        padding: "15px 10px",
+        width: "50%"
+      },
+      ".comittee": {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        borderLeft: "1px solid #C4C4C4",
+        width: "50%"
       },
     },
-    ".map": {
-      width: "100%",
+    ".body_table": {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      ".rowBox": {
+        display: "flex",
+        width: "100%",
+        ".email": {
+          display: "flex",
+          alignItems: "center",
+          padding: "15px 10px",
+          justifyContent: "center",
+          width: "50%",
+          wordBreak: "break-all"
+        },
+        ".checkboxContainer": {
+          width: "50%",
+          display: "flex",
+          alignItems: "center",
+          borderLeft: "1px solid #C4C4C4",
+          justifyContent: "center",
+        },
+      },
     },
   },
 };
