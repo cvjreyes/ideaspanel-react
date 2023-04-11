@@ -50,7 +50,7 @@ export default function NewIdea({ isEditing }) {
     },
   });
 
-  const crateSubmit = async (e) => {
+  const createSubmit = async (e) => {
     e && e.preventDefault();
     if (!form.title || !form.description)
       return notify("Please, fill all fields", "error");
@@ -83,6 +83,7 @@ export default function NewIdea({ isEditing }) {
     e && e.preventDefault();
     if (!form.title || !form.description)
       return notify("Please, fill all fields", "error");
+      // console.log(form);
     const { ok: ok1 } = await api("post", "/ideas/update", {
       form,
       publish,
@@ -98,17 +99,17 @@ export default function NewIdea({ isEditing }) {
       );
       if (!ok2) return notify("Something went wrong", "error");
     }
-    setTimeout(() => {
-      navigate(`/profile/${user.id}/Validating`);
-    }, 3000);
+    if (publish) {
+      setTimeout(() => {
+        navigate(`/profile/${user.id}/Validating`);
+      }, 2000);
+    }
     getIdeaInfo();
     return notify("Idea updated successfully!", "success");
   };
 
   const getIdeaInfo = async () => {
     const { body } = await api("get", `/ideas/get_info/${idea_id}`);
-    // console.log(body);
-    console.log(idea_id);
     setImage(body.image);
     setForm(body);
   };
@@ -126,7 +127,7 @@ export default function NewIdea({ isEditing }) {
   return (
     <Section css={newIdeaStyle} fullHeight>
       <h1>{isEditing ? "Edit idea" : "New idea"}</h1>
-      <form onSubmit={isEditing ? editSubmit : crateSubmit} className="form">
+      <form onSubmit={isEditing ? editSubmit : createSubmit} className="form">
         <div className="formContent">
           <div className="left">
             <TextField
@@ -187,9 +188,9 @@ export default function NewIdea({ isEditing }) {
                       <p key="2">Only accepts .jpg, .jpeg and .png</p>,
                     ]
                   : [
-                      <input {...getInputProps()} key="1" />,
-                      <AiOutlineUpload className="icon" />,
-                      <p key="3" className="">
+                      <input {...getInputProps()}  key="3"/>,
+                      <AiOutlineUpload className="icon" key="4"/>,
+                      <p key="5" className="">
                         Image
                       </p>,
                     ]}
@@ -296,5 +297,8 @@ const newIdeaStyle = {
   ".buttonWrapper": {
     display: "flex",
     justifyContent: "center",
+    button:{
+      margin:"0 20px"
+    }
   },
 };
