@@ -1,64 +1,82 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
-import { useContext } from "react";
+import React, { useContext } from "react";
 
 import { AiOutlinePoweroff, AiOutlineUser } from "react-icons/ai";
 import { IoMdCreate } from "react-icons/io";
-import { Outlet, Link } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function Navbar() {
   const { user, logout } = useContext(AuthContext);
 
   return (
-    <div>
+    <>
       <div css={navbarStyle}>
-        <div className="left">
-          <Link to="/">Home</Link>
-          {user.isComittee ? <Link to="/comittee">Comittee</Link> : null}
-          <Link to="/new_idea">
-            New Idea
-            <IoMdCreate />
-          </Link>
-        </div>
-        <div />
-        <div className="profileBox">
-          <Link to={`/profile/${user.id}/Published`} >
-            {user.name}
-            <AiOutlineUser />
-          </Link>
-          <AiOutlinePoweroff onClick={logout} />
+        <div className="container">
+          <div className="menu">
+            <NavLink
+              to="/"
+              style={({ isActive }) => (isActive ? { color: "white" } : null)}
+            >
+              Home
+            </NavLink>
+            {user.isComittee ? (
+              <NavLink
+                to="/comittee"
+                style={({ isActive }) => (isActive ? { color: "white" } : null)}
+              >
+                Comittee
+              </NavLink>
+            ) : null}
+            <NavLink
+              to="/new_idea"
+              style={({ isActive }) => (isActive ? { color: "white" } : null)}
+              className="buttonLink"
+            >
+              New Idea
+              <IoMdCreate />
+            </NavLink>
+          </div>
+          <div />
+          <div className="profileBox">
+            <NavLink
+              to={`/profile/${user.id}/Published`}
+              className="buttonLink"
+            >
+              {user.name}
+              <AiOutlineUser />
+            </NavLink>
+            <AiOutlinePoweroff onClick={logout} className="logoutButton" />
+          </div>
         </div>
       </div>
       <Outlet />
-    </div>
+    </>
   );
 }
 
 const navbarStyle = {
   zIndex: 1000,
-  height: "50px",
-  width: "100vw",
+  width: "100%",
   backgroundColor: "#0054B3",
   color: "#C3C3C3",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
-  padding: "0 5vw",
   position: "fixed",
   top: 0,
-  span: {
-    color: "white",
+  ".container":{
+    maxWidth:"100rem",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    height: "50px",
+    padding: " 0 5vw",
+    margin:"auto"
   },
   a: {
     transition: "color 0.2s ease-in-out",
     ":hover": {
       color: "lightgray",
-      img: {
-        filter: "invert(70%)",
-        webkitFilter: "invert(70%)",
-      },
     },
   },
   img: {
@@ -66,15 +84,16 @@ const navbarStyle = {
     width: "30px",
     margin: "0 0 0 .5rem",
   },
-  ".left": {
+  ".menu": {
     display: "flex",
-    gap: "1rem",
+    gap: "1.1rem",
     alignItems: "center",
   },
   ".profileBox": {
     display: "flex",
-    gap: "1rem",
+    gap: "1.1rem",
     alignItems: "center",
+    color: "white",
     ".logout": {
       height: "25px",
       width: "25px",
@@ -82,6 +101,17 @@ const navbarStyle = {
       ":hover": {
         filter: "invert(20%)",
       },
+    },
+  },
+  ".buttonLink": {
+    display: "flex",
+    alignItems: "center",
+    gap: "0.4rem",
+  },
+  ".logoutButton": {
+    cursor: "pointer",
+    ":hover": {
+      filter: "invert(20%)",
     },
   },
 };
