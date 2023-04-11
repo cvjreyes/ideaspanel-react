@@ -10,7 +10,7 @@ import {
   AiOutlineUpload,
 } from "react-icons/ai";
 import { BsCheck } from "react-icons/bs";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Switch from "react-switch";
 import { useNotifications } from "reapop";
 import { AuthContext } from "../../context/AuthContext";
