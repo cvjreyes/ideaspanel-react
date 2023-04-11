@@ -115,15 +115,19 @@ export default function Profile() {
           {displayData.length > 0 ? (
             <Grid>
               {user_id || type
-                ? paginate(displayData).map((item, i) => {
+                ? paginate(displayData).map((idea, i) => {
                     const navigateTo =
                       type === "Denied" || type === "Validating"
-                        ? `/read_only/${item.id}`
+                        ? `/read_only/${idea.id}`
                         : type === "Published"
-                        ? `/idea/${item.id}`
-                        : type === "Drafts" && `/edit_idea/${item.id}`;
+                        ? `/idea/${idea.id}`
+                        : type === "Drafts" && `/edit_idea/${idea.id}`;
                     return (
-                      <IdeaCard info={item} navigateTo={navigateTo} key={i} />
+                      <IdeaCard
+                        idea={idea}
+                        navigateTo={navigateTo}
+                        key={i}
+                      />
                     );
                   })
                 : navigate("/")}

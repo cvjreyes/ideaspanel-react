@@ -10,7 +10,7 @@ import ButtonWithImage from "../general/ButtonWithImage";
 import { CountdownTimer } from "../general/CountDown";
 import Loading from "../general/Loading";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useNotifications } from "reapop";
 import Back from "../../assets/images/back.png";
 import { Section } from "../general/Section";

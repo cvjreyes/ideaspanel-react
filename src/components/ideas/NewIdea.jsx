@@ -25,6 +25,9 @@ export default function NewIdea({ isEditing }) {
   const { notify } = useNotifications();
   const { user } = useContext(AuthContext);
 
+  const [titleIsEmpty, setTitleIsEmpty] = useState(false)
+  const [descriptionIsEmpty, setDescriptionIsEmpty] = useState(false)
+
   const [form, setForm] = useState({
     title: "",
     description: "",
@@ -52,8 +55,11 @@ export default function NewIdea({ isEditing }) {
 
   const createSubmit = async (e) => {
     e && e.preventDefault();
-    if (!form.title || !form.description)
+    if (!form.title || !form.description) {
+      setTitleIsEmpty(true)
+      setDescriptionIsEmpty(true)
       return notify("Please, fill all fields", "error");
+    }
     if (form.description.length > 500)
       return notify("Description is too long. Max 500 characters", "error");
 
@@ -79,11 +85,17 @@ export default function NewIdea({ isEditing }) {
       "success"
     );
   };
+
   const editSubmit = async (e, publish = 0) => {
     e && e.preventDefault();
-    if (!form.title || !form.description)
+    if (!form.title || !form.description) {
+      setTitleIsEmpty(true)
+      setDescriptionIsEmpty(true)
       return notify("Please, fill all fields", "error");
-      // console.log(form);
+    }
+    if (form.description.length > 500)
+      return notify("Description is too long. Max 500 characters", "error");
+      
     const { ok: ok1 } = await api("post", "/ideas/update", {
       form,
       publish,
@@ -134,12 +146,14 @@ export default function NewIdea({ isEditing }) {
               id="title"
               value={form.title}
               onChange={({ target }) => handleChange(target.name, target.value)}
+              error={(titleIsEmpty && !form.title) && "Required"}
             />
             <TextField
               textarea
               id="description"
               value={form.description}
               onChange={({ target }) => handleChange(target.name, target.value)}
+              error={(descriptionIsEmpty && !form.description) && "Required"}
             />
             {form.description.length > 700 && (
               <p className="red" style={{ marginTop: ".75rem" }}>
@@ -250,7 +264,7 @@ const newIdeaStyle = {
       justifyContent: "center",
       alignItems: "center",
       padding: "10px",
-      borderRadius: "10px",
+      borderRadius: "5px",
       fontSize: "1rem",
       transition: "all 200ms linear",
       ".icon": {
