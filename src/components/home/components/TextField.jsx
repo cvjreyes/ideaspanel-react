@@ -32,23 +32,20 @@ const StyledTextField = styled.div({
   label: {
     position: "absolute",
     fontSize: "1rem",
-    top: "50%",
+    top: "24px",
     left: "1.2em",
     transform: "translateY(-50%)",
     transition: "ease 300ms top, ease 300ms font-size",
     color: "#C3C3C3",
     cursor: "text",
   },
-  "&:has(textarea) label":{
-    top:"25px"
-  },
   textarea: {
     resize: "none",
     minHeight: "200px",
     lineHeight: 2,
     label: {
-      top:"10px"
-    }
+      top: "10px",
+    },
   },
   "input:required + label::after, textarea:required + label::after,": {
     content: '" *"',
@@ -57,7 +54,7 @@ const StyledTextField = styled.div({
     {
       top: "12px",
       fontSize: "0.68rem",
-      color:"#155AAA"
+      color: "#155AAA",
     },
 });
 
@@ -85,7 +82,7 @@ function TextField({ label, id, error, textarea, ...props }) {
         )}
 
         <label htmlFor={id}>{label || id}</label>
-        {error ? <ErrorMessage id={errorId} error={error.message} /> : null}
+        {error ? <p style={{color: "#E44545", fontSize:"0.8rem", marginTop: "0.2rem"}}>{error}</p> : null}
       </StyledTextField>
     </>
   );
