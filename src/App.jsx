@@ -5,7 +5,7 @@ import NotificationsSystem, {
   useNotifications,
 } from "reapop";
 import { ErrorBoundary } from "react-error-boundary";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import PublicRoute from "./router/PublicRoute";
 import PrivateRoute from "./router/PrivateRoute";
@@ -15,11 +15,8 @@ import Login from "./components/authentication/login/Login";
 import CheckLogin from "./components/authentication/login/CheckLogin";
 import Profile from "./components/profile/Profile";
 import NewIdea from "./components/ideas/NewIdea";
-import Footer from "./components/nav/Footer";
-import Comittee from "./components/ideas/Comittee";
 import ManageComittee from "./components/ideas/ManageComittee";
 import Idea from "./components/idea/Idea";
-import IdeaNoComments from "./components/idea/IdeaNoComments";
 import EditProfile from "./components/profile/EditProfile";
 import NewComittee from "./components/ideas/NewComittee";
 import NewComitteeSingleView from "./components/ideas/NewComitteeSingleView";
@@ -52,7 +49,7 @@ export default function App() {
         />
         <BrowserRouter>
           <Routes>
-            <Route element={<PrivateRoute />}>
+            <Route basename="/ideas_panel" element={<PrivateRoute />}>
               <Route path="/" element={<Home />} />
               <Route path="/idea/:id" element={<Idea />} />
               <Route path="/read_only/:id" element={<Idea readOnly />} />
@@ -67,15 +64,11 @@ export default function App() {
               <Route path="/comittee/manage" element={<ManageComittee />} />
               <Route path="/comittee/:id" element={<NewComitteeSingleView />} />
             </Route>
-            
-            {/* 
-            <Route path="/login">
-              {() => <PublicRoute component={<Login />} />}
+            <Route element={<PublicRoute />}>
+              <Route path="/login" element={<Login />} />
+              <Route path="/login/:user_id" element={<CheckLogin />} />
             </Route>
-            <Route path="/log_in/:user_id/:token">
-              {() => <PublicRoute component={<CheckLogin />} />}
-            </Route>
-            <Route>{() => <Redirect to="/" />}</Route> */}
+            <Route path="*" element={<Navigate replace to="/" />} />
           </Routes>
         </BrowserRouter>
       </AuthProvider>
