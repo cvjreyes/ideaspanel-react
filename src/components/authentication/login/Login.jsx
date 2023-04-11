@@ -8,8 +8,8 @@ import { api } from "../../../helpers/api";
 import Input from "../../general/Input";
 import TechnipLogo from "../../../assets/images/technip.png";
 import { Section } from "../../general/Section";
-import { Button } from "../../home/components/Button";
-import { TextField } from "../../home/components/TextField";
+import { Button } from "../../general/Button";
+import { TextField } from "../../general/TextField";
 
 export default function Login() {
   const { notify } = useNotifications();

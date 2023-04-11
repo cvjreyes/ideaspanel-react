@@ -6,7 +6,7 @@ import { AiOutlineComment, AiOutlineLike } from "react-icons/ai";
 import { BsImage } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
 
-import { ProfileInfo } from "../../general/ProfileInfo";
+import { ProfileInfo } from "./ProfileInfo";
 
 function IdeaCard({ idea, navigateTo, comittee, home }) {
   const {

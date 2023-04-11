@@ -16,8 +16,8 @@ import { useNotifications } from "reapop";
 import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../helpers/api";
 import { Section } from "../general/Section";
-import { Button } from "../home/components/Button";
-import { TextField } from "../home/components/TextField";
+import { Button } from "../general/Button";
+import { TextField } from "../general/TextField";
 
 export default function NewIdea({ isEditing }) {
   const { id: idea_id } = useParams();

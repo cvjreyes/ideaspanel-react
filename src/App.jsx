@@ -56,10 +56,10 @@ export default function App() {
               <Route path="/edit_idea/:id" element={<NewIdea isEditing />} />
               <Route path="/new_idea" element={<NewIdea />} />
               <Route path="/profile/:user_id/:type" element={<Profile />} />
-              <Route
+             {/*  <Route
                 path="/profile/edit_profile/:user_id"
                 element={<EditProfile />}
-              />
+              /> */}
               <Route path="/comittee" element={<NewComittee />} />
               <Route path="/comittee/manage" element={<ManageComittee />} />
               <Route path="/comittee/:id" element={<NewComitteeSingleView />} />
