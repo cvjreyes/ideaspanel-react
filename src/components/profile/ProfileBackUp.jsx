@@ -8,19 +8,20 @@ import {
   useLayoutEffect,
   useState,
 } from "react";
-import { useLocation, useRoute } from "wouter";
 import { useDropzone } from "react-dropzone";
+import { useRoute } from "wouter";
 
-import { api } from "../../helpers/api";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import { api } from "../../helpers/api";
 import Loading from "../general/Loading";
-import NoResults from "../home/NoResults";
-import SmallCard from "../general/SmallCard";
 import Pagination from "../general/Pagination";
+import SmallCard from "../general/SmallCard";
+import NoResults from "../home/NoResults";
 
 export default function ProfileBackUp() {
   const [_, params] = useRoute("/profile/:user_id/:type");
-  const [location, navigate] = useLocation();
+  const navigate = useNavigate();
 
   const { user, updateUserInfo } = useContext(AuthContext);
 
@@ -56,7 +57,7 @@ export default function ProfileBackUp() {
     } else {
       navigate("/");
     }
-  }, [location]);
+  }, []);
 
   useEffect(() => {
     profile && getUserIdeas();

@@ -1,20 +1,23 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { useCallback, useContext, useState } from "react";
+import { AiFillFile, AiOutlineClose, AiOutlineSave, AiOutlineUpload } from "react-icons/ai";
+import { BsCheck } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 import Switch from "react-switch";
-import { useLocation } from "wouter";
 import { useNotifications } from "reapop";
-import { api } from "../../helpers/api";
+import { useRoute } from "wouter";
 import { AuthContext } from "../../context/AuthContext";
-import { TextField } from "../home/components/TextField";
-import { FullSection } from "../general/FullSection";
+import { api } from "../../helpers/api";
+import { Section } from "../general/Section";
 import { Button } from "../home/components/Button";
-import { AiOutlineUpload, AiFillFile } from "react-icons/ai";
+import { TextField } from "../home/components/TextField";
 
-export default function NewPost() {
-  const [__, navigate] = useLocation();
+export default function NewIdea({ isEditing }) {
+  const [_, params] = useRoute("/edit_idea/:idea_id");
+  const navigate = useNavigate();
   const { notify } = useNotifications();
   const { user } = useContext(AuthContext);
 
@@ -43,12 +46,13 @@ export default function NewPost() {
     },
   });
 
-  const submit = async (e) => {
+  const crateSubmit = async (e) => {
     e && e.preventDefault();
     if (!form.title || !form.description)
       return notify("Please, fill all fields", "error");
     if (form.description.length > 500)
       return notify("Description is too long. Max 500 characters", "error");
+
     const { ok: ok1, body: insertId } = await api("post", "/ideas/upload", {
       form,
     });
@@ -71,11 +75,52 @@ export default function NewPost() {
       "success"
     );
   };
+  const editSubmit = async (e, publish = 0) => {
+    e && e.preventDefault();
+    if (!form.title || !form.description)
+      return notify("Please, fill all fields", "error");
+    const { ok: ok1 } = await api("post", "/ideas/update", {
+      form,
+      publish,
+    });
+    if (!ok1) return notify("Something went wrong", "error");
+    if (image?.name) {
+      const formData = new FormData();
+      formData.append("file", image);
+      const { ok: ok2 } = await api(
+        "post",
+        `/ideas/upload_image/${form.id}`,
+        formData
+      );
+      if (!ok2) return notify("Something went wrong", "error");
+    }
+    setTimeout(() => {
+      navigate(`/profile/${user.id}/Validating`);
+    }, 3000);
+    getIdeaInfo();
+    return notify("Idea updated successfully!", "success");
+  };
+
+  const getIdeaInfo = async () => {
+    const { body } = await api("get", `/ideas/get_info/${params.idea_id}`);
+    setImage(body.image);
+    setForm(body);
+  };
+
+  useEffect(() => {
+    setForm({
+      title: "",
+      description: "",
+      anonymous: false,
+    });
+    setImage(null);
+    if (isEditing) getIdeaInfo();
+  }, [isEditing]);
 
   return (
-    <FullSection css={newIdeaStyle}>
-      <h1>New Idea</h1>
-      <form onSubmit={submit} className="form">
+    <Section css={newIdeaStyle} fullHeight>
+      <h1>{isEditing ? "Edit idea" : "New idea"}</h1>
+      <form onSubmit={isEditing ? editSubmit : crateSubmit} className="form">
         <div className="formContent">
           <div className="left">
             <TextField
@@ -107,10 +152,18 @@ export default function NewPost() {
           <div className="right">
             {image ? (
               <div className="dropzoneWrapper imgUploaded">
+                <AiOutlineClose className="close" onClick={()=> setImage(null)}/>
                 <AiFillFile className="icon" />
-                <p>Image Uploaded ✔</p>
+                <div className="text">
+                  <p>Image Uploaded</p>
+                  <BsCheck />
+                </div>
                 <p>
-                  '{image.name}' {(image.size / (1024 * 1024)).toFixed(2)}MB
+                  {!image.name
+                    ? image.split("-").slice(1).join("-")
+                    : `${image.name} ${(image.size / (1024 * 1024)).toFixed(
+                        2
+                      )}MB`}
                 </p>
               </div>
             ) : (
@@ -139,10 +192,21 @@ export default function NewPost() {
         </div>
 
         <div className="buttonWrapper">
-          <Button>Create new idea</Button>
+          {isEditing ? (
+            <>
+              <Button>
+                Save <AiOutlineSave />
+              </Button>
+              <Button onClick={(e)=>editSubmit(e, 1)}>
+                Publish <AiOutlineSave />
+              </Button>
+            </>
+          ) : (
+            <Button>Create new idea</Button>
+          )}
         </div>
       </form>
-    </FullSection>
+    </Section>
   );
 }
 
@@ -192,9 +256,25 @@ const newIdeaStyle = {
       },
     },
     ".imgUploaded": {
+      position: "relative",
       color: "#155AAA",
       borderColor: "#155AAA",
       backgroundColor: "#E3EBF5",
+      ".text": {
+        display: "flex",
+        alignItems: "center",
+        gap: "0.4rem",
+        svg: {
+          fontSize: "1.4rem",
+        },
+      },
+      ".close":{
+        cursor: "pointer",
+        position: "absolute",
+        top: "1rem",
+        right: "1rem",
+        color: "#7E7E7E"
+      }
     },
     ".small": { marginTop: "5px" },
     ".checkboxContainer": {
@@ -204,8 +284,8 @@ const newIdeaStyle = {
       gap: "0.5rem",
     },
   },
-  ".buttonWrapper":{
-    display:"flex",
-    justifyContent:"center"
-  }
+  ".buttonWrapper": {
+    display: "flex",
+    justifyContent: "center",
+  },
 };
