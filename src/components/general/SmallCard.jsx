@@ -1,10 +1,10 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
-import { useLocation } from "wouter";
+import { useNavigate } from "react-router-dom";
 
 export default function SmallCard({ item, navigateTo }) {
-  const [__, navigate] = useLocation();
+  const navigation = useNavigate();
 
   const createdDate = new Date(item.created_at);
   const displayDate =

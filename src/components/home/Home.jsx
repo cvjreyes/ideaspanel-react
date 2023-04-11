@@ -2,18 +2,15 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
 import { useEffect, useState } from "react";
-
 import { api } from "../../helpers/api";
-
-import Pagination from "../general/Pagination";
-import Card from "../general/Card";
-import Input from "../general/Input";
-import Loading from "../general/Loading";
-import NoResultsHome from "./NoResultsHome";
 import { IoMdCreate } from "react-icons/io";
-import { FullSection } from "../general/FullSection";
-import { IdeaCard } from "./components/Card";
 import { Grid } from "../general/Grid";
+import Pagination from "../general/Pagination";
+import { Section } from "../general/Section";
+import NoResultsHome from "./NoResultsHome";
+import { Button } from "./components/Button";
+import { IdeaCard } from "./components/Card";
+import { TextField } from "./components/TextField";
 
 export default function Home() {
   const [data, setData] = useState(null);
@@ -51,57 +48,47 @@ export default function Home() {
   };
 
   return (
-    <FullSection css={homeStyle}>
+    <Section css={homeStyle} fullHeight>
       <div className="header">
         <h1 className="title">Home</h1>
         <div className="header__actions">
-          <input type="text" className="input" />
-          <button className="button">
+          <TextField
+            id="search"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+
+          <Button as="a" to="/ideas_panel/new_idea">
             Add new <IoMdCreate />
-          </button>
+          </Button>
         </div>
       </div>
-      <Grid>
-        {paginate(filteredData).map((idea) => (
-          <IdeaCard info={idea} key={idea?.id} />
-        ))}
-      </Grid>
+      {filteredData.length ? (
+        <Grid>
+          {paginate(filteredData).map((idea) => (
+            <IdeaCard
+              info={idea}
+              key={idea?.id}
+              navigateTo={`/idea/${idea.id}`}
+            />
+          ))}
+        </Grid>
+      ) : (
+        <NoResultsHome />
+      )}
+
       <div className="pagination">
         {filteredData && (
           <Pagination
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
-            displayData={Array(20).fill()}
+            displayData={filteredData}
             itemsPerPage={itemsPerPage}
             maxPagesToShow={3}
           />
         )}
       </div>
-      {/* <h1 className="page_title">Ideas Panel</h1>
-      <div className="search_box">
-        {filteredData && (
-          <Input
-            type="text"
-            placeholder="Search"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        )}
-      </div>
-      <div className="map">
-        {filteredData ? (
-          filteredData.length > 0 ? (
-            paginate(filteredData).map((item, i) => (
-              <Card item={item} key={i} />
-            ))
-          ) : (
-            <NoResultsHome />
-          )
-        ) : (
-          <Loading />
-        )}
-      </div> */}
-    </FullSection>
+    </Section>
   );
 }
 
@@ -118,31 +105,9 @@ const homeStyle = {
     "&__actions": {
       display: "flex",
       justifyContent: "end",
-      gap: "1rem",
-      flex: "0 0 1",
+      gap: "0.5rem",
     },
-    "& > *": {
-      flex: "1",
-    },
-  },
-  ".button": {
-    padding: "0.75rem 1rem",
-    background: "#155AAA",
-    border: "unset",
-    color: "white",
-    borderRadius: "5px",
-    display: "flex",
-    alignItems: "center",
-    "& svg": {
-      marginLeft: "0.5rem",
-      color: "white",
-    },
-  },
-  " .input": {
-    width: "auto",
-    border: "1px solid #C3C3C3",
-    borderRadius: "5px",
-    padding: "1rem",
+    "& > *": {},
   },
   ".pagination": {
     display: "flex",
@@ -162,18 +127,3 @@ const homeStyle = {
     },
   },
 };
-/* const homeStyle = {
-  minHeight: "calc(80vh - 50px)",
-  padding: "0 5vw",
-  ".search_box": {
-    margin: "20px 0 20px 8%",
-  },
-  ".map": {
-    display: "grid",
-    justifyContent: "center",
-    gridTemplateColumns: "repeat(auto-fit, minmax(100px, 320px))",
-    marginTop: "50px",
-    gap: "50px",
-  },
- 
-}; */

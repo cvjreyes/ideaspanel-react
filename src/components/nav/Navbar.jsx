@@ -2,65 +2,36 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
 import { useContext } from "react";
-import { Link, useRoute } from "wouter";
 
+import { AiOutlinePoweroff, AiOutlineUser } from "react-icons/ai";
+import { IoMdCreate } from "react-icons/io";
+import { Outlet, Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-import LogoutImg from "../../assets/images/logout.png";
 
 export default function Navbar() {
   const { user, logout } = useContext(AuthContext);
 
-  const [isHomeActive] = useRoute("/ideas_panel/");
-  const [isComitteeActive] = useRoute("/ideas_panel/comittee");
-  const [isComitteeActive2] = useRoute("/ideas_panel/comittee/manage");
-  const [isNewIdeaActive] = useRoute("/ideas_panel/new_idea");
-  const [isProfileActive] = useRoute("/ideas_panel/profile/:id");
-
   return (
-    <div css={navbarStyle}>
-      <div className="left">
-        <Link
-          to="/ideas_panel/"
-          className={isHomeActive ? "active" : ""}
-          style={{ width: "79px" }}
-        >
-          Home
-        </Link>
-        {user.isComittee ? (
-          <Link
-            to="/ideas_panel/comittee"
-            className={isComitteeActive || isComitteeActive2 ? "active" : ""}
-            style={{ width: "100px" }}
-          >
-            Comittee
+    <div>
+      <div css={navbarStyle}>
+        <div className="left">
+          <Link to="/">Home</Link>
+          {user.isComittee ? <Link to="/comittee">Comittee</Link> : null}
+          <Link to="/new_idea">
+            New Idea
+            <IoMdCreate />
           </Link>
-        ) : null}
-        <Link
-          to="/ideas_panel/new_idea"
-          className={`flexCenter ${isNewIdeaActive ? "active" : ""}`}
-          style={{ width: "120px" }}
-        >
-          New Idea
-          <img
-            alt="new"
-            src="https://img.icons8.com/external-others-amoghdesign/24/null/external-write-multimedia-solid-24px-others-amoghdesign.png"
-            className="invert pointer"
-          />
-        </Link>
+        </div>
+        <div />
+        <div className="profileBox">
+          <Link to={`/profile/${user.id}/Published`} >
+            {user.name}
+            <AiOutlineUser />
+          </Link>
+          <AiOutlinePoweroff onClick={logout} />
+        </div>
       </div>
-      <div />
-      <div className="profileBox">
-        <Link to={`/ideas_panel/profile/${user.id}/Published`} className="flexCenter">
-          {user.name}
-          <img
-            tabIndex={0}
-            className="pointer invert"
-            alt="user"
-            src="https://img.icons8.com/ios-glyphs/30/null/user--v1.png"
-          />
-        </Link>
-        <img onClick={logout} src={LogoutImg} className="pointer logout" />
-      </div>
+      <Outlet />
     </div>
   );
 }
@@ -70,7 +41,7 @@ const navbarStyle = {
   height: "50px",
   width: "100vw",
   backgroundColor: "#0054B3",
-  color: "white",
+  color: "#C3C3C3",
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
@@ -81,7 +52,6 @@ const navbarStyle = {
     color: "white",
   },
   a: {
-    color: "white",
     transition: "color 0.2s ease-in-out",
     ":hover": {
       color: "lightgray",
@@ -98,18 +68,20 @@ const navbarStyle = {
   },
   ".left": {
     display: "flex",
+    gap: "1rem",
     alignItems: "center",
   },
   ".profileBox": {
     display: "flex",
-    alignItems:"center",
+    gap: "1rem",
+    alignItems: "center",
     ".logout": {
-      height:"25px",
-      width:"25px",
-      marginLeft:"20px",
-      ":hover":{
+      height: "25px",
+      width: "25px",
+      marginLeft: "20px",
+      ":hover": {
         filter: "invert(20%)",
-      }
-    }
+      },
+    },
   },
 };

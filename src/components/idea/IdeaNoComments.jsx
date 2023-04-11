@@ -2,14 +2,15 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
 import { useContext, useEffect, useState } from "react";
-import { useLocation, useRoute } from "wouter";
+import { useRoute } from "wouter";
 
-import { api } from "../../helpers/api";
+import { useNavigation } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import { api } from "../../helpers/api";
 
 export default function Idea() {
   const [_, params] = useRoute("/read_only/:idea_id");
-  const [__, navigate] = useLocation();
+  const navigate = useNavigation();
 
   const { user } = useContext(AuthContext);
 

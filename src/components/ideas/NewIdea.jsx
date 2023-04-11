@@ -1,19 +1,23 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { useCallback, useContext, useState } from "react";
+import { AiFillFile, AiOutlineClose, AiOutlineSave, AiOutlineUpload } from "react-icons/ai";
+import { BsCheck } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 import Switch from "react-switch";
-import { useLocation } from "wouter";
 import { useNotifications } from "reapop";
-
-import ButtonWithImage from "../general/ButtonWithImage";
-import saveImg from "../../assets/images/save.svg";
-import { api } from "../../helpers/api";
+import { useRoute } from "wouter";
 import { AuthContext } from "../../context/AuthContext";
+import { api } from "../../helpers/api";
+import { Section } from "../general/Section";
+import { Button } from "../home/components/Button";
+import { TextField } from "../home/components/TextField";
 
-export default function NewPost() {
-  const [__, navigate] = useLocation();
+export default function NewIdea({ isEditing }) {
+  const [_, params] = useRoute("/edit_idea/:idea_id");
+  const navigate = useNavigate();
   const { notify } = useNotifications();
   const { user } = useContext(AuthContext);
 
@@ -42,12 +46,13 @@ export default function NewPost() {
     },
   });
 
-  const submit = async (e) => {
+  const crateSubmit = async (e) => {
     e && e.preventDefault();
     if (!form.title || !form.description)
       return notify("Please, fill all fields", "error");
     if (form.description.length > 500)
       return notify("Description is too long. Max 500 characters", "error");
+
     const { ok: ok1, body: insertId } = await api("post", "/ideas/upload", {
       form,
     });
@@ -70,175 +75,217 @@ export default function NewPost() {
       "success"
     );
   };
+  const editSubmit = async (e, publish = 0) => {
+    e && e.preventDefault();
+    if (!form.title || !form.description)
+      return notify("Please, fill all fields", "error");
+    const { ok: ok1 } = await api("post", "/ideas/update", {
+      form,
+      publish,
+    });
+    if (!ok1) return notify("Something went wrong", "error");
+    if (image?.name) {
+      const formData = new FormData();
+      formData.append("file", image);
+      const { ok: ok2 } = await api(
+        "post",
+        `/ideas/upload_image/${form.id}`,
+        formData
+      );
+      if (!ok2) return notify("Something went wrong", "error");
+    }
+    setTimeout(() => {
+      navigate(`/profile/${user.id}/Validating`);
+    }, 3000);
+    getIdeaInfo();
+    return notify("Idea updated successfully!", "success");
+  };
+
+  const getIdeaInfo = async () => {
+    const { body } = await api("get", `/ideas/get_info/${params.idea_id}`);
+    setImage(body.image);
+    setForm(body);
+  };
+
+  useEffect(() => {
+    setForm({
+      title: "",
+      description: "",
+      anonymous: false,
+    });
+    setImage(null);
+    if (isEditing) getIdeaInfo();
+  }, [isEditing]);
 
   return (
-    <div css={newIdeaStyle}>
-      <h1 className="page_title">New Idea</h1>
-      <form onSubmit={submit}>
-        <div className="left">
-          <input
-            placeholder="Title"
-            value={form.title}
-            name="title"
-            onChange={({ target }) => handleChange(target.name, target.value)}
-          />
-          <textarea
-            placeholder="Describe your idea"
-            value={form.description}
-            name="description"
-            onChange={({ target }) => handleChange(target.name, target.value)}
-          ></textarea>
-          {form.description.length > 700 && (
-            <p className="red" style={{ marginTop: ".75rem" }}>
-              Description is too long. Max 500 characters.
-            </p>
-          )}
-        </div>
-        <div className="right">
-          {image ? (
-            <div className="dropzoneWrapper imgUploaded">
-              <img
-                alt="pic icon"
-                src="https://img.icons8.com/3d-plastilina/69/null/image--v2.png"
-              />
-              <p>Image Uploaded ✔</p>
-              <p>
-                '{image.name}' {(image.size / (1024 * 1024)).toFixed(2)}MB
-              </p>
-            </div>
-          ) : (
-            <div
-              className="dropzoneWrapper imgToUpload pointer"
-              {...getRootProps()}
-              style={{
-                border: `1px dashed ${
-                  isDragReject ? "red" : "rgb(133, 133, 133)"
-                }`,
-              }}
-            >
-              {isDragReject
-                ? [
-                    <img
-                      alt="error"
-                      src="https://img.icons8.com/pastel-glyph/64/null/error-handling.png"
-                      key="1"
-                    />,
-                    <p key="2">Only accepts .jpg, .jpeg and .png</p>,
-                  ]
-                : [
-                    <input {...getInputProps()} key="1" />,
-                    <img
-                      alt="drop"
-                      src="https://img.icons8.com/ios/50/null/downloading-updates.png"
-                      key="2"
-                    />,
-                    <p key="3">Only accepts .jpg, .jpeg and .png</p>,
-                  ]}
-            </div>
-          )}
-          <p className="small">Image area displayed: 350px x 200px</p>
-          <div className="toggleWrapper">
-            <p>Show my name</p>
-            <Switch
-              onChange={(e) => handleChange("anonymous", !e)}
-              checked={!form.anonymous}
+    <Section css={newIdeaStyle} fullHeight>
+      <h1>{isEditing ? "Edit idea" : "New idea"}</h1>
+      <form onSubmit={isEditing ? editSubmit : crateSubmit} className="form">
+        <div className="formContent">
+          <div className="left">
+            <TextField
+              id="title"
+              value={form.title}
+              onChange={({ target }) => handleChange(target.name, target.value)}
             />
+            <TextField
+              textarea
+              id="description"
+              value={form.description}
+              onChange={({ target }) => handleChange(target.name, target.value)}
+            />
+            {form.description.length > 700 && (
+              <p className="red" style={{ marginTop: ".75rem" }}>
+                Description is too long. Max 500 characters.
+              </p>
+            )}
+
+            <div className="checkboxContainer">
+              <p>Anonymous</p>
+              <Switch
+                onChange={(e) => handleChange("anonymous", !e)}
+                checked={!form.anonymous}
+                onColor="#155AAA"
+              />
+            </div>
+          </div>
+          <div className="right">
+            {image ? (
+              <div className="dropzoneWrapper imgUploaded">
+                <AiOutlineClose className="close" onClick={()=> setImage(null)}/>
+                <AiFillFile className="icon" />
+                <div className="text">
+                  <p>Image Uploaded</p>
+                  <BsCheck />
+                </div>
+                <p>
+                  {!image.name
+                    ? image.split("-").slice(1).join("-")
+                    : `${image.name} ${(image.size / (1024 * 1024)).toFixed(
+                        2
+                      )}MB`}
+                </p>
+              </div>
+            ) : (
+              <div className="dropzoneWrapper imgToUpload" {...getRootProps()}>
+                {isDragReject
+                  ? [
+                      <img
+                        alt="error"
+                        src="https://img.icons8.com/pastel-glyph/64/null/error-handling.png"
+                        key="1"
+                      />,
+                      <p key="2">Only accepts .jpg, .jpeg and .png</p>,
+                    ]
+                  : [
+                      <input {...getInputProps()} key="1" />,
+                      <AiOutlineUpload className="icon" />,
+                      <p key="3" className="">
+                        Image
+                      </p>,
+                    ]}
+              </div>
+            )}
+            <p className="small">Image area displayed: 350px x 200px</p>
+            <p className="small">Only accepts .jpg, .jpeg and .png</p>
           </div>
         </div>
+
         <div className="buttonWrapper">
-          <ButtonWithImage
-            text="Save"
-            width="150px"
-            color="white"
-            fontWeight="600"
-            fontSize="16px"
-            textMargin="0 0 0 5px"
-            bgColor="linear-gradient(322deg, rgba(0,105,223,1) 0%, rgba(0,112,237,1) 21%, rgba(22,128,247,1) 100%)"
-            bgHover="linear-gradient(180deg, #338DF1 -2.23%, #338DF1 -2.22%, #85BFFF 148.66%)"
-            // img
-            alt="add"
-            src={saveImg}
-          />
+          {isEditing ? (
+            <>
+              <Button>
+                Save <AiOutlineSave />
+              </Button>
+              <Button onClick={(e)=>editSubmit(e, 1)}>
+                Publish <AiOutlineSave />
+              </Button>
+            </>
+          ) : (
+            <Button>Create new idea</Button>
+          )}
         </div>
       </form>
-    </div>
+    </Section>
   );
 }
 
 const newIdeaStyle = {
-  minHeight: "calc(70vh - 50px)",
-  form: {
-    display: "grid",
-    gridTemplateColumns: "repeat(2, 1fr)",
-    padding: "0 10vw",
-    minHeight: "calc(80vh - 130px)",
-    margin: "50px 0 0",
-    gap: "20px",
+  ".form": {
+    height: "100%",
+  },
+  ".formContent": {
+    display: "flex",
+    gap: "3rem",
+    marginBottom: "3rem",
     ".left": {
       display: "flex",
       flexDirection: "column",
-      input: {
-        border: "1px solid rgb(133, 133, 133)",
-        borderRadius: "8px",
-        padding: "10px",
-      },
-      textarea: {
-        margin: "30px 0 0",
-        borderRadius: "8px",
-        padding: "10px",
-        height: "300px",
-      },
+      gap: "1rem",
+      flex: 1.5,
     },
     ".right": {
-      margin: "0 auto",
       display: "flex",
       flexDirection: "column",
-      ".dropzoneWrapper": {
-        display: "flex",
-        flexDirection: "column",
-        height: "200px",
-        width: "350px",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: "10px",
-        borderRadius: "8px",
-        transition: "all 200ms linear",
-        img: {
-          width: "50px",
-        },
-        p: {
-          fontSize: "12px",
-          marginTop: "20px",
-        },
-      },
-      ".imgToUpload": {
-        ":hover": {
-          backgroundColor: "rgba(225, 234, 248, 0.71)",
-        },
-      },
-      ".imgUploaded": {
-        border: "1px solid rgb(133, 133, 133)",
-      },
-      ".small": { marginTop: "5px" },
-      ".toggleWrapper": {
-        margin: "50px 0 0",
-        display: "flex",
-        alignItems: "center",
-        border: "1px solid rgb(133, 133, 133)",
-        borderRadius: "8px",
-        padding: "20px",
-        width: "fit-content",
-        p: {
-          marginRight: "1rem",
-        },
-      },
+      gap: "1rem",
+      flex: 1,
     },
-    ".buttonWrapper": {
-      gridColumn: "span 2",
+    ".dropzoneWrapper": {
+      border: "1px solid #C3C3C3",
+      backgroundColor: "#F7F7F7",
       display: "flex",
+      gap: "0.3rem",
+      flexDirection: "column",
+      height: "200px",
       justifyContent: "center",
-      alignItems: "flex-start",
-      marginTop: "50px",
+      alignItems: "center",
+      padding: "10px",
+      borderRadius: "10px",
+      fontSize: "1rem",
+      transition: "all 200ms linear",
+      ".icon": {
+        fontSize: "3rem",
+      },
     },
+    ".imgToUpload": {
+      cursor: "pointer",
+      color: "#C3C3C3",
+      "&:hover": {
+        backgroundColor: "#f2f2f2f2",
+        borderColor: "#7E7E7E",
+      },
+    },
+    ".imgUploaded": {
+      position: "relative",
+      color: "#155AAA",
+      borderColor: "#155AAA",
+      backgroundColor: "#E3EBF5",
+      ".text": {
+        display: "flex",
+        alignItems: "center",
+        gap: "0.4rem",
+        svg: {
+          fontSize: "1.4rem",
+        },
+      },
+      ".close":{
+        cursor: "pointer",
+        position: "absolute",
+        top: "1rem",
+        right: "1rem",
+        color: "#7E7E7E"
+      }
+    },
+    ".small": { marginTop: "5px" },
+    ".checkboxContainer": {
+      color: "#7E7E7E",
+      display: "flex",
+      alignItems: "center",
+      gap: "0.5rem",
+    },
+  },
+  ".buttonWrapper": {
+    display: "flex",
+    justifyContent: "center",
   },
 };

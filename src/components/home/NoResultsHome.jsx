@@ -2,10 +2,10 @@
 /** @jsx jsx */
 import { jsx, keyframes } from "@emotion/react";
 import Button from "../general/Button";
-import { useLocation } from "wouter";
+import { useNavigate } from "react-router-dom";
 
 export default function NoResultsHome() {
-  const [__, navigate] = useLocation();
+  const navigate = useNavigate();
 
   return (
     <div css={noResultsStyle}>
@@ -30,6 +30,7 @@ const shake = keyframes`
 `;
 
 const noResultsStyle = {
+  height: "100%",
   textAlign: "center",
   marginTop: "100px",
   fontSize: "20px",

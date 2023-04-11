@@ -2,22 +2,22 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
 import { useContext, useEffect, useLayoutEffect, useState } from "react";
-import { useLocation, useRoute } from "wouter";
+import { useRoute } from "wouter";
 
-import { api } from "../../helpers/api";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-import Loading from "../general/Loading";
-import NoResults from "../home/NoResults";
-import SmallCard from "../general/SmallCard";
-import Pagination from "../general/Pagination";
-import { FullSection } from "../general/FullSection";
-import { ProfileInfo } from "../general/ProfileInfo";
+import { api } from "../../helpers/api";
 import { Grid } from "../general/Grid";
+import Loading from "../general/Loading";
+import Pagination from "../general/Pagination";
+import { ProfileInfo } from "../general/ProfileInfo";
+import { Section } from "../general/Section";
+import NoResults from "../home/NoResults";
 import { IdeaCard } from "../home/components/Card";
 
 export default function Profile() {
   const [_, params] = useRoute("/profile/:user_id/:type");
-  const [location, navigate] = useLocation();
+  const navigate = useNavigate();
 
   const { user } = useContext(AuthContext);
 
@@ -52,7 +52,7 @@ export default function Profile() {
     } else {
       navigate("/");
     }
-  }, [location]);
+  }, []);
 
   useEffect(() => {
     profile && getUserIdeas();
@@ -75,11 +75,9 @@ export default function Profile() {
 
   const isCurrentUserAccount = params.user_id == user.id;
 
-  console.log(displayData)
-
   if (!profile) return <Loading />;
   return (
-    <FullSection >
+    <Section fullHeight>
       <div css={profileStyle}>
         <div className="profileWrapper">
           <ProfileInfo
@@ -137,38 +135,18 @@ export default function Profile() {
             <NoResults />
           )}
 
-          {/*  {displayData.length > 0 ? (
-            <div className="ideasMapWrapper">
-              {params
-                ? paginate(displayData).map((item, i) => {
-                    const navigateTo =
-                      params.type === "Denied" || params.type === "Validating"
-                        ? `/read_only/${item.id}`
-                        : params.type === "Published"
-                        ? `/idea/${item.id}`
-                        : params.type === "Drafts" && `/edit_idea/${item.id}`;
-                    return (
-                      <SmallCard item={item} navigateTo={navigateTo} key={i} />
-                    );
-                  })
-                : navigate("/")}
-            </div>
-          ) : (
-            <NoResults />
-          )} */}
-           {displayData && (
-          <Pagination
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            displayData={displayData}
-            itemsPerPage={itemsPerPage}
-            maxPagesToShow={3}
-          />
-        )}
+          {displayData && (
+            <Pagination
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              displayData={displayData}
+              itemsPerPage={itemsPerPage}
+              maxPagesToShow={3}
+            />
+          )}
         </div>
-       
       </div>
-    </FullSection>
+    </Section>
   );
 }
 
@@ -223,7 +201,7 @@ const profileStyle = {
         background: "transparent",
         border: "0",
         ":hover": {
-          backgroundColor: "#f4f4f4",
+          backgroundColor: "#f2f2f2",
           color: "black",
           borderRight: "1px solid #C4C4C4",
         },
