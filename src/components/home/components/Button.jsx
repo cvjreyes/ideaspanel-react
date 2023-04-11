@@ -42,6 +42,7 @@ const variants = {
   },
 }
 const Button = styled.button({
+  justifyContent:"center",
   display: "flex",
   flexShrink:0,
   gap: "0.4rem",

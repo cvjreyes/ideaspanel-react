@@ -7,14 +7,14 @@ import { useNotifications } from "reapop";
 import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../helpers/api";
 
+import { useParams } from "react-router";
+import ThumbsUpBlue from "../../assets/images/thumbs-up-blue.png";
+import ThumbsUp from "../../assets/images/thumbs-up.png";
 import ButtonWithImage from "../general/ButtonWithImage";
+import { Section } from "../general/Section";
 import AddCommentSection from "./AddCommentSection";
 import CommentSection from "./CommentSection";
-import NoComments from "./NoComments";
-import ThumbsUp from "../../assets/images/thumbs-up.png";
-import ThumbsUpBlue from "../../assets/images/thumbs-up-blue.png";
-import { Section } from "../general/Section";
-import { useParams } from "react-router";
+import NoResults from "../general/NoResults";
 
 export default function Idea({ readOnly }) {
   let { id: ideaId } = useParams();
@@ -137,7 +137,7 @@ export default function Idea({ readOnly }) {
                   handleDeleteComment={handleDeleteComment}
                 />
               ) : (
-                <NoComments />
+                <NoResults />
               )}
             </>
           )}

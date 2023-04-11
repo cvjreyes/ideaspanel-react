@@ -51,11 +51,7 @@ export default function NewComitteeSingleView() {
   return (
     <Section css={singleViewStyle} fullHeight>
       <div className="top">
-        <ButtonWithImage
-          src={Back}
-          onClick={() => navigate("/comittee")}
-          className="back_btn"
-        />
+        <h1>Comitee</h1>
         <CountdownTimer date={data.sent_to_validate_at} />
       </div>
       <div className="box_info_card">
@@ -124,34 +120,8 @@ const VoteWrapper = ({ children, voted }) => {
 
 const singleViewStyle = {
   ".top": {
-    display: "grid",
-    gridTemplateColumns: "repeat(3, 1fr)",
-    alignItems: "flex-end",
-    justifyItems: "center",
-    width: "100vw",
-    ".back_btn": {
-      justifySelf: "flex-end",
-      width: "50px",
-      height: "45px",
-      color: "#fff",
-      cursor: "pointer",
-      transition: "all 0.3s ease",
-      position: "relative",
-      display: "inline-block",
-      outline: "none",
-      borderRadius: "5px",
-      border: "none",
-      background: "#3a86ff",
-      boxShadow: "0 5px #4433ff",
-      ":hover": {
-        boxShadow: "0 3px #4433ff",
-        top: "1px",
-      },
-      ":active": {
-        boxShadow: "0 0 #4433ff",
-        top: "5px",
-      },
-    },
+    display:"flex",
+    justifyContent:"space-between",
   },
   ".box_info_card": {
     display: "flex",
@@ -188,12 +158,9 @@ const singleViewStyle = {
     },
   },
   ".boxVotes": {
-    width: "400px",
-    height: "50px",
     display: "flex",
     justifyContent: "end",
     ".vote": {
-      width: "100px",
       color: "#155AAA",
       cursor: "pointer",
       position: "relative",
