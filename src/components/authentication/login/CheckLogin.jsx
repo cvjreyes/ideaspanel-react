@@ -21,7 +21,7 @@ export default function CheckLogin() {
         notify(body, "info");
         setTimeout(() => {
           navigate("/login");
-        }, 3000);
+        }, 2000);
       } else login(body);
     };
     validateCredentials();
