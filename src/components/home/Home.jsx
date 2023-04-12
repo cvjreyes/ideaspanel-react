@@ -8,9 +8,7 @@ import { Grid } from "../general/Grid";
 import Pagination from "../general/Pagination";
 import { Section } from "../general/Section";
 import NoResults from "../general/NoResults";
-import { Button } from "./components/Button";
-import { TextField } from "./components/TextField";
-import { IdeaCard } from "./components/IdeaCard";
+import { TextField, IdeaCard, Button } from "../general";
 
 export default function Home() {
   const [ideas, setIdeas] = useState(null);
@@ -30,7 +28,7 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (!ideas) return; // evitar errores mientras se carga data
+    if (!ideas) return; 
     setFilteredIdeas(
       ideas.filter(
         (item) =>

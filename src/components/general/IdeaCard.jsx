@@ -1,13 +1,13 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import { jsx } from "@emotion/react";
-import { Link } from "react-router-dom";
-import { BsImage } from "react-icons/bs";
-import { AiOutlineComment, AiOutlineLike } from "react-icons/ai";
 import React from "react";
+import { jsx } from "@emotion/react";
 import moment from "moment/moment";
+import { AiOutlineComment, AiOutlineLike } from "react-icons/ai";
+import { BsImage } from "react-icons/bs";
+import { Link, useNavigate } from "react-router-dom";
 
-import { ProfileInfo } from "../../general/ProfileInfo";
+import { ProfileInfo } from "./ProfileInfo";
 
 function IdeaCard({ idea, navigateTo, comittee, home }) {
   const {
@@ -19,9 +19,12 @@ function IdeaCard({ idea, navigateTo, comittee, home }) {
     like_count,
     comment_count,
     published_at,
+    user_id,
   } = idea;
 
   let publishedDate = new Date(published_at);
+
+  const navigate = useNavigate(9);
 
   return (
     <Link to={navigateTo} css={ideaCard}>
@@ -32,17 +35,30 @@ function IdeaCard({ idea, navigateTo, comittee, home }) {
           <BsImage className="noImage" />
         )}
       </div>
-      <div className="content">
-        <h3 className="title">{title}</h3>
+      <div className="card__content">
+        <header className="card__header">
+          <h3 className="title">{title}</h3>
+          {home && (
+            <div className="card__actions">
+              <div>
+                <AiOutlineLike /> {like_count}
+              </div>
+              <div>
+                <AiOutlineComment /> {comment_count}
+              </div>
+            </div>
+          )}
+        </header>
         <p className="text">{description}</p>
+
         {home && (
           <>
-            <div>
-              <AiOutlineLike /> {like_count} <AiOutlineComment />{" "}
-              {comment_count}
-            </div>
-            {moment(publishedDate, "YYYYMMDD").fromNow()}
-            <ProfileInfo profile={idea} anonymous={anonymous} />
+            <Link to={`/profile/${user_id}/Published`} className="profileLink">
+              <ProfileInfo profile={idea} anonymous={anonymous} />
+            </Link>
+            <footer className="card__footer">
+              {moment(publishedDate, "YYYYMMDD").fromNow()}
+            </footer>
           </>
         )}
       </div>
@@ -64,6 +80,8 @@ const ideaCard = {
   backgroundColor: "#F8F8F8",
   overflow: "hidden",
   transition: "ease 0.3s all",
+  display: "flex",
+  flexDirection: "column",
   ":hover": {
     borderColor: "#7E7E7E",
     backgroundColor: "#f2f2f2",
@@ -74,6 +92,7 @@ const ideaCard = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    flexShrink: 0,
   },
   ".image": {
     height: "100%",
@@ -84,12 +103,34 @@ const ideaCard = {
     fontSize: "3rem",
     color: "#7E7E7E",
   },
-  ".content": {
-    padding: "1rem",
+  ".card__content": {
+    padding: "1.1rem",
+    display: "flex",
+    flexDirection: "column",
+    gap: "0.4rem",
+    flexGrow: 1,
+  },
+  ".card__header": {
+    display: "flex",
+    gap:"1.5rem",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: "1rem",
+  },
+  ".card__actions": {
+    display: "flex",
+    gap: "0.8rem",
+    fontSize: "1.2rem",
+    flexShrink: 0
+  },
+  ".card__footer": {
+    color: "#7E7E7E",
+    textAlign: "right",
+    justifyContent: "flex-end",
   },
   ".title": {
-    fontSize: "1rem",
-    marginBottom: "0.3rem",
+    fontSize: "1.2rem",
+    fontWeight: "600",
   },
   ".text": {
     display: "-webkit-box",
@@ -97,7 +138,14 @@ const ideaCard = {
     " -webkit-line-clamp": 3,
     WebkitBoxOrient: "vertical",
     overflow: "hidden",
-    marginBottom: "1rem",
+    marginBottom: "auto",
+  },
+  ".profileLink": {
+    transition: "ease 0.3s background-color",
+    borderRadius:"5px"
+  },
+  ".profileLink:hover": {
+    backgroundColor: "#E3EBF5",
   },
   ".statusTag": {
     position: "absolute",
