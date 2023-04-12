@@ -34,8 +34,6 @@ function ProfileAvatar({ profile, anonymous, isEditable, ...props }) {
     },
   });
 
-  console.log(anonymous, profile.profile_pic);
-
   return (
     <div css={avatar} {...props}>
       {anonymous ? (
