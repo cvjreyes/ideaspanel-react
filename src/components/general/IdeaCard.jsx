@@ -93,6 +93,7 @@ const ideaCard = {
     alignItems: "center",
     justifyContent: "center",
     flexShrink: 0,
+    overflow: "hidden"
   },
   ".image": {
     height: "100%",
