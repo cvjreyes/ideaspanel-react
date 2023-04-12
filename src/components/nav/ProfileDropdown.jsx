@@ -6,6 +6,7 @@ import { AiOutlineCaretDown } from "react-icons/ai";
 import styled from "@emotion/styled";
 import { Button } from "../general";
 import { useNavigate } from "react-router";
+import { ProfileAvatar } from "../general/ProfileAvatar";
 
 function ProfileDropdown() {
   const { user, logout } = useContext(AuthContext);
@@ -14,9 +15,10 @@ function ProfileDropdown() {
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
         <button className="dropdownTrigger">
-          <div className="imgContainer">
-            <img src={user.profile_pic} />
-          </div>
+          <ProfileAvatar
+            profile={user}
+            style={{ width: "40px", height: "40px" }}
+          />
           <AiOutlineCaretDown />
         </button>
       </DropdownMenu.Trigger>
