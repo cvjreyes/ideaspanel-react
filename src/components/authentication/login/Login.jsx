@@ -28,7 +28,7 @@ export default function Login() {
     <div css={styleLogin}>
       <form onSubmit={handleSubmit} className="form">
         <img src={TechnipLogo} alt="technip" className="technipLogo" />
-        <h1 className="title flexCenter">Ideas panel</h1>
+        <h1 className="title">Ideas panel</h1>
         <div className="inputWrapper">
           <TextField
             id="email"
@@ -63,7 +63,8 @@ const styleLogin = {
     backgroundColor:"#F7F7F7",
     ".title": {
       fontSize: "30px",
-      marginBottom:"3rem"
+      marginBottom:"3rem",
+      textAlign: "center"
     },
     ".inputWrapper":{
       display: "flex",

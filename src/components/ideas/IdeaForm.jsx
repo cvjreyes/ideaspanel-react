@@ -15,11 +15,11 @@ import Switch from "react-switch";
 import { useNotifications } from "reapop";
 import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../helpers/api";
-import { Section } from "../general/Section";
 import { Button } from "../general/Button";
+import { Section } from "../general/Section";
 import { TextField } from "../general/TextField";
 
-export default function NewIdea({ isEditing }) {
+function IdeaForm({ isEditing }) {
   const { id: idea_id } = useParams();
   const navigate = useNavigate();
   const { notify } = useNotifications();
@@ -204,7 +204,7 @@ export default function NewIdea({ isEditing }) {
                   : [
                       <input {...getInputProps()}  key="3"/>,
                       <AiOutlineUpload className="icon" key="4"/>,
-                      <p key="5" className="">
+                      <p key="5">
                         Image
                       </p>,
                     ]}
@@ -233,6 +233,8 @@ export default function NewIdea({ isEditing }) {
     </Section>
   );
 }
+
+export { IdeaForm };
 
 const newIdeaStyle = {
   ".form": {
