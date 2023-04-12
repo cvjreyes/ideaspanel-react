@@ -14,10 +14,6 @@ const variants = {
       cursor:"default",
       color:"#7E7E7E",
       backgroundColor:"#C3C3C3",
-      "& svg": {
-        color: "white",
-        color:"#7E7E7E",
-      },
     },
   },
   outlined:{
@@ -34,10 +30,6 @@ const variants = {
       cursor:"default",
       color:"#7E7E7E",
       borderColor:"#C3C3C3",
-      "& svg": {
-        color: "white",
-        color:"#7E7E7E",
-      },
     },
   },
 }
