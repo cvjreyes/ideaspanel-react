@@ -25,7 +25,7 @@ export default function Login() {
   };
 
   return (
-    <Section css={styleLogin} fullHeight>
+    <div css={styleLogin}>
       <form onSubmit={handleSubmit} className="form">
         <img src={TechnipLogo} alt="technip" className="technipLogo" />
         <h1 className="title flexCenter">Ideas panel</h1>
@@ -39,11 +39,13 @@ export default function Login() {
           <Button className="button">Login</Button>
         </div>
       </form>
-    </Section>
+    </div>
   );
 }
 
 const styleLogin = {
+  height:"100vh",
+  display: "flex",
   justifyContent: "center",
   backgroundColor:"#E3EBF5",
   alignItems: "center",

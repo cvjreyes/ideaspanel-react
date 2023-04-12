@@ -112,6 +112,7 @@ const ideaCard = {
   },
   ".card__header": {
     display: "flex",
+    gap:"1.5rem",
     alignItems: "center",
     justifyContent: "space-between",
     marginBottom: "1rem",
@@ -120,6 +121,7 @@ const ideaCard = {
     display: "flex",
     gap: "0.8rem",
     fontSize: "1.2rem",
+    flexShrink: 0
   },
   ".card__footer": {
     color: "#7E7E7E",

@@ -44,10 +44,7 @@ export default function Idea({ readOnly }) {
   }, []);
 
   const getIdeaVotes = async () => {
-    const { body } = await api(
-      "get",
-      `/idea_votes/get_idea_votes/${ideaId}`
-    );
+    const { body } = await api("get", `/idea_votes/get_idea_votes/${ideaId}`);
     setIdeasVotes(body);
     const idx = body.findIndex((idea) => user.id === idea.user_id);
     if (idx === -1) {
@@ -106,20 +103,28 @@ export default function Idea({ readOnly }) {
       <form className="form">
         <div className="left">
           <div className="imageContainer">
-            {idea.image ? <img src={idea.image} alt="IdeaImage" /> : <div><BsImage className="noImage"/></div>}
+            {idea.image ? (
+              <img src={idea.image} />
+            ) : (
+              <div>
+                <BsImage className="noImage" />
+              </div>
+            )}
           </div>
-         {!readOnly && <ButtonWithImage
-            type="button"
-            text={ideasVotes.length}
-            width="60px"
-            margin="20px 0 0 0"
-            bgColor={"transparent"}
-            bgHover={"transparent"}
-            // img
-            src={hasUserVoted ? ThumbsUpBlue : ThumbsUp}
-            onClick={() => handleIdeaVote()}
-            className={hasUserVoted ? "btn_vote_active" : "btn_vote"}
-          />}
+          {!readOnly && (
+            <ButtonWithImage
+              type="button"
+              text={ideasVotes.length}
+              width="60px"
+              margin="20px 0 0 0"
+              bgColor={"transparent"}
+              bgHover={"transparent"}
+              // img
+              src={hasUserVoted ? ThumbsUpBlue : ThumbsUp}
+              onClick={() => handleIdeaVote()}
+              className={hasUserVoted ? "btn_vote_active" : "btn_vote"}
+            />
+          )}
         </div>
         <div className="right">
           <h2 className="idea__title">{idea.title}</h2>
@@ -177,17 +182,21 @@ const ideaStyle = {
       color: "#7E7E7E",
       marginBottom: "1.5rem",
     },
-    ".imageContainer":{
-      backgroundColor:"red",
-      minHeight:"25rem",
+    ".imageContainer": {
+      backgroundColor: "red",
+      aspectRatio: "7/4",
       backgroundColor: "#C3C3C3",
-      display:"flex",
-      alignItems:"center",
-      justifyContent:"center"
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      img:{
+        height:"100%",
+        objectFit:"cover"
+      }
     },
-    ".noImage":{
-      color:"#7E7E7E",
-      fontSize:"6rem"
-    }
+    ".noImage": {
+      color: "#7E7E7E",
+      fontSize: "6rem",
+    },
   },
 };
