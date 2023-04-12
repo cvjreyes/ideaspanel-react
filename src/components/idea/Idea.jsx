@@ -183,7 +183,6 @@ const ideaStyle = {
       marginBottom: "1.5rem",
     },
     ".imageContainer": {
-      backgroundColor: "red",
       aspectRatio: "7/4",
       backgroundColor: "#C3C3C3",
       display: "flex",
