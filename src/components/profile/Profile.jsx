@@ -51,12 +51,12 @@ export default function Profile() {
     } else {
       navigate("/");
     }
-  }, []);
+  }, [user_id, type]);
 
   useEffect(() => {
     profile && getUserIdeas();
     if (user_id != user.id) return navigate(`/profile/${user_id}/Published`);
-  }, [profile, selectedOption]);
+  }, [profile, user_id, selectedOption]);
 
   const toggleDropdown = (selected) => {
     setSelectedOption(selected);
