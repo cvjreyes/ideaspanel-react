@@ -12,7 +12,7 @@ import Pagination from "../general/Pagination";
 import { ProfileInfo } from "../general/ProfileInfo";
 import { Section } from "../general/Section";
 import NoResults from "../home/NoResults";
-import { IdeaCard } from "../general/IdeaCard";
+import { IdeaCard } from "../general";
 
 export default function Profile() {
   const { user_id, type } = useParams();
@@ -78,12 +78,13 @@ export default function Profile() {
     <Section fullHeight>
       <div css={profileStyle}>
         <div className="profileWrapper">
-          <ProfileInfo
+          <ProfileInfo profile={profile} isEditable={isCurrentUserAccount} />
+         {/*  <ProfileInfo
             profile={profile}
             isEditable={isCurrentUserAccount}
             user={user}
             getProfileData={getProfileData}
-          />
+          /> */}
           {isCurrentUserAccount ? (
             <div className="dropdownWrapper">
               {selectedOptions.map((selected, i) => {
@@ -123,11 +124,7 @@ export default function Profile() {
                         ? `/idea/${idea.id}`
                         : type === "Drafts" && `/edit_idea/${idea.id}`;
                     return (
-                      <IdeaCard
-                        idea={idea}
-                        navigateTo={navigateTo}
-                        key={i}
-                      />
+                      <IdeaCard idea={idea} navigateTo={navigateTo} key={i} />
                     );
                   })
                 : navigate("/")}

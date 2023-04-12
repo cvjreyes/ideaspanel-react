@@ -25,8 +25,8 @@ function IdeaForm({ isEditing }) {
   const { notify } = useNotifications();
   const { user } = useContext(AuthContext);
 
-  const [titleIsEmpty, setTitleIsEmpty] = useState(false)
-  const [descriptionIsEmpty, setDescriptionIsEmpty] = useState(false)
+  const [titleIsEmpty, setTitleIsEmpty] = useState(false);
+  const [descriptionIsEmpty, setDescriptionIsEmpty] = useState(false);
 
   const [form, setForm] = useState({
     title: "",
@@ -36,7 +36,7 @@ function IdeaForm({ isEditing }) {
   const [image, setImage] = useState(null);
 
   const handleChange = (key, value) => {
-    setForm({ ...form, [key]: value });
+    setForm((prev) => ({ ...prev, [key]: value }));
   };
 
   const onDrop = useCallback((files) => {
@@ -56,8 +56,8 @@ function IdeaForm({ isEditing }) {
   const createSubmit = async (e) => {
     e && e.preventDefault();
     if (!form.title || !form.description) {
-      setTitleIsEmpty(true)
-      setDescriptionIsEmpty(true)
+      setTitleIsEmpty(true);
+      setDescriptionIsEmpty(true);
       return notify("Please, fill all fields", "error");
     }
     if (form.description.length > 500)
@@ -67,6 +67,7 @@ function IdeaForm({ isEditing }) {
       form,
     });
     if (!ok1) return notify("Something went wrong", "error");
+    console.log(form);
     if (image?.name) {
       const formData = new FormData();
       formData.append("file", image);
@@ -77,25 +78,20 @@ function IdeaForm({ isEditing }) {
       );
       if (!ok2) return notify("Something went wrong", "error");
     }
-    setTimeout(() => {
-      navigate(`/profile/${user.id}/Drafts`);
-    }, 2000);
-    return notify(
-      "Idea added successfully! Redirecting your profile",
-      "success"
-    );
+    notify("Idea added successfully! Redirecting your profile", "success");
+    navigate(`/profile/${user.id}/Drafts`);
   };
 
   const editSubmit = async (e, publish = 0) => {
     e && e.preventDefault();
     if (!form.title || !form.description) {
-      setTitleIsEmpty(true)
-      setDescriptionIsEmpty(true)
+      setTitleIsEmpty(true);
+      setDescriptionIsEmpty(true);
       return notify("Please, fill all fields", "error");
     }
     if (form.description.length > 500)
       return notify("Description is too long. Max 500 characters", "error");
-      
+
     const { ok: ok1 } = await api("post", "/ideas/update", {
       form,
       publish,
@@ -111,13 +107,11 @@ function IdeaForm({ isEditing }) {
       );
       if (!ok2) return notify("Something went wrong", "error");
     }
-    if (publish) {
-      setTimeout(() => {
-        navigate(`/profile/${user.id}/Validating`);
-      }, 2000);
-    }
     getIdeaInfo();
-    return notify("Idea updated successfully!", "success");
+    notify("Idea updated successfully!", "success");
+    if (publish) {
+      navigate(`/profile/${user.id}/Validating`);
+    }
   };
 
   const getIdeaInfo = async () => {
@@ -136,6 +130,8 @@ function IdeaForm({ isEditing }) {
     if (isEditing) getIdeaInfo();
   }, [isEditing]);
 
+  console.log(form)
+
   return (
     <Section css={newIdeaStyle} fullHeight>
       <h1>{isEditing ? "Edit idea" : "New idea"}</h1>
@@ -146,14 +142,14 @@ function IdeaForm({ isEditing }) {
               id="title"
               value={form.title}
               onChange={({ target }) => handleChange(target.name, target.value)}
-              error={(titleIsEmpty && !form.title) && "Required"}
+              error={titleIsEmpty && !form.title && "Required"}
             />
             <TextField
               textarea
               id="description"
               value={form.description}
               onChange={({ target }) => handleChange(target.name, target.value)}
-              error={(descriptionIsEmpty && !form.description) && "Required"}
+              error={descriptionIsEmpty && !form.description && "Required"}
             />
             {form.description.length > 700 && (
               <p className="red" style={{ marginTop: ".75rem" }}>
@@ -164,8 +160,8 @@ function IdeaForm({ isEditing }) {
             <div className="checkboxContainer">
               <p>Anonymous</p>
               <Switch
-                onChange={(e) => handleChange("anonymous", !e)}
-                checked={!form.anonymous}
+                checked={form.anonymous}
+                onChange={(e) => handleChange("anonymous", e)}
                 onColor="#155AAA"
               />
             </div>
@@ -202,11 +198,9 @@ function IdeaForm({ isEditing }) {
                       <p key="2">Only accepts .jpg, .jpeg and .png</p>,
                     ]
                   : [
-                      <input {...getInputProps()}  key="3"/>,
-                      <AiOutlineUpload className="icon" key="4"/>,
-                      <p key="5">
-                        Image
-                      </p>,
+                      <input {...getInputProps()} key="3" />,
+                      <AiOutlineUpload className="icon" key="4" />,
+                      <p key="5">Image</p>,
                     ]}
               </div>
             )}
@@ -313,8 +307,8 @@ const newIdeaStyle = {
   ".buttonWrapper": {
     display: "flex",
     justifyContent: "center",
-    button:{
-      margin:"0 20px"
-    }
+    button: {
+      margin: "0 20px",
+    },
   },
 };
