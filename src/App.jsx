@@ -1,26 +1,30 @@
 import React from "react";
+import { ErrorBoundary } from "react-error-boundary";
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes
+} from "react-router-dom";
 import NotificationsSystem, {
   atalhoTheme,
   setUpNotifications,
   useNotifications,
 } from "reapop";
-import { ErrorBoundary } from "react-error-boundary";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
-import PublicRoute from "./router/PublicRoute";
 import PrivateRoute from "./router/PrivateRoute";
+import PublicRoute from "./router/PublicRoute";
 
-import Home from "./components/home/Home";
-import Login from "./components/authentication/login/Login";
 import CheckLogin from "./components/authentication/login/CheckLogin";
-import Profile from "./components/profile/Profile";
-import {IdeaForm} from "./components/ideas/IdeaForm";
-import ManageComittee from "./components/ideas/ManageComittee";
+import Login from "./components/authentication/login/Login";
+import ErrorFallback from "./components/general/ErrorFallback";
+import Home from "./components/home/Home";
 import Idea from "./components/idea/Idea";
-import EditProfile from "./components/profile/EditProfile";
 import NewComittee from "./components/ideas/Comittee";
 import NewComitteeSingleView from "./components/ideas/ComitteeVote";
-import ErrorFallback from "./components/general/ErrorFallback";
+import { IdeaForm } from "./components/ideas/IdeaForm";
+import ManageComittee from "./components/ideas/ManageComittee";
+import Profile from "./components/profile/Profile";
 
 export default function App() {
   const { notifications, dismissNotification } = useNotifications();
@@ -47,7 +51,7 @@ export default function App() {
           dismissNotification={(id) => dismissNotification(id)}
           theme={atalhoTheme}
         />
-        <BrowserRouter>
+        <BrowserRouter basename="/ideas_panel">
           <Routes>
             <Route basename="/ideas_panel" element={<PrivateRoute />}>
               <Route path="/" element={<Home />} />
@@ -56,7 +60,7 @@ export default function App() {
               <Route path="/edit_idea/:id" element={<IdeaForm isEditing />} />
               <Route path="/new_idea" element={<IdeaForm />} />
               <Route path="/profile/:user_id/:type" element={<Profile />} />
-             {/*  <Route
+              {/*  <Route
                 path="/profile/edit_profile/:user_id"
                 element={<EditProfile />}
               /> */}
