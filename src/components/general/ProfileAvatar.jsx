@@ -1,7 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
-import React, { useCallback, useContext } from "react";
+import { useCallback, useContext } from "react";
 import { useDropzone } from "react-dropzone";
 import { AiOutlineUser } from "react-icons/ai";
 import { AuthContext } from "../../context/AuthContext";
@@ -34,7 +34,6 @@ function ProfileAvatar({ profile, anonymous, isEditable, ...props }) {
     },
   });
 
-  console.log(anonymous, profile.profile_pic);
 
   return (
     <div css={avatar} {...props}>

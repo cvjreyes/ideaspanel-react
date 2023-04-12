@@ -67,7 +67,6 @@ function IdeaForm({ isEditing }) {
       form,
     });
     if (!ok1) return notify("Something went wrong", "error");
-    console.log(form);
     if (image?.name) {
       const formData = new FormData();
       formData.append("file", image);
@@ -97,6 +96,7 @@ function IdeaForm({ isEditing }) {
       publish,
     });
     if (!ok1) return notify("Something went wrong", "error");
+    console.log(image);
     if (image?.name) {
       const formData = new FormData();
       formData.append("file", image);
@@ -130,12 +130,10 @@ function IdeaForm({ isEditing }) {
     if (isEditing) getIdeaInfo();
   }, [isEditing]);
 
-  console.log(form)
-
   return (
     <Section css={newIdeaStyle} fullHeight>
       <h1>{isEditing ? "Edit idea" : "New idea"}</h1>
-      <form onSubmit={isEditing ? editSubmit : createSubmit} className="form">
+      <form className="form">
         <div className="formContent">
           <div className="left">
             <TextField
@@ -160,7 +158,7 @@ function IdeaForm({ isEditing }) {
             <div className="checkboxContainer">
               <p>Anonymous</p>
               <Switch
-                checked={form.anonymous}
+                checked={Boolean(form.anonymous)}
                 onChange={(e) => handleChange("anonymous", e)}
                 onColor="#155AAA"
               />
@@ -212,7 +210,7 @@ function IdeaForm({ isEditing }) {
         <div className="buttonWrapper">
           {isEditing ? (
             <>
-              <Button>
+              <Button onClick={(e) => editSubmit(e, 0)}>
                 Save <AiOutlineSave />
               </Button>
               <Button onClick={(e) => editSubmit(e, 1)}>
@@ -220,7 +218,7 @@ function IdeaForm({ isEditing }) {
               </Button>
             </>
           ) : (
-            <Button>Create new idea</Button>
+            <Button onClick={createSubmit}>Create new idea</Button>
           )}
         </div>
       </form>
