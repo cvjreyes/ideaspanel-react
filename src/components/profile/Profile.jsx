@@ -56,7 +56,7 @@ export default function Profile() {
   useEffect(() => {
     profile && getUserIdeas();
     if (user_id != user.id) return navigate(`/profile/${user_id}/Published`);
-  }, [profile, user_id, selectedOption]);
+  }, [profile, user_id, user, selectedOption]);
 
   const toggleDropdown = (selected) => {
     setSelectedOption(selected);
@@ -79,7 +79,7 @@ export default function Profile() {
       <div css={profileStyle}>
         <div className="profileWrapper">
           <ProfileInfo profile={profile} isEditable={isCurrentUserAccount} />
-         {/*  <ProfileInfo
+          {/*  <ProfileInfo
             profile={profile}
             isEditable={isCurrentUserAccount}
             user={user}
