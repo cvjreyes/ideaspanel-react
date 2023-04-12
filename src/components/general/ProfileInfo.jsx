@@ -29,6 +29,7 @@ const profileStyle = {
   alignItems: "center",
   padding: "0px",
   gap: "5px",
+  minHeight:"77px",
   p: { wordBreak: "break-all" },
   ".infoProfile": {
     display: "flex",
