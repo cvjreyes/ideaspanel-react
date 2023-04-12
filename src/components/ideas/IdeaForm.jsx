@@ -53,6 +53,7 @@ function IdeaForm({ isEditing }) {
     },
   });
 
+
   const createSubmit = async (e) => {
     e && e.preventDefault();
     if (!form.title || !form.description) {
@@ -96,7 +97,6 @@ function IdeaForm({ isEditing }) {
       publish,
     });
     if (!ok1) return notify("Something went wrong", "error");
-    console.log(image);
     if (image?.name) {
       const formData = new FormData();
       formData.append("file", image);
@@ -106,6 +106,8 @@ function IdeaForm({ isEditing }) {
         formData
       );
       if (!ok2) return notify("Something went wrong", "error");
+    } else {
+      await api("delete", `/ideas/delete_img/${form.id}`);
     }
     getIdeaInfo();
     notify("Idea updated successfully!", "success");
