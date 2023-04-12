@@ -3,8 +3,8 @@
 import { jsx } from "@emotion/react";
 
 import { colors } from "../../helpers/colors";
-import { TextField } from "../home/components/TextField";
-import { Button } from "../home/components/Button";
+import { TextField } from "../general/TextField";
+import { Button } from "../general/Button";
 
 export default function AddCommentSection({
   newComment,

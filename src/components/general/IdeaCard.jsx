@@ -1,12 +1,13 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
+import React from "react";
 import { jsx } from "@emotion/react";
 import moment from "moment/moment";
 import { AiOutlineComment, AiOutlineLike } from "react-icons/ai";
 import { BsImage } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
 
-import { ProfileInfo } from "../../general/ProfileInfo";
+import { ProfileInfo } from "./ProfileInfo";
 
 function IdeaCard({ idea, navigateTo, comittee, home }) {
   const {
@@ -18,12 +19,12 @@ function IdeaCard({ idea, navigateTo, comittee, home }) {
     like_count,
     comment_count,
     published_at,
-    user_id
+    user_id,
   } = idea;
 
   let publishedDate = new Date(published_at);
 
-  const navigate = useNavigate(9)
+  const navigate = useNavigate(9);
 
   return (
     <Link to={navigateTo} css={ideaCard}>
@@ -51,12 +52,14 @@ function IdeaCard({ idea, navigateTo, comittee, home }) {
         <p className="text">{description}</p>
 
         {home && (
-          <Link to={`/profile/${user_id}/Published`} className="profileLink">
-            <ProfileInfo profile={idea} anonymous={anonymous} />
+          <>
+            <Link to={`/profile/${user_id}/Published`} className="profileLink">
+              <ProfileInfo profile={idea} anonymous={anonymous} />
+            </Link>
             <footer className="card__footer">
               {moment(publishedDate, "YYYYMMDD").fromNow()}
             </footer>
-          </Link>
+          </>
         )}
       </div>
       {comittee && (
@@ -77,6 +80,8 @@ const ideaCard = {
   backgroundColor: "#F8F8F8",
   overflow: "hidden",
   transition: "ease 0.3s all",
+  display: "flex",
+  flexDirection: "column",
   ":hover": {
     borderColor: "#7E7E7E",
     backgroundColor: "#f2f2f2",
@@ -87,6 +92,7 @@ const ideaCard = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    flexShrink: 0,
   },
   ".image": {
     height: "100%",
@@ -102,9 +108,11 @@ const ideaCard = {
     display: "flex",
     flexDirection: "column",
     gap: "0.4rem",
+    flexGrow: 1,
   },
   ".card__header": {
     display: "flex",
+    gap:"1.5rem",
     alignItems: "center",
     justifyContent: "space-between",
     marginBottom: "1rem",
@@ -113,10 +121,12 @@ const ideaCard = {
     display: "flex",
     gap: "0.8rem",
     fontSize: "1.2rem",
+    flexShrink: 0
   },
   ".card__footer": {
     color: "#7E7E7E",
     textAlign: "right",
+    justifyContent: "flex-end",
   },
   ".title": {
     fontSize: "1.2rem",
@@ -128,13 +138,14 @@ const ideaCard = {
     " -webkit-line-clamp": 3,
     WebkitBoxOrient: "vertical",
     overflow: "hidden",
-    marginBottom: "1rem",
+    marginBottom: "auto",
   },
-  ".profileLink":{
-    transition:"ease 0.3s background-color"
+  ".profileLink": {
+    transition: "ease 0.3s background-color",
+    borderRadius:"5px"
   },
-  ".profileLink:hover":{
-    backgroundColor: "f9f9f9"
+  ".profileLink:hover": {
+    backgroundColor: "#E3EBF5",
   },
   ".statusTag": {
     position: "absolute",
@@ -154,4 +165,3 @@ const ideaCard = {
 };
 
 export { IdeaCard };
-

@@ -8,8 +8,8 @@ import { api } from "../../../helpers/api";
 import Input from "../../general/Input";
 import TechnipLogo from "../../../assets/images/technip.png";
 import { Section } from "../../general/Section";
-import { Button } from "../../home/components/Button";
-import { TextField } from "../../home/components/TextField";
+import { Button } from "../../general/Button";
+import { TextField } from "../../general/TextField";
 
 export default function Login() {
   const { notify } = useNotifications();
@@ -25,10 +25,10 @@ export default function Login() {
   };
 
   return (
-    <Section css={styleLogin} fullHeight>
+    <div css={styleLogin}>
       <form onSubmit={handleSubmit} className="form">
         <img src={TechnipLogo} alt="technip" className="technipLogo" />
-        <h1 className="title flexCenter">Ideas panel</h1>
+        <h1 className="title">Ideas panel</h1>
         <div className="inputWrapper">
           <TextField
             id="email"
@@ -39,11 +39,13 @@ export default function Login() {
           <Button className="button">Login</Button>
         </div>
       </form>
-    </Section>
+    </div>
   );
 }
 
 const styleLogin = {
+  height:"100vh",
+  display: "flex",
   justifyContent: "center",
   backgroundColor:"#E3EBF5",
   alignItems: "center",
@@ -61,7 +63,8 @@ const styleLogin = {
     backgroundColor:"#F7F7F7",
     ".title": {
       fontSize: "30px",
-      marginBottom:"3rem"
+      marginBottom:"3rem",
+      textAlign: "center"
     },
     ".inputWrapper":{
       display: "flex",

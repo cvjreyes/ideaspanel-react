@@ -14,12 +14,12 @@ import Home from "./components/home/Home";
 import Login from "./components/authentication/login/Login";
 import CheckLogin from "./components/authentication/login/CheckLogin";
 import Profile from "./components/profile/Profile";
-import NewIdea from "./components/ideas/NewIdea";
+import {IdeaForm} from "./components/ideas/IdeaForm";
 import ManageComittee from "./components/ideas/ManageComittee";
 import Idea from "./components/idea/Idea";
 import EditProfile from "./components/profile/EditProfile";
-import NewComittee from "./components/ideas/NewComittee";
-import NewComitteeSingleView from "./components/ideas/NewComitteeSingleView";
+import NewComittee from "./components/ideas/Comittee";
+import NewComitteeSingleView from "./components/ideas/ComitteeVote";
 import ErrorFallback from "./components/general/ErrorFallback";
 
 export default function App() {
@@ -53,13 +53,13 @@ export default function App() {
               <Route path="/" element={<Home />} />
               <Route path="/idea/:id" element={<Idea />} />
               <Route path="/read_only/:id" element={<Idea readOnly />} />
-              <Route path="/edit_idea/:id" element={<NewIdea isEditing />} />
-              <Route path="/new_idea" element={<NewIdea />} />
+              <Route path="/edit_idea/:id" element={<IdeaForm isEditing />} />
+              <Route path="/new_idea" element={<IdeaForm />} />
               <Route path="/profile/:user_id/:type" element={<Profile />} />
-              <Route
+             {/*  <Route
                 path="/profile/edit_profile/:user_id"
                 element={<EditProfile />}
-              />
+              /> */}
               <Route path="/comittee" element={<NewComittee />} />
               <Route path="/comittee/manage" element={<ManageComittee />} />
               <Route path="/comittee/:id" element={<NewComitteeSingleView />} />

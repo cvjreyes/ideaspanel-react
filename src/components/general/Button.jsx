@@ -1,53 +1,60 @@
-/** @jsxRuntime classic */
-/** @jsx jsx */
-import { jsx } from "@emotion/react";
+import styled from "@emotion/styled";
 
-export default function Button({
-  name,
-  text,
-  onClick,
-  bgColor,
-  color,
-  border,
-  borderRadius,
-  width,
-  margin,
-  className,
-  fontWeight,
-  fontSize,
-  type,
-  padding,
-  bgHover,
-  display,
-  disabled,
-}) {
-  const buttonStyle = {
-    width: width || "100%",
-    padding: padding || "10px 20px",
-    background: disabled ? "lightgray" : bgColor,
-    color,
-    border: border || "1px solid lightgray",
-    borderColor: disabled && "lightgray",
-    borderRadius: borderRadius || "6px",
-    margin,
-    fontWeight,
-    fontSize,
-    ":hover": {
-      background: disabled ? "auto" : bgHover,
+const variants = {
+  contained:{
+    background: "#155AAA",
+    color: "white",
+    "&:hover":{
+      backgroundColor: "#154782"
     },
-    display: display,
-  };
-
-  return (
-    <button
-      type={type}
-      className={`${className} ${disabled ? "not-allowed" : "pointer"}`}
-      css={buttonStyle}
-      onClick={onClick}
-      name={name}
-      disabled={disabled}
-    >
-      {text}
-    </button>
-  );
+    "& svg": {
+      color: "white",
+    },
+    "&:disabled":{
+      cursor:"default",
+      color:"#7E7E7E",
+      backgroundColor:"#C3C3C3",
+      "& svg": {
+        color: "white",
+        color:"#7E7E7E",
+      },
+    },
+  },
+  outlined:{
+    border: "1px solid #1E75DB",
+    color:"#155AAA",
+    background:"unset",
+    "&:hover":{
+      borderColor: "#154782"
+    },
+    "& svg": {
+      color: "#154782",
+    },
+    "&:disabled":{
+      cursor:"default",
+      color:"#7E7E7E",
+      borderColor:"#C3C3C3",
+      "& svg": {
+        color: "white",
+        color:"#7E7E7E",
+      },
+    },
+  },
 }
+const Button = styled.button({
+  justifyContent:"center",
+  display: "flex",
+  flexShrink:0,
+  gap: "0.4rem",
+  alignItems: "center",
+  padding: "0.85rem 1.3rem",
+  fontSize: "0.7rem",
+  fontWeight: 500,
+  textTransform:"uppercase",
+  border: "unset",
+  borderRadius: "5px",
+  cursor: "pointer",
+  transition: "ease 0.3s all",
+}, ({variant = "contained"}) => variants[variant]);
+
+export { Button };
