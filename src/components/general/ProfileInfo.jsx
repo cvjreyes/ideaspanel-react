@@ -1,8 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
-import React, { useContext } from "react";
-import { AuthContext } from "../../context/AuthContext";
+import React from "react";
 import { ProfileAvatar } from "./ProfileAvatar";
 
 function ProfileInfo({ profile, anonymous = false, isEditable = false }) {

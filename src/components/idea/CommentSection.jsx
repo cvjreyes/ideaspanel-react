@@ -30,6 +30,22 @@ const CommentSectionStyle = {
     display: "flex",
     flexDirection: "row",
     width: "100%",
+    ".boxNoImage": {
+      width: "50px",
+      height: "50px",
+      flex: "none",
+      backgroundColor: "#C3C3C3",
+      borderRadius: "100px",
+      overflow: "hidden",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      marginRight: "17px",
+      ".profile_anonymous": {
+        fontSize: "2rem",
+        color: "#7E7E7E",
+      },
+    },
     ".info": {
       alignItems: "center",
       textAlign: "left",
@@ -40,7 +56,6 @@ const CommentSectionStyle = {
       gap: "1rem",
       marginBottom: "0.4rem",
     },
-    ".comment__title": {},
     ".comment__date": {
       color: "#7E7E7E",
     },
