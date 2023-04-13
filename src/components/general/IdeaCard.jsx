@@ -28,7 +28,9 @@ function IdeaCard({ idea, navigateTo, comittee, home }) {
 
   const handleCardClick = (e) => {
     e.preventDefault();
-    navigate(`/profile/${user_id}/Published`);
+    if (!anonymous) {
+      navigate(`/profile/${user_id}/Published`);
+    }
   };
 
   return (
@@ -98,7 +100,7 @@ const ideaCard = {
     alignItems: "center",
     justifyContent: "center",
     flexShrink: 0,
-    overflow: "hidden"
+    overflow: "hidden",
   },
   ".image": {
     height: "100%",
@@ -118,7 +120,7 @@ const ideaCard = {
   },
   ".card__header": {
     display: "flex",
-    gap:"1.5rem",
+    gap: "1.5rem",
     alignItems: "center",
     justifyContent: "space-between",
     marginBottom: "1rem",
@@ -127,7 +129,7 @@ const ideaCard = {
     display: "flex",
     gap: "0.8rem",
     fontSize: "1.2rem",
-    flexShrink: 0
+    flexShrink: 0,
   },
   ".card__footer": {
     color: "#7E7E7E",
@@ -148,7 +150,7 @@ const ideaCard = {
   },
   ".profileLink": {
     transition: "ease 0.3s background-color",
-    borderRadius:"5px"
+    borderRadius: "5px",
   },
   ".profileLink:hover": {
     backgroundColor: "#E3EBF5",
