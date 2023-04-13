@@ -25,7 +25,7 @@ export default function Profile() {
   const [lengthDisplayData, setLengthDisplayData] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const itemsPerPage = 8; // o el número de elementos que desee mostrar por página
+  const itemsPerPage = 6; // o el número de elementos que desee mostrar por página
 
   const [selectedOption, setSelectedOption] = useState("Published");
 
@@ -79,12 +79,6 @@ export default function Profile() {
       <div css={profileStyle}>
         <div className="profileWrapper">
           <ProfileInfo profile={profile} isEditable={isCurrentUserAccount} />
-          {/*  <ProfileInfo
-            profile={profile}
-            isEditable={isCurrentUserAccount}
-            user={user}
-            getProfileData={getProfileData}
-          /> */}
           {isCurrentUserAccount ? (
             <div className="dropdownWrapper">
               {selectedOptions.map((selected, i) => {

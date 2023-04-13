@@ -1,23 +1,20 @@
 import React from "react";
 import { useState } from "react";
 import moment from "moment/moment";
-import { AiOutlineClose } from "react-icons/ai";
+import { AiOutlineClose, AiOutlineUser } from "react-icons/ai";
 
 const Comment = ({ comment, userID, handleDeleteComment }) => {
   const [isReadMore, setIsReadMore] = useState(false);
   let commentDate = new Date(comment.comment_at);
   return (
     <div className="comment">
-      <img
-        src={comment.profile_pic}
-        alt="profile"
-        style={{
-          padding:
-            comment.profile_pic === "http://localhost:5026/images/default.png"
-              ? "10px"
-              : "",
-        }}
-      />
+      {comment.profile_pic ? (
+        <img src={comment.profile_pic} alt="profile" />
+      ) : (
+        <div className="boxNoImage">
+          <AiOutlineUser className="profile_anonymous" />
+        </div>
+      )}
       <div className="info">
         <div className="comment__header">
           <p className="comment__title">{comment.name}</p>
