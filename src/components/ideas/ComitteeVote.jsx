@@ -35,6 +35,10 @@ export default function NewComitteeSingleView() {
     getData();
   }, []);
 
+  useEffect(() => {
+    if (data?.published) return navigate("/");
+  }, [data]);
+
   const handleVote = async (vote) => {
     const { ok } = await api("post", "/comittee_votes/submit_vote", {
       idea_id: data.id,
@@ -119,8 +123,8 @@ const VoteWrapper = ({ children, voted }) => {
 
 const singleViewStyle = {
   ".top": {
-    display:"flex",
-    justifyContent:"space-between",
+    display: "flex",
+    justifyContent: "space-between",
   },
   ".box_info_card": {
     display: "flex",
