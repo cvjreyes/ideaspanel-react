@@ -3,7 +3,6 @@ import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { AiOutlineCaretDown } from "react-icons/ai";
-import styled from "@emotion/styled";
 import { Button } from "../general";
 import { useNavigate } from "react-router";
 import { ProfileAvatar } from "../general/ProfileAvatar";

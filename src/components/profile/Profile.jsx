@@ -36,6 +36,11 @@ export default function Profile() {
     setProfile(body);
   };
 
+  const getProfileDataLogged = async () => {
+    const { body } = await api("get", `/users/profile/${user.id}`);
+    setProfile(body);
+  };
+
   const getUserIdeas = async () => {
     const { body } = await api(
       "get",
@@ -57,6 +62,10 @@ export default function Profile() {
     profile && getUserIdeas();
     if (user_id != user.id) return navigate(`/profile/${user_id}/Published`);
   }, [profile, user_id, user, selectedOption]);
+
+  useEffect(() => {
+    user && getProfileDataLogged();
+  }, [user]);
 
   const toggleDropdown = (selected) => {
     setSelectedOption(selected);
