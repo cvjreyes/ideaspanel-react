@@ -8,14 +8,12 @@ import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../helpers/api";
 
 import { useParams } from "react-router";
-import ThumbsUpBlue from "../../assets/images/thumbs-up-blue.png";
-import ThumbsUp from "../../assets/images/thumbs-up.png";
-import ButtonWithImage from "../general/ButtonWithImage";
 import { Section } from "../general/Section";
 import AddCommentSection from "./AddCommentSection";
 import CommentSection from "./CommentSection";
 import NoResults from "../general/NoResults";
 import { BsImage } from "react-icons/bs";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 
 export default function Idea({ readOnly }) {
   let { id: ideaId } = useParams();
@@ -112,18 +110,20 @@ export default function Idea({ readOnly }) {
             )}
           </div>
           {!readOnly && (
-            <ButtonWithImage
-              type="button"
-              text={ideasVotes.length}
-              width="60px"
-              margin="20px 0 0 0"
-              bgColor={"transparent"}
-              bgHover={"transparent"}
-              // img
-              src={hasUserVoted ? ThumbsUpBlue : ThumbsUp}
-              onClick={() => handleIdeaVote()}
-              className={hasUserVoted ? "btn_vote_active" : "btn_vote"}
-            />
+            <div className="boxLike">
+              {hasUserVoted ? (
+                <AiFillHeart
+                  className="btn_vote_active"
+                  onClick={() => handleIdeaVote()}
+                />
+              ) : (
+                <AiOutlineHeart
+                  className="btn_vote"
+                  onClick={() => handleIdeaVote()}
+                />
+              )}
+              {ideasVotes.length}
+            </div>
           )}
         </div>
         <div className="right">
@@ -165,9 +165,22 @@ const ideaStyle = {
     gap: "2rem",
     ".left": {
       flex: 1,
-      ".btn_vote_active": {
+      ".boxLike": {
+        width: "150px",
+        height: "100px",
         display: "flex",
-        animation: `${circleAnim} 1s ease forwards`,
+        alignItems: "center",
+        ".btn_vote": {
+          fontSize: "2rem",
+          margin: "15px",
+        },
+        ".btn_vote_active": {
+          display: "flex",
+          color: "red",
+          fontSize: "2rem",
+          animation: `${circleAnim} 1s ease forwards`,
+          margin: "15px",
+        },
       },
     },
     ".right": {
@@ -188,10 +201,10 @@ const ideaStyle = {
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      img:{
-        height:"100%",
-        objectFit:"cover"
-      }
+      img: {
+        height: "100%",
+        objectFit: "cover",
+      },
     },
     ".noImage": {
       color: "#7E7E7E",
