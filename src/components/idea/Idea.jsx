@@ -62,7 +62,6 @@ export default function Idea({ readOnly }) {
 
   const handleAddComment = async (e) => {
     e && e.preventDefault();
-    console.log(e.target.value);
     const { ok } = await api("post", "/comments/add_comment", {
       idea_id: ideaId,
       user_id: user.id,

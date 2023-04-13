@@ -24,7 +24,12 @@ function IdeaCard({ idea, navigateTo, comittee, home }) {
 
   let publishedDate = new Date(published_at);
 
-  const navigate = useNavigate(9);
+  const navigate = useNavigate();
+
+  const handleCardClick = (e) => {
+    e.preventDefault();
+    navigate(`/profile/${user_id}/Published`);
+  };
 
   return (
     <Link to={navigateTo} css={ideaCard}>
@@ -53,9 +58,9 @@ function IdeaCard({ idea, navigateTo, comittee, home }) {
 
         {home && (
           <>
-            <Link to={`/profile/${user_id}/Published`} className="profileLink">
+            <div onClick={handleCardClick} className="profileLink">
               <ProfileInfo profile={idea} anonymous={anonymous} />
-            </Link>
+            </div>
             <footer className="card__footer">
               {moment(publishedDate, "YYYYMMDD").fromNow()}
             </footer>
