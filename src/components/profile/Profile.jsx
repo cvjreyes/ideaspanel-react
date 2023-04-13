@@ -37,8 +37,13 @@ export default function Profile() {
   };
 
   const getProfileDataLogged = async () => {
-    const { body } = await api("get", `/users/profile/${user.id}`);
-    setProfile(body);
+    if(user_id){
+      const { body } = await api("get", `/users/profile/${user_id}`);
+      setProfile(body);
+    } else {
+      const { body } = await api("get", `/users/profile/${user.id}`);
+      setProfile(body);
+    }
   };
 
   const getUserIdeas = async () => {
