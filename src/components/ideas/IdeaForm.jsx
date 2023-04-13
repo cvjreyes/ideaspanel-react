@@ -97,7 +97,8 @@ function IdeaForm({ isEditing }) {
       publish,
     });
     if (!ok1) return notify("Something went wrong", "error");
-    if (image?.name) {
+
+    if (image?.name || image) {
       const formData = new FormData();
       formData.append("file", image);
       const { ok: ok2 } = await api(

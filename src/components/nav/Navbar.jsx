@@ -3,13 +3,12 @@
 import { jsx } from "@emotion/react";
 import React, { useContext } from "react";
 import { IoMdCreate } from "react-icons/io";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { ProfileDropdown } from "./ProfileDropdown";
 
 export default function Navbar() {
   const { user } = useContext(AuthContext);
-  const navigate = useNavigate(9);
 
   return (
     <>
