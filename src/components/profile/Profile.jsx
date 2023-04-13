@@ -37,6 +37,7 @@ export default function Profile() {
   };
 
   const getProfileDataLogged = async () => {
+    // Cambiar esto y hacerlo mas optimo
     if(user_id){
       const { body } = await api("get", `/users/profile/${user_id}`);
       setProfile(body);
