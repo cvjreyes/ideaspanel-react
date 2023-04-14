@@ -1,11 +1,6 @@
 import React from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import {
-  BrowserRouter,
-  Navigate,
-  Route,
-  Routes
-} from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import NotificationsSystem, {
   atalhoTheme,
   setUpNotifications,
@@ -51,9 +46,12 @@ export default function App() {
           dismissNotification={(id) => dismissNotification(id)}
           theme={atalhoTheme}
         />
-        <BrowserRouter basename="/ideas_panel">
+        <BrowserRouter basename={import.meta.env.VITE_BASENAME}>
           <Routes>
-            <Route basename="/ideas_panel" element={<PrivateRoute />}>
+            <Route
+              basename={import.meta.env.VITE_BASENAME}
+              element={<PrivateRoute />}
+            >
               <Route path="/" element={<Home />} />
               <Route path="/idea/:id" element={<Idea />} />
               <Route path="/read_only/:id" element={<Idea readOnly />} />
@@ -68,7 +66,7 @@ export default function App() {
               <Route path="/comittee/manage" element={<ManageComittee />} />
               <Route path="/comittee/:id" element={<NewComitteeSingleView />} />
             </Route>
-            <Route element={<PublicRoute />}>
+            <Route basename={import.meta.env.VITE_BASENAME} element={<PublicRoute />}>
               <Route path="/login" element={<Login />} />
               <Route path="/log_in/:user_id/:token" element={<CheckLogin />} />
             </Route>
