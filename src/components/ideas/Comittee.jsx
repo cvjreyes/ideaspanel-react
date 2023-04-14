@@ -1,164 +1,97 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
-import { useContext, useEffect, useState } from "react";
-import { useLocation } from "wouter";
-import { useNotifications } from "reapop";
+import { useContext, useLayoutEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { AiOutlineSetting } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 
-import { api } from "../../helpers/api";
-import { colors } from "../../helpers/colors";
 import { AuthContext } from "../../context/AuthContext";
+import { api } from "../../helpers/api";
 
-import ButtonWithImage from "../general/ButtonWithImage";
-import Button from "../general/Button";
-import Card from "../general/Card";
+import { Grid } from "../general/Grid";
 import Loading from "../general/Loading";
-import thumbsUp from "../../assets/images/thumbs-up.png";
-import thumbsDown from "../../assets/images/thumbs-down.png";
+import { Section } from "../general/Section";
+import NoResults from "../general/NoResults";
+import { IdeaCard } from "../general/IdeaCard";
+import Pagination from "../general/Pagination";
 
-export default function Comittee() {
+export default function NewComittee() {
+  const navigate = useNavigate();
   const { user } = useContext(AuthContext);
-  const [__, navigate] = useLocation();
-  const { notify } = useNotifications();
 
-  const [data, setData] = useState(null);
-  const [voted, setVoted] = useState(false);
+  const [data, setData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const getOldestUnapprovedIdea = async () => {
-    const { body } = await api("get", `/ideas/to_approve/${user.id}`);
-    setData(body);
-    setVoted(false);
-  };
+  const itemsPerPage = 4; // o el número de elementos que desee mostrar por página
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!user.isComittee) return navigate("/");
-    getOldestUnapprovedIdea();
+    const getData = async () => {
+      const { body } = await api("get", "/ideas/get_all_validating");
+      setData(body);
+    };
+    getData();
   }, []);
 
-  const handleVote = async (e) => {
-    if (voted) return;
-    setVoted(true);
-    const { ok } = await api("post", "/comittee_votes/submit_vote", {
-      idea_id: data[0].id,
-      user_id: user.id,
-      vote: e,
-    });
-    if (!ok) return notify("Something went wrong", "error");
-    notify("Vote successfully done", "success");
-    setTimeout(() => {
-      getOldestUnapprovedIdea();
-    }, 2000);
+  const paginate = (array) => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return array.slice(startIndex, endIndex);
   };
 
-  if (!data) return <Loading />;
-
   return (
-    <div css={comitteeStyle}>
-      <div className="boxTop">
-        <div />
-        {data[0] ? (
-          <div className="countdownWrapper flexColumn">
-            <CountdownTimer date={data?.[0].sent_to_validate_at} />
-          </div>
-        ) : (
-          <div style={{ marginTop: "100px", textAlign: "center" }}>
-            That's all
-          </div>
-        )}
-        {user.isAdmin && (
-          <div className="manageComitteeButton">
-            <Button
-              text="Manage Comittee"
-              onClick={() => navigate("/comittee/manage")}
-              bgColor={colors["blue"].background}
-              bgHover={colors["blue"].backgroundHover}
-              color="white"
-            />
-          </div>
-        )}
+    <Section css={comitteeStyle} fullHeight>
+      <div className="top">
+        <h1>Comittee</h1>
+        <Link to="/comittee/manage">
+          <AiOutlineSetting className="manage_btn" />
+        </Link>
       </div>
-      {data.length > 0 ? (
-        <div className="contentWrapper">
-          <div />
-          <div>
-            <Card item={{ ...data[0], anonymous: true }} comittee={true} />
-            <div className="boxVotes">
-              <div className="flexCenter">
-                <ButtonWithImage
-                  type="button"
-                  bgColor={colors["red"].background}
-                  bgHover={colors["red"].backgroundHover}
-                  width="50px"
-                  onClick={() => handleVote(0)}
-                  // img
-                  src={thumbsDown}
-                />
-              </div>
-              <div className="flexCenter">
-                <ButtonWithImage
-                  type="button"
-                  bgColor={colors["green"].background}
-                  bgHover={colors["green"].backgroundHover}
-                  width="50px"
-                  onClick={() => handleVote(1)}
-                  // img
-                  src={thumbsUp}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      ) : (
-        <div>Thanks for voting ❤</div>
+      <Grid>
+        {data ? (
+          data.length > 0 ? (
+            paginate(data).map((idea) => (
+              <IdeaCard
+                idea={idea}
+                navigateTo={`/comittee/${idea.id}`}
+                comittee
+                key={idea.id}
+              />
+            ))
+          ) : (
+            <NoResults />
+          )
+        ) : (
+          <Loading />
+        )}
+      </Grid>
+      {data && (
+        <Pagination
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          displayData={data}
+          itemsPerPage={itemsPerPage}
+          maxPagesToShow={3}
+        />
       )}
-    </div>
+    </Section>
   );
 }
 
 const comitteeStyle = {
-  display: "flex",
-  flexDirection: "column",
-  minHeight: "calc(90vh - 50px)",
-  width: "100%",
-  alignItems: "center",
-  ".boxTop": {
-    height: "151px",
-    display: "grid",
-    gridTemplateColumns: "repeat(3, 1fr)",
-    width: "100%",
-    ".countdownWrapper": {
-      margin: "80px auto 0",
-      fontWeight: 700,
-      justifyContent: "flex-start",
-      textAlign: "center",
-      "> p": {
-        fontSize: "1.2rem",
+  ".top": {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    ".manage_btn": {
+      backgroundColor: "transparent",
+      fontSize: "1.3rem",
+      cursor: "pointer",
+      ":hover": {
+        transform: "rotate(180deg)",
+        transition: "transform 0.5s ease-in-out",
       },
-      ".show-counter": {
-        marginTop: "10px",
-        border: "1px solid #ebebeb",
-        borderRadius: "0.25rem",
-        ".countdown": {
-          padding: "0.5rem 1rem",
-          display: "flex",
-        },
-      },
-    },
-    ".manageComitteeButton": {
-      display: "flex",
-      alignSelf: "flex-end",
-      margin: "0 auto",
-    },
-  },
-  ".contentWrapper": {
-    display: "grid",
-    gridTemplateColumns: "repeat(3, 1fr)",
-    width: "100%",
-    ".boxVotes": {
-      width: "80%",
-      margin: "0 auto",
-      display: "flex",
-      justifyContent: "space-evenly",
     },
   },
 };

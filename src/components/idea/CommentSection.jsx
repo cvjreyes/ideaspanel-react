@@ -1,111 +1,87 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
-
+import { Comment } from "./Comment";
 export default function CommentSection({
   comments,
-  clickComment,
   userID,
-  handleClickComment,
   handleDeleteComment,
 }) {
   return (
     <div css={CommentSectionStyle}>
-      {comments.map((comment, i) => {
-        let commentDate = new Date(comment.comment_at);
-        return (
-          <div className="comment" key={i}>
-            <img
-              src={comment.profile_pic}
-              alt="profile"
-              style={{
-                padding:
-                  comment.profile_pic ===
-                  "http://localhost:5026/images/default.png"
-                    ? "10px"
-                    : "",
-              }}
-            />
-            <div className="info">
-              <div className="bold">{comment.name}</div>
-              <div
-                className={clickComment ? "" : "textComment"}
-                onClick={handleClickComment}
-              >
-                <i>{comment.comment}</i>
-              </div>
-            </div>
-            <div className="dateComment">
-              <div>
-                {commentDate.getDate()}/{commentDate.getMonth() + 1}/
-                {commentDate.getFullYear()}
-              </div>
-              <div>
-                {commentDate.getHours()}:{commentDate.getMinutes()}:
-                {commentDate.getSeconds()}
-              </div>
-            </div>
-            {userID === comment.user_id ? (
-              <div
-                className="flexCenter delete pointer"
-                onClick={() => handleDeleteComment(comment.id)}
-              >
-                ❌
-              </div>
-            ) : (
-              <div className="noDelete" />
-            )}
-          </div>
-        );
-      })}
+      {comments.map((comment) => (
+        <Comment
+          key={comment.id}
+          comment={comment}
+          userID={userID}
+          handleDeleteComment={handleDeleteComment}
+        />
+      ))}
     </div>
   );
 }
 
 const CommentSectionStyle = {
-  margin: "10px 10px 30px 0",
-  minWidth: "500px",
-  padding: "10px",
-  borderRadius: "10px",
-  border: "0 solid black",
-  background: "white",
-  boxShadow: "8px 8px 17px #e4e5da, -8px -8px 17px #ffffff",
+  marginTop: "2rem",
+  display: "flex",
+  flexDirection: "column",
+  gap: "1.5rem",
   ".comment": {
-    margin: "10px 10px 10px 0",
-    border: "2px solid #ccc",
-    borderRadius: "10px",
-    padding: "10px",
     display: "flex",
     flexDirection: "row",
     width: "100%",
+    ".boxNoImage": {
+      width: "50px",
+      height: "50px",
+      flex: "none",
+      backgroundColor: "#C3C3C3",
+      borderRadius: "100px",
+      overflow: "hidden",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      marginRight: "17px",
+      ".profile_anonymous": {
+        fontSize: "2rem",
+        color: "#7E7E7E",
+      },
+    },
     ".info": {
       alignItems: "center",
       textAlign: "left",
-      width: "70%",
+      width: "100%",
+    },
+    ".comment__header": {
+      display: "flex",
+      gap: "1rem",
+      marginBottom: "0.4rem",
+    },
+    ".comment__date": {
+      color: "#7E7E7E",
     },
     img: {
-      width: "50px",
-      height: "50px",
+      width: "45px",
+      height: "45px",
       backgroundColor: "#99C6F8",
       borderRadius: "100px",
-      margin: " 0 10px",
+      marginRight: "1.2rem",
       objectFit: "cover",
     },
     ".dateComment": {
       whiteSpace: "nowrap",
     },
     ".textComment": {
-      display: "-webkit-box",
-      textOverflow: "ellipsis",
-      overflow: "hidden",
-      WebkitLineClamp: "3",
-      WebkitBoxOrient: "vertical",
+      color: "#7E7E7E",
+    },
+    ".comment__readMore": {
+      backgroundColor: "unset",
+      border: "unset",
+      cursor: "pointer",
     },
     ".delete": {
-      margin: "0 20px",
-    },
-    ".noDelete": {
-      margin: "0 30px",
+      marginLeft: "2rem",
+      color: "#7E7E7E",
+      cursor: "pointer",
     },
   },
 };

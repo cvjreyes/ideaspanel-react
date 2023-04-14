@@ -1,100 +1,106 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
-import { useContext } from "react";
-import { Link, useRoute } from "wouter";
-
+import React, { useContext } from "react";
+import { IoMdCreate } from "react-icons/io";
+import { NavLink, Outlet } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import { ProfileDropdown } from "./ProfileDropdown";
 
 export default function Navbar() {
   const { user } = useContext(AuthContext);
 
-  const [isHomeActive] = useRoute("/ideas_panel/");
-  const [isComitteeActive] = useRoute("/ideas_panel/comittee");
-  const [isComitteeActive2] = useRoute("/ideas_panel/comittee/manage");
-  const [isNewIdeaActive] = useRoute("/ideas_panel/new_idea");
-  const [isProfileActive] = useRoute("/ideas_panel/profile/:id");
-
   return (
-    <div css={navbarStyle}>
-      <div className="left">
-        <Link
-          to="/ideas_panel/"
-          className={isHomeActive ? "active" : ""}
-          style={{ width: "79px" }}
-        >
-          Home
-        </Link>
-        {user.isComittee ? (
-          <Link
-            to="/ideas_panel/comittee"
-            className={isComitteeActive || isComitteeActive2 ? "active" : ""}
-            style={{ width: "100px" }}
-          >
-            Comittee
-          </Link>
-        ) : null}
-        <Link
-          to="/ideas_panel/new_idea"
-          className={`flexCenter ${isNewIdeaActive ? "active" : ""}`}
-          style={{ width: "120px" }}
-        >
-          New Idea
-          <img
-            alt="new"
-            src="https://img.icons8.com/external-others-amoghdesign/24/null/external-write-multimedia-solid-24px-others-amoghdesign.png"
-            className="invert pointer"
-          />
-        </Link>
+    <>
+      <div css={navbarStyle}>
+        <div className="container">
+          <div className="menu">
+            <NavLink
+              to="/"
+              style={({ isActive }) => (isActive ? { color: "white" } : null)}
+            >
+              Home
+            </NavLink>
+            {user.isComittee ? (
+              <NavLink
+                to="/comittee"
+                style={({ isActive }) => (isActive ? { color: "white" } : null)}
+              >
+                Comittee
+              </NavLink>
+            ) : null}
+            <NavLink
+              to="/new_idea"
+              style={({ isActive }) => (isActive ? { color: "white" } : null)}
+              className="buttonLink"
+            >
+              New Idea
+              <IoMdCreate />
+            </NavLink>
+          </div>
+          <ProfileDropdown />
+        </div>
       </div>
-      <div>
-        <Link to={`/ideas_panel/profile/${user.id}`} className="flexCenter">
-          {user.name}
-          <img
-            tabIndex={0}
-            className="pointer invert"
-            alt="user"
-            src="https://img.icons8.com/ios-glyphs/30/null/user--v1.png"
-          />
-        </Link>
-      </div>
-    </div>
+      <Outlet />
+    </>
   );
 }
 
 const navbarStyle = {
-  zIndex: 1000,
-  height: "50px",
-  width: "100vw",
+  ".a": {
+    backgroundColor: "red",
+  },
+  zIndex: 10,
+  width: "100%",
   backgroundColor: "#0054B3",
-  color: "white",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
-  padding: "0 5vw",
+  color: "#C3C3C3",
   position: "fixed",
   top: 0,
-  span: {
-    color: "white",
+  ".container": {
+    maxWidth: "100rem",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    height: "50px",
+    padding: " 0 5vw",
+    margin: "auto",
   },
   a: {
-    color: "white",
     transition: "color 0.2s ease-in-out",
     ":hover": {
       color: "lightgray",
-      img: {
-        filter: "invert(70%)",
-        webkitFilter: "invert(70%)",
-      },
     },
   },
-  img: {
-    transition: "filter 0.2s ease-in-out",
-    width: "30px",
-    margin: "0 0 0 .5rem",
+  ".menu": {
+    display: "flex",
+    gap: "1.1rem",
+    alignItems: "center",
   },
-  ".left": {
+  ".buttonLink": {
     display: "flex",
     alignItems: "center",
+    gap: "0.4rem",
+  },
+  ".dropdownTrigger": {
+    display: "flex",
+    alignItems: "center",
+    gap: "0.4rem",
+    cursor: "pointer",
+    color: "white",
+    ".imgContainer": {
+      width: "2.3rem",
+      height: "2.3rem",
+    },
+    img: {
+      borderRadius: "100%",
+      height: "100%",
+      width: "100%",
+      objectFit: "cover",
+    },
+  },
+  ".dropdownContent": {
+    backgroundColor: "white",
+    border: "1px solid black!important",
+    color: "red",
   },
 };

@@ -1,4 +1,7 @@
 TODOS:
+- in profile we can make that published, denied, validating and drafts make fetch from the url
+- if you enter into another profile it should be private:
+    - No possible to change profile picture, take logout
 
 DONE:
 - edit comittee vote

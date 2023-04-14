@@ -1,12 +1,19 @@
 import React, { useContext } from "react";
-import { Redirect } from "wouter";
 
+import { Navigate, Outlet } from "react-router-dom";
+import Navbar from "../components/nav/Navbar";
 import { AuthContext } from "../context/AuthContext";
 
-const PrivateRoute = ({ component: Component }) => {
+const PrivateRoute = () => {
   const { isLoggedIn } = useContext(AuthContext);
 
-  return isLoggedIn ? <Component /> : <Redirect to="/ideas_panel/login" />;
+  return isLoggedIn ? (
+    <Navbar>
+      <Outlet />
+    </Navbar>
+  ) : (
+    <Navigate replace to="/login" />
+  );
 };
 
 export default PrivateRoute;

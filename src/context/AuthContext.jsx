@@ -11,6 +11,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(null);
 
+
   const getUserInfo = async () => {
     const res = await api("get", "/users/get_user_info");
     return res;
