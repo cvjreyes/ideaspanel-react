@@ -1,6 +1,11 @@
 import React from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import NotificationsSystem, {
   atalhoTheme,
   setUpNotifications,
@@ -46,7 +51,7 @@ export default function App() {
           dismissNotification={(id) => dismissNotification(id)}
           theme={atalhoTheme}
         />
-        <BrowserRouter basename={import.meta.env.VITE_BASENAME}>
+        <Router basename={import.meta.env.VITE_BASENAME}>
           <Routes>
             <Route
               basename={import.meta.env.VITE_BASENAME}
@@ -66,13 +71,13 @@ export default function App() {
               <Route path="/comittee/manage" element={<ManageComittee />} />
               <Route path="/comittee/:id" element={<NewComitteeSingleView />} />
             </Route>
-            <Route basename={import.meta.env.VITE_BASENAME} element={<PublicRoute />}>
+            <Route element={<PublicRoute />}>
               <Route path="/login" element={<Login />} />
               <Route path="/log_in/:user_id/:token" element={<CheckLogin />} />
             </Route>
             <Route path="*" element={<Navigate replace to="/" />} />
           </Routes>
-        </BrowserRouter>
+        </Router>
       </AuthProvider>
     </ErrorBoundary>
   );
