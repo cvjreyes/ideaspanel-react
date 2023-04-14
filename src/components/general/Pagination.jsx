@@ -79,7 +79,7 @@ export default function Pagination({
               }
             })
         : null}
-      {currentPage !== totalPages && displayData.length > 10 && (
+      {currentPage !== totalPages && displayData.length > itemsPerPage && (
         <button
           ref={nextButtonRef}
           onClick={() => setCurrentPage(currentPage + 1)}
