@@ -10,7 +10,7 @@ import Checkbox from "../general/Checkbox";
 import Input from "../general/Input";
 import Loading from "../general/Loading";
 import { Section } from "../general/Section";
-import NoResults from "../home/NoResults";
+import NoResults from "../general/NoResults";
 
 export default function ManageComittee() {
   const [users, setUsers] = useState(null);

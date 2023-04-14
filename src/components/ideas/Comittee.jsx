@@ -12,7 +12,7 @@ import { api } from "../../helpers/api";
 import { Grid } from "../general/Grid";
 import Loading from "../general/Loading";
 import { Section } from "../general/Section";
-import NoResults from "../home/NoResults";
+import NoResults from "../general/NoResults";
 import { IdeaCard } from "../general/IdeaCard";
 import Pagination from "../general/Pagination";
 
