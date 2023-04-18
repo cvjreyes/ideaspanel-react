@@ -28,12 +28,13 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (!ideas) return; 
+    if (!ideas) return;
     setFilteredIdeas(
       ideas.filter(
         (item) =>
           item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          item.name.toLowerCase().includes(searchTerm.toLowerCase())
+          (item.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+            !item.anonymous)
       )
     );
     setCurrentPage(1);

@@ -54,7 +54,6 @@ export default function App() {
         <Router basename={import.meta.env.VITE_BASENAME}>
           <Routes>
             <Route
-              basename={import.meta.env.VITE_BASENAME}
               element={<PrivateRoute />}
             >
               <Route path="/" element={<Home />} />
