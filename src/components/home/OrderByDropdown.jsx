@@ -21,12 +21,9 @@ function OrderByDropdown({
           sideOffset={10}
           align="end"
           style={{
-            position: "relative",
             backgroundColor: "transparent",
             padding: "0.2rem",
             width: "190px",
-            left: "200px",
-            top:"-56px"
           }}
         >
           <DropdownMenu.Item asChild>

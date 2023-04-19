@@ -25,11 +25,16 @@ const CommentSectionStyle = {
   marginTop: "2rem",
   display: "flex",
   flexDirection: "column",
-  gap: "1.5rem",
+  gap: "0.2rem",
   ".comment": {
     display: "flex",
     flexDirection: "row",
     width: "100%",
+    padding: "8px",
+    ":hover": {
+      backgroundColor: "#E3EBF5",
+      borderRadius: "8px",
+    },
     ".boxNoImage": {
       width: "50px",
       height: "50px",

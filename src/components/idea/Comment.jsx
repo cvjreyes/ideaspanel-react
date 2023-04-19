@@ -2,12 +2,17 @@ import React from "react";
 import { useState } from "react";
 import moment from "moment/moment";
 import { AiOutlineClose, AiOutlineUser } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 
 const Comment = ({ comment, userID, handleDeleteComment }) => {
   const [isReadMore, setIsReadMore] = useState(false);
   let commentDate = new Date(comment.comment_at);
+  const navigate = useNavigate();
   return (
-    <div className="comment">
+    <div
+      className="comment"
+      onClick={() => navigate(`/profile/${comment.user_id}/Published`)}
+    >
       {comment.profile_pic ? (
         <img src={comment.profile_pic} alt="profile" />
       ) : (
