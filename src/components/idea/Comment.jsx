@@ -8,18 +8,18 @@ const Comment = ({ comment, userID, handleDeleteComment }) => {
   const [isReadMore, setIsReadMore] = useState(false);
   let commentDate = new Date(comment.comment_at);
   const navigate = useNavigate();
+
   return (
-    <div
-      className="comment"
-      onClick={() => navigate(`/profile/${comment.user_id}/Published`)}
-    >
-      {comment.profile_pic ? (
-        <img src={comment.profile_pic} alt="profile" />
-      ) : (
-        <div className="boxNoImage">
-          <AiOutlineUser className="profile_anonymous" />
-        </div>
-      )}
+    <div className="comment">
+      <div onClick={() => navigate(`/profile/${comment.user_id}/Published`)}>
+        {comment.profile_pic ? (
+          <img className="boxImage" src={comment.profile_pic} alt="profile" />
+        ) : (
+          <div className="boxNoImage">
+            <AiOutlineUser className="profile_anonymous" />
+          </div>
+        )}
+      </div>
       <div className="info">
         <div className="comment__header">
           <p className="comment__title">{comment.name}</p>

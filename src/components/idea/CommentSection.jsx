@@ -31,9 +31,12 @@ const CommentSectionStyle = {
     flexDirection: "row",
     width: "100%",
     padding: "8px",
-    ":hover": {
-      backgroundColor: "#E3EBF5",
-      borderRadius: "8px",
+    ".boxImage": {
+      ":hover": {
+        padding:"2px",
+        backgroundColor: "#E3EBF5",
+        borderRadius: "50%",
+      },
     },
     ".boxNoImage": {
       width: "50px",
@@ -46,6 +49,11 @@ const CommentSectionStyle = {
       justifyContent: "center",
       alignItems: "center",
       marginRight: "17px",
+      ":hover": {
+        padding:"2px",
+        backgroundColor: "#E3EBF5",
+        borderRadius: "50%",
+      },
       ".profile_anonymous": {
         fontSize: "2rem",
         color: "#7E7E7E",
