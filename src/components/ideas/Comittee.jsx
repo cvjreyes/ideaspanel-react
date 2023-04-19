@@ -86,7 +86,7 @@ const comitteeStyle = {
     alignItems: "center",
     ".manage_btn": {
       backgroundColor: "transparent",
-      fontSize: "1.3rem",
+      fontSize: "2rem",
       cursor: "pointer",
       ":hover": {
         transform: "rotate(180deg)",
