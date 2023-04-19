@@ -2,19 +2,24 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
 import { useEffect, useState } from "react";
-import { api } from "../../helpers/api";
 import { IoMdCreate } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
+
+import { api } from "../../helpers/api";
+
 import { Grid } from "../general/Grid";
-import Pagination from "../general/Pagination";
 import { Section } from "../general/Section";
-import NoResults from "../general/NoResults";
 import { TextField, IdeaCard, Button } from "../general";
+import Pagination from "../general/Pagination";
+import NoResults from "../general/NoResults";
 
 export default function Home() {
   const [ideas, setIdeas] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredIdeas, setFilteredIdeas] = useState([]);
+
+  const navigate = useNavigate();
 
   const itemsPerPage = 8; // o el número de elementos que desee mostrar por página
 
@@ -57,7 +62,7 @@ export default function Home() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
 
-          <Button as="a" href="ideaspanel/new_idea">
+          <Button as="a" onClick={() => navigate("/new_idea")}>
             Add new <IoMdCreate />
           </Button>
         </div>
