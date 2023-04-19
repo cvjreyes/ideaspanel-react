@@ -15,8 +15,6 @@ export default function Pagination({
   let upperLimit = Math.min(totalPages, lowerLimit + maxPagesToShow - 1);
   lowerLimit = Math.max(1, upperLimit - maxPagesToShow + 1);
 
-  const prevButtonRef = useRef(null);
-  const nextButtonRef = useRef(null);
   const currentPageRef = useRef(null);
   const [activePageButton, setActivePageButton] = useState(currentPage);
 
@@ -28,7 +26,6 @@ export default function Pagination({
     <div css={paginationStyle}>
       {currentPage !== 1 && (
         <button
-          ref={prevButtonRef}
           onClick={() => setCurrentPage(currentPage - 1)}
           className="prev_btn"
         >
@@ -71,7 +68,6 @@ export default function Pagination({
         : null}
       {currentPage !== totalPages && displayData.length > itemsPerPage && (
         <button
-          ref={nextButtonRef}
           onClick={() => setCurrentPage(currentPage + 1)}
           className="next_btn"
         >
