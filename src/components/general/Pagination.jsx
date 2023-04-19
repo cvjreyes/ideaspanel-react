@@ -1,7 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Pagination({
   currentPage,
@@ -15,33 +15,17 @@ export default function Pagination({
   let upperLimit = Math.min(totalPages, lowerLimit + maxPagesToShow - 1);
   lowerLimit = Math.max(1, upperLimit - maxPagesToShow + 1);
 
-  const prevButtonRef = useRef(null);
-  const nextButtonRef = useRef(null);
   const currentPageRef = useRef(null);
-
-  const focusPrevButton = () => {
-    prevButtonRef.current && prevButtonRef.current.focus();
-  };
-
-  const focusNextButton = () => {
-    nextButtonRef.current && nextButtonRef.current.focus();
-  };
+  const [activePageButton, setActivePageButton] = useState(currentPage);
 
   useEffect(() => {
-    if (currentPage === 1) {
-      focusNextButton();
-    } else if (currentPage === totalPages) {
-      focusPrevButton();
-    }
-
-    currentPageRef.current && currentPageRef.current.focus();
-  }, [currentPage, totalPages]);
+    setActivePageButton(currentPage);
+  }, [currentPage]);
 
   return (
     <div css={paginationStyle}>
       {currentPage !== 1 && (
         <button
-          ref={prevButtonRef}
           onClick={() => setCurrentPage(currentPage - 1)}
           className="prev_btn"
         >
@@ -56,12 +40,15 @@ export default function Pagination({
                 return (
                   <button
                     key={i}
-                    ref={i + 1 === currentPage ? currentPageRef : null}
-                    onClick={() => setCurrentPage(i + 1)}
+                    ref={i + 1 === activePageButton ? currentPageRef : null}
+                    onClick={() => {
+                      setCurrentPage(i + 1);
+                      setActivePageButton(i + 1);
+                    }}
                     style={{
-                      fontWeight: currentPage === i + 1 && "bold",
-                      color: currentPage === i + 1 && "white",
-                      backgroundColor: currentPage === i + 1 && "#14529A",
+                      fontWeight: activePageButton === i + 1 && "bold",
+                      color: activePageButton === i + 1 && "white",
+                      backgroundColor: activePageButton === i + 1 && "#14529A",
                     }}
                     className="active_page"
                   >
@@ -81,7 +68,6 @@ export default function Pagination({
         : null}
       {currentPage !== totalPages && displayData.length > itemsPerPage && (
         <button
-          ref={nextButtonRef}
           onClick={() => setCurrentPage(currentPage + 1)}
           className="next_btn"
         >

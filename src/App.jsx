@@ -1,10 +1,10 @@
 import React from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import {
-  BrowserRouter,
-  Navigate,
+  BrowserRouter as Router,
   Route,
-  Routes
+  Routes,
+  Navigate,
 } from "react-router-dom";
 import NotificationsSystem, {
   atalhoTheme,
@@ -51,9 +51,11 @@ export default function App() {
           dismissNotification={(id) => dismissNotification(id)}
           theme={atalhoTheme}
         />
-        <BrowserRouter basename="/ideas_panel">
+        <Router basename={import.meta.env.VITE_BASENAME}>
           <Routes>
-            <Route basename="/ideas_panel" element={<PrivateRoute />}>
+            <Route
+              element={<PrivateRoute />}
+            >
               <Route path="/" element={<Home />} />
               <Route path="/idea/:id" element={<Idea />} />
               <Route path="/read_only/:id" element={<Idea readOnly />} />
@@ -74,7 +76,7 @@ export default function App() {
             </Route>
             <Route path="*" element={<Navigate replace to="/" />} />
           </Routes>
-        </BrowserRouter>
+        </Router>
       </AuthProvider>
     </ErrorBoundary>
   );

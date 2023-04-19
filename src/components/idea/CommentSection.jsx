@@ -25,11 +25,19 @@ const CommentSectionStyle = {
   marginTop: "2rem",
   display: "flex",
   flexDirection: "column",
-  gap: "1.5rem",
+  gap: "0.2rem",
   ".comment": {
     display: "flex",
     flexDirection: "row",
     width: "100%",
+    padding: "8px",
+    ".boxImage": {
+      ":hover": {
+        padding:"2px",
+        backgroundColor: "#E3EBF5",
+        borderRadius: "50%",
+      },
+    },
     ".boxNoImage": {
       width: "50px",
       height: "50px",
@@ -41,6 +49,11 @@ const CommentSectionStyle = {
       justifyContent: "center",
       alignItems: "center",
       marginRight: "17px",
+      ":hover": {
+        padding:"2px",
+        backgroundColor: "#E3EBF5",
+        borderRadius: "50%",
+      },
       ".profile_anonymous": {
         fontSize: "2rem",
         color: "#7E7E7E",
