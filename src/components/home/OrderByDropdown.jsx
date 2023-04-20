@@ -31,7 +31,7 @@ function OrderByDropdown({
                 setOrderByDateOld(false);
                 setOrderByMoreLikes(false);
               }}
-              className="button_style"
+              className="button_style border_radius_top"
             >
               New Card
             </Button>
@@ -41,7 +41,7 @@ function OrderByDropdown({
               onClick={() => {
                 setOrderByDateOld(!orderByDateOld);
               }}
-              className="button_style"
+              className="button_style no_border_radius"
             >
               Old Card
             </Button>
@@ -51,7 +51,7 @@ function OrderByDropdown({
               onClick={() => {
                 setOrderByMoreLikes(!orderByMoreLikes);
               }}
-              className="button_style"
+              className="button_style border_radius_bottom"
             >
               Likes
             </Button>
@@ -66,8 +66,6 @@ const contentDropdownStyle = {
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-  width: "200px",
-  height: "auto",
   backgroundColor: "#f2f2f2",
   borderRadius: "10px",
   ".button_style": {
@@ -76,13 +74,21 @@ const contentDropdownStyle = {
     color: "#7E7E7E",
     background: "transparent",
     fontSize: "15px",
-    borderRadius: "10px",
     ":hover": {
-      outline:"none",
+      outline: "none",
       backgroundColor: "lightgray",
       color: "black",
       fontWeight: "bold",
     },
+  },
+  ".border_radius_top": {
+    borderRadius: "10px 10px 0 0",
+  },
+  ".border_radius_bottom": {
+    borderRadius: "0 0 10px 10px",
+  },
+  ".no_border_radius": {
+    borderRadius: "0",
   },
 };
 
