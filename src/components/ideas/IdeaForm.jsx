@@ -53,7 +53,6 @@ function IdeaForm({ isEditing }) {
     },
   });
 
-
   const createSubmit = async (e) => {
     e && e.preventDefault();
     if (!form.title || !form.description) {
@@ -61,6 +60,9 @@ function IdeaForm({ isEditing }) {
       setDescriptionIsEmpty(true);
       return notify("Please, fill all fields", "error");
     }
+    if (form.title.length > 70)
+      return notify("Title is too long. Max 70 characters", "error");
+
     if (form.description.length > 500)
       return notify("Description is too long. Max 500 characters", "error");
 
@@ -89,6 +91,9 @@ function IdeaForm({ isEditing }) {
       setDescriptionIsEmpty(true);
       return notify("Please, fill all fields", "error");
     }
+    if (form.title.length > 70)
+      return notify("Title is too long. Max 70 characters", "error");
+
     if (form.description.length > 500)
       return notify("Description is too long. Max 500 characters", "error");
 
@@ -152,7 +157,12 @@ function IdeaForm({ isEditing }) {
               onChange={({ target }) => handleChange(target.name, target.value)}
               error={descriptionIsEmpty && !form.description && "Required"}
             />
-            {form.description.length > 700 && (
+            {form.title.length > 70 && (
+              <p className="red" style={{ marginTop: ".75rem" }}>
+                Title is too long. Max 70 characters.
+              </p>
+            )}
+            {form.description.length > 500 && (
               <p className="red" style={{ marginTop: ".75rem" }}>
                 Description is too long. Max 500 characters.
               </p>

@@ -166,9 +166,28 @@ const ideaCard = {
   },
   ".statusTag--approved": {
     borderRight: "6rem solid #76A84Ea6",
+    "&::before": {
+      // Agrega este bloque para mostrar el tick en "approved"
+      content: "'\\2713'", // Código unicode para el tick
+      position: "absolute",
+      top: "10px",
+      right: "-80px",
+      fontWeight: "bold",
+      color: "white",
+      fontSize: "23px",
+    },
   },
   ".statusTag--denied": {
     borderRight: "6rem solid #E44545a6",
+    "&::before": {
+      // Agrega este bloque para mostrar la "x" en "denied"
+      content: "'\\2716'", // Código unicode para la "x"
+      position: "absolute",
+      top: "10px",
+      right: "-80px",
+      color: "white",
+      fontSize: "21px",
+    },
   },
 };
 

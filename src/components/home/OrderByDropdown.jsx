@@ -1,3 +1,6 @@
+/** @jsxRuntime classic */
+/** @jsx jsx */
+import { jsx } from "@emotion/react";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { BiFilterAlt } from "react-icons/bi";
 
@@ -20,11 +23,7 @@ function OrderByDropdown({
         <DropdownMenu.Content
           sideOffset={10}
           align="end"
-          style={{
-            backgroundColor: "transparent",
-            padding: "0.2rem",
-            width: "190px",
-          }}
+          css={contentDropdownStyle}
         >
           <DropdownMenu.Item asChild>
             <Button
@@ -32,7 +31,7 @@ function OrderByDropdown({
                 setOrderByDateOld(false);
                 setOrderByMoreLikes(false);
               }}
-              style={{ width: "100%", marginBottom: "0.5rem" }}
+              className="button_style border_radius_top"
             >
               New Card
             </Button>
@@ -42,7 +41,7 @@ function OrderByDropdown({
               onClick={() => {
                 setOrderByDateOld(!orderByDateOld);
               }}
-              style={{ width: "100%", marginBottom: "0.5rem" }}
+              className="button_style no_border_radius"
             >
               Old Card
             </Button>
@@ -52,7 +51,7 @@ function OrderByDropdown({
               onClick={() => {
                 setOrderByMoreLikes(!orderByMoreLikes);
               }}
-              style={{ width: "100%", marginBottom: "0.5rem" }}
+              className="button_style border_radius_bottom"
             >
               Likes
             </Button>
@@ -62,5 +61,35 @@ function OrderByDropdown({
     </DropdownMenu.Root>
   );
 }
+
+const contentDropdownStyle = {
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  backgroundColor: "#f2f2f2",
+  borderRadius: "10px",
+  ".button_style": {
+    width: "200px",
+    height: "auto",
+    color: "#7E7E7E",
+    background: "transparent",
+    fontSize: "15px",
+    ":hover": {
+      outline: "none",
+      backgroundColor: "lightgray",
+      color: "black",
+      fontWeight: "bold",
+    },
+  },
+  ".border_radius_top": {
+    borderRadius: "10px 10px 0 0",
+  },
+  ".border_radius_bottom": {
+    borderRadius: "0 0 10px 10px",
+  },
+  ".no_border_radius": {
+    borderRadius: "0",
+  },
+};
 
 export { OrderByDropdown };
