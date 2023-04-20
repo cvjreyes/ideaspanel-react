@@ -94,7 +94,7 @@ const paginationStyle = {
     transition: "all 0.3s ease",
     backgroundColor: "unset",
     ":hover": {
-      backgroundColor: "#F5F5F5",
+      backgroundColor: "lightgray",
     },
     ":disabled": {
       opacity: "0.5",
@@ -145,7 +145,7 @@ const paginationStyle = {
     transition: "all 0.3s ease",
     backgroundColor: "unset",
     ":hover": {
-      backgroundColor: "#F5F5F5",
+      backgroundColor: "lightgray",
     },
     ":disabled": {
       opacity: "0.5",
