@@ -22,11 +22,13 @@ export default function NewComitteeSingleView() {
 
   const [data, setData] = useState(null);
   const [validateDate, setValidateDate] = useState(null);
+  const [pdf, setPdf] = useState(null);
 
   const getData = async () => {
     const { body } = await api("get", `/ideas/get_info_and_vote/${idea_id}`);
     let sent_to_validate_at = new Date(body.sent_to_validate_at);
     setValidateDate(sent_to_validate_at);
+    setPdf(body.pdf);
     setData(body);
   };
 
@@ -49,7 +51,7 @@ export default function NewComitteeSingleView() {
     notify("Vote successfully done", "success");
     getData();
   };
-
+  
   if (!data) return <Loading />;
   return (
     <Section css={singleViewStyle} fullHeight>
@@ -64,6 +66,11 @@ export default function NewComitteeSingleView() {
             alt="idea"
             className="ideaImage"
           />
+          {pdf && (
+            <a href={pdf} download={pdf.split("-").slice(1).join("-")} target="_blank">
+              Download PDF
+            </a>
+          )}
         </div>
         <div className="right">
           <div className="topRight">
@@ -133,6 +140,9 @@ const singleViewStyle = {
     ".left": {
       marginRight: "30px",
       flex: "1",
+      ".ideaImage": {
+        marginBottom: "30px",
+      },
     },
     ".right": {
       flex: "1",
