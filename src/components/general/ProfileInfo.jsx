@@ -1,22 +1,15 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
-import React from "react";
 import { ProfileAvatar } from "./ProfileAvatar";
 
-function ProfileInfo({ profile, anonymous = false, isEditable = false }) {
+function ProfileInfo({ profile, isEditable = false }) {
   return (
     <div css={profileStyle}>
-      <ProfileAvatar profile={profile} isEditable={isEditable} anonymous={anonymous} />
+      <ProfileAvatar profile={profile} isEditable={isEditable} />
       <div className="infoProfile">
-        {!anonymous ? (
-          <>
-            <span>{profile.name}</span>
-            <p>{profile.email}</p>
-          </>
-        ) : (
-          <span>Anonymous</span>
-        )}
+        <span>{profile.name}</span>
+        <p>{profile.email}</p>
       </div>
     </div>
   );
@@ -28,7 +21,7 @@ const profileStyle = {
   alignItems: "center",
   padding: "0px",
   gap: "5px",
-  minHeight:"77px",
+  minHeight: "77px",
   p: { wordBreak: "break-all" },
   ".infoProfile": {
     display: "flex",

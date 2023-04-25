@@ -3,11 +3,10 @@
 import { jsx } from "@emotion/react";
 import { useCallback, useContext } from "react";
 import { useDropzone } from "react-dropzone";
-import { AiOutlineUser } from "react-icons/ai";
 import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../helpers/api";
 
-function ProfileAvatar({ profile, anonymous, isEditable, ...props }) {
+function ProfileAvatar({ profile, isEditable, ...props }) {
   const { updateUserInfo } = useContext(AuthContext);
   const onDrop = useCallback((files) => {
     files.forEach(async (file) => {
@@ -34,16 +33,9 @@ function ProfileAvatar({ profile, anonymous, isEditable, ...props }) {
     },
   });
 
-
   return (
     <div css={avatar} {...props}>
-      {anonymous ? (
-        <AiOutlineUser className="profile_anonymous" />
-      ) : profile.profile_pic ? (
-        <img alt="" src={profile.profile_pic} className="profile_pic" />
-      ) : (
-        <AiOutlineUser className="profile_anonymous" />
-      )}
+      <img alt="" src={profile.profile_pic} className="profile_pic" />
 
       {isEditable && (
         <img
@@ -77,10 +69,6 @@ const avatar = {
     width: "100%",
     height: "100%",
     objectFit: "cover",
-  },
-  ".profile_anonymous": {
-    fontSize: "1.7rem",
-    color: "#7E7E7E",
   },
   ".editIcon": {
     position: "absolute",

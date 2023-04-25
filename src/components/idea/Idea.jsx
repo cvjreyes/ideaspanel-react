@@ -29,7 +29,6 @@ export default function Idea({ readOnly }) {
   const [idea, setIdea] = useState({
     title: "",
     description: "",
-    anonymous: false,
   });
 
   useEffect(() => {
