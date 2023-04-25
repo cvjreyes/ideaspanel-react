@@ -12,7 +12,13 @@ const Comment = ({ comment, userID, handleDeleteComment }) => {
   return (
     <div className="comment">
       <div onClick={() => navigate(`/profile/${comment.user_id}/Published`)}>
-        <img className="boxImage" src={comment.profile_pic} alt="profile" />
+        {comment.profile_pic ? (
+          <img className="boxImage" src={comment.profile_pic} alt="profile" />
+        ) : (
+          <div className="boxNoImage">
+            <AiOutlineUser className="profile_anonymous" />
+          </div>
+        )}
       </div>
       <div className="info">
         <div className="comment__header">
