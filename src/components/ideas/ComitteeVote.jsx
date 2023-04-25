@@ -2,16 +2,16 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
 import { useContext, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useNotifications } from "reapop";
+import { AiFillFilePdf } from "react-icons/ai";
 
 import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../helpers/api";
-import ButtonWithImage from "../general/ButtonWithImage";
 
+import ButtonWithImage from "../general/ButtonWithImage";
 import { CountdownTimer } from "../general/CountDown";
 import Loading from "../general/Loading";
-
-import { useNavigate, useParams } from "react-router-dom";
-import { useNotifications } from "reapop";
 import { Section } from "../general/Section";
 
 export default function NewComitteeSingleView() {
@@ -51,7 +51,7 @@ export default function NewComitteeSingleView() {
     notify("Vote successfully done", "success");
     getData();
   };
-  
+
   if (!data) return <Loading />;
   return (
     <Section css={singleViewStyle} fullHeight>
@@ -67,8 +67,13 @@ export default function NewComitteeSingleView() {
             className="ideaImage"
           />
           {pdf && (
-            <a href={pdf} download={pdf.split("-").slice(1).join("-")} target="_blank">
-              Download PDF
+            <a
+              href={pdf}
+              download={pdf.split("-").slice(1).join("-")}
+              target="_blank"
+              className="download_pdf"
+            >
+              Download PDF <AiFillFilePdf size={30} />
             </a>
           )}
         </div>
@@ -142,6 +147,19 @@ const singleViewStyle = {
       flex: "1",
       ".ideaImage": {
         marginBottom: "30px",
+      },
+      ".download_pdf": {
+        display: "flex",
+        alignItems: "center",
+        backgroundColor: "#155AAA",
+        color: "white",
+        padding: "5px 10px",
+        borderRadius: "4px",
+        textDecoration: "none",
+        width:"180px",
+        ":hover": {
+          background: "#C4C4C4",
+        },
       },
     },
     ".right": {

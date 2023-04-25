@@ -13,8 +13,10 @@ import { BsCheck } from "react-icons/bs";
 import { useNavigate, useParams } from "react-router-dom";
 import Switch from "react-switch";
 import { useNotifications } from "reapop";
+
 import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../helpers/api";
+
 import { Button } from "../general/Button";
 import { Section } from "../general/Section";
 import { TextField } from "../general/TextField";
@@ -213,14 +215,46 @@ function IdeaForm({ isEditing }) {
               </p>
             )}
 
-            <div className="checkboxContainer">
-              <p>Anonymous</p>
-              <Switch
-                checked={Boolean(form.anonymous)}
-                onChange={(e) => handleChange("anonymous", e)}
-                onColor="#155AAA"
-              />
-            </div>
+            {/* PDF */}
+            {pdf ? (
+              <div className="dropzoneWrapperPDF imgUploaded">
+                <AiOutlineClose
+                  className="close"
+                  onClick={() => setPdf(null)}
+                />
+                <AiFillFile className="icon" />
+                <div className="text">
+                  <p>Pdf Uploaded</p>
+                  <BsCheck />
+                </div>
+                <p>
+                  {!pdf.name
+                    ? pdf.split("-").slice(1).join("-")
+                    : `${pdf.name} ${(pdf.size / (1024 * 1024)).toFixed(2)}MB`}
+                </p>
+              </div>
+            ) : (
+              <div
+                className="dropzoneWrapperPDF imgToUpload"
+                {...getRootPropsForPdf()}
+              >
+                {isPdfReject
+                  ? [
+                      <img
+                        alt="error"
+                        src="https://img.icons8.com/pastel-glyph/64/null/error-handling.png"
+                        key="1"
+                      />,
+                      <p key="2">Only accepts .pdf</p>,
+                    ]
+                  : [
+                      <input {...getInputPropsForPdf()} key="3" />,
+                      <AiOutlineUpload className="icon" key="4" />,
+                      <p key="5">PDF</p>,
+                    ]}
+              </div>
+            )}
+            <p className="small">Only accepts .pdf</p>
           </div>
           <div className="right">
             {/* Image */}
@@ -263,46 +297,6 @@ function IdeaForm({ isEditing }) {
             )}
             <p className="small">Image area displayed: 350px x 200px</p>
             <p className="small">Only accepts .jpg, .jpeg and .png</p>
-            {/* PDF */}
-            {pdf ? (
-              <div className="dropzoneWrapper imgUploaded">
-                <AiOutlineClose
-                  className="close"
-                  onClick={() => setPdf(null)}
-                />
-                <AiFillFile className="icon" />
-                <div className="text">
-                  <p>Pdf Uploaded</p>
-                  <BsCheck />
-                </div>
-                <p>
-                  {!pdf.name
-                    ? pdf.split("-").slice(1).join("-")
-                    : `${pdf.name} ${(pdf.size / (1024 * 1024)).toFixed(2)}MB`}
-                </p>
-              </div>
-            ) : (
-              <div
-                className="dropzoneWrapper imgToUpload"
-                {...getRootPropsForPdf()}
-              >
-                {isPdfReject
-                  ? [
-                      <img
-                        alt="error"
-                        src="https://img.icons8.com/pastel-glyph/64/null/error-handling.png"
-                        key="1"
-                      />,
-                      <p key="2">Only accepts .pdf</p>,
-                    ]
-                  : [
-                      <input {...getInputPropsForPdf()} key="3" />,
-                      <AiOutlineUpload className="icon" key="4" />,
-                      <p key="5">PDF</p>,
-                    ]}
-              </div>
-            )}
-            <p className="small">Only accepts .pdf</p>
           </div>
         </div>
 
@@ -391,6 +385,23 @@ const newIdeaStyle = {
         top: "1rem",
         right: "1rem",
         color: "#7E7E7E",
+      },
+    },
+    ".dropzoneWrapperPDF": {
+      border: "1px solid #C3C3C3",
+      backgroundColor: "#F7F7F7",
+      display: "flex",
+      gap: "0.3rem",
+      height: "60px",
+      width: "100%",
+      justifyContent: "center",
+      alignItems: "center",
+      padding: "10px",
+      borderRadius: "5px",
+      fontSize: "1rem",
+      transition: "all 200ms linear",
+      ".icon": {
+        fontSize: "3rem",
       },
     },
     ".small": { marginTop: "5px" },
