@@ -3,6 +3,7 @@
 import { jsx, keyframes } from "@emotion/react";
 import React, { useContext, useEffect, useState } from "react";
 import { useNotifications } from "reapop";
+import { AiFillFilePdf } from "react-icons/ai";
 
 import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../helpers/api";
@@ -24,14 +25,17 @@ export default function Idea({ readOnly }) {
   const [comments, setComments] = useState([]);
   const [ideasVotes, setIdeasVotes] = useState([]);
   const [hasUserVoted, setHasUserVoted] = useState(false);
+  const [pdf, setPdf] = useState(null);
   const [idea, setIdea] = useState({
     title: "",
     description: "",
     anonymous: false,
   });
+
   useEffect(() => {
     const getIdeaInfo = async () => {
       const { body } = await api("get", `/ideas/get_info/${ideaId}`);
+      setPdf(body.pdf);
       setIdea(body);
     };
     getIdeaInfo();
@@ -108,22 +112,34 @@ export default function Idea({ readOnly }) {
               </div>
             )}
           </div>
-          {!readOnly && (
-            <div className="boxLike">
-              {hasUserVoted ? (
-                <AiFillHeart
-                  className="btn_vote_active"
-                  onClick={() => handleIdeaVote()}
-                />
-              ) : (
-                <AiOutlineHeart
-                  className="btn_vote"
-                  onClick={() => handleIdeaVote()}
-                />
-              )}
-              {ideasVotes.length}
-            </div>
-          )}
+          <div className="bottom_img">
+            {!readOnly && (
+              <div className="boxLike">
+                {hasUserVoted ? (
+                  <AiFillHeart
+                    className="btn_vote_active"
+                    onClick={() => handleIdeaVote()}
+                  />
+                ) : (
+                  <AiOutlineHeart
+                    className="btn_vote"
+                    onClick={() => handleIdeaVote()}
+                  />
+                )}
+                {ideasVotes.length}
+              </div>
+            )}
+            {pdf && (
+              <a
+                href={pdf}
+                download={pdf.split("-").slice(1).join("-")}
+                target="_blank"
+                className="download_pdf"
+              >
+                Download PDF <AiFillFilePdf size={30} />
+              </a>
+            )}
+          </div>
         </div>
         <div className="right">
           <h2 className="idea__title">{idea.title}</h2>
@@ -164,9 +180,13 @@ const ideaStyle = {
     gap: "2rem",
     ".left": {
       flex: 1,
+      ".bottom_img": {
+        display: "flex",
+        marginTop: "30px",
+        height:"50px",
+      },
       ".boxLike": {
         width: "150px",
-        height: "100px",
         display: "flex",
         alignItems: "center",
         ".btn_vote": {
@@ -179,6 +199,19 @@ const ideaStyle = {
           fontSize: "2rem",
           animation: `${circleAnim} 1s ease forwards`,
           margin: "15px",
+        },
+      },
+      ".download_pdf": {
+        display: "flex",
+        alignItems: "center",
+        backgroundColor: "#155AAA",
+        color: "white",
+        padding: "5px 10px",
+        borderRadius: "4px",
+        textDecoration: "none",
+        width: "180px",
+        ":hover": {
+          background: "#C4C4C4",
         },
       },
     },
