@@ -73,8 +73,6 @@ function IdeaForm({ isEditing }) {
 
   const createSubmit = async (e) => {
     e && e.preventDefault();
-    console.log(image);
-    console.log(pdf);
     if (!form.title || !form.description) {
       setTitleIsEmpty(true);
       setDescriptionIsEmpty(true);
