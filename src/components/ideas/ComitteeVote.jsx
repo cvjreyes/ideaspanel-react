@@ -2,16 +2,16 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
 import { useContext, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useNotifications } from "reapop";
+import { AiFillFilePdf } from "react-icons/ai";
 
 import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../helpers/api";
-import ButtonWithImage from "../general/ButtonWithImage";
 
+import ButtonWithImage from "../general/ButtonWithImage";
 import { CountdownTimer } from "../general/CountDown";
 import Loading from "../general/Loading";
-
-import { useNavigate, useParams } from "react-router-dom";
-import { useNotifications } from "reapop";
 import { Section } from "../general/Section";
 
 export default function NewComitteeSingleView() {
@@ -22,11 +22,13 @@ export default function NewComitteeSingleView() {
 
   const [data, setData] = useState(null);
   const [validateDate, setValidateDate] = useState(null);
+  const [pdf, setPdf] = useState(null);
 
   const getData = async () => {
     const { body } = await api("get", `/ideas/get_info_and_vote/${idea_id}`);
     let sent_to_validate_at = new Date(body.sent_to_validate_at);
     setValidateDate(sent_to_validate_at);
+    setPdf(body.pdf);
     setData(body);
   };
 
@@ -64,6 +66,16 @@ export default function NewComitteeSingleView() {
             alt="idea"
             className="ideaImage"
           />
+          {pdf && (
+            <a
+              href={pdf}
+              download={pdf.split("-").slice(1).join("-")}
+              target="_blank"
+              className="download_pdf"
+            >
+              Download PDF <AiFillFilePdf size={30} />
+            </a>
+          )}
         </div>
         <div className="right">
           <div className="topRight">
@@ -133,6 +145,22 @@ const singleViewStyle = {
     ".left": {
       marginRight: "30px",
       flex: "1",
+      ".ideaImage": {
+        marginBottom: "30px",
+      },
+      ".download_pdf": {
+        display: "flex",
+        alignItems: "center",
+        backgroundColor: "#155AAA",
+        color: "white",
+        padding: "5px 10px",
+        borderRadius: "4px",
+        textDecoration: "none",
+        width:"180px",
+        ":hover": {
+          background: "#C4C4C4",
+        },
+      },
     },
     ".right": {
       flex: "1",
