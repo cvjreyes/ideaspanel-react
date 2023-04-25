@@ -62,7 +62,7 @@ export default function NewComitteeSingleView() {
       <div className="box_info_card">
         <div className="left">
           <img
-            src={data.image || "http://localhost:5026/images/no_image.jpg"}
+            src={data.image || `http://${import.meta.env.VITE_SERVER}:${import.meta.env.VITE_NODE_PORT}/images/no_image.jpg`}
             alt="idea"
             className="ideaImage"
           />
