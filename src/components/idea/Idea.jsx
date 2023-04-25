@@ -29,7 +29,6 @@ export default function Idea({ readOnly }) {
   const [idea, setIdea] = useState({
     title: "",
     description: "",
-    anonymous: false,
   });
 
   useEffect(() => {
@@ -136,7 +135,7 @@ export default function Idea({ readOnly }) {
                 target="_blank"
                 className="download_pdf"
               >
-                Download PDF <AiFillFilePdf size={30} />
+                DOWNLOAD PDF <AiFillFilePdf size={30} />
               </a>
             )}
           </div>
@@ -183,7 +182,8 @@ const ideaStyle = {
       ".bottom_img": {
         display: "flex",
         marginTop: "30px",
-        height:"50px",
+        height:"45px",
+        justifyContent: "space-between"
       },
       ".boxLike": {
         width: "150px",
@@ -203,13 +203,15 @@ const ideaStyle = {
       },
       ".download_pdf": {
         display: "flex",
+        justifyContent:"end",
         alignItems: "center",
         backgroundColor: "#155AAA",
         color: "white",
         padding: "5px 10px",
         borderRadius: "4px",
         textDecoration: "none",
-        width: "180px",
+        fontSize: "11px",
+        width: "150px",
         ":hover": {
           background: "#C4C4C4",
         },

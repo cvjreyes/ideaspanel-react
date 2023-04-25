@@ -16,7 +16,6 @@ export default function Idea() {
   const [idea, setIdea] = useState({
     title: "",
     description: "",
-    anonymous: false,
   });
 
   useEffect(() => {

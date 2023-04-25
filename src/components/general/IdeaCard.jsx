@@ -15,7 +15,6 @@ function IdeaCard({ idea, navigateTo, comittee, home }) {
     title,
     image,
     approved,
-    anonymous,
     like_count,
     comment_count,
     published_at,
@@ -28,9 +27,8 @@ function IdeaCard({ idea, navigateTo, comittee, home }) {
 
   const handleCardClick = (e) => {
     e.preventDefault();
-    if (!anonymous) {
       navigate(`/profile/${user_id}/Published`);
-    }
+    
   };
 
   return (
@@ -61,7 +59,7 @@ function IdeaCard({ idea, navigateTo, comittee, home }) {
         {home && (
           <>
             <div onClick={handleCardClick} className="profileLink">
-              <ProfileInfo profile={idea} anonymous={anonymous} />
+              <ProfileInfo profile={idea} />
             </div>
             <footer className="card__footer">
               {moment(publishedDate, "YYYYMMDD").fromNow()}
