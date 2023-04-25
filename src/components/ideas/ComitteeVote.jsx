@@ -62,7 +62,7 @@ export default function NewComitteeSingleView() {
       <div className="box_info_card">
         <div className="left">
           <img
-            src={data.image || "http://localhost:5026/images/no_image.jpg"}
+            src={data.image || `http://${import.meta.env.VITE_SERVER}:${import.meta.env.VITE_NODE_PORT}/images/no_image.jpg`}
             alt="idea"
             className="ideaImage"
           />
@@ -73,7 +73,7 @@ export default function NewComitteeSingleView() {
               target="_blank"
               className="download_pdf"
             >
-              Download PDF <AiFillFilePdf size={30} />
+              DOWNLOAD PDF <AiFillFilePdf size={30} />
             </a>
           )}
         </div>
@@ -150,13 +150,15 @@ const singleViewStyle = {
       },
       ".download_pdf": {
         display: "flex",
+        justifyContent:"end",
         alignItems: "center",
         backgroundColor: "#155AAA",
         color: "white",
         padding: "5px 10px",
         borderRadius: "4px",
         textDecoration: "none",
-        width:"180px",
+        fontSize: "11px",
+        width: "150px",
         ":hover": {
           background: "#C4C4C4",
         },
