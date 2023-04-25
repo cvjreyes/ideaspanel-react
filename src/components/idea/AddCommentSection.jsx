@@ -2,7 +2,6 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
 
-import { colors } from "../../helpers/colors";
 import { TextField } from "../general/TextField";
 import { Button } from "../general/Button";
 

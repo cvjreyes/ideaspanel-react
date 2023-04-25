@@ -33,7 +33,6 @@ function IdeaForm({ isEditing }) {
   const [form, setForm] = useState({
     title: "",
     description: "",
-    anonymous: false,
   });
   const [image, setImage] = useState(null);
   const [pdf, setPdf] = useState(null);
@@ -178,7 +177,6 @@ function IdeaForm({ isEditing }) {
     setForm({
       title: "",
       description: "",
-      anonymous: false,
     });
     setImage(null);
     setPdf(null);
@@ -222,7 +220,7 @@ function IdeaForm({ isEditing }) {
                   className="close"
                   onClick={() => setPdf(null)}
                 />
-                <AiFillFile className="icon" />
+                <AiFillFile className="icon" size={30}/>
                 <div className="text">
                   <p>Pdf Uploaded</p>
                   <BsCheck />

@@ -41,8 +41,7 @@ export default function Home() {
       ideas.filter(
         (item) =>
           item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          (item.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-            !item.anonymous)
+          item.name.toLowerCase().includes(searchTerm.toLowerCase())
       )
     );
     setCurrentPage(1);

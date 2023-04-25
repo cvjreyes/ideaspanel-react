@@ -54,10 +54,7 @@ const CommentSectionStyle = {
         backgroundColor: "#E3EBF5",
         borderRadius: "50%",
       },
-      ".profile_anonymous": {
-        fontSize: "2rem",
-        color: "#7E7E7E",
-      },
+      
     },
     ".info": {
       alignItems: "center",
