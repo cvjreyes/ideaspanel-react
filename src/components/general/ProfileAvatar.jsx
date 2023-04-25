@@ -3,6 +3,8 @@
 import { jsx } from "@emotion/react";
 import { useCallback, useContext } from "react";
 import { useDropzone } from "react-dropzone";
+import { AiOutlineUser } from "react-icons/ai";
+
 import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../helpers/api";
 
@@ -35,7 +37,11 @@ function ProfileAvatar({ profile, isEditable, ...props }) {
 
   return (
     <div css={avatar} {...props}>
-      <img alt="" src={profile.profile_pic} className="profile_pic" />
+      {profile.profile_pic ? (
+        <img alt="" src={profile.profile_pic} className="profile_pic" />
+      ) : (
+        <AiOutlineUser size={30} color="#7E7E7E" />
+      )}
 
       {isEditable && (
         <img
